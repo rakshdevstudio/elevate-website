@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
-import { motion } from "framer-motion";
 import {
-  LayoutDashboard, Users, BarChart3, LogOut, ChevronRight, Menu, X,
+  LayoutDashboard, Users, BarChart3, LogOut, ChevronRight, Menu, X, Kanban, CalendarDays,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import logo from "@/assets/logo.png";
@@ -10,7 +9,9 @@ import { useState } from "react";
 
 const navItems = [
   { label: "Dashboard", path: "/admin/dashboard", icon: LayoutDashboard },
+  { label: "Pipeline", path: "/admin/pipeline", icon: Kanban },
   { label: "Leads", path: "/admin/leads", icon: Users },
+  { label: "Site Visits", path: "/admin/visits", icon: CalendarDays },
   { label: "Analytics", path: "/admin/analytics", icon: BarChart3 },
 ];
 
@@ -38,18 +39,16 @@ const AdminLayout = () => {
 
   return (
     <div className="min-h-screen bg-background flex">
-      {/* Sidebar overlay on mobile */}
       {sidebarOpen && (
         <div className="fixed inset-0 bg-background/60 backdrop-blur-sm z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
-      {/* Sidebar */}
       <aside className={`fixed lg:sticky top-0 left-0 h-screen w-64 bg-card/50 backdrop-blur-xl border-r border-border/40 z-50 flex flex-col transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
         <div className="p-6 flex items-center gap-3 border-b border-border/30">
           <img src={logo} alt="X Elevators" className="h-10 w-10 object-contain" />
           <div>
             <p className="text-foreground font-heading font-bold text-sm">X Elevators</p>
-            <p className="text-muted-foreground text-xs">Admin Panel</p>
+            <p className="text-muted-foreground text-xs">CRM Panel</p>
           </div>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden ml-auto text-muted-foreground hover:text-foreground">
             <X className="w-5 h-5" />
@@ -58,7 +57,7 @@ const AdminLayout = () => {
 
         <nav className="flex-1 p-4 space-y-1">
           {navItems.map((item) => {
-            const isActive = location.pathname === item.path;
+            const isActive = location.pathname === item.path || (item.path === "/admin/leads" && location.pathname.startsWith("/admin/lead/"));
             return (
               <Link
                 key={item.path}
@@ -89,14 +88,13 @@ const AdminLayout = () => {
         </div>
       </aside>
 
-      {/* Main content */}
       <div className="flex-1 flex flex-col min-h-screen">
         <header className="sticky top-0 z-30 h-14 flex items-center px-4 lg:px-8 bg-background/80 backdrop-blur-xl border-b border-border/30">
           <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 text-muted-foreground hover:text-foreground mr-3">
             <Menu className="w-5 h-5" />
           </button>
           <h2 className="text-foreground font-heading font-semibold text-sm">
-            {navItems.find((n) => location.pathname.startsWith(n.path))?.label || "Admin"}
+            {navItems.find((n) => location.pathname.startsWith(n.path))?.label || "Lead Details"}
           </h2>
           <div className="ml-auto text-xs text-muted-foreground">
             {user.email}

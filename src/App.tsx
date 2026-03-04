@@ -20,6 +20,8 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminLeads from "./pages/admin/AdminLeads";
 import AdminLeadDetail from "./pages/admin/AdminLeadDetail";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
+import AdminPipeline from "./pages/admin/AdminPipeline";
+import AdminSiteVisits from "./pages/admin/AdminSiteVisits";
 
 const queryClient = new QueryClient();
 
@@ -31,12 +33,14 @@ const App = () => (
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
-          {/* Admin routes - no Navbar/Footer */}
+          {/* Admin routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="pipeline" element={<AdminPipeline />} />
             <Route path="leads" element={<AdminLeads />} />
             <Route path="lead/:id" element={<AdminLeadDetail />} />
+            <Route path="visits" element={<AdminSiteVisits />} />
             <Route path="analytics" element={<AdminAnalytics />} />
           </Route>
 
