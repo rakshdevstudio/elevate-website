@@ -6,20 +6,21 @@ const Footer = () => {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <footer className="bg-navy-deep border-t border-border">
-      <div className="container mx-auto px-4 lg:px-8 py-16">
+    <footer className="relative border-t border-border/50">
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-[hsl(213_62%_6%)] pointer-events-none" />
+      <div className="container mx-auto px-4 lg:px-8 py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <img src={logo} alt="X Elevators" className="h-10 w-10 object-contain" />
-              <span className="text-foreground font-heading font-bold text-lg uppercase">X Elevators Pvt. Ltd.</span>
+              <span className="text-foreground font-heading font-bold text-lg uppercase tracking-wider">X Elevators Pvt. Ltd.</span>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed mb-4">
               Elevating Trust. Engineering the Future. Next-generation elevator solutions with uncompromising commitment to quality.
             </p>
             <div className="flex gap-2 flex-wrap">
               {["ISO Certified", "Licensed", "99% Automation"].map((badge) => (
-                <span key={badge} className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+                <span key={badge} className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold border border-primary/10">
                   {badge}
                 </span>
               ))}
@@ -38,7 +39,7 @@ const Footer = () => {
                 { label: "Contact", path: "/contact" },
               ].map((link) => (
                 <li key={link.path}>
-                  <Link to={link.path} className="text-muted-foreground text-sm hover:text-primary transition-colors">
+                  <Link to={link.path} className="text-muted-foreground text-sm hover:text-primary transition-colors duration-300">
                     {link.label}
                   </Link>
                 </li>
@@ -51,7 +52,7 @@ const Footer = () => {
             <ul className="space-y-2.5">
               {["Passenger Elevators", "Home Elevators", "Commercial Elevators", "Maintenance & AMC", "Modernization"].map((s) => (
                 <li key={s}>
-                  <span className="text-muted-foreground text-sm hover:text-primary transition-colors cursor-pointer">{s}</span>
+                  <span className="text-muted-foreground text-sm hover:text-primary transition-colors duration-300 cursor-pointer">{s}</span>
                 </li>
               ))}
             </ul>
@@ -80,14 +81,15 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="border-t border-border">
+      <div className="gradient-separator" />
+      <div className="relative z-10">
         <div className="container mx-auto px-4 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-muted-foreground text-sm">
             © {new Date().getFullYear()} X Elevators Pvt Ltd. All rights reserved.
           </p>
           <button
             onClick={scrollToTop}
-            className="w-10 h-10 rounded-lg bg-secondary hover:bg-primary hover:text-primary-foreground flex items-center justify-center text-muted-foreground transition-all"
+            className="w-10 h-10 rounded-xl bg-secondary/50 hover:bg-primary hover:text-primary-foreground flex items-center justify-center text-muted-foreground transition-all duration-300 hover:shadow-[0_0_20px_hsl(43_66%_52%/0.2)] hover:scale-110"
           >
             <ArrowUp className="w-4 h-4" />
           </button>

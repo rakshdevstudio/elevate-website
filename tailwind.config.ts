@@ -53,6 +53,7 @@ export default {
         },
         navy: {
           deep: "hsl(var(--navy-deep))",
+          mid: "hsl(var(--navy-mid))",
           card: "hsl(var(--navy-card))",
           light: "hsl(var(--navy-light))",
         },
@@ -60,6 +61,7 @@ export default {
           DEFAULT: "hsl(var(--gold))",
           light: "hsl(var(--gold-light))",
           dark: "hsl(var(--gold-dark))",
+          glow: "hsl(var(--gold-glow))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
