@@ -86,7 +86,7 @@ const AdminPipeline = () => {
             <div
               key={status}
               className={`flex-shrink-0 w-[260px] flex flex-col rounded-2xl transition-all duration-200 ${
-                isDragOver ? "bg-primary/5 ring-1 ring-primary/20" : "bg-secondary/5"
+                isDragOver ? "bg-primary/5 ring-1 ring-primary/20" : "bg-card/30"
               }`}
               onDragOver={(e) => handleDragOver(e, status)}
               onDragLeave={handleDragLeave}
