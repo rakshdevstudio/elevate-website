@@ -405,24 +405,70 @@ const ContactSection = () => (
           <GlassCard className="p-8 lg:p-10 relative overflow-hidden" hover={false} premium>
             <div className="absolute inset-0 bg-gradient-to-br from-primary/4 via-transparent to-primary/2 pointer-events-none" />
             <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 rounded-full blur-[60px] pointer-events-none" />
+            <div className="mb-6">
+              <h3 className="text-xl font-heading font-bold text-foreground mb-1.5">Request a Quote</h3>
+              <p className="text-muted-foreground text-sm opacity-70">Fill out the form below and we'll get back to you within 24 hours.</p>
+            </div>
             <form className="space-y-5 relative z-10">
               <div className="grid grid-cols-2 gap-4">
-                <input placeholder="Full Name" className="input-premium" />
-                <input placeholder="Phone Number" className="input-premium" />
+                <div>
+                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Full Name *</label>
+                  <input placeholder="John Doe" className="input-premium w-full" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Phone Number *</label>
+                  <input placeholder="+91 98765 43210" className="input-premium w-full" />
+                </div>
               </div>
-              <input placeholder="Email Address" className="w-full input-premium" />
-              <select className="w-full input-premium text-muted-foreground/60">
-                <option>Select Service</option>
-                <option>Residential Elevator</option>
-                <option>Commercial Elevator</option>
-                <option>Hospital Elevator</option>
-                <option>AMC Plan</option>
-                <option>Modernization</option>
-              </select>
-              <textarea placeholder="Your Message" rows={4} className="w-full input-premium resize-none" />
-              <button type="button" className="w-full bg-gradient-to-r from-primary to-gold-light text-primary-foreground py-4 rounded-xl font-semibold text-sm transition-all duration-400 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.35)] hover:scale-[1.02] active:scale-100 btn-glow">
-                Send Message
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Email Address *</label>
+                  <input placeholder="john@company.com" className="input-premium w-full" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Company Name</label>
+                  <input placeholder="Your Company" className="input-premium w-full" />
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Elevator Type</label>
+                  <select className="w-full input-premium text-muted-foreground/60">
+                    <option>Select type</option>
+                    <option>Residential</option>
+                    <option>Commercial</option>
+                    <option>Hospital</option>
+                    <option>Capsule</option>
+                    <option>Goods</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Number of Floors</label>
+                  <select className="w-full input-premium text-muted-foreground/60">
+                    <option>Floors</option>
+                    {[...Array(20)].map((_, i) => <option key={i}>{i + 1}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Building Type</label>
+                  <select className="w-full input-premium text-muted-foreground/60">
+                    <option>Type</option>
+                    <option>Residential</option>
+                    <option>Commercial</option>
+                    <option>Hospital</option>
+                    <option>Hotel</option>
+                    <option>Industrial</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-foreground/80 mb-1.5">Project Details</label>
+                <textarea placeholder="Tell us about your project requirements, timeline, budget, or any specific needs..." rows={5} className="w-full input-premium resize-none" />
+              </div>
+              <button type="button" className="w-full bg-gradient-to-r from-primary to-gold-light text-primary-foreground py-4 rounded-xl font-semibold text-sm transition-all duration-400 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.35)] hover:scale-[1.02] active:scale-100 btn-glow flex items-center justify-center gap-2">
+                <Send className="w-4 h-4" /> Submit Request
               </button>
+              <p className="text-center text-muted-foreground/50 text-xs">By submitting, you agree to our privacy policy. No spam, ever.</p>
             </form>
           </GlassCard>
         </ScrollReveal>
