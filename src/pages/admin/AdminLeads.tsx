@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Search, Filter, Phone, Mail, Building2, ArrowRight, ChevronDown, Download, MessageSquare, Star, CalendarPlus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables, Enums } from "@/integrations/supabase/types";
-import { statusColors, statusLabels, allStatuses, calculateLeadScore, getScoreColor } from "@/lib/lead-utils";
+import { statusColors, statusLabels, allStatuses, calculateLeadScore, getScoreColor, sourceLabels } from "@/lib/lead-utils";
 import ScheduleVisitModal from "@/components/admin/ScheduleVisitModal";
 
 const AdminLeads = () => {
