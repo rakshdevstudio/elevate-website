@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { PageHero, SectionHeading, GlassCard, StatCard, SectionDivider } from "@/components/ui/shared";
+import { PageHero, SectionHeading, GlassCard, StatCard, SectionDivider, ScrollReveal } from "@/components/ui/shared";
 import { Shield, Award, Users, Target, Building2, Heart, Lightbulb, CheckCircle2, Pencil, Cog, Clock, Monitor, HeadphonesIcon, Home, Building, Hospital, Hotel, Factory } from "lucide-react";
 
 const values = [
@@ -7,7 +7,7 @@ const values = [
   { icon: <Cog className="w-6 h-6" />, title: "Engineering Precision", desc: "Precision-engineered components ensure smooth, safe, and reliable operation for years to come." },
   { icon: <Clock className="w-6 h-6" />, title: "Disciplined Delivery", desc: "We commit to timelines and deliver projects on schedule without compromising quality." },
   { icon: <Monitor className="w-6 h-6" />, title: "Digital Transparency", desc: "Real-time project tracking and IoT-enabled monitoring keep you informed at every step." },
-  { icon: <HeadphonesIcon className="w-6 h-6" />, title: "Lifetime Support Commitment", desc: "Our relationship doesn't end at installation — we provide dedicated support throughout the elevator's lifecycle." },
+  { icon: <HeadphonesIcon className="w-6 h-6" />, title: "Lifetime Support", desc: "Our relationship doesn't end at installation — we provide dedicated support throughout the elevator's lifecycle." },
 ];
 
 const industries = [
@@ -35,15 +35,16 @@ const registrations = [
 
 const About = () => (
   <>
-    <PageHero badge="About Us" title="About X Elevators Pvt Ltd" subtitle="We are a next-generation elevator company focused on delivering safe, smart, and stylish vertical transportation solutions across India. Founded with a vision to redefine the elevator industry through quality engineering, digital transparency, and customer-first approach." backgroundImage="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80" />
+    <PageHero badge="About Us" title="About X Elevators Pvt Ltd" subtitle="We are a next-generation elevator company focused on delivering safe, smart, and stylish vertical transportation solutions across India. Founded with a vision to redefine the elevator industry through quality engineering, digital transparency, and customer-first approach." backgroundImage="/images/hero-about.webp" />
 
     <section className="py-20">
       <SectionDivider />
       <div className="container mx-auto px-4 lg:px-8 pt-8">
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
           <StatCard value="75+" label="Projects Installed" icon={<Building2 className="w-7 h-7" />} />
           <StatCard value="120+" label="Happy Customers" icon={<Users className="w-7 h-7" />} />
-          <StatCard value="99%" label="Automation" icon={<Target className="w-7 h-7" />} />
+          <StatCard value="99%" label="Uptime Rate" icon={<Target className="w-7 h-7" />} />
+          <StatCard value="25+" label="Team Members" icon={<Award className="w-7 h-7" />} />
         </div>
       </div>
     </section>

@@ -3,9 +3,8 @@ import { Phone, Mail, MapPin, Globe, Clock, Headphones, MessageSquare, Send, Pho
 
 const Contact = () => (
   <>
-    <PageHero badge="Contact" title="Get In Touch" subtitle="Ready to elevate your building? Reach out for a free consultation and site inspection." backgroundImage="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80" />
+    <PageHero badge="Contact" title="Get In Touch" subtitle="Ready to elevate your building? Reach out for a free consultation and site inspection." backgroundImage="/images/hero-contact.webp" />
 
-    {/* Let's Discuss Your Project + Support Badges */}
     <section className="py-24 lg:py-32 relative">
       <SectionDivider />
       <div className="container mx-auto px-4 lg:px-8 pt-8 max-w-5xl">
@@ -18,7 +17,6 @@ const Contact = () => (
           </div>
         </ScrollReveal>
 
-        {/* Support badges row */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-20">
           {[
             { icon: <Clock className="w-7 h-7" />, title: "<60 Min Response", desc: "Emergency support" },
@@ -39,22 +37,18 @@ const Contact = () => (
       </div>
     </section>
 
-    {/* Contact Form + Info */}
     <section className="py-24 lg:py-32 section-glow relative">
       <SectionDivider />
       <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 max-w-6xl mx-auto">
-          {/* Form */}
           <ScrollReveal direction="left">
             <div>
               <h3 className="text-2xl lg:text-3xl font-heading font-bold text-foreground mb-2">Request a Quote</h3>
               <p className="text-muted-foreground text-sm mb-8 opacity-70">Fill out the form below and we'll get back to you within 24 hours.</p>
-
               <GlassCard className="p-8 lg:p-10 relative overflow-hidden" hover={false} premium>
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-primary/2 pointer-events-none" />
                 <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 rounded-full blur-[60px] pointer-events-none" />
                 <form className="space-y-5 relative z-10">
-                  {/* Row 1: Name + Phone */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-foreground text-sm font-medium mb-2">Full Name <span className="text-primary">*</span></label>
@@ -65,8 +59,6 @@ const Contact = () => (
                       <input placeholder="+91 98765 43210" className="w-full input-premium" />
                     </div>
                   </div>
-
-                  {/* Row 2: Email + Company */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-foreground text-sm font-medium mb-2">Email Address <span className="text-primary">*</span></label>
@@ -77,8 +69,6 @@ const Contact = () => (
                       <input placeholder="Your Company" className="w-full input-premium" />
                     </div>
                   </div>
-
-                  {/* Row 3: Elevator Type + Floors + Building Type */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                     <div>
                       <label className="block text-foreground text-sm font-medium mb-2">Elevator Type</label>
@@ -112,14 +102,10 @@ const Contact = () => (
                       </select>
                     </div>
                   </div>
-
-                  {/* Row 4: Project Details */}
                   <div>
                     <label className="block text-foreground text-sm font-medium mb-2">Project Details</label>
                     <textarea placeholder="Tell us about your project requirements, timeline, budget, or any specific needs..." rows={5} className="w-full input-premium resize-none" />
                   </div>
-
-                  {/* Submit */}
                   <button type="button" className="w-full bg-gradient-to-r from-primary to-gold-light text-primary-foreground py-4 rounded-xl font-semibold text-base transition-all duration-300 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.35)] hover:scale-[1.02] active:scale-100 btn-glow flex items-center justify-center gap-2">
                     <Send className="w-4 h-4" /> Submit Request
                   </button>
@@ -129,7 +115,6 @@ const Contact = () => (
             </div>
           </ScrollReveal>
 
-          {/* Contact Info */}
           <ScrollReveal direction="right">
             <div className="space-y-6">
               <SectionHeading badge="Reach Us" title="Contact Information" center={false} />
@@ -140,7 +125,7 @@ const Contact = () => (
                 { icon: <MapPin className="w-5 h-5" />, title: "Locations", info: "Bangalore & Chennai, India" },
                 { icon: <Clock className="w-5 h-5" />, title: "Business Hours", info: "Mon - Sat: 9:00 AM - 6:00 PM" },
               ].map((c, i) => (
-                <GlassCard key={i} className="p-6 flex items-start gap-5" premium delay={i * 0.06}>
+                <GlassCard key={i} className="p-6 flex items-start gap-5" premium delay={i * 0.06} tilt>
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">{c.icon}</div>
                   <div>
                     <h4 className="text-foreground font-semibold text-sm mb-1.5">{c.title}</h4>
@@ -154,17 +139,14 @@ const Contact = () => (
       </div>
     </section>
 
-    {/* 24/7 Emergency Support - RED theme */}
     <section className="py-24 lg:py-32 relative">
       <SectionDivider />
       <div className="container mx-auto px-4 lg:px-8 max-w-4xl pt-8">
         <ScrollReveal>
           <div className="relative rounded-2xl overflow-hidden p-8 lg:p-12" style={{ background: 'linear-gradient(160deg, hsl(212 50% 14% / 0.7) 0%, hsl(212 48% 10% / 0.5) 100%)' }}>
-            {/* Subtle red ambient glow */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/5 rounded-full blur-[80px] pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-red-500/4 rounded-full blur-[60px] pointer-events-none" />
             <div className="absolute inset-0 border border-red-500/10 rounded-2xl pointer-events-none" />
-
             <div className="flex items-start gap-5 mb-8 relative z-10">
               <div className="w-14 h-14 rounded-2xl bg-red-500/15 flex items-center justify-center shrink-0">
                 <PhoneCall className="w-7 h-7 text-red-400" />
@@ -174,11 +156,7 @@ const Contact = () => (
                 <p className="text-muted-foreground text-sm opacity-80">Elevator stuck? Call us immediately!</p>
               </div>
             </div>
-
-            <a
-              href="tel:+916384961909"
-              className="relative z-10 flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold text-base transition-all duration-300 hover:shadow-[0_0_30px_hsl(0_80%_50%/0.3)] hover:scale-[1.02] active:scale-100"
-            >
+            <a href="tel:+916384961909" className="relative z-10 flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold text-base transition-all duration-300 hover:shadow-[0_0_30px_hsl(0_80%_50%/0.3)] hover:scale-[1.02] active:scale-100">
               <PhoneCall className="w-5 h-5" /> Call Emergency: +91 6384961909
             </a>
           </div>

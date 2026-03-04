@@ -1,5 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 interface SectionHeadingProps {
   badge?: string;
@@ -142,39 +144,35 @@ interface PageHeroProps {
 }
 
 export const PageHero = ({ badge, title, subtitle, backgroundImage }: PageHeroProps) => (
-  <section className="pt-32 pb-20 lg:pt-40 lg:pb-28 relative overflow-hidden min-h-[60vh] flex items-center">
+  <section className="relative overflow-hidden min-h-[80vh] lg:min-h-[85vh] flex items-center">
     <div className="absolute inset-0 bg-navy-gradient" />
-    {/* Background image */}
     {backgroundImage && (
       <div className="absolute inset-0">
-        <img
-          src={backgroundImage}
-          alt=""
-          className="w-full h-full object-cover opacity-35"
-          loading="eager"
-        />
+        <img src={backgroundImage} alt="" className="w-full h-full object-cover opacity-40" loading="eager" />
       </div>
     )}
-    {/* Multi-layer overlay */}
-    <div className="absolute inset-0 bg-gradient-to-b from-[hsl(213_62%_6%/0.85)] via-[hsl(213_62%_6%/0.65)] to-[hsl(213_62%_6%/0.9)]" />
+    <div className="absolute inset-0 bg-gradient-to-b from-[hsl(213_62%_6%/0.75)] via-[hsl(213_62%_6%/0.55)] to-[hsl(213_62%_6%/0.9)]" />
     <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213_62%_6%/0.3)] via-transparent to-[hsl(213_62%_6%/0.3)]" />
-    {/* Light orbs */}
     <div className="absolute inset-0 pointer-events-none">
       <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-primary/4 rounded-full blur-[180px]" />
       <div className="absolute bottom-1/3 left-1/3 w-[500px] h-[500px] bg-[hsl(210_60%_40%/0.03)] rounded-full blur-[150px]" />
     </div>
-    <div className="container mx-auto px-4 lg:px-8 text-center relative z-10">
+    <FloatingParticles count={15} />
+    <div className="container mx-auto px-4 lg:px-8 text-center relative z-10 pt-24 pb-16">
       <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
         {badge && (
-          <span className="inline-block px-5 py-2 rounded-full bg-primary/8 text-primary text-xs font-semibold tracking-[0.2em] uppercase mb-5 border border-primary/12 backdrop-blur-sm">
+          <span className="inline-block px-5 py-2 rounded-full bg-primary/8 text-primary text-xs font-semibold tracking-[0.2em] uppercase mb-6 border border-primary/12 backdrop-blur-sm">
             {badge}
           </span>
         )}
         <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-foreground mb-6 tracking-tight leading-[1.05] text-shadow-hero">{title}</h1>
-        <p className="text-muted-foreground text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed opacity-80">{subtitle}</p>
+        <p className="text-muted-foreground text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed opacity-80 mb-10">{subtitle}</p>
+        <Link to="/contact" className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-10 py-4 rounded-full font-semibold text-base transition-all duration-300 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.4)] hover:scale-105 btn-glow">
+          Get a Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
       </motion.div>
     </div>
-    <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
+    <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background via-background/80 to-transparent" />
   </section>
 );
 

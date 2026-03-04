@@ -18,7 +18,7 @@ const amcPlans = [
 
 const Services = () => (
   <>
-    <PageHero badge="Our Services" title="Our Services" subtitle="Comprehensive elevator solutions from installation to lifetime maintenance — engineered for safety, performance, and peace of mind." backgroundImage="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&q=80" />
+    <PageHero badge="Our Services" title="Our Services" subtitle="Comprehensive elevator solutions from installation to lifetime maintenance — engineered for safety, performance, and peace of mind." backgroundImage="/images/hero-services.webp" />
 
     <section className="py-20 relative">
       <SectionDivider />
@@ -32,7 +32,6 @@ const Services = () => (
       </div>
     </section>
 
-    {/* Why Choose X Elevators - 5 columns matching reference */}
     <section className="py-24 lg:py-32 relative">
       <SectionDivider />
       <div className="container mx-auto px-4 lg:px-8 pt-8">
@@ -53,7 +52,6 @@ const Services = () => (
       </div>
     </section>
 
-    {/* AMC Plans */}
     <section className="py-24 lg:py-32 section-glow relative">
       <SectionDivider />
       <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
@@ -86,7 +84,6 @@ const Services = () => (
       </div>
     </section>
 
-    {/* Additional Services */}
     <section className="py-24 lg:py-32 relative">
       <SectionDivider />
       <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
@@ -110,7 +107,6 @@ const Services = () => (
               ))}
             </div>
           </GlassCard>
-
           <GlassCard className="p-7" premium delay={0.1} tilt>
             <div className="flex gap-4 mb-4">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">
@@ -133,7 +129,6 @@ const Services = () => (
       </div>
     </section>
 
-    {/* Emergency Support */}
     <section className="py-24 lg:py-32 section-glow relative">
       <SectionDivider />
       <div className="container mx-auto px-4 lg:px-8 text-center max-w-2xl pt-8 relative z-10">
