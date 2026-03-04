@@ -246,13 +246,14 @@ const ContactSection = () => (
     <div className="container mx-auto px-4 lg:px-8">
       <SectionHeading badge="Get In Touch" title="Let's Connect" subtitle="Ready to elevate your building? Reach out for a free consultation" />
       <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+        <ScrollReveal direction="left">
         <div className="space-y-6">
           {[
             { icon: <Phone className="w-5 h-5" />, title: "Call Us", info: "+91 9844002026 / +91 6384961909" },
             { icon: <Mail className="w-5 h-5" />, title: "Email Us", info: "info@xelevators.in" },
             { icon: <MapPin className="w-5 h-5" />, title: "Visit Us", info: "Bangalore & Chennai, India" },
           ].map((c, i) => (
-            <GlassCard key={i} className="p-5 flex items-start gap-4">
+            <GlassCard key={i} className="p-5 flex items-start gap-4" delay={i * 0.1}>
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">{c.icon}</div>
               <div>
                 <h4 className="text-foreground font-semibold text-sm mb-1">{c.title}</h4>
@@ -261,6 +262,7 @@ const ContactSection = () => (
             </GlassCard>
           ))}
         </div>
+        </ScrollReveal>
         <GlassCard className="p-8" hover={false}>
           <form className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
