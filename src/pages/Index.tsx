@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { SectionHeading, GlassCard, StatCard } from "@/components/ui/shared";
+import { SectionHeading, GlassCard, StatCard, ScrollReveal } from "@/components/ui/shared";
 import { Shield, Zap, Award, Users, Building2, Wrench, ChevronRight, CheckCircle2, Phone, Mail, MapPin, ChevronDown } from "lucide-react";
 import { useState } from "react";
 
@@ -92,7 +92,7 @@ const Solutions = () => {
         <SectionHeading badge="What We Offer" title="Complete Elevator Solutions" subtitle="End-to-end elevator services from design and installation to maintenance and modernization" />
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {solutions.map((s, i) => (
-            <GlassCard key={i} className="p-6 group cursor-pointer">
+            <GlassCard key={i} className="p-6 group cursor-pointer" delay={i * 0.1}>
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all">
                 {s.icon}
               </div>
@@ -122,7 +122,7 @@ const Finishes = () => {
         <SectionHeading badge="Premium Finishes" title="Finishes & Pricing" subtitle="Choose from our range of elevator finishes to match your budget and style" />
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {finishes.map((f, i) => (
-            <GlassCard key={i} className={`p-8 text-center ${f.popular ? "border-primary/30 glow-gold" : ""}`}>
+            <GlassCard key={i} className={`p-8 text-center ${f.popular ? "border-primary/30 glow-gold" : ""}`} delay={i * 0.12}>
               {f.popular && <span className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold mb-3">Most Popular</span>}
               <h3 className="text-xl font-heading font-bold text-foreground mb-2">{f.name}</h3>
               <p className="text-gradient-gold text-2xl font-heading font-bold mb-6">{f.price}</p>
@@ -154,7 +154,7 @@ const Technology = () => (
           { title: "Energy Efficient Drives", desc: "Regenerative drives that reduce energy consumption by up to 50% while ensuring smooth rides." },
           { title: "Smart Safety Systems", desc: "Multi-layered safety with emergency braking, door sensors, overload protection, and battery backup." },
         ].map((t, i) => (
-          <GlassCard key={i} className="p-6">
+          <GlassCard key={i} className="p-6" delay={i * 0.12}>
             <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-4 font-heading font-bold">
               0{i + 1}
             </div>
@@ -180,7 +180,7 @@ const AMCPlans = () => {
         <SectionHeading badge="Maintenance" title="AMC Plans" subtitle="Keep your elevator running perfectly with our Annual Maintenance Contracts" />
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {plans.map((p, i) => (
-            <GlassCard key={i} className={`p-8 text-center ${p.popular ? "border-primary/30 glow-gold" : ""}`}>
+            <GlassCard key={i} className={`p-8 text-center ${p.popular ? "border-primary/30 glow-gold" : ""}`} delay={i * 0.12}>
               {p.popular && <span className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold mb-3">Best Popular</span>}
               <h3 className="text-xl font-heading font-bold text-foreground mb-2">{p.name}</h3>
               <p className="text-gradient-gold text-3xl font-heading font-bold mb-6">{p.price}</p>
@@ -218,7 +218,8 @@ const FAQ = () => {
         <SectionHeading badge="FAQ" title="Frequently Asked Questions" subtitle="Find answers to common questions about our elevator solutions" />
         <div className="space-y-3">
           {faqs.map((faq, i) => (
-            <div key={i} className="glass-card rounded-xl overflow-hidden">
+            <ScrollReveal key={i} delay={i * 0.08}>
+            <div className="glass-card rounded-xl overflow-hidden">
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
                 className="w-full flex items-center justify-between p-5 text-left"
@@ -232,6 +233,7 @@ const FAQ = () => {
                 </motion.div>
               )}
             </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
@@ -244,13 +246,14 @@ const ContactSection = () => (
     <div className="container mx-auto px-4 lg:px-8">
       <SectionHeading badge="Get In Touch" title="Let's Connect" subtitle="Ready to elevate your building? Reach out for a free consultation" />
       <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+        <ScrollReveal direction="left">
         <div className="space-y-6">
           {[
             { icon: <Phone className="w-5 h-5" />, title: "Call Us", info: "+91 9844002026 / +91 6384961909" },
             { icon: <Mail className="w-5 h-5" />, title: "Email Us", info: "info@xelevators.in" },
             { icon: <MapPin className="w-5 h-5" />, title: "Visit Us", info: "Bangalore & Chennai, India" },
           ].map((c, i) => (
-            <GlassCard key={i} className="p-5 flex items-start gap-4">
+            <GlassCard key={i} className="p-5 flex items-start gap-4" delay={i * 0.1}>
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">{c.icon}</div>
               <div>
                 <h4 className="text-foreground font-semibold text-sm mb-1">{c.title}</h4>
@@ -259,27 +262,30 @@ const ContactSection = () => (
             </GlassCard>
           ))}
         </div>
-        <GlassCard className="p-8" hover={false}>
-          <form className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <input placeholder="Full Name" className="bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors" />
-              <input placeholder="Phone Number" className="bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors" />
-            </div>
-            <input placeholder="Email Address" className="w-full bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors" />
-            <select className="w-full bg-secondary/50 border border-border rounded-lg px-4 py-3 text-muted-foreground text-sm focus:outline-none focus:border-primary transition-colors">
-              <option>Select Service</option>
-              <option>Residential Elevator</option>
-              <option>Commercial Elevator</option>
-              <option>Hospital Elevator</option>
-              <option>AMC Plan</option>
-              <option>Modernization</option>
-            </select>
-            <textarea placeholder="Your Message" rows={4} className="w-full bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors resize-none" />
-            <button type="button" className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold text-sm hover:bg-gold-light transition-colors">
-              Send Message
-            </button>
-          </form>
-        </GlassCard>
+        </ScrollReveal>
+        <ScrollReveal direction="right">
+          <GlassCard className="p-8" hover={false}>
+            <form className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <input placeholder="Full Name" className="bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors" />
+                <input placeholder="Phone Number" className="bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors" />
+              </div>
+              <input placeholder="Email Address" className="w-full bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors" />
+              <select className="w-full bg-secondary/50 border border-border rounded-lg px-4 py-3 text-muted-foreground text-sm focus:outline-none focus:border-primary transition-colors">
+                <option>Select Service</option>
+                <option>Residential Elevator</option>
+                <option>Commercial Elevator</option>
+                <option>Hospital Elevator</option>
+                <option>AMC Plan</option>
+                <option>Modernization</option>
+              </select>
+              <textarea placeholder="Your Message" rows={4} className="w-full bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors resize-none" />
+              <button type="button" className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold text-sm hover:bg-gold-light transition-colors">
+                Send Message
+              </button>
+            </form>
+          </GlassCard>
+        </ScrollReveal>
       </div>
     </div>
   </section>

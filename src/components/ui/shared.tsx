@@ -31,14 +31,15 @@ interface GlassCardProps {
   children: ReactNode;
   className?: string;
   hover?: boolean;
+  delay?: number;
 }
 
-export const GlassCard = ({ children, className = "", hover = true }: GlassCardProps) => (
+export const GlassCard = ({ children, className = "", hover = true, delay = 0 }: GlassCardProps) => (
   <motion.div
-    initial={{ opacity: 0, y: 20 }}
+    initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-30px" }}
-    transition={{ duration: 0.4 }}
+    transition={{ duration: 0.5, delay, ease: "easeOut" }}
     className={`glass-card rounded-xl p-6 ${hover ? "hover:border-primary/30 hover:glow-gold transition-all duration-300" : ""} ${className}`}
   >
     {children}
@@ -68,7 +69,7 @@ interface PageHeroProps {
 export const PageHero = ({ badge, title, subtitle }: PageHeroProps) => (
   <section className="pt-28 pb-16 lg:pt-36 lg:pb-20">
     <div className="container mx-auto px-4 lg:px-8 text-center">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+      <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: "easeOut" }}>
         {badge && (
           <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-semibold tracking-wider uppercase mb-4">
             {badge}
@@ -79,4 +80,66 @@ export const PageHero = ({ badge, title, subtitle }: PageHeroProps) => (
       </motion.div>
     </div>
   </section>
+);
+
+// Scroll-triggered reveal wrapper for sections
+interface ScrollRevealProps {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+  direction?: "up" | "left" | "right";
+}
+
+export const ScrollReveal = ({ children, className = "", delay = 0, direction = "up" }: ScrollRevealProps) => {
+  const directionMap = {
+    up: { x: 0, y: 40 },
+    left: { x: -40, y: 0 },
+    right: { x: 40, y: 0 },
+  };
+  const offset = directionMap[direction];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: offset.x, y: offset.y }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.6, delay, ease: "easeOut" }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// Staggered children container
+interface StaggerContainerProps {
+  children: ReactNode;
+  className?: string;
+  staggerDelay?: number;
+}
+
+export const StaggerContainer = ({ children, className = "", staggerDelay = 0.1 }: StaggerContainerProps) => (
+  <motion.div
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, margin: "-40px" }}
+    variants={{
+      hidden: {},
+      visible: { transition: { staggerChildren: staggerDelay } },
+    }}
+    className={className}
+  >
+    {children}
+  </motion.div>
+);
+
+export const staggerChildVariants = {
+  hidden: { opacity: 0, y: 25 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
+};
+
+export const StaggerChild = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
+  <motion.div variants={staggerChildVariants} className={className}>
+    {children}
+  </motion.div>
 );
