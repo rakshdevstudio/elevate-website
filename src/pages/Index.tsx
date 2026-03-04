@@ -6,69 +6,95 @@ import { useState } from "react";
 
 const Hero = () => (
   <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-    <div className="absolute inset-0 bg-navy-gradient animate-gradient-shift" style={{ backgroundSize: '200% 200%' }} />
-    <div className="absolute inset-0">
-      <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-primary/8 rounded-full blur-[180px] animate-pulse-glow" />
-      <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-primary/4 rounded-full blur-[140px]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-primary/3 rounded-full blur-[200px]" />
-    </div>
-    <FloatingParticles count={25} />
+    {/* Video background */}
+    <video
+      autoPlay
+      muted
+      loop
+      playsInline
+      className="absolute inset-0 w-full h-full object-cover"
+    >
+      <source src="/videos/hero-bg.mp4" type="video/mp4" />
+    </video>
+    {/* Dark overlay for readability */}
+    <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background/90" />
+    <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/60" />
+
     <div className="container mx-auto px-4 lg:px-8 relative z-10">
       <div className="max-w-4xl mx-auto text-center">
+        {/* Trust badges */}
         <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="flex flex-wrap items-center justify-center gap-6 mb-10"
+        >
+          {[
+            { icon: <Shield className="w-4 h-4" />, label: "ISO Certified" },
+            { icon: <Award className="w-4 h-4" />, label: "Licensed Company" },
+            { icon: <Zap className="w-4 h-4" />, label: "99% Automation" },
+          ].map((badge, i) => (
+            <span key={i} className="flex items-center gap-2 text-muted-foreground text-sm font-medium">
+              <span className="text-primary">{badge.icon}</span>
+              {badge.label}
+            </span>
+          ))}
+        </motion.div>
+
+        {/* Headline */}
+        <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.4, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="text-6xl md:text-7xl lg:text-9xl font-heading font-extrabold text-foreground mb-4 leading-[0.9] tracking-tight"
         >
-          <motion.span
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="inline-block px-5 py-2 rounded-full bg-primary/10 text-primary text-xs font-semibold tracking-[0.15em] uppercase mb-6 border border-primary/15"
+          Exceeding<br />
+          <span className="text-foreground">Trust</span>
+        </motion.h1>
+
+        {/* Subheadline */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.7 }}
+          className="text-xl md:text-2xl text-muted-foreground font-light mb-3 tracking-wide"
+        >
+          Engineering the Future
+        </motion.p>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.7 }}
+          className="text-base md:text-lg text-muted-foreground/80 max-w-2xl mx-auto mb-10 leading-relaxed"
+        >
+          Next-generation elevator solutions built on strong technical foundations, youthful leadership, and an uncompromising commitment to quality.
+        </motion.p>
+
+        {/* Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.6 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center"
+        >
+          <Link
+            to="/contact"
+            className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-8 py-4 rounded-full font-semibold text-base transition-all duration-300 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.4)] hover:scale-105 active:scale-100"
           >
-            Premium Elevator Solutions
-          </motion.span>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="text-5xl md:text-6xl lg:text-8xl font-heading font-extrabold text-foreground mb-6 leading-[0.95] tracking-tight"
+            Get a Quote <ArrowRight className="w-4 h-4" />
+          </Link>
+          <a
+            href="tel:+919844002026"
+            className="inline-flex items-center justify-center gap-2 border border-foreground/20 text-foreground px-8 py-4 rounded-full font-semibold text-base hover:bg-foreground/10 transition-all duration-300 backdrop-blur-sm"
           >
-            Exceeding{" "}
-            <span className="text-gradient-gold text-shadow-glow">Safety</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.7 }}
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
-          >
-            Next-generation elevator solutions with uncompromising commitment to quality, safety, and innovation. Trusted by 120+ customers across India.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Link
-              to="/products"
-              className="relative bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-8 py-4 rounded-xl font-semibold text-base transition-all duration-300 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.3)] hover:scale-105 active:scale-100"
-            >
-              Explore Products
-            </Link>
-            <Link
-              to="/contact"
-              className="border border-primary/20 text-foreground px-8 py-4 rounded-xl font-semibold text-base hover:bg-primary/10 hover:border-primary/30 transition-all duration-300"
-            >
-              Request Consultation
-            </Link>
-          </motion.div>
+            <PhoneCall className="w-4 h-4" /> Call Us Now
+          </a>
         </motion.div>
       </div>
     </div>
+
     {/* Bottom gradient fade */}
-    <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+    <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
   </section>
 );
 
