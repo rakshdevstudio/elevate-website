@@ -92,7 +92,7 @@ const Solutions = () => {
         <SectionHeading badge="What We Offer" title="Complete Elevator Solutions" subtitle="End-to-end elevator services from design and installation to maintenance and modernization" />
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {solutions.map((s, i) => (
-            <GlassCard key={i} className="p-6 group cursor-pointer">
+            <GlassCard key={i} className="p-6 group cursor-pointer" delay={i * 0.1}>
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all">
                 {s.icon}
               </div>
