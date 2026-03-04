@@ -23,7 +23,7 @@ const Careers = () => {
 
   return (
     <>
-      <PageHero badge="Careers" title="Join Our Team" subtitle="Build your career with one of India's fastest-growing elevator companies. We're looking for passionate individuals who share our commitment to excellence." />
+      <PageHero badge="Careers" title="Join Our Team" subtitle="Build your career with one of India's fastest-growing elevator companies. We're looking for passionate individuals who share our commitment to excellence." backgroundImage="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1920&q=80" />
 
       <section className="py-20 relative">
         <SectionDivider />

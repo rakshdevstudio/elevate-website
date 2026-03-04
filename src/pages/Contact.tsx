@@ -4,7 +4,7 @@ import { ScrollReveal } from "@/components/ui/shared";
 
 const Contact = () => (
   <>
-    <PageHero badge="Contact" title="Get In Touch" subtitle="Ready to elevate your building? Reach out for a free consultation and site inspection." />
+    <PageHero badge="Contact" title="Get In Touch" subtitle="Ready to elevate your building? Reach out for a free consultation and site inspection." backgroundImage="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80" />
 
     <section className="py-20 section-glow relative">
       <SectionDivider />

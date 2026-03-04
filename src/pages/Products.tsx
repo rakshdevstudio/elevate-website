@@ -176,17 +176,20 @@ const Products = () => {
   return (
     <>
       {/* ─── HERO ─── */}
-      <section className="pt-32 pb-20 lg:pt-40 lg:pb-28 relative overflow-hidden">
+      <section className="pt-32 pb-20 lg:pt-40 lg:pb-28 relative overflow-hidden min-h-[60vh] flex items-center">
         <div className="absolute inset-0 bg-navy-gradient" />
         {/* Background image */}
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80"
+            src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80"
             alt=""
-            className="w-full h-full object-cover opacity-15"
+            className="w-full h-full object-cover opacity-20"
+            loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
         </div>
+        {/* Multi-layer overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[hsl(213_62%_6%/0.92)] via-[hsl(213_62%_6%/0.8)] to-[hsl(213_62%_6%/0.95)]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213_62%_6%/0.4)] via-transparent to-[hsl(213_62%_6%/0.4)]" />
         {/* Light orbs */}
         <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[180px]" />
         <div className="absolute bottom-1/3 left-1/4 w-[400px] h-[400px] bg-[hsl(210_60%_40%/0.04)] rounded-full blur-[140px]" />

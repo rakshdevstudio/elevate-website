@@ -138,28 +138,43 @@ interface PageHeroProps {
   badge?: string;
   title: string;
   subtitle: string;
+  backgroundImage?: string;
 }
 
-export const PageHero = ({ badge, title, subtitle }: PageHeroProps) => (
-  <section className="pt-32 pb-20 lg:pt-40 lg:pb-24 relative overflow-hidden">
+export const PageHero = ({ badge, title, subtitle, backgroundImage }: PageHeroProps) => (
+  <section className="pt-32 pb-20 lg:pt-40 lg:pb-28 relative overflow-hidden min-h-[60vh] flex items-center">
     <div className="absolute inset-0 bg-navy-gradient" />
-    <div className="absolute inset-0">
+    {/* Background image */}
+    {backgroundImage && (
+      <div className="absolute inset-0">
+        <img
+          src={backgroundImage}
+          alt=""
+          className="w-full h-full object-cover opacity-20"
+          loading="eager"
+        />
+      </div>
+    )}
+    {/* Multi-layer overlay */}
+    <div className="absolute inset-0 bg-gradient-to-b from-[hsl(213_62%_6%/0.92)] via-[hsl(213_62%_6%/0.8)] to-[hsl(213_62%_6%/0.95)]" />
+    <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213_62%_6%/0.4)] via-transparent to-[hsl(213_62%_6%/0.4)]" />
+    {/* Light orbs */}
+    <div className="absolute inset-0 pointer-events-none">
       <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-primary/4 rounded-full blur-[180px]" />
-      <div className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-primary/3 rounded-full blur-[150px]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[hsl(210_60%_30%/0.04)] rounded-full blur-[120px]" />
+      <div className="absolute bottom-1/3 left-1/3 w-[500px] h-[500px] bg-[hsl(210_60%_40%/0.03)] rounded-full blur-[150px]" />
     </div>
     <div className="container mx-auto px-4 lg:px-8 text-center relative z-10">
       <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
         {badge && (
-          <span className="inline-block px-5 py-2 rounded-full bg-primary/8 text-primary text-xs font-semibold tracking-[0.2em] uppercase mb-5 border border-primary/12">
+          <span className="inline-block px-5 py-2 rounded-full bg-primary/8 text-primary text-xs font-semibold tracking-[0.2em] uppercase mb-5 border border-primary/12 backdrop-blur-sm">
             {badge}
           </span>
         )}
-        <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-foreground mb-5 tracking-tight leading-[1.05]">{title}</h1>
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-foreground mb-6 tracking-tight leading-[1.05] text-shadow-hero">{title}</h1>
         <p className="text-muted-foreground text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed opacity-80">{subtitle}</p>
       </motion.div>
     </div>
-    <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+    <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
   </section>
 );
 
