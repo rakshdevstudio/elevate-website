@@ -11,7 +11,7 @@ const navItems = [
   { label: "Dashboard", path: "/admin/dashboard", icon: LayoutDashboard },
   { label: "Pipeline", path: "/admin/pipeline", icon: Kanban },
   { label: "Leads", path: "/admin/leads", icon: Users },
-  { label: "Site Visits", path: "/admin/visits", icon: CalendarDays },
+  { label: "Site Visits", path: "/admin/site-visits", icon: CalendarDays },
   { label: "Analytics", path: "/admin/analytics", icon: BarChart3 },
 ];
 
@@ -48,7 +48,7 @@ const AdminLayout = () => {
           <img src={logo} alt="X Elevators" className="h-10 w-10 object-contain" />
           <div>
             <p className="text-foreground font-heading font-bold text-sm">X Elevators</p>
-            <p className="text-muted-foreground text-xs">CRM Panel</p>
+            <p className="text-muted-foreground text-xs">Operations Console</p>
           </div>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden ml-auto text-muted-foreground hover:text-foreground">
             <X className="w-5 h-5" />
@@ -63,11 +63,10 @@ const AdminLayout = () => {
                 key={item.path}
                 to={item.path}
                 onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 group ${
-                  isActive
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 group ${isActive
                     ? "bg-primary/10 text-primary border border-primary/15"
                     : "text-muted-foreground hover:text-foreground hover:bg-secondary/30"
-                }`}
+                  }`}
               >
                 <item.icon className="w-4 h-4" />
                 {item.label}

@@ -19,16 +19,20 @@ export function useAuth() {
         }
         return;
       }
-      
+
       if (mounted) setUser(currentUser);
-      
+
       try {
-        const { data } = await supabase.rpc("has_role", {
-          _user_id: currentUser.id,
-          _role: "admin",
-        });
+        // Query user_roles directly rather than using the has_role RPC
+        const { data, error } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", currentUser.id)
+          .eq("role", "admin")
+          .maybeSingle();
+
         if (mounted) {
-          setIsAdmin(!!data);
+          setIsAdmin(!error && data !== null);
           setLoading(false);
         }
       } catch {

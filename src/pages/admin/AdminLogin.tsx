@@ -38,8 +38,8 @@ const AdminLogin = () => {
         <div className="glass-card-premium rounded-2xl p-8 lg:p-10">
           <div className="text-center mb-8">
             <img src={logo} alt="X Elevators" className="h-16 w-16 object-contain mx-auto mb-4" />
-            <h1 className="text-2xl font-heading font-bold text-foreground">Admin Portal</h1>
-            <p className="text-muted-foreground text-sm mt-1">Sign in to manage your leads</p>
+            <h1 className="text-2xl font-heading font-bold text-foreground">X Elevators CRM</h1>
+            <p className="text-muted-foreground text-sm mt-1">Operations Console — Sign in to continue</p>
           </div>
 
           {error && (

@@ -40,7 +40,7 @@ const App = () => (
             <Route path="pipeline" element={<AdminPipeline />} />
             <Route path="leads" element={<AdminLeads />} />
             <Route path="lead/:id" element={<AdminLeadDetail />} />
-            <Route path="visits" element={<AdminSiteVisits />} />
+            <Route path="site-visits" element={<AdminSiteVisits />} />
             <Route path="analytics" element={<AdminAnalytics />} />
           </Route>
 

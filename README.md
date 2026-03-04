@@ -1,73 +1,68 @@
-# Welcome to your Lovable project
+# X Elevators CRM
 
-## Project info
+Enterprise CRM and lead management platform built for **X Elevators Pvt Ltd**.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Overview
 
-## How can I edit this code?
+X Elevators CRM is a custom-built internal operations platform for managing leads, tracking the sales pipeline, scheduling site visits, and monitoring business analytics.
 
-There are several ways of editing your application.
+## Features
 
-**Use Lovable**
+- **Lead Management** – Capture, track, and manage customer leads
+- **Sales Pipeline** – Visual kanban-style pipeline for deal progression
+- **Site Visit Scheduling** – Book and manage on-site elevator inspections
+- **Analytics Dashboard** – Business metrics and performance insights
+- **Contact Form Integration** – Public-facing quote and inquiry form
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Frontend**: React 18, TypeScript, Vite
+- **Styling**: TailwindCSS, Radix UI
+- **Backend/Auth**: Supabase (PostgreSQL + Auth)
+- **State**: TanStack Query
+- **Animations**: Framer Motion
 
-**Use your preferred IDE**
+## Project Structure
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+```
+src/
+  components/     # Reusable UI components
+    admin/        # Admin panel layout & modals
+    ui/           # shadcn/ui component library
+  pages/          # Route-level page components
+    admin/        # CRM admin pages
+  hooks/          # Custom React hooks
+  integrations/   # Supabase client setup
+  lib/            # Utility functions
+```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Admin Routes
 
-Follow these steps:
+| Route | Description |
+|---|---|
+| `/admin/login` | CRM login page |
+| `/admin/dashboard` | Overview dashboard |
+| `/admin/leads` | Lead management |
+| `/admin/pipeline` | Sales pipeline |
+| `/admin/site-visits` | Site visit scheduling |
+| `/admin/analytics` | Analytics & reports |
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Getting Started
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Environment Variables
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Create a `.env` file in the project root:
 
-**Use GitHub Codespaces**
+```
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+© X Elevators Pvt Ltd. All rights reserved.
