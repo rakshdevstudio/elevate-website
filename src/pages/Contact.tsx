@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { PageHero, SectionHeading, GlassCard, SectionDivider, ScrollReveal } from "@/components/ui/shared";
 import { Phone, Mail, MapPin, Globe, Clock, Headphones, MessageSquare, Send, PhoneCall } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
 import { toast } from "@/hooks/use-toast";
 
 const Contact = () => {
@@ -23,21 +23,21 @@ const Contact = () => {
     }
     setSubmitting(true);
     try {
-      const { error } = await supabase.from("leads").insert({
-        name: form.name.trim(),
-        phone: form.phone.trim(),
-        email: form.email.trim() || null,
-        company_name: form.company_name.trim() || null,
-        elevator_type: form.elevator_type || null,
-        number_of_floors: form.number_of_floors || null,
-        building_type: form.building_type || null,
-        message: form.message.trim() || null,
-        lead_source: "website_form" as const,
+      const { success, error } = await submitLead({
+        name: form.name,
+        phone: form.phone,
+        email: form.email,
+        company_name: form.company_name,
+        elevator_type: form.elevator_type,
+        number_of_floors: form.number_of_floors,
+        building_type: form.building_type,
+        message: form.message,
+        lead_source: "website_form",
       });
-      if (error) {
-        toast({ title: "Submission failed", description: error.message, variant: "destructive" });
+      if (!success) {
+        toast({ title: "Submission failed", description: error, variant: "destructive" });
       } else {
-        toast({ title: "✅ Request Submitted!", description: "Our team will contact you within 24 hours." });
+        toast({ title: "✅ Thank You!", description: SUCCESS_MESSAGE });
         setForm({ name: "", phone: "", email: "", company_name: "", elevator_type: "", number_of_floors: "", building_type: "", message: "" });
       }
     } catch {

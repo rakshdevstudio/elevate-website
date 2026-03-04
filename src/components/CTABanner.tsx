@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, MessageCircle, Phone, Shield, Award, CheckCircle2, Zap } from "lucide-react";
 import { GlassCard, ScrollReveal } from "@/components/ui/shared";
-import { supabase } from "@/integrations/supabase/client";
+import { submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
 import { toast } from "@/hooks/use-toast";
 
 interface CTABannerProps {
@@ -135,16 +135,16 @@ export const InlineQuoteForm = () => {
     }
     setSubmitting(true);
     try {
-      const { error } = await supabase.from("leads").insert({
-        name: name.trim(),
-        phone: phone.trim(),
+      const { success, error } = await submitLead({
+        name,
+        phone,
         elevator_type: elevatorType || null,
-        lead_source: "website_form" as const,
+        lead_source: "website_form",
       });
-      if (error) {
-        toast({ title: "Submission failed", description: error.message, variant: "destructive" });
+      if (!success) {
+        toast({ title: "Submission failed", description: error, variant: "destructive" });
       } else {
-        toast({ title: "✅ Quote Requested!", description: "We'll call you back within 2 hours." });
+        toast({ title: "✅ Thank You!", description: SUCCESS_MESSAGE });
         setName(""); setPhone(""); setElevatorType("");
       }
     } catch {

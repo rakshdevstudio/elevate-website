@@ -4,6 +4,8 @@ import { SectionHeading, GlassCard, StatCard, ScrollReveal, FloatingParticles, S
 import { Shield, Zap, Award, Users, Building2, Wrench, ChevronRight, CheckCircle2, Phone, Mail, MapPin, ChevronDown, PhoneCall, ArrowRight, Home, Building, Hospital, Hotel, Factory, Search, PenTool, Settings, HardHat, BadgeCheck, Send } from "lucide-react";
 import { TrustBadges } from "@/components/CTABanner";
 import { useState } from "react";
+import { submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
+import { toast } from "@/hooks/use-toast";
 
 const Hero = () => (
   <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
@@ -29,7 +31,7 @@ const Hero = () => (
           ))}
         </motion.div>
         <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }} className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-heading font-extrabold text-foreground mb-6 leading-[0.9] tracking-tight text-shadow-hero">
-          Exceeding<br /><span className="text-gradient-gold">Trust</span>
+          <span className="shiny-text">Exceeding</span><br /><span className="shiny-text-gold">Trust</span>
         </motion.h1>
         <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.7 }} className="text-xl md:text-2xl text-foreground/70 font-light mb-3 tracking-[0.1em] uppercase">Engineering the Future</motion.p>
         <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.7 }} className="text-base md:text-lg text-muted-foreground/70 max-w-2xl mx-auto mb-12 leading-relaxed">
@@ -378,105 +380,132 @@ const CTASection = () => (
   </section>
 );
 
-const ContactSection = () => (
-  <section className="py-24 lg:py-32 relative">
-    <SectionDivider />
-    <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_60%_50%,hsl(43_66%_52%/0.04),transparent)]" />
-    <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
-      <SectionHeading badge="Get In Touch" title="Let's Connect" subtitle="Ready to elevate your building? Reach out for a free consultation" />
-      <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 max-w-5xl mx-auto">
-        <ScrollReveal direction="left">
-          <div className="space-y-5">
-            {[
-              { icon: <Phone className="w-5 h-5" />, title: "Call Us", info: "+91 9844002026 / +91 6384961909" },
-              { icon: <Mail className="w-5 h-5" />, title: "Email Us", info: "info@xelevators.in" },
-              { icon: <MapPin className="w-5 h-5" />, title: "Visit Us", info: "Bangalore & Chennai, India" },
-            ].map((c, i) => (
-              <GlassCard key={i} className="p-6 flex items-start gap-5" delay={i * 0.1} premium>
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">{c.icon}</div>
-                <div>
-                  <h4 className="text-foreground font-semibold text-sm mb-1.5">{c.title}</h4>
-                  <p className="text-muted-foreground text-sm opacity-80">{c.info}</p>
-                </div>
-              </GlassCard>
-            ))}
-          </div>
-        </ScrollReveal>
-        <ScrollReveal direction="right">
-          <GlassCard className="p-8 lg:p-10 relative overflow-hidden" hover={false} premium>
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/4 via-transparent to-primary/2 pointer-events-none" />
-            <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 rounded-full blur-[60px] pointer-events-none" />
-            <div className="mb-6">
-              <h3 className="text-xl font-heading font-bold text-foreground mb-1.5">Request a Quote</h3>
-              <p className="text-muted-foreground text-sm opacity-70">Fill out the form below and we'll get back to you within 24 hours.</p>
+const ContactSection = () => {
+  const [form, setForm] = useState({ name: "", phone: "", email: "", company_name: "", elevator_type: "", number_of_floors: "", building_type: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name.trim() || !form.phone.trim()) {
+      toast({ title: "Required fields missing", description: "Please enter your name and phone number.", variant: "destructive" });
+      return;
+    }
+    setSubmitting(true);
+    const { success, error } = await submitLead({ ...form, lead_source: "website_form" });
+    setSubmitting(false);
+    if (success) {
+      toast({ title: "✅ Thank You!", description: SUCCESS_MESSAGE });
+      setForm({ name: "", phone: "", email: "", company_name: "", elevator_type: "", number_of_floors: "", building_type: "", message: "" });
+    } else {
+      toast({ title: "Submission failed", description: error, variant: "destructive" });
+    }
+  };
+  return (
+    <section className="py-24 lg:py-32 relative">
+      <SectionDivider />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_60%_50%,hsl(43_66%_52%/0.04),transparent)]" />
+      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
+        <SectionHeading badge="Get In Touch" title="Let's Connect" subtitle="Ready to elevate your building? Reach out for a free consultation" />
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 max-w-5xl mx-auto">
+          <ScrollReveal direction="left">
+            <div className="space-y-5">
+              {[
+                { icon: <Phone className="w-5 h-5" />, title: "Call Us", info: "+91 9844002026 / +91 6384961909" },
+                { icon: <Mail className="w-5 h-5" />, title: "Email Us", info: "info@xelevators.in" },
+                { icon: <MapPin className="w-5 h-5" />, title: "Visit Us", info: "Bangalore & Chennai, India" },
+              ].map((c, i) => (
+                <GlassCard key={i} className="p-6 flex items-start gap-5" delay={i * 0.1} premium>
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">{c.icon}</div>
+                  <div>
+                    <h4 className="text-foreground font-semibold text-sm mb-1.5">{c.title}</h4>
+                    <p className="text-muted-foreground text-sm opacity-80">{c.info}</p>
+                  </div>
+                </GlassCard>
+              ))}
             </div>
-            <form className="space-y-5 relative z-10">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Full Name *</label>
-                  <input placeholder="John Doe" className="input-premium w-full" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Phone Number *</label>
-                  <input placeholder="+91 98765 43210" className="input-premium w-full" />
-                </div>
+          </ScrollReveal>
+          <ScrollReveal direction="right">
+            <GlassCard className="p-8 lg:p-10 relative overflow-hidden" hover={false} premium>
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/4 via-transparent to-primary/2 pointer-events-none" />
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 rounded-full blur-[60px] pointer-events-none" />
+              <div className="mb-6">
+                <h3 className="text-xl font-heading font-bold text-foreground mb-1.5">Request a Quote</h3>
+                <p className="text-muted-foreground text-sm opacity-70">Fill out the form below and we'll get back to you within 24 hours.</p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Email Address *</label>
-                  <input placeholder="john@company.com" className="input-premium w-full" />
+              <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-foreground/80 mb-1.5">Full Name *</label>
+                    <input name="name" value={form.name} onChange={handleChange} placeholder="John Doe" className="input-premium w-full" required />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground/80 mb-1.5">Phone Number *</label>
+                    <input name="phone" value={form.phone} onChange={handleChange} placeholder="+91 98765 43210" className="input-premium w-full" required />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-foreground/80 mb-1.5">Email Address</label>
+                    <input name="email" value={form.email} onChange={handleChange} placeholder="john@company.com" type="email" className="input-premium w-full" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground/80 mb-1.5">Company Name</label>
+                    <input name="company_name" value={form.company_name} onChange={handleChange} placeholder="Your Company" className="input-premium w-full" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-foreground/80 mb-1.5">Elevator Type</label>
+                    <select name="elevator_type" value={form.elevator_type} onChange={handleChange} className="w-full input-premium text-muted-foreground/60">
+                      <option value="">Select type</option>
+                      <option value="Residential">Residential</option>
+                      <option value="Commercial">Commercial</option>
+                      <option value="Hospital">Hospital</option>
+                      <option value="Capsule">Capsule</option>
+                      <option value="Goods">Goods</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground/80 mb-1.5">Number of Floors</label>
+                    <select name="number_of_floors" value={form.number_of_floors} onChange={handleChange} className="w-full input-premium text-muted-foreground/60">
+                      <option value="">Floors</option>
+                      <option value="2-3 Floors">2-3 Floors</option>
+                      <option value="4-6 Floors">4-6 Floors</option>
+                      <option value="7-10 Floors">7-10 Floors</option>
+                      <option value="10+ Floors">10+ Floors</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground/80 mb-1.5">Building Type</label>
+                    <select name="building_type" value={form.building_type} onChange={handleChange} className="w-full input-premium text-muted-foreground/60">
+                      <option value="">Type</option>
+                      <option value="Residential">Residential</option>
+                      <option value="Commercial">Commercial</option>
+                      <option value="Hospital">Hospital</option>
+                      <option value="Hotel">Hotel</option>
+                      <option value="Industrial">Industrial</option>
+                    </select>
+                  </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Company Name</label>
-                  <input placeholder="Your Company" className="input-premium w-full" />
+                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Project Details</label>
+                  <textarea name="message" value={form.message} onChange={handleChange} placeholder="Tell us about your project requirements, timeline, budget, or any specific needs..." rows={5} className="w-full input-premium resize-none" />
                 </div>
-              </div>
-              <div className="grid grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Elevator Type</label>
-                  <select className="w-full input-premium text-muted-foreground/60">
-                    <option>Select type</option>
-                    <option>Residential</option>
-                    <option>Commercial</option>
-                    <option>Hospital</option>
-                    <option>Capsule</option>
-                    <option>Goods</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Number of Floors</label>
-                  <select className="w-full input-premium text-muted-foreground/60">
-                    <option>Floors</option>
-                    {[...Array(20)].map((_, i) => <option key={i}>{i + 1}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Building Type</label>
-                  <select className="w-full input-premium text-muted-foreground/60">
-                    <option>Type</option>
-                    <option>Residential</option>
-                    <option>Commercial</option>
-                    <option>Hospital</option>
-                    <option>Hotel</option>
-                    <option>Industrial</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-foreground/80 mb-1.5">Project Details</label>
-                <textarea placeholder="Tell us about your project requirements, timeline, budget, or any specific needs..." rows={5} className="w-full input-premium resize-none" />
-              </div>
-              <button type="button" className="w-full bg-gradient-to-r from-primary to-gold-light text-primary-foreground py-4 rounded-xl font-semibold text-sm transition-all duration-400 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.35)] hover:scale-[1.02] active:scale-100 btn-glow flex items-center justify-center gap-2">
-                <Send className="w-4 h-4" /> Submit Request
-              </button>
-              <p className="text-center text-muted-foreground/50 text-xs">By submitting, you agree to our privacy policy. No spam, ever.</p>
-            </form>
-          </GlassCard>
-        </ScrollReveal>
+                <button type="submit" disabled={submitting} className="w-full bg-gradient-to-r from-primary to-gold-light text-primary-foreground py-4 rounded-xl font-semibold text-sm transition-all duration-400 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.35)] hover:scale-[1.02] active:scale-100 btn-glow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                  <Send className="w-4 h-4" /> {submitting ? "Submitting..." : "Submit Request"}
+                </button>
+                <p className="text-center text-muted-foreground/50 text-xs">By submitting, you agree to our privacy policy. No spam, ever.</p>
+              </form>
+            </GlassCard>
+          </ScrollReveal>
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
+
 
 const Index = () => (
   <>
