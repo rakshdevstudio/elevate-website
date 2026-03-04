@@ -233,6 +233,7 @@ const FAQ = () => {
                 </motion.div>
               )}
             </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
