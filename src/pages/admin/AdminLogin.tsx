@@ -53,28 +53,30 @@ const AdminLogin = () => {
             <div>
               <label className="text-sm font-medium text-foreground mb-1.5 block">Email</label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="input-premium w-full pl-11"
-                  placeholder="admin@xelevators.com"
+                  className="input-premium w-full !pl-12"
+                  placeholder="Enter your email"
+                  autoComplete="email"
                 />
               </div>
             </div>
             <div>
               <label className="text-sm font-medium text-foreground mb-1.5 block">Password</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="input-premium w-full pl-11 pr-11"
-                  placeholder="••••••••"
+                  className="input-premium w-full !pl-12 !pr-12"
+                  placeholder="Enter your password"
+                  autoComplete="current-password"
                 />
                 <button
                   type="button"
