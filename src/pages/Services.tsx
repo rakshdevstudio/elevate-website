@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import { PageHero, SectionHeading, GlassCard } from "@/components/ui/shared";
+import { PageHero, SectionHeading, GlassCard, SectionDivider } from "@/components/ui/shared";
 import { Wrench, Shield, Zap, Clock, CheckCircle2, Phone, Award, Timer, UserCheck } from "lucide-react";
 
 const amcPlans = [
   { name: "Silver", price: "₹20,000/yr", features: ["Bimonthly maintenance", "Safety inspection", "Phone support (business hrs)", "Parts at additional cost", "48hr response time"], color: "" },
-  { name: "Gold", price: "₹35,000/yr", features: ["Monthly maintenance", "Preventive maintenance", "24/7 emergency support", "20% parts discount", "24hr response time"], color: "border-primary/30 glow-gold", popular: true },
+  { name: "Gold", price: "₹35,000/yr", features: ["Monthly maintenance", "Preventive maintenance", "24/7 emergency support", "20% parts discount", "24hr response time"], color: "border-primary/25 glow-gold-strong", popular: true },
   { name: "Platinum", price: "₹70,000/yr", features: ["Fortnightly maintenance", "Full preventive maintenance", "24/7 priority support", "Free parts replacement", "4hr emergency response"], color: "" },
 ];
 
@@ -18,10 +18,11 @@ const Services = () => (
   <>
     <PageHero badge="Our Services" title="Our Services" subtitle="Comprehensive elevator solutions from installation to lifetime maintenance — engineered for safety, performance, and peace of mind." />
 
-    <section className="py-20 border-t border-border">
-      <div className="container mx-auto px-4 lg:px-8 max-w-4xl">
+    <section className="py-20 relative">
+      <SectionDivider />
+      <div className="container mx-auto px-4 lg:px-8 max-w-4xl pt-8">
         <SectionHeading badge="Philosophy" title="Our Service Philosophy" />
-        <GlassCard className="p-8 text-center">
+        <GlassCard className="p-8 text-center" premium>
           <p className="text-muted-foreground text-base leading-relaxed italic">
             "We don't just fix elevators — we predict issues before they happen and communicate clearly at every step. Our service philosophy is built on proactive maintenance, digital transparency, and a genuine commitment to your safety and satisfaction."
           </p>
@@ -29,13 +30,14 @@ const Services = () => (
       </div>
     </section>
 
-    <section className="py-20 border-t border-border">
-      <div className="container mx-auto px-4 lg:px-8">
+    <section className="py-20 section-glow relative">
+      <SectionDivider />
+      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
         <SectionHeading badge="Why Us" title="Why Choose X Elevators?" subtitle="What sets us apart in the elevator industry" />
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {whyChoose.map((item, i) => (
-            <GlassCard key={i} className="p-8 text-center">
-              <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center text-primary mx-auto mb-4">{item.icon}</div>
+            <GlassCard key={i} className="p-8 text-center" premium delay={i * 0.1}>
+              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mx-auto mb-4 icon-glow">{item.icon}</div>
               <h3 className="text-xl font-heading font-bold text-foreground mb-2">{item.title}</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
             </GlassCard>
@@ -44,23 +46,30 @@ const Services = () => (
       </div>
     </section>
 
-    <section className="py-20 border-t border-border">
-      <div className="container mx-auto px-4 lg:px-8">
+    <section className="py-20 relative">
+      <SectionDivider />
+      <div className="container mx-auto px-4 lg:px-8 pt-8">
         <SectionHeading badge="AMC Plans" title="Annual Maintenance Contracts" subtitle="Choose a plan that fits your needs and budget" />
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {amcPlans.map((p, i) => (
-            <GlassCard key={i} className={`p-8 text-center ${p.color}`}>
-              {p.popular && <span className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold mb-3">Best Popular</span>}
-              <h3 className="text-xl font-heading font-bold text-foreground mb-2">{p.name}</h3>
-              <p className="text-gradient-gold text-3xl font-heading font-bold mb-6">{p.price}</p>
-              <ul className="space-y-3 mb-6">
+            <GlassCard key={i} className={`p-8 text-center relative overflow-hidden ${p.color}`} premium={!!p.popular} delay={i * 0.1}>
+              {p.popular && (
+                <>
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+                  <span className="relative inline-block px-3 py-1 rounded-full bg-primary/15 text-primary text-xs font-semibold mb-3 border border-primary/15">Best Popular</span>
+                </>
+              )}
+              <h3 className="text-xl font-heading font-bold text-foreground mb-2 relative">{p.name}</h3>
+              <p className="text-gradient-gold text-3xl font-heading font-bold mb-6 relative">{p.price}</p>
+              <ul className="space-y-3 mb-6 relative">
                 {p.features.map((f) => (
                   <li key={f} className="text-muted-foreground text-sm flex items-center gap-2 justify-center">
                     <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {f}
                   </li>
                 ))}
               </ul>
-              <Link to="/contact" className="block w-full py-3 rounded-lg bg-primary/10 text-primary font-semibold text-sm hover:bg-primary hover:text-primary-foreground transition-all">
+              <Link to="/contact" className="relative block w-full py-3 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-300 hover:shadow-[0_0_20px_hsl(43_66%_52%/0.2)]">
                 Get Started
               </Link>
             </GlassCard>
@@ -69,13 +78,14 @@ const Services = () => (
       </div>
     </section>
 
-    <section className="py-20 border-t border-border">
-      <div className="container mx-auto px-4 lg:px-8">
+    <section className="py-20 section-glow relative">
+      <SectionDivider />
+      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
         <SectionHeading badge="More Services" title="Additional Services" />
         <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          <GlassCard className="p-6">
+          <GlassCard className="p-6" premium>
             <div className="flex gap-4 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">
                 <Wrench className="w-6 h-6" />
               </div>
               <div>
@@ -92,9 +102,9 @@ const Services = () => (
             </div>
           </GlassCard>
 
-          <GlassCard className="p-6">
+          <GlassCard className="p-6" premium delay={0.1}>
             <div className="flex gap-4 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">
                 <Zap className="w-6 h-6" />
               </div>
               <div>
@@ -114,13 +124,15 @@ const Services = () => (
       </div>
     </section>
 
-    <section className="py-20 border-t border-border">
-      <div className="container mx-auto px-4 lg:px-8 text-center max-w-2xl">
+    <section className="py-20 relative">
+      <SectionDivider />
+      <div className="container mx-auto px-4 lg:px-8 text-center max-w-2xl pt-8">
         <SectionHeading badge="Emergency" title="24/7 Emergency Support" subtitle="Our emergency response team is always ready to help" />
-        <GlassCard className="p-8 glow-gold border-primary/20">
-          <Phone className="w-10 h-10 text-primary mx-auto mb-4" />
-          <p className="text-gradient-gold text-3xl font-heading font-bold mb-2">+91 9844002026</p>
-          <p className="text-muted-foreground text-sm">Available 24 hours a day, 7 days a week</p>
+        <GlassCard className="p-8 border-primary/20 glow-gold-strong relative overflow-hidden" premium>
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+          <Phone className="w-10 h-10 text-primary mx-auto mb-4 relative z-10" />
+          <p className="text-gradient-gold text-3xl font-heading font-bold mb-2 text-shadow-glow relative z-10">+91 9844002026</p>
+          <p className="text-muted-foreground text-sm relative z-10">Available 24 hours a day, 7 days a week</p>
         </GlassCard>
       </div>
     </section>
