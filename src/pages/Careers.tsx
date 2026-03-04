@@ -1,17 +1,21 @@
 import { useState } from "react";
-import { PageHero, SectionHeading, GlassCard, SectionDivider } from "@/components/ui/shared";
-import { Briefcase, MapPin, Clock, TrendingUp, Users, BookOpen } from "lucide-react";
+import { PageHero, SectionHeading, GlassCard, SectionDivider, ScrollReveal } from "@/components/ui/shared";
+import { Briefcase, MapPin, Clock, TrendingUp, Users, BookOpen, Heart, Shield, Zap } from "lucide-react";
 
 const cultureCards = [
   { icon: <TrendingUp className="w-6 h-6" />, title: "Growth", desc: "We invest in your career growth with training programs, certifications, and clear advancement paths." },
   { icon: <Users className="w-6 h-6" />, title: "Team Culture", desc: "Collaborative and supportive work environment where every team member's contribution is valued." },
   { icon: <BookOpen className="w-6 h-6" />, title: "Learning", desc: "Continuous learning opportunities with access to the latest elevator technology and industry best practices." },
+  { icon: <Heart className="w-6 h-6" />, title: "Work-Life Balance", desc: "Flexible schedules and supportive policies that help you maintain a healthy work-life balance." },
+  { icon: <Shield className="w-6 h-6" />, title: "Safety First", desc: "Comprehensive safety training and top-of-the-line protective equipment for all field operations." },
+  { icon: <Zap className="w-6 h-6" />, title: "Innovation", desc: "Work with cutting-edge technology including IoT systems, smart controls, and AI-powered diagnostics." },
 ];
 
 const openings = [
   { title: "Installation Engineer", dept: "Operations", location: "Bangalore & Chennai", type: "Full-time" },
   { title: "Service Technician", dept: "Maintenance", location: "Chennai", type: "Full-time" },
   { title: "Sales Executive", dept: "Sales", location: "Bangalore & Chennai", type: "Full-time" },
+  { title: "Project Manager", dept: "Operations", location: "Bangalore", type: "Full-time" },
 ];
 
 const Careers = () => {
@@ -23,19 +27,21 @@ const Careers = () => {
 
   return (
     <>
-      <PageHero badge="Careers" title="Join Our Team" subtitle="Build your career with one of India's fastest-growing elevator companies. We're looking for passionate individuals who share our commitment to excellence." backgroundImage="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1920&q=80" />
+      <PageHero badge="Careers" title="Join Our Team" subtitle="Build your career with one of India's fastest-growing elevator companies. We're looking for passionate individuals who share our commitment to excellence." backgroundImage="/images/hero-careers.webp" />
 
       <section className="py-20 relative">
         <SectionDivider />
         <div className="container mx-auto px-4 lg:px-8 pt-8">
-          <SectionHeading badge="Culture" title="Why Work With Us" />
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <SectionHeading badge="Culture" title="Why Work With Us" subtitle="Join a team that values growth, innovation, and making a real impact" />
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {cultureCards.map((c, i) => (
-              <GlassCard key={i} className="p-6 text-center" premium delay={i * 0.1}>
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mx-auto mb-4 icon-glow">{c.icon}</div>
-                <h3 className="text-lg font-heading font-semibold text-foreground mb-2">{c.title}</h3>
-                <p className="text-muted-foreground text-sm">{c.desc}</p>
-              </GlassCard>
+              <ScrollReveal key={i} delay={i * 0.08}>
+                <GlassCard className="p-6 text-center" premium tilt>
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mx-auto mb-4 icon-glow">{c.icon}</div>
+                  <h3 className="text-lg font-heading font-semibold text-foreground mb-2">{c.title}</h3>
+                  <p className="text-muted-foreground text-sm">{c.desc}</p>
+                </GlassCard>
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -45,25 +51,27 @@ const Careers = () => {
         <SectionDivider />
         <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
           <SectionHeading badge="Openings" title="Current Openings" subtitle="Explore available positions and find your perfect role" />
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {openings.map((job, i) => (
-              <GlassCard key={i} className="p-6" premium delay={i * 0.1}>
-                <h3 className="text-lg font-heading font-bold text-foreground mb-3">{job.title}</h3>
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                    <Briefcase className="w-4 h-4 text-primary shrink-0" /> {job.dept}
+              <ScrollReveal key={i} delay={i * 0.08}>
+                <GlassCard className="p-6" premium tilt>
+                  <h3 className="text-lg font-heading font-bold text-foreground mb-3">{job.title}</h3>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                      <Briefcase className="w-4 h-4 text-primary shrink-0" /> {job.dept}
+                    </div>
+                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                      <MapPin className="w-4 h-4 text-primary shrink-0" /> {job.location}
+                    </div>
+                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                      <Clock className="w-4 h-4 text-primary shrink-0" /> {job.type}
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                    <MapPin className="w-4 h-4 text-primary shrink-0" /> {job.location}
-                  </div>
-                  <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                    <Clock className="w-4 h-4 text-primary shrink-0" /> {job.type}
-                  </div>
-                </div>
-                <a href="#apply" className="block w-full py-2.5 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-300 text-center hover:shadow-[0_0_20px_hsl(43_66%_52%/0.2)]">
-                  Apply Now
-                </a>
-              </GlassCard>
+                  <a href="#apply" className="block w-full py-2.5 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-300 text-center hover:shadow-[0_0_20px_hsl(43_66%_52%/0.2)]">
+                    Apply Now
+                  </a>
+                </GlassCard>
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -87,6 +95,7 @@ const Careers = () => {
                   <option>Installation Engineer</option>
                   <option>Service Technician</option>
                   <option>Sales Executive</option>
+                  <option>Project Manager</option>
                   <option>Other</option>
                 </select>
               </div>
