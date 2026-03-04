@@ -16,56 +16,66 @@ const Hero = () => (
     >
       <source src="/videos/hero-bg.mp4" type="video/mp4" />
     </video>
-    {/* Dark overlay for readability */}
-    <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background/90" />
-    <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/60" />
+    {/* Multi-layer overlay for cinematic depth */}
+    <div className="absolute inset-0 bg-gradient-to-b from-[hsl(213_62%_6%/0.75)] via-[hsl(213_62%_6%/0.45)] to-[hsl(213_62%_6%/0.92)]" />
+    <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213_62%_6%/0.5)] via-transparent to-[hsl(213_62%_6%/0.5)]" />
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_40%,hsl(43_66%_52%/0.06),transparent_70%)]" />
+    
+    {/* Floating particles */}
+    <FloatingParticles count={30} />
 
     <div className="container mx-auto px-4 lg:px-8 relative z-10">
-      <div className="max-w-4xl mx-auto text-center">
+      <div className="max-w-5xl mx-auto text-center">
         {/* Trust badges */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="flex flex-wrap items-center justify-center gap-6 mb-10"
+          transition={{ delay: 0.3, duration: 0.7 }}
+          className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mb-12"
         >
           {[
             { icon: <Shield className="w-4 h-4" />, label: "ISO Certified" },
             { icon: <Award className="w-4 h-4" />, label: "Licensed Company" },
             { icon: <Zap className="w-4 h-4" />, label: "99% Automation" },
           ].map((badge, i) => (
-            <span key={i} className="flex items-center gap-2 text-muted-foreground text-sm font-medium">
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
+              className="flex items-center gap-2 text-muted-foreground/80 text-sm font-medium px-4 py-2 rounded-full border border-foreground/8 backdrop-blur-sm bg-foreground/3"
+            >
               <span className="text-primary">{badge.icon}</span>
               {badge.label}
-            </span>
+            </motion.span>
           ))}
         </motion.div>
 
         {/* Headline */}
         <motion.h1
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="text-6xl md:text-7xl lg:text-9xl font-heading font-extrabold text-foreground mb-4 leading-[0.9] tracking-tight"
+          transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-heading font-extrabold text-foreground mb-6 leading-[0.9] tracking-tight text-shadow-hero"
         >
           Exceeding<br />
-          <span className="text-foreground">Trust</span>
+          <span className="text-gradient-gold">Trust</span>
         </motion.h1>
 
         {/* Subheadline */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.7 }}
-          className="text-xl md:text-2xl text-muted-foreground font-light mb-3 tracking-wide"
+          transition={{ delay: 0.7, duration: 0.7 }}
+          className="text-xl md:text-2xl text-foreground/70 font-light mb-3 tracking-[0.1em] uppercase"
         >
           Engineering the Future
         </motion.p>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.7 }}
-          className="text-base md:text-lg text-muted-foreground/80 max-w-2xl mx-auto mb-10 leading-relaxed"
+          transition={{ delay: 0.8, duration: 0.7 }}
+          className="text-base md:text-lg text-muted-foreground/70 max-w-2xl mx-auto mb-12 leading-relaxed"
         >
           Next-generation elevator solutions built on strong technical foundations, youthful leadership, and an uncompromising commitment to quality.
         </motion.p>
@@ -74,50 +84,66 @@ const Hero = () => (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9, duration: 0.6 }}
+          transition={{ delay: 1, duration: 0.6 }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
           <Link
             to="/contact"
-            className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-8 py-4 rounded-full font-semibold text-base transition-all duration-300 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.4)] hover:scale-105 active:scale-100"
+            className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-10 py-4 rounded-full font-semibold text-base transition-all duration-400 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.4),0_0_80px_hsl(43_66%_52%/0.15)] hover:scale-105 active:scale-100 btn-glow"
           >
-            Get a Quote <ArrowRight className="w-4 h-4" />
+            Get a Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
           </Link>
           <a
             href="tel:+919844002026"
-            className="inline-flex items-center justify-center gap-2 border border-foreground/20 text-foreground px-8 py-4 rounded-full font-semibold text-base hover:bg-foreground/10 transition-all duration-300 backdrop-blur-sm"
+            className="group inline-flex items-center justify-center gap-2 border border-foreground/15 text-foreground px-10 py-4 rounded-full font-semibold text-base hover:bg-foreground/8 hover:border-foreground/25 transition-all duration-400 backdrop-blur-md"
           >
-            <PhoneCall className="w-4 h-4" /> Call Us Now
+            <PhoneCall className="w-4 h-4 group-hover:animate-pulse" /> Call Us Now
           </a>
         </motion.div>
       </div>
     </div>
 
     {/* Bottom gradient fade */}
-    <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
+    <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background via-background/80 to-transparent" />
+    
+    {/* Scroll indicator */}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 1.5 }}
+      className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+    >
+      <motion.div
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        className="w-6 h-10 rounded-full border-2 border-foreground/20 flex items-start justify-center p-1.5"
+      >
+        <motion.div className="w-1.5 h-1.5 rounded-full bg-primary" />
+      </motion.div>
+    </motion.div>
   </section>
 );
 
 const MissionVision = () => (
-  <section className="py-20 section-glow relative">
+  <section className="py-24 lg:py-32 section-glow relative">
     <div className="container mx-auto px-4 lg:px-8 relative z-10">
       <SectionHeading badge="Who We Are" title="Our Mission & Vision" subtitle="Committed to transforming vertical mobility with innovation and safety" />
-      <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-        <GlassCard className="p-8" premium>
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4 icon-glow">
-            <Shield className="w-6 h-6 text-primary" />
+      <div className="grid md:grid-cols-2 gap-8 lg:gap-10 max-w-5xl mx-auto">
+        <GlassCard className="p-8 lg:p-10" premium tilt>
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-6 icon-glow">
+            <Shield className="w-7 h-7 text-primary" />
           </div>
-          <h3 className="text-xl font-heading font-bold text-foreground mb-3">Our Mission</h3>
-          <p className="text-muted-foreground text-sm leading-relaxed">
+          <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-4">Our Mission</h3>
+          <p className="text-muted-foreground text-sm lg:text-base leading-relaxed opacity-80">
             To provide world-class elevator solutions that combine cutting-edge technology with uncompromising safety standards, making vertical transportation accessible and reliable for every building in India.
           </p>
         </GlassCard>
-        <GlassCard className="p-8" premium delay={0.1}>
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4 icon-glow">
-            <Zap className="w-6 h-6 text-primary" />
+        <GlassCard className="p-8 lg:p-10" premium delay={0.15} tilt>
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-6 icon-glow">
+            <Zap className="w-7 h-7 text-primary" />
           </div>
-          <h3 className="text-xl font-heading font-bold text-foreground mb-3">Our Vision</h3>
-          <p className="text-muted-foreground text-sm leading-relaxed">
+          <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-4">Our Vision</h3>
+          <p className="text-muted-foreground text-sm lg:text-base leading-relaxed opacity-80">
             To become India's most trusted elevator brand by 2030, setting new benchmarks in design, technology, and customer satisfaction while building lasting relationships with every client.
           </p>
         </GlassCard>
@@ -127,14 +153,15 @@ const MissionVision = () => (
 );
 
 const ImpactMetrics = () => (
-  <section className="py-20 relative">
+  <section className="py-24 lg:py-32 relative">
     <SectionDivider />
-    <div className="container mx-auto px-4 lg:px-8 pt-8">
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,hsl(43_66%_52%/0.03),transparent_70%)]" />
+    <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
       <SectionHeading badge="Our Impact" title="Numbers That Speak" />
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <StatCard value="75+" label="Projects Installed" icon={<Building2 className="w-7 h-7" />} />
-        <StatCard value="120+" label="Happy Customers" icon={<Users className="w-7 h-7" />} />
-        <StatCard value="99%" label="Automation" icon={<Zap className="w-7 h-7" />} />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8 max-w-4xl mx-auto">
+        <StatCard value="75+" label="Projects Installed" icon={<Building2 className="w-8 h-8" />} />
+        <StatCard value="120+" label="Happy Customers" icon={<Users className="w-8 h-8" />} />
+        <StatCard value="99%" label="Automation" icon={<Zap className="w-8 h-8" />} />
       </div>
     </div>
   </section>
@@ -149,19 +176,19 @@ const Solutions = () => {
   ];
 
   return (
-    <section className="py-20 section-glow relative">
+    <section className="py-24 lg:py-32 section-glow section-mesh relative">
       <SectionDivider />
       <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
         <SectionHeading badge="What We Offer" title="Complete Elevator Solutions" subtitle="End-to-end elevator services from design and installation to maintenance and modernization" />
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7">
           {solutions.map((s, i) => (
-            <GlassCard key={i} className="p-6 group cursor-pointer" delay={i * 0.1} premium>
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4 text-primary group-hover:from-primary group-hover:to-gold-light group-hover:text-primary-foreground transition-all duration-500 icon-glow group-hover:icon-glow">
+            <GlassCard key={i} className="p-7 group" delay={i * 0.1} premium tilt>
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center mb-5 text-primary group-hover:from-primary group-hover:to-gold-light group-hover:text-primary-foreground transition-all duration-500 icon-glow group-hover:shadow-[0_0_30px_hsl(43_66%_52%/0.3)]">
                 {s.icon}
               </div>
-              <h3 className="text-lg font-heading font-semibold text-foreground mb-2">{s.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-4">{s.desc}</p>
-              <span className="text-primary text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all duration-300">
+              <h3 className="text-lg font-heading font-semibold text-foreground mb-3">{s.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-5 opacity-75">{s.desc}</p>
+              <span className="text-primary text-sm font-medium flex items-center gap-1.5 group-hover:gap-3 transition-all duration-300">
                 Explore <ChevronRight className="w-4 h-4" />
               </span>
             </GlassCard>
@@ -180,34 +207,37 @@ const Finishes = () => {
   ];
 
   return (
-    <section className="py-20 relative">
+    <section className="py-24 lg:py-32 relative">
       <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 pt-8">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_30%_at_50%_50%,hsl(43_66%_52%/0.03),transparent)]" />
+      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
         <SectionHeading badge="Premium Finishes" title="Finishes & Pricing" subtitle="Choose from our range of elevator finishes to match your budget and style" />
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 lg:gap-10 max-w-5xl mx-auto">
           {finishes.map((f, i) => (
             <GlassCard
               key={i}
-              className={`p-8 text-center relative overflow-hidden ${f.popular ? "border-primary/25 glow-gold-strong" : ""}`}
+              className={`p-8 lg:p-10 text-center relative overflow-hidden ${f.popular ? "border-primary/20 glow-gold-strong" : ""}`}
               delay={i * 0.12}
               premium={f.popular}
+              tilt
             >
               {f.popular && (
                 <>
                   <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
-                  <span className="inline-block px-3 py-1 rounded-full bg-primary/15 text-primary text-xs font-semibold mb-3 border border-primary/15">Most Popular</span>
+                  <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+                  <span className="relative inline-block px-4 py-1.5 rounded-full bg-primary/12 text-primary text-xs font-semibold mb-4 border border-primary/15">Most Popular</span>
                 </>
               )}
-              <h3 className="text-xl font-heading font-bold text-foreground mb-2">{f.name}</h3>
-              <p className="text-gradient-gold text-2xl font-heading font-bold mb-6">{f.price}</p>
-              <ul className="space-y-3 mb-6">
+              <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-3">{f.name}</h3>
+              <p className="text-gradient-gold text-2xl lg:text-3xl font-heading font-extrabold mb-8">{f.price}</p>
+              <ul className="space-y-3.5 mb-8">
                 {f.features.map((feat) => (
-                  <li key={feat} className="text-muted-foreground text-sm flex items-center gap-2 justify-center">
+                  <li key={feat} className="text-muted-foreground text-sm flex items-center gap-2.5 justify-center">
                     <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {feat}
                   </li>
                 ))}
               </ul>
-              <Link to="/contact" className="block w-full py-3 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-300 hover:shadow-[0_0_20px_hsl(43_66%_52%/0.2)]">
+              <Link to="/contact" className="relative block w-full py-3.5 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-400 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.25)]">
                 Get Quote
               </Link>
             </GlassCard>
@@ -219,22 +249,22 @@ const Finishes = () => {
 };
 
 const Technology = () => (
-  <section className="py-20 section-glow relative">
+  <section className="py-24 lg:py-32 section-glow relative">
     <SectionDivider />
     <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
       <SectionHeading badge="Innovation" title="Intelligent Elevator Systems" subtitle="Powered by smart technology for safety, efficiency, and seamless operation" />
-      <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+      <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto">
         {[
           { title: "IoT Monitoring", desc: "Real-time remote monitoring of elevator performance, diagnostics, and predictive maintenance alerts." },
           { title: "Energy Efficient Drives", desc: "Regenerative drives that reduce energy consumption by up to 50% while ensuring smooth rides." },
           { title: "Smart Safety Systems", desc: "Multi-layered safety with emergency braking, door sensors, overload protection, and battery backup." },
         ].map((t, i) => (
-          <GlassCard key={i} className="p-6" delay={i * 0.12} premium>
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mb-4 font-heading font-bold icon-glow-tech">
+          <GlassCard key={i} className="p-7 lg:p-8 group" delay={i * 0.12} premium tilt>
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center text-primary mb-5 font-heading font-bold text-lg icon-glow-tech group-hover:icon-glow transition-all duration-500">
               0{i + 1}
             </div>
-            <h3 className="text-lg font-heading font-semibold text-foreground mb-2">{t.title}</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">{t.desc}</p>
+            <h3 className="text-lg lg:text-xl font-heading font-semibold text-foreground mb-3">{t.title}</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed opacity-75">{t.desc}</p>
           </GlassCard>
         ))}
       </div>
@@ -250,35 +280,37 @@ const AMCPlans = () => {
   ];
 
   return (
-    <section className="py-20 relative">
+    <section className="py-24 lg:py-32 relative section-mesh">
       <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 pt-8">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,hsl(43_66%_52%/0.03),transparent)]" />
+      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
         <SectionHeading badge="Maintenance" title="AMC Plans" subtitle="Keep your elevator running perfectly with our Annual Maintenance Contracts" />
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 lg:gap-10 max-w-5xl mx-auto">
           {plans.map((p, i) => (
             <GlassCard
               key={i}
-              className={`p-8 text-center relative overflow-hidden ${p.popular ? "border-primary/25 glow-gold-strong" : ""}`}
+              className={`p-8 lg:p-10 text-center relative overflow-hidden ${p.popular ? "border-primary/20 glow-gold-strong" : ""}`}
               delay={i * 0.12}
               premium={p.popular}
+              tilt
             >
               {p.popular && (
                 <>
                   <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
-                  <span className="relative inline-block px-3 py-1 rounded-full bg-primary/15 text-primary text-xs font-semibold mb-3 border border-primary/15">Best Popular</span>
+                  <div className="absolute inset-0 bg-gradient-to-b from-primary/6 to-transparent pointer-events-none" />
+                  <span className="relative inline-block px-4 py-1.5 rounded-full bg-primary/12 text-primary text-xs font-semibold mb-4 border border-primary/15">Best Value</span>
                 </>
               )}
-              <h3 className="text-xl font-heading font-bold text-foreground mb-2 relative">{p.name}</h3>
-              <p className="text-gradient-gold text-3xl font-heading font-bold mb-6 relative">{p.price}</p>
-              <ul className="space-y-3 mb-6 relative">
+              <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-3 relative">{p.name}</h3>
+              <p className="text-gradient-gold text-3xl lg:text-4xl font-heading font-extrabold mb-8 relative">{p.price}</p>
+              <ul className="space-y-3.5 mb-8 relative">
                 {p.features.map((f) => (
-                  <li key={f} className="text-muted-foreground text-sm flex items-center gap-2 justify-center">
+                  <li key={f} className="text-muted-foreground text-sm flex items-center gap-2.5 justify-center">
                     <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {f}
                   </li>
                 ))}
               </ul>
-              <Link to="/contact" className="relative block w-full py-3 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-300 hover:shadow-[0_0_20px_hsl(43_66%_52%/0.2)]">
+              <Link to="/contact" className="relative block w-full py-3.5 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-400 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.25)]">
                 Choose Plan
               </Link>
             </GlassCard>
@@ -300,28 +332,27 @@ const FAQ = () => {
   ];
 
   return (
-    <section className="py-20 relative">
+    <section className="py-24 lg:py-32 section-glow relative">
       <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 max-w-3xl pt-8">
+      <div className="container mx-auto px-4 lg:px-8 max-w-3xl pt-8 relative z-10">
         <SectionHeading badge="FAQ" title="Frequently Asked Questions" subtitle="Find answers to common questions about our elevator solutions" />
-        <div className="space-y-3">
+        <div className="space-y-4">
           {faqs.map((faq, i) => (
             <ScrollReveal key={i} delay={i * 0.06}>
               <motion.div
-                className="glass-card-premium rounded-2xl overflow-hidden"
-                animate={openIndex === i ? { borderColor: "hsl(43 66% 52% / 0.2)" } : {}}
+                className={`glass-card-premium rounded-2xl overflow-hidden transition-all duration-500 ${openIndex === i ? 'glow-gold' : ''}`}
               >
                 <button
                   onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                  className="w-full flex items-center justify-between p-5 text-left group"
+                  className="w-full flex items-center justify-between p-6 text-left group"
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center text-primary text-xs font-bold shrink-0">
+                  <div className="flex items-center gap-4">
+                    <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center text-primary text-xs font-bold shrink-0 group-hover:from-primary/25 group-hover:to-primary/10 transition-all duration-300">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="text-foreground font-medium text-sm">{faq.q}</span>
+                    <span className="text-foreground font-medium text-sm lg:text-base">{faq.q}</span>
                   </div>
-                  <ChevronDown className={`w-5 h-5 text-primary shrink-0 transition-transform duration-300 ${openIndex === i ? "rotate-180" : ""}`} />
+                  <ChevronDown className={`w-5 h-5 text-primary shrink-0 transition-transform duration-400 ${openIndex === i ? "rotate-180" : ""}`} />
                 </button>
                 <AnimatePresence>
                   {openIndex === i && (
@@ -329,10 +360,10 @@ const FAQ = () => {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      <div className="px-5 pb-5 pl-16">
-                        <p className="text-muted-foreground text-sm leading-relaxed">{faq.a}</p>
+                      <div className="px-6 pb-6 pl-[4.25rem]">
+                        <p className="text-muted-foreground text-sm leading-relaxed opacity-80">{faq.a}</p>
                       </div>
                     </motion.div>
                   )}
@@ -347,38 +378,40 @@ const FAQ = () => {
 };
 
 const ContactSection = () => (
-  <section className="py-20 section-glow relative">
+  <section className="py-24 lg:py-32 relative">
     <SectionDivider />
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_60%_50%,hsl(43_66%_52%/0.04),transparent)]" />
     <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
       <SectionHeading badge="Get In Touch" title="Let's Connect" subtitle="Ready to elevate your building? Reach out for a free consultation" />
-      <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+      <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 max-w-5xl mx-auto">
         <ScrollReveal direction="left">
-          <div className="space-y-6">
+          <div className="space-y-5">
             {[
               { icon: <Phone className="w-5 h-5" />, title: "Call Us", info: "+91 9844002026 / +91 6384961909" },
               { icon: <Mail className="w-5 h-5" />, title: "Email Us", info: "info@xelevators.in" },
               { icon: <MapPin className="w-5 h-5" />, title: "Visit Us", info: "Bangalore & Chennai, India" },
             ].map((c, i) => (
-              <GlassCard key={i} className="p-5 flex items-start gap-4" delay={i * 0.1} premium>
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">{c.icon}</div>
+              <GlassCard key={i} className="p-6 flex items-start gap-5" delay={i * 0.1} premium>
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">{c.icon}</div>
                 <div>
-                  <h4 className="text-foreground font-semibold text-sm mb-1">{c.title}</h4>
-                  <p className="text-muted-foreground text-sm">{c.info}</p>
+                  <h4 className="text-foreground font-semibold text-sm mb-1.5">{c.title}</h4>
+                  <p className="text-muted-foreground text-sm opacity-80">{c.info}</p>
                 </div>
               </GlassCard>
             ))}
           </div>
         </ScrollReveal>
         <ScrollReveal direction="right">
-          <GlassCard className="p-8 relative overflow-hidden" hover={false} premium>
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/3 to-transparent pointer-events-none" />
-            <form className="space-y-4 relative z-10">
+          <GlassCard className="p-8 lg:p-10 relative overflow-hidden" hover={false} premium>
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/4 via-transparent to-primary/2 pointer-events-none" />
+            <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 rounded-full blur-[60px] pointer-events-none" />
+            <form className="space-y-5 relative z-10">
               <div className="grid grid-cols-2 gap-4">
                 <input placeholder="Full Name" className="input-premium" />
                 <input placeholder="Phone Number" className="input-premium" />
               </div>
               <input placeholder="Email Address" className="w-full input-premium" />
-              <select className="w-full input-premium text-muted-foreground">
+              <select className="w-full input-premium text-muted-foreground/60">
                 <option>Select Service</option>
                 <option>Residential Elevator</option>
                 <option>Commercial Elevator</option>
@@ -387,7 +420,7 @@ const ContactSection = () => (
                 <option>Modernization</option>
               </select>
               <textarea placeholder="Your Message" rows={4} className="w-full input-premium resize-none" />
-              <button type="button" className="w-full bg-gradient-to-r from-primary to-gold-light text-primary-foreground py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.3)] hover:scale-[1.02] active:scale-100">
+              <button type="button" className="w-full bg-gradient-to-r from-primary to-gold-light text-primary-foreground py-4 rounded-xl font-semibold text-sm transition-all duration-400 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.35)] hover:scale-[1.02] active:scale-100 btn-glow">
                 Send Message
               </button>
             </form>
