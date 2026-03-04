@@ -35,7 +35,7 @@ const registrations = [
 
 const About = () => (
   <>
-    <PageHero badge="About Us" title="About X Elevators Pvt Ltd" subtitle="We are a next-generation elevator company focused on delivering safe, smart, and stylish vertical transportation solutions across India. Founded with a vision to redefine the elevator industry through quality engineering, digital transparency, and customer-first approach." />
+    <PageHero badge="About Us" title="About X Elevators Pvt Ltd" subtitle="We are a next-generation elevator company focused on delivering safe, smart, and stylish vertical transportation solutions across India. Founded with a vision to redefine the elevator industry through quality engineering, digital transparency, and customer-first approach." backgroundImage="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80" />
 
     <section className="py-20">
       <SectionDivider />
