@@ -155,6 +155,19 @@ const AdminLeads = () => {
         })}
         {filtered.length === 0 && <p className="text-muted-foreground text-sm text-center py-12">No leads match your search.</p>}
       </div>
+
+      {visitModal && (
+        <ScheduleVisitModal
+          leadId={visitModal.leadId}
+          leadName={visitModal.leadName}
+          leadPhone={visitModal.leadPhone}
+          onClose={() => setVisitModal(null)}
+          onScheduled={() => {
+            // Refresh leads to reflect status change
+            supabase.from("leads").select("*").order("created_at", { ascending: false }).then(({ data }) => setLeads(data || []));
+          }}
+        />
+      )}
     </div>
   );
 };
