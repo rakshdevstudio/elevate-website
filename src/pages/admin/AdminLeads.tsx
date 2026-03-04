@@ -56,7 +56,7 @@ const AdminLeads = () => {
     const headers = ["Name", "Phone", "Email", "Building Type", "Floors", "Elevator Type", "Status", "Source", "Assigned To", "Score", "Created"];
     const rows = filtered.map((l) => [
       l.name, l.phone, l.email || "", l.building_type || "", l.number_of_floors || "",
-      l.elevator_type || "", statusLabels[l.status], l.lead_source.replace(/_/g, " "),
+      l.elevator_type || "", statusLabels[l.status], sourceLabels[l.lead_source] || l.lead_source,
       l.assigned_to || "", calculateLeadScore(l).toString(),
       new Date(l.created_at).toLocaleDateString("en-IN"),
     ]);
