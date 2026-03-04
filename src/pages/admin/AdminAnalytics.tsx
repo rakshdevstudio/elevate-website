@@ -77,10 +77,14 @@ const AdminAnalytics = () => {
   // Source distribution
   const sourceMap = new Map<string, number>();
   leads.forEach((l) => {
-    const src = l.lead_source.replace(/_/g, " ");
+    const src = l.lead_source;
     sourceMap.set(src, (sourceMap.get(src) || 0) + 1);
   });
-  const sourceData = Array.from(sourceMap, ([name, count]) => ({ name, leads: count }));
+  const sourceData = Array.from(sourceMap, ([key, count]) => ({
+    name: sourceLabels[key] || key.replace(/_/g, " "),
+    leads: count,
+    fill: SOURCE_CHART_COLORS[key] || "#6b7280",
+  }));
 
   // Funnel data
   const funnelData = pipelineStatuses
