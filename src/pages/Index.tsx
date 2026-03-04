@@ -17,8 +17,8 @@ const Hero = () => (
       <source src="/videos/hero-bg.mp4" type="video/mp4" />
     </video>
     {/* Multi-layer overlay for cinematic depth */}
-    <div className="absolute inset-0 bg-gradient-to-b from-[hsl(213_62%_6%/0.75)] via-[hsl(213_62%_6%/0.45)] to-[hsl(213_62%_6%/0.92)]" />
-    <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213_62%_6%/0.5)] via-transparent to-[hsl(213_62%_6%/0.5)]" />
+    <div className="absolute inset-0 bg-gradient-to-b from-[hsl(213_62%_6%/0.65)] via-[hsl(213_62%_6%/0.35)] to-[hsl(213_62%_6%/0.88)]" />
+    <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213_62%_6%/0.4)] via-transparent to-[hsl(213_62%_6%/0.4)]" />
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_40%,hsl(43_66%_52%/0.06),transparent_70%)]" />
     
     {/* Floating particles */}
