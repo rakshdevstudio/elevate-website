@@ -150,14 +150,14 @@ export const PageHero = ({ badge, title, subtitle, backgroundImage }: PageHeroPr
         <img
           src={backgroundImage}
           alt=""
-          className="w-full h-full object-cover opacity-20"
+          className="w-full h-full object-cover opacity-35"
           loading="eager"
         />
       </div>
     )}
     {/* Multi-layer overlay */}
-    <div className="absolute inset-0 bg-gradient-to-b from-[hsl(213_62%_6%/0.92)] via-[hsl(213_62%_6%/0.8)] to-[hsl(213_62%_6%/0.95)]" />
-    <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213_62%_6%/0.4)] via-transparent to-[hsl(213_62%_6%/0.4)]" />
+    <div className="absolute inset-0 bg-gradient-to-b from-[hsl(213_62%_6%/0.85)] via-[hsl(213_62%_6%/0.65)] to-[hsl(213_62%_6%/0.9)]" />
+    <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213_62%_6%/0.3)] via-transparent to-[hsl(213_62%_6%/0.3)]" />
     {/* Light orbs */}
     <div className="absolute inset-0 pointer-events-none">
       <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-primary/4 rounded-full blur-[180px]" />
