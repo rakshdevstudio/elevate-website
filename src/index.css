@@ -266,7 +266,7 @@
 
   .input-premium {
     @apply bg-secondary/20 border border-border/40 rounded-xl px-5 py-4 text-foreground text-sm;
-    @apply placeholder:text-muted-foreground/50 focus:outline-none transition-all duration-400;
+    @apply placeholder:text-muted-foreground/50 focus:outline-none transition-all duration-300;
     @apply focus:border-primary/50 focus:shadow-[0_0_0_4px_hsl(43_66%_52%/0.08),0_0_24px_hsl(43_66%_52%/0.1)];
     backdrop-filter: blur(12px);
     background: linear-gradient(160deg, hsl(212 50% 14% / 0.4) 0%, hsl(212 48% 10% / 0.3) 100%);
