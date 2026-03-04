@@ -37,7 +37,7 @@ const Products = () => (
 
     <section className="py-20 border-t border-border">
       <div className="container mx-auto px-4 lg:px-8">
-        <SectionHeading badge="Residential" title="Residential Elevators" subtitle="Elegant, safe, and space-efficient elevators designed for modern homes" icon={<Home />} />
+        <SectionHeading badge="Residential" title="Residential Elevators" subtitle="Elegant, safe, and space-efficient elevators designed for modern homes" />
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {residentialProducts.map((p, i) => (
             <GlassCard key={i} className="p-6">
