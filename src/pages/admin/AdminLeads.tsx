@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Search, Filter, Phone, Mail, Building2, ArrowRight, ChevronDown, Download, MessageSquare, Star, CalendarPlus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables, Enums } from "@/integrations/supabase/types";
-import { statusColors, statusLabels, allStatuses, calculateLeadScore, getScoreColor } from "@/lib/lead-utils";
+import { statusColors, statusLabels, allStatuses, calculateLeadScore, getScoreColor, sourceLabels } from "@/lib/lead-utils";
 import ScheduleVisitModal from "@/components/admin/ScheduleVisitModal";
 
 const AdminLeads = () => {
@@ -12,6 +12,7 @@ const AdminLeads = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [sourceFilter, setSourceFilter] = useState<string>("all");
   const [visitModal, setVisitModal] = useState<{ leadId: string; leadName: string; leadPhone: string } | null>(null);
 
   useEffect(() => {
@@ -38,7 +39,8 @@ const AdminLeads = () => {
       (lead.building_type && lead.building_type.toLowerCase().includes(search.toLowerCase())) ||
       (lead.assigned_to && lead.assigned_to.toLowerCase().includes(search.toLowerCase()));
     const matchesStatus = statusFilter === "all" || lead.status === statusFilter;
-    return matchesSearch && matchesStatus;
+    const matchesSource = sourceFilter === "all" || lead.lead_source === sourceFilter;
+    return matchesSearch && matchesStatus && matchesSource;
   });
 
   const updateStatus = async (id: string, status: Enums<"lead_status">) => {
@@ -54,7 +56,7 @@ const AdminLeads = () => {
     const headers = ["Name", "Phone", "Email", "Building Type", "Floors", "Elevator Type", "Status", "Source", "Assigned To", "Score", "Created"];
     const rows = filtered.map((l) => [
       l.name, l.phone, l.email || "", l.building_type || "", l.number_of_floors || "",
-      l.elevator_type || "", statusLabels[l.status], l.lead_source.replace(/_/g, " "),
+      l.elevator_type || "", statusLabels[l.status], sourceLabels[l.lead_source] || l.lead_source,
       l.assigned_to || "", calculateLeadScore(l).toString(),
       new Date(l.created_at).toLocaleDateString("en-IN"),
     ]);
@@ -88,6 +90,14 @@ const AdminLeads = () => {
           </select>
           <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
         </div>
+        <div className="relative">
+          <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <select value={sourceFilter} onChange={(e) => setSourceFilter(e.target.value)} className="input-premium pl-11 pr-10 appearance-none cursor-pointer min-w-[180px]">
+            <option value="all">All Sources</option>
+            {Object.entries(sourceLabels).map(([key, label]) => (<option key={key} value={key}>{label}</option>))}
+          </select>
+          <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+        </div>
         <button onClick={exportCSV} className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition-colors whitespace-nowrap">
           <Download className="w-4 h-4" /> Export CSV
         </button>
@@ -116,6 +126,7 @@ const AdminLeads = () => {
                       {lead.email && <span className="flex items-center gap-1"><Mail className="w-3 h-3" />{lead.email}</span>}
                       {lead.building_type && <span className="flex items-center gap-1"><Building2 className="w-3 h-3" />{lead.building_type}</span>}
                       {lead.assigned_to && <span className="text-primary/70">👤 {lead.assigned_to}</span>}
+                      <span className="px-1.5 py-0.5 rounded bg-secondary/50 text-muted-foreground">{sourceLabels[lead.lead_source] || lead.lead_source}</span>
                     </div>
                   </div>
                 </div>
