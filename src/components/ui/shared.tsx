@@ -1,5 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 interface SectionHeadingProps {
   badge?: string;
