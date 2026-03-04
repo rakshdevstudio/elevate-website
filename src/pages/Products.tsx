@@ -248,6 +248,8 @@ const Products = () => {
           </div>
         </div>
       </section>
+
+      <CTABanner variant="quote" />
     </>
   );
 };
