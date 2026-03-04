@@ -39,7 +39,8 @@ const AdminLeads = () => {
       (lead.building_type && lead.building_type.toLowerCase().includes(search.toLowerCase())) ||
       (lead.assigned_to && lead.assigned_to.toLowerCase().includes(search.toLowerCase()));
     const matchesStatus = statusFilter === "all" || lead.status === statusFilter;
-    return matchesSearch && matchesStatus;
+    const matchesSource = sourceFilter === "all" || lead.lead_source === sourceFilter;
+    return matchesSearch && matchesStatus && matchesSource;
   });
 
   const updateStatus = async (id: string, status: Enums<"lead_status">) => {
