@@ -154,7 +154,7 @@ const Technology = () => (
           { title: "Energy Efficient Drives", desc: "Regenerative drives that reduce energy consumption by up to 50% while ensuring smooth rides." },
           { title: "Smart Safety Systems", desc: "Multi-layered safety with emergency braking, door sensors, overload protection, and battery backup." },
         ].map((t, i) => (
-          <GlassCard key={i} className="p-6">
+          <GlassCard key={i} className="p-6" delay={i * 0.12}>
             <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary mb-4 font-heading font-bold">
               0{i + 1}
             </div>
