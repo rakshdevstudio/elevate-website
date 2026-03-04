@@ -180,7 +180,7 @@ const AMCPlans = () => {
         <SectionHeading badge="Maintenance" title="AMC Plans" subtitle="Keep your elevator running perfectly with our Annual Maintenance Contracts" />
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {plans.map((p, i) => (
-            <GlassCard key={i} className={`p-8 text-center ${p.popular ? "border-primary/30 glow-gold" : ""}`}>
+            <GlassCard key={i} className={`p-8 text-center ${p.popular ? "border-primary/30 glow-gold" : ""}`} delay={i * 0.12}>
               {p.popular && <span className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold mb-3">Best Popular</span>}
               <h3 className="text-xl font-heading font-bold text-foreground mb-2">{p.name}</h3>
               <p className="text-gradient-gold text-3xl font-heading font-bold mb-6">{p.price}</p>
