@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Users, UserPlus, CalendarDays, TrendingUp, ArrowRight, Phone, Building2,
-  Bell, Star, MessageSquare, DollarSign,
+  Bell, Star, MessageSquare, DollarSign, MapPin,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
