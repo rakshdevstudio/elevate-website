@@ -64,11 +64,23 @@ const AdminDashboard = () => {
   const conversionRate = totalLeads > 0 ? ((converted / totalLeads) * 100).toFixed(1) : "0";
   const totalValue = leads.reduce((sum, l) => sum + (l.estimated_value || 0), 0);
 
+  // Visit stats
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekEnd.getDate() + 7);
+  const visitsThisWeek = siteVisits.filter((v) => {
+    const d = new Date(v.scheduled_date);
+    return d >= weekStart && d < weekEnd;
+  }).length;
+
+  const upcomingVisits = siteVisits
+    .filter((v) => new Date(v.scheduled_date) >= new Date(todayStart.toISOString().split("T")[0]))
+    .slice(0, 5);
+
   const stats = [
     { label: "Total Leads", value: totalLeads, icon: Users, color: "from-primary/20 to-primary/5" },
     { label: "Today", value: leadsToday, icon: UserPlus, color: "from-emerald-500/20 to-emerald-500/5" },
     { label: "This Week", value: leadsWeek, icon: CalendarDays, color: "from-blue-500/20 to-blue-500/5" },
-    { label: "This Month", value: leadsMonth, icon: TrendingUp, color: "from-purple-500/20 to-purple-500/5" },
+    { label: "Visits This Week", value: visitsThisWeek, icon: MapPin, color: "from-orange-500/20 to-orange-500/5" },
     { label: "Conversion Rate", value: `${conversionRate}%`, icon: Star, color: "from-amber-500/20 to-amber-500/5" },
     { label: "Pipeline Value", value: totalValue > 0 ? `₹${(totalValue / 100000).toFixed(1)}L` : "₹0", icon: DollarSign, color: "from-cyan-500/20 to-cyan-500/5" },
   ];
