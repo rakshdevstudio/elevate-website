@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  ArrowLeft, Phone, Mail, Building2, Layers, Elevator, MessageSquare, Calendar, Clock, Send, ChevronDown,
+  ArrowLeft, Phone, Mail, Building2, Layers, Box, MessageSquare, Calendar, Clock, Send, ChevronDown,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
