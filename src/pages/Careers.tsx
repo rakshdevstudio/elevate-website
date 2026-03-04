@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { PageHero, SectionHeading, GlassCard, SectionDivider, ScrollReveal } from "@/components/ui/shared";
 import { Briefcase, MapPin, Clock, TrendingUp, Users, BookOpen, Heart, Shield, Zap } from "lucide-react";
+import { CTABanner } from "@/components/CTABanner";
 
 const cultureCards = [
   { icon: <TrendingUp className="w-6 h-6" />, title: "Growth", desc: "We invest in your career growth with training programs, certifications, and clear advancement paths." },
