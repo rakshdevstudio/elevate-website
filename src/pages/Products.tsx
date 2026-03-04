@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { SectionHeading, GlassCard, SectionDivider, ScrollReveal, FloatingParticles } from "@/components/ui/shared";
 import { Building2, Home, CheckCircle2, ChevronRight, Heart, Stethoscope, ArrowRight, Layers, PanelTop, Lamp, Monitor, Grip, Square, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { CTABanner, TrustBadges } from "@/components/CTABanner";
 import { motion, AnimatePresence } from "framer-motion";
 
 const tabOptions = ["MRL Based Elevators", "Full Structure Elevator"];
