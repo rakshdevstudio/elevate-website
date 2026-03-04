@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { SectionHeading, GlassCard, StatCard } from "@/components/ui/shared";
+import { SectionHeading, GlassCard, StatCard, ScrollReveal } from "@/components/ui/shared";
 import { Shield, Zap, Award, Users, Building2, Wrench, ChevronRight, CheckCircle2, Phone, Mail, MapPin, ChevronDown } from "lucide-react";
 import { useState } from "react";
 
