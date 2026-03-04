@@ -135,7 +135,7 @@ export const StaggerContainer = ({ children, className = "", staggerDelay = 0.1 
 
 export const staggerChildVariants = {
   hidden: { opacity: 0, y: 25 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
 
 export const StaggerChild = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
