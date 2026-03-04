@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { SectionHeading, GlassCard, SectionDivider, ScrollReveal, FloatingParticles } from "@/components/ui/shared";
 import { Building2, Home, CheckCircle2, ChevronRight, Heart, Stethoscope, ArrowRight, Layers, PanelTop, Lamp, Monitor, Grip, Square, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { CTABanner, TrustBadges } from "@/components/CTABanner";
 import { motion, AnimatePresence } from "framer-motion";
 
 const tabOptions = ["MRL Based Elevators", "Full Structure Elevator"];
@@ -136,6 +137,8 @@ const Products = () => {
         <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background via-background/80 to-transparent" />
       </section>
 
+      <TrustBadges />
+
       {/* ELEVATOR SHOWCASE */}
       <div>
         <div className="container mx-auto px-4 lg:px-8 pt-12">
@@ -245,6 +248,8 @@ const Products = () => {
           </div>
         </div>
       </section>
+
+      <CTABanner variant="quote" />
     </>
   );
 };

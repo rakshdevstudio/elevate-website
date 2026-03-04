@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { PageHero, SectionHeading, GlassCard, StatCard, SectionDivider, ScrollReveal } from "@/components/ui/shared";
 import { Shield, Award, Users, Target, Building2, Heart, Lightbulb, CheckCircle2, Pencil, Cog, Clock, Monitor, HeadphonesIcon, Home, Building, Hospital, Hotel, Factory } from "lucide-react";
+import { CTABanner, TrustBadges } from "@/components/CTABanner";
 
 const values = [
   { icon: <Pencil className="w-6 h-6" />, title: "Design Excellence", desc: "Every elevator is thoughtfully designed to complement the architecture and aesthetics of your space." },
@@ -37,6 +38,8 @@ const About = () => (
   <>
     <PageHero badge="About Us" title="About X Elevators Pvt Ltd" subtitle="We are a next-generation elevator company focused on delivering safe, smart, and stylish vertical transportation solutions across India. Founded with a vision to redefine the elevator industry through quality engineering, digital transparency, and customer-first approach." backgroundImage="/images/hero-about.webp" />
 
+    <TrustBadges />
+
     <section className="py-20">
       <SectionDivider />
       <div className="container mx-auto px-4 lg:px-8 pt-8">
@@ -68,6 +71,8 @@ const About = () => (
         </div>
       </div>
     </section>
+
+    <CTABanner variant="inspection" />
 
     <section className="py-20 relative">
       <SectionDivider />
@@ -159,20 +164,7 @@ const About = () => (
       </div>
     </section>
 
-    <section className="py-20 section-glow relative">
-      <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 text-center max-w-2xl pt-8 relative z-10">
-        <SectionHeading badge="Get Started" title="Ready to Elevate?" subtitle="Let our experts help you find the perfect elevator solution" />
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link to="/contact" className="bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-8 py-4 rounded-xl font-semibold text-base transition-all duration-300 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.3)] hover:scale-105">
-            Request Free Site Inspection
-          </Link>
-          <a href="https://wa.me/919844002026" target="_blank" rel="noopener noreferrer" className="border border-primary/20 text-foreground px-8 py-4 rounded-xl font-semibold text-base hover:bg-primary/10 hover:border-primary/30 transition-all duration-300">
-            Chat with Engineer on WhatsApp
-          </a>
-        </div>
-      </div>
-    </section>
+    <CTABanner variant="quote" />
   </>
 );
 

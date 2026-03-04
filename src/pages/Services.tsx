@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { PageHero, SectionHeading, GlassCard, SectionDivider, ScrollReveal } from "@/components/ui/shared";
 import { Wrench, Shield, Zap, Clock, CheckCircle2, Phone, Award, Timer, UserCheck, FileText, RefreshCw } from "lucide-react";
+import { CTABanner, TrustBadges, InlineQuoteForm } from "@/components/CTABanner";
 
 const whyChoose = [
   { icon: <Shield className="w-7 h-7" />, title: "ISO Certified", desc: "Quality assured with international standards" },
@@ -19,6 +20,8 @@ const amcPlans = [
 const Services = () => (
   <>
     <PageHero badge="Our Services" title="Our Services" subtitle="Comprehensive elevator solutions from installation to lifetime maintenance — engineered for safety, performance, and peace of mind." backgroundImage="/images/hero-services.webp" />
+
+    <TrustBadges />
 
     <section className="py-20 relative">
       <SectionDivider />
@@ -51,6 +54,8 @@ const Services = () => (
         </div>
       </div>
     </section>
+
+    <CTABanner variant="inspection" />
 
     <section className="py-24 lg:py-32 section-glow relative">
       <SectionDivider />
@@ -128,6 +133,8 @@ const Services = () => (
         </div>
       </div>
     </section>
+
+    <InlineQuoteForm />
 
     <section className="py-24 lg:py-32 section-glow relative">
       <SectionDivider />
