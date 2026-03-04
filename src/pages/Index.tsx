@@ -218,7 +218,8 @@ const FAQ = () => {
         <SectionHeading badge="FAQ" title="Frequently Asked Questions" subtitle="Find answers to common questions about our elevator solutions" />
         <div className="space-y-3">
           {faqs.map((faq, i) => (
-            <div key={i} className="glass-card rounded-xl overflow-hidden">
+            <ScrollReveal key={i} delay={i * 0.08}>
+            <div className="glass-card rounded-xl overflow-hidden">
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
                 className="w-full flex items-center justify-between p-5 text-left"
