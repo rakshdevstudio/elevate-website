@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin, ArrowUp } from "lucide-react";
+import { Phone, Mail, MapPin, ArrowUp, Globe } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
@@ -10,19 +11,17 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-heading font-extrabold text-lg">X</span>
-              </div>
-              <span className="text-foreground font-heading font-bold text-lg">X Elevators</span>
+              <img src={logo} alt="X Elevators" className="h-10 w-10 object-contain" />
+              <span className="text-foreground font-heading font-bold text-lg uppercase">X Elevators Pvt. Ltd.</span>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-              Premium elevator solutions with cutting-edge technology, safety, and elegance. Elevating India's infrastructure since 2010.
+              Elevating Trust. Engineering the Future. Next-generation elevator solutions with uncompromising commitment to quality.
             </p>
-            <div className="flex gap-3">
-              {["Facebook", "LinkedIn", "Instagram", "Twitter"].map((s) => (
-                <a key={s} href="#" className="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all text-xs font-bold">
-                  {s[0]}
-                </a>
+            <div className="flex gap-2 flex-wrap">
+              {["ISO Certified", "Licensed", "99% Automation"].map((badge) => (
+                <span key={badge} className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+                  {badge}
+                </span>
               ))}
             </div>
           </div>
@@ -31,6 +30,7 @@ const Footer = () => {
             <h4 className="text-foreground font-heading font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2.5">
               {[
+                { label: "Home", path: "/" },
                 { label: "About Us", path: "/about" },
                 { label: "Services", path: "/services" },
                 { label: "Products", path: "/products" },
@@ -47,9 +47,9 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="text-foreground font-heading font-semibold mb-4">Services</h4>
+            <h4 className="text-foreground font-heading font-semibold mb-4">Our Services</h4>
             <ul className="space-y-2.5">
-              {["Residential Elevators", "Commercial Elevators", "AMC Plans", "Modernization", "24/7 Support"].map((s) => (
+              {["Passenger Elevators", "Home Elevators", "Commercial Elevators", "Maintenance & AMC", "Modernization"].map((s) => (
                 <li key={s}>
                   <span className="text-muted-foreground text-sm hover:text-primary transition-colors cursor-pointer">{s}</span>
                 </li>
@@ -58,19 +58,22 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="text-foreground font-heading font-semibold mb-4">Contact Info</h4>
+            <h4 className="text-foreground font-heading font-semibold mb-4">Contact Us</h4>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                <span>123 Elevator Tower, Business District, Mumbai, Maharashtra 400001</span>
-              </li>
               <li className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Phone className="w-4 h-4 text-primary shrink-0" />
-                <span>+91 123 456 7890</span>
+                <div>
+                  <span className="block">+91 9844002026</span>
+                  <span className="block">+91 6384961909</span>
+                </div>
               </li>
               <li className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Mail className="w-4 h-4 text-primary shrink-0" />
-                <span>info@xelevators.com</span>
+                <span>info@xelevators.in</span>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-muted-foreground">
+                <Globe className="w-4 h-4 text-primary shrink-0" />
+                <span>xelevators.in</span>
               </li>
             </ul>
           </div>

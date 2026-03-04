@@ -18,10 +18,10 @@ const Hero = () => (
             Premium Elevator Solutions
           </span>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading font-extrabold text-foreground mb-6 leading-tight">
-            Exceeding <span className="text-gradient-gold">Trust</span>
+            Exceeding <span className="text-gradient-gold">Safety</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-            India's premier elevator company delivering world-class vertical transportation solutions with unmatched safety, innovation, and elegance.
+            Next-generation elevator solutions with uncompromising commitment to quality, safety, and innovation. Trusted by 120+ customers across India.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/products" className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-semibold text-base hover:bg-gold-light transition-all glow-gold">
@@ -68,11 +68,11 @@ const MissionVision = () => (
 const ImpactMetrics = () => (
   <section className="py-20 border-y border-border">
     <div className="container mx-auto px-4 lg:px-8">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard value="500+" label="Elevators Installed" icon={<Building2 className="w-7 h-7" />} />
-        <StatCard value="15+" label="Years Experience" icon={<Award className="w-7 h-7" />} />
-        <StatCard value="200+" label="Happy Clients" icon={<Users className="w-7 h-7" />} />
-        <StatCard value="24/7" label="Service Support" icon={<Wrench className="w-7 h-7" />} />
+      <SectionHeading badge="Our Impact" title="Numbers That Speak" />
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <StatCard value="75+" label="Projects Installed" icon={<Building2 className="w-7 h-7" />} />
+        <StatCard value="120+" label="Happy Customers" icon={<Users className="w-7 h-7" />} />
+        <StatCard value="99%" label="Automation" icon={<Zap className="w-7 h-7" />} />
       </div>
     </div>
   </section>
@@ -99,7 +99,7 @@ const Solutions = () => {
               <h3 className="text-lg font-heading font-semibold text-foreground mb-2">{s.title}</h3>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">{s.desc}</p>
               <span className="text-primary text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                Learn more <ChevronRight className="w-4 h-4" />
+                Explore <ChevronRight className="w-4 h-4" />
               </span>
             </GlassCard>
           ))}
@@ -111,25 +111,25 @@ const Solutions = () => {
 
 const Finishes = () => {
   const finishes = [
-    { name: "Stainless Steel", price: "Starting ₹4.5L", features: ["Mirror finish", "Anti-fingerprint coating", "Durable & elegant"] },
-    { name: "Glass Panoramic", price: "Starting ₹6.5L", features: ["Full glass cabin", "LED lighting", "360° view experience"] },
-    { name: "Wooden Luxury", price: "Starting ₹5.5L", features: ["Premium veneer", "Custom patterns", "Warm aesthetic feel"] },
+    { name: "Basic", price: "₹5-6 Lakhs", features: ["Standard SS finish", "Manual door", "Basic lighting", "Standard control panel"], popular: false },
+    { name: "Standard", price: "₹5-8 Lakhs", features: ["Hairline SS finish", "Automatic door", "LED lighting", "Digital display", "Designer flooring"], popular: true },
+    { name: "Premium", price: "₹10-20 Lakhs", features: ["Mirror/Etched SS finish", "Glass cabin options", "Designer false ceiling", "Touchscreen COP", "Customized interiors"], popular: false },
   ];
 
   return (
     <section className="py-20 border-t border-border">
       <div className="container mx-auto px-4 lg:px-8">
-        <SectionHeading badge="Premium Finishes" title="Finishes & Pricing" subtitle="Choose from our range of premium elevator finishes to match your space" />
+        <SectionHeading badge="Premium Finishes" title="Finishes & Pricing" subtitle="Choose from our range of elevator finishes to match your budget and style" />
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {finishes.map((f, i) => (
-            <GlassCard key={i} className={`p-8 text-center ${i === 1 ? "border-primary/30 glow-gold" : ""}`}>
-              {i === 1 && <span className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold mb-3">Most Popular</span>}
+            <GlassCard key={i} className={`p-8 text-center ${f.popular ? "border-primary/30 glow-gold" : ""}`}>
+              {f.popular && <span className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold mb-3">Most Popular</span>}
               <h3 className="text-xl font-heading font-bold text-foreground mb-2">{f.name}</h3>
               <p className="text-gradient-gold text-2xl font-heading font-bold mb-6">{f.price}</p>
               <ul className="space-y-3 mb-6">
                 {f.features.map((feat) => (
                   <li key={feat} className="text-muted-foreground text-sm flex items-center gap-2 justify-center">
-                    <CheckCircle2 className="w-4 h-4 text-primary" /> {feat}
+                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {feat}
                   </li>
                 ))}
               </ul>
@@ -169,9 +169,9 @@ const Technology = () => (
 
 const AMCPlans = () => {
   const plans = [
-    { name: "Basic", price: "₹8,000/yr", features: ["2 visits per year", "Basic maintenance", "Phone support", "Parts at extra cost"] },
-    { name: "Standard", price: "₹15,000/yr", features: ["4 visits per year", "Preventive maintenance", "Priority support", "10% discount on parts"], popular: true },
-    { name: "Premium", price: "₹25,000/yr", features: ["Monthly visits", "Full maintenance", "24/7 support", "Free parts replacement"] },
+    { name: "Silver", price: "₹20,000/yr", features: ["Bimonthly maintenance", "Safety inspection", "Phone support (business hrs)", "Parts at additional cost", "48hr response time"] },
+    { name: "Gold", price: "₹35,000/yr", features: ["Monthly maintenance", "Preventive maintenance", "24/7 emergency support", "20% parts discount", "24hr response time"], popular: true },
+    { name: "Platinum", price: "₹70,000/yr", features: ["Fortnightly maintenance", "Full preventive maintenance", "24/7 priority support", "Free parts replacement", "4hr emergency response"] },
   ];
 
   return (
@@ -181,13 +181,13 @@ const AMCPlans = () => {
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {plans.map((p, i) => (
             <GlassCard key={i} className={`p-8 text-center ${p.popular ? "border-primary/30 glow-gold" : ""}`}>
-              {p.popular && <span className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold mb-3">Recommended</span>}
+              {p.popular && <span className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold mb-3">Best Popular</span>}
               <h3 className="text-xl font-heading font-bold text-foreground mb-2">{p.name}</h3>
               <p className="text-gradient-gold text-3xl font-heading font-bold mb-6">{p.price}</p>
               <ul className="space-y-3 mb-6">
                 {p.features.map((f) => (
                   <li key={f} className="text-muted-foreground text-sm flex items-center gap-2 justify-center">
-                    <CheckCircle2 className="w-4 h-4 text-primary" /> {f}
+                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {f}
                   </li>
                 ))}
               </ul>
@@ -242,13 +242,13 @@ const FAQ = () => {
 const ContactSection = () => (
   <section className="py-20 border-t border-border">
     <div className="container mx-auto px-4 lg:px-8">
-      <SectionHeading badge="Get In Touch" title="Contact Us" subtitle="Ready to elevate your building? Reach out for a free consultation" />
+      <SectionHeading badge="Get In Touch" title="Let's Connect" subtitle="Ready to elevate your building? Reach out for a free consultation" />
       <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
         <div className="space-y-6">
           {[
-            { icon: <Phone className="w-5 h-5" />, title: "Call Us", info: "+91 123 456 7890" },
-            { icon: <Mail className="w-5 h-5" />, title: "Email Us", info: "info@xelevators.com" },
-            { icon: <MapPin className="w-5 h-5" />, title: "Visit Us", info: "123 Elevator Tower, Business District, Mumbai 400001" },
+            { icon: <Phone className="w-5 h-5" />, title: "Call Us", info: "+91 9844002026 / +91 6384961909" },
+            { icon: <Mail className="w-5 h-5" />, title: "Email Us", info: "info@xelevators.in" },
+            { icon: <MapPin className="w-5 h-5" />, title: "Visit Us", info: "Bangalore & Chennai, India" },
           ].map((c, i) => (
             <GlassCard key={i} className="p-5 flex items-start gap-4">
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">{c.icon}</div>
@@ -270,6 +270,7 @@ const ContactSection = () => (
               <option>Select Service</option>
               <option>Residential Elevator</option>
               <option>Commercial Elevator</option>
+              <option>Hospital Elevator</option>
               <option>AMC Plan</option>
               <option>Modernization</option>
             </select>

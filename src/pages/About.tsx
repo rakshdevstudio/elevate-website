@@ -1,45 +1,75 @@
+import { Link } from "react-router-dom";
 import { PageHero, SectionHeading, GlassCard, StatCard } from "@/components/ui/shared";
-import { Shield, Award, Users, Target, Building2, Heart, Lightbulb, CheckCircle2 } from "lucide-react";
+import { Shield, Award, Users, Target, Building2, Heart, Lightbulb, CheckCircle2, Pencil, Cog, Clock, Monitor, HeadphonesIcon, Home, Building, Hospital, Hotel, Factory } from "lucide-react";
 
 const values = [
-  { icon: <Shield className="w-6 h-6" />, title: "Safety First", desc: "Uncompromising commitment to the highest safety standards in every installation." },
-  { icon: <Lightbulb className="w-6 h-6" />, title: "Innovation", desc: "Continuously integrating cutting-edge technology into our elevator systems." },
-  { icon: <Heart className="w-6 h-6" />, title: "Customer Focus", desc: "Building lasting relationships through exceptional service and support." },
-  { icon: <Target className="w-6 h-6" />, title: "Excellence", desc: "Striving for perfection in design, engineering, and execution." },
+  { icon: <Pencil className="w-6 h-6" />, title: "Design Excellence", desc: "Every elevator is thoughtfully designed to complement the architecture and aesthetics of your space." },
+  { icon: <Cog className="w-6 h-6" />, title: "Engineering Precision", desc: "Precision-engineered components ensure smooth, safe, and reliable operation for years to come." },
+  { icon: <Clock className="w-6 h-6" />, title: "Disciplined Delivery", desc: "We commit to timelines and deliver projects on schedule without compromising quality." },
+  { icon: <Monitor className="w-6 h-6" />, title: "Digital Transparency", desc: "Real-time project tracking and IoT-enabled monitoring keep you informed at every step." },
+  { icon: <HeadphonesIcon className="w-6 h-6" />, title: "Lifetime Support Commitment", desc: "Our relationship doesn't end at installation — we provide dedicated support throughout the elevator's lifecycle." },
 ];
 
 const industries = [
-  "Residential Complexes", "Commercial Buildings", "Hospitals & Healthcare",
-  "Hotels & Hospitality", "Shopping Malls", "Educational Institutions",
-  "Government Buildings", "Industrial Facilities",
+  { icon: <Home className="w-6 h-6" />, label: "Residential Complexes" },
+  { icon: <Building className="w-6 h-6" />, label: "Commercial Complexes" },
+  { icon: <Hospital className="w-6 h-6" />, label: "Hospitals & Healthcare" },
+  { icon: <Hotel className="w-6 h-6" />, label: "Hotels & Malls" },
+  { icon: <Factory className="w-6 h-6" />, label: "Industrial Facilities" },
 ];
 
 const certifications = [
   "ISO 9001:2015 Quality Management",
-  "ISO 14001:2015 Environmental Management",
-  "CE Certified Elevator Systems",
+  "CE Marked Elevator Systems",
   "BIS Approved Components",
-  "NABL Accredited Testing",
+  "IoT Certified Systems",
+];
+
+const registrations = [
+  "Udyam Registration",
+  "MSME Registered",
+  "Startup India Certified",
+  "GST Registered",
+  "Suppliers: Versatile",
 ];
 
 const About = () => (
   <>
-    <PageHero badge="About Us" title="Building Trust Since 2010" subtitle="India's premier elevator company dedicated to transforming vertical mobility with world-class solutions." />
+    <PageHero badge="About Us" title="About X Elevators Pvt Ltd" subtitle="We are a next-generation elevator company focused on delivering safe, smart, and stylish vertical transportation solutions across India. Founded with a vision to redefine the elevator industry through quality engineering, digital transparency, and customer-first approach." />
+
+    <section className="py-20 border-t border-border">
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <StatCard value="75+" label="Projects Installed" icon={<Building2 className="w-7 h-7" />} />
+          <StatCard value="120+" label="Happy Customers" icon={<Users className="w-7 h-7" />} />
+          <StatCard value="99%" label="Automation" icon={<Target className="w-7 h-7" />} />
+        </div>
+      </div>
+    </section>
 
     <section className="py-20 border-t border-border">
       <div className="container mx-auto px-4 lg:px-8 max-w-4xl">
-        <SectionHeading badge="Our Story" title="The X Elevators Journey" subtitle="From a small workshop to one of India's most trusted elevator brands" />
+        <SectionHeading badge="Our Story" title="The Brand Story" />
         <div className="space-y-4 text-muted-foreground text-base leading-relaxed">
-          <p>Founded in 2010, X Elevators Pvt Ltd began with a simple yet powerful vision — to make premium vertical transportation accessible across India. What started as a team of 5 passionate engineers has grown into a full-fledged elevator company serving clients across 15+ states.</p>
-          <p>Over the years, we've installed 500+ elevators across residential, commercial, and institutional projects. Our commitment to quality, safety, and innovation has earned us the trust of architects, builders, and homeowners alike.</p>
+          <p>X Elevators was founded by <strong className="text-foreground">Mohammed Anas</strong> (Founder & CEO) and <strong className="text-foreground">Mohammed Asif</strong> (COO) with a bold mission — to bring world-class elevator solutions to every corner of India.</p>
+          <p>The letter "X" in our name represents everything we stand for:</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-6">
+            {["Excellence", "Exceeding Expectations", "Exclusivity", "Extraordinary"].map((x) => (
+              <GlassCard key={x} className="p-4 text-center">
+                <span className="text-primary font-heading font-bold text-lg">X</span>
+                <p className="text-foreground text-sm font-medium mt-1">{x}</p>
+              </GlassCard>
+            ))}
+          </div>
+          <p>From a passionate team of engineers to a growing company serving clients across multiple states, our journey has been driven by an unwavering commitment to quality, safety, and customer satisfaction.</p>
         </div>
       </div>
     </section>
 
     <section className="py-20 border-t border-border">
       <div className="container mx-auto px-4 lg:px-8">
-        <SectionHeading badge="Core Values" title="What Drives Us" />
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <SectionHeading badge="Core Values" title="What Defines Us" />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {values.map((v, i) => (
             <GlassCard key={i} className="p-6 text-center">
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mx-auto mb-4">{v.icon}</div>
@@ -53,23 +83,11 @@ const About = () => (
 
     <section className="py-20 border-t border-border">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-          <StatCard value="500+" label="Installations" icon={<Building2 className="w-7 h-7" />} />
-          <StatCard value="15+" label="Years Experience" icon={<Award className="w-7 h-7" />} />
-          <StatCard value="200+" label="Happy Clients" icon={<Users className="w-7 h-7" />} />
-          <StatCard value="15+" label="States Covered" icon={<Target className="w-7 h-7" />} />
-        </div>
-      </div>
-    </section>
-
-    <section className="py-20 border-t border-border">
-      <div className="container mx-auto px-4 lg:px-8">
-        <SectionHeading badge="Leadership" title="Meet Our Team" subtitle="Experienced professionals committed to elevating your experience" />
-        <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <SectionHeading badge="Leadership" title="Our Team" subtitle="Led by experienced professionals committed to elevating your experience" />
+        <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
           {[
-            { name: "Rajesh Kumar", role: "Founder & CEO", desc: "20+ years in elevator engineering" },
-            { name: "Priya Sharma", role: "Head of Operations", desc: "Expert in project management" },
-            { name: "Anil Mehta", role: "Chief Engineer", desc: "Specialist in smart elevator tech" },
+            { name: "Mohammed Anas", role: "Founder & CEO", desc: "Visionary leader with deep expertise in elevator engineering and business strategy." },
+            { name: "Mohammed Asif", role: "Chief Operating Officer", desc: "Operations expert ensuring seamless project delivery and customer satisfaction." },
           ].map((m, i) => (
             <GlassCard key={i} className="p-6 text-center">
               <div className="w-20 h-20 rounded-full bg-secondary flex items-center justify-center mx-auto mb-4">
@@ -81,16 +99,23 @@ const About = () => (
             </GlassCard>
           ))}
         </div>
+        <div className="text-center mt-8">
+          <GlassCard className="inline-block p-6">
+            <p className="text-gradient-gold text-3xl font-heading font-bold">25+</p>
+            <p className="text-muted-foreground text-sm">Team Members</p>
+          </GlassCard>
+        </div>
       </div>
     </section>
 
     <section className="py-20 border-t border-border">
       <div className="container mx-auto px-4 lg:px-8">
         <SectionHeading badge="Industries" title="Industries We Serve" />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
           {industries.map((ind) => (
-            <GlassCard key={ind} className="p-4 text-center">
-              <span className="text-foreground text-sm font-medium">{ind}</span>
+            <GlassCard key={ind.label} className="p-5 text-center">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary mx-auto mb-3">{ind.icon}</div>
+              <span className="text-foreground text-sm font-medium">{ind.label}</span>
             </GlassCard>
           ))}
         </div>
@@ -98,15 +123,45 @@ const About = () => (
     </section>
 
     <section className="py-20 border-t border-border">
-      <div className="container mx-auto px-4 lg:px-8 max-w-3xl">
-        <SectionHeading badge="Quality" title="Certifications" subtitle="Industry-recognized certifications ensuring the highest quality standards" />
-        <div className="space-y-3">
-          {certifications.map((cert) => (
-            <GlassCard key={cert} className="p-4 flex items-center gap-3">
-              <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
-              <span className="text-foreground text-sm font-medium">{cert}</span>
-            </GlassCard>
-          ))}
+      <div className="container mx-auto px-4 lg:px-8 max-w-5xl">
+        <SectionHeading badge="Quality" title="Certifications & Compliance" />
+        <div className="grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 className="text-foreground font-heading font-semibold mb-4 text-lg">Certifications & Standards</h3>
+            <div className="space-y-3">
+              {certifications.map((cert) => (
+                <GlassCard key={cert} className="p-4 flex items-center gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
+                  <span className="text-foreground text-sm font-medium">{cert}</span>
+                </GlassCard>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h3 className="text-foreground font-heading font-semibold mb-4 text-lg">Registration Details</h3>
+            <div className="space-y-3">
+              {registrations.map((reg) => (
+                <GlassCard key={reg} className="p-4 flex items-center gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
+                  <span className="text-foreground text-sm font-medium">{reg}</span>
+                </GlassCard>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section className="py-20 border-t border-border">
+      <div className="container mx-auto px-4 lg:px-8 text-center max-w-2xl">
+        <SectionHeading badge="Get Started" title="Ready to Elevate?" subtitle="Let our experts help you find the perfect elevator solution" />
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link to="/contact" className="bg-primary text-primary-foreground px-8 py-4 rounded-xl font-semibold text-base hover:bg-gold-light transition-all glow-gold">
+            Request Free Site Inspection
+          </Link>
+          <a href="https://wa.me/919844002026" target="_blank" rel="noopener noreferrer" className="border border-primary/30 text-foreground px-8 py-4 rounded-xl font-semibold text-base hover:bg-primary/10 transition-all">
+            Chat with Engineer on WhatsApp
+          </a>
         </div>
       </div>
     </section>
