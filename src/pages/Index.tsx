@@ -481,6 +481,7 @@ const ContactSection = () => (
 const Index = () => (
   <>
     <Hero />
+    <TrustBadges />
     <MissionVision />
     <ImpactMetrics />
     <IndustriesServed />
