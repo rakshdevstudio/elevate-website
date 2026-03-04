@@ -1,168 +1,274 @@
 import { Link } from "react-router-dom";
-import { PageHero, SectionHeading, GlassCard, SectionDivider } from "@/components/ui/shared";
-import { Building2, Home, CheckCircle2, ChevronRight, CircleDot } from "lucide-react";
+import { SectionHeading, GlassCard, SectionDivider, ScrollReveal, FloatingParticles } from "@/components/ui/shared";
+import { Building2, Home, CheckCircle2, ChevronRight, CircleDot, Heart, Stethoscope, Package, Sparkles, ArrowRight, Layers, PanelTop, Lamp, Monitor, Grip, Square } from "lucide-react";
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
-const elevatorCategories = [
+const tabOptions = ["MRL Based Elevators", "Full Structure Elevator"];
+
+const elevatorProducts = [
   {
-    icon: <Home className="w-8 h-8" />,
     title: "Residential Elevators",
-    desc: "Elegant and space-efficient elevators designed for homes, villas, and apartment complexes.",
-    features: ["MRL Technology", "Low Noise Operation", "Compact Design", "Energy Efficient", "Customizable Interiors", "Safety Certified"],
+    desc: "Designed for modern homes and apartments, our residential elevators blend seamlessly into your living space with whisper-quiet operation and premium finishes that complement any interior aesthetic.",
+    features: ["Smart Home Integration", "Silent Operation", "Compact Shaft Design", "Luxury Cabin Finish"],
+    image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80",
+    accent: "from-primary/20 to-gold-light/10",
   },
   {
-    icon: <Building2 className="w-8 h-8" />,
     title: "Commercial Elevators",
-    desc: "High-capacity, high-speed elevators for offices, shopping malls, and commercial buildings.",
-    features: ["High Speed", "Large Capacity", "Heavy Duty", "Smart Controls", "Group Management", "Fire Rated"],
+    desc: "Engineered for high-traffic environments, our commercial elevators deliver exceptional performance with intelligent group management systems and energy-efficient drives.",
+    features: ["High Speed Transport", "Large Capacity", "Advanced Control Systems", "Energy Efficient Drive"],
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
+    accent: "from-[hsl(210_60%_40%/0.15)] to-primary/10",
   },
   {
-    icon: <Building2 className="w-8 h-8" />,
     title: "Hospital Elevators",
-    desc: "Specially designed elevators for hospitals with stretcher-compatible cabins and smooth operation.",
-    features: ["Stretcher Compatible", "Smooth Ride", "Emergency Mode", "Anti-Bacterial Finish", "Wide Doors", "Battery Backup"],
+    desc: "Purpose-built for healthcare environments with stretcher-compatible cabins, ultra-smooth ride technology, and antibacterial interiors that meet the strictest medical standards.",
+    features: ["Stretcher Compatible", "Smooth Ride Technology", "Antibacterial Interiors", "Emergency Backup Systems"],
+    image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80",
+    accent: "from-[hsl(170_50%_40%/0.12)] to-primary/10",
   },
   {
-    icon: <CircleDot className="w-8 h-8" />,
     title: "Capsule Elevators",
-    desc: "Panoramic glass elevators that add a stunning visual element to your building's architecture.",
-    features: ["Glass Cabin", "Panoramic View", "Architectural Design", "LED Lighting", "Custom Shapes", "Weather Resistant"],
+    desc: "A stunning architectural statement piece — panoramic glass elevators that transform vertical transportation into a breathtaking visual experience for prestigious buildings.",
+    features: ["Panoramic Glass Design", "Architectural Aesthetics", "Scenic Viewing Experience", "Premium Materials"],
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+    accent: "from-primary/15 to-[hsl(280_40%_40%/0.1)]",
   },
 ];
 
 const finishes = [
-  { name: "Basic", price: "₹5-6 Lakhs", features: ["Standard SS finish", "Manual door", "Basic lighting", "Standard control panel"] },
-  { name: "Standard", price: "₹5-8 Lakhs", features: ["Hairline SS finish", "Automatic door", "LED lighting", "Digital display", "Designer flooring"], popular: true },
-  { name: "Premium", price: "₹10-20 Lakhs", features: ["Mirror/Etched SS finish", "Glass cabin options", "Designer false ceiling", "Touchscreen COP", "Customized interiors"] },
+  {
+    name: "Basic",
+    price: "₹5–6 Lakhs",
+    features: ["Standard SS finish", "Manual door", "Basic lighting", "Standard control panel"],
+  },
+  {
+    name: "Standard",
+    price: "₹8–9 Lakhs",
+    features: ["Hairline SS finish", "Automatic door", "LED lighting", "Digital display", "Designer flooring"],
+    popular: true,
+  },
+  {
+    name: "Premium",
+    price: "₹10–20 Lakhs",
+    features: ["Mirror/Etched SS finish", "Glass cabin options", "Designer false ceiling", "Touchscreen COP", "Customized interiors"],
+  },
 ];
 
 const packages = [
   {
-    name: "Budget Choice",
+    name: "Builder Choice",
     desc: "Perfect for residential buildings looking for quality at an affordable price.",
+    icon: <Building2 className="w-6 h-6" />,
     specs: ["4-6 Persons Capacity", "MRL Technology", "Standard SS Finish", "Manual/Auto Door", "Basic COP", "Standard Lighting"],
   },
   {
-    name: "Luxury Premium Selection",
+    name: "Luxury Home Choice",
     desc: "Premium experience with top-of-the-line finishes and smart features.",
+    icon: <Heart className="w-6 h-6" />,
     specs: ["6-13 Persons Capacity", "VVVF Drive", "Mirror/Etched SS", "Automatic Door", "Touchscreen COP", "Designer Cabin", "IoT Enabled"],
     popular: true,
   },
   {
     name: "Hospital Standard Choice",
     desc: "Compliant with hospital standards for safe and efficient patient transportation.",
+    icon: <Stethoscope className="w-6 h-6" />,
     specs: ["Stretcher Size Cabin", "Smooth VVVF Drive", "Anti-Bacterial Finish", "Wide Auto Doors", "Emergency Battery", "Fire Rated"],
   },
 ];
 
 const designCategories = [
-  "Door Design",
-  "Cabin Design",
-  "False Ceiling Design",
-  "COP/LOP Design",
-  "Display Types",
-  "Hand Rails Types",
-  "Flooring Types",
+  { name: "Door Design", image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&q=80", icon: <Layers className="w-5 h-5" /> },
+  { name: "Cabin Design", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=80", icon: <Square className="w-5 h-5" /> },
+  { name: "False Ceiling", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=80", icon: <Lamp className="w-5 h-5" /> },
+  { name: "COP / LOP Panels", image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&q=80", icon: <PanelTop className="w-5 h-5" /> },
+  { name: "Display Types", image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80", icon: <Monitor className="w-5 h-5" /> },
+  { name: "Hand Rails", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=80", icon: <Grip className="w-5 h-5" /> },
+  { name: "Flooring", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=80", icon: <Sparkles className="w-5 h-5" /> },
 ];
 
-const tabOptions = ["MRL Based Elevators", "Full Structure Elevator"];
+/* ───────────── PRODUCT SHOWCASE SECTION ───────────── */
+const ProductShowcase = ({ product, index }: { product: typeof elevatorProducts[0]; index: number }) => {
+  const isReversed = index % 2 !== 0;
 
+  return (
+    <section className="py-16 lg:py-24 relative">
+      {/* Background accent glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse 50% 50% at ${isReversed ? '30%' : '70%'} 50%, hsl(43 66% 52% / 0.03), transparent 70%)`,
+        }}
+      />
+
+      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+        <div className={`flex flex-col ${isReversed ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-10 lg:gap-16 items-center max-w-6xl mx-auto`}>
+          {/* Image */}
+          <ScrollReveal direction={isReversed ? 'right' : 'left'} className="lg:w-1/2">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.5 }}
+              className="relative group rounded-2xl overflow-hidden"
+            >
+              <div className={`absolute inset-0 bg-gradient-to-br ${product.accent} opacity-60 z-10 pointer-events-none`} />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent z-10 pointer-events-none" />
+              <img
+                src={product.image}
+                alt={product.title}
+                className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-110"
+                loading="lazy"
+              />
+              {/* Corner glow */}
+              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/10 rounded-full blur-[40px] z-0" />
+              {/* Border glow on hover */}
+              <div className="absolute inset-0 border border-primary/0 group-hover:border-primary/15 rounded-2xl transition-all duration-500 z-20 pointer-events-none" />
+            </motion.div>
+          </ScrollReveal>
+
+          {/* Text */}
+          <ScrollReveal direction={isReversed ? 'left' : 'right'} className="lg:w-1/2">
+            <div>
+              <span className="inline-block px-4 py-1.5 rounded-full bg-primary/8 text-primary text-xs font-semibold tracking-[0.15em] uppercase mb-5 border border-primary/10">
+                0{index + 1}
+              </span>
+              <h3 className="text-3xl lg:text-4xl font-heading font-bold text-foreground mb-4 tracking-tight leading-tight">
+                {product.title}
+              </h3>
+              <p className="text-muted-foreground text-base leading-relaxed mb-8 opacity-80">
+                {product.desc}
+              </p>
+              <div className="space-y-3.5 mb-8">
+                {product.features.map((f, i) => (
+                  <motion.div
+                    key={f}
+                    initial={{ opacity: 0, x: -15 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 + i * 0.08, duration: 0.5 }}
+                    className="flex items-center gap-3"
+                  >
+                    <div className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
+                    </div>
+                    <span className="text-foreground/90 text-sm font-medium">{f}</span>
+                  </motion.div>
+                ))}
+              </div>
+              <Link
+                to="/contact"
+                className="group/btn inline-flex items-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-8 py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.3)] hover:scale-105 active:scale-100"
+              >
+                Get a Quote <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </ScrollReveal>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ───────────── MAIN PAGE ───────────── */
 const Products = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
     <>
-      <section className="pt-28 pb-16 lg:pt-36 lg:pb-20 relative overflow-hidden">
+      {/* ─── HERO ─── */}
+      <section className="pt-32 pb-20 lg:pt-40 lg:pb-28 relative overflow-hidden">
         <div className="absolute inset-0 bg-navy-gradient" />
+        {/* Background image */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px]" />
+          <img
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80"
+            alt=""
+            className="w-full h-full object-cover opacity-15"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
         </div>
+        {/* Light orbs */}
+        <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[180px]" />
+        <div className="absolute bottom-1/3 left-1/4 w-[400px] h-[400px] bg-[hsl(210_60%_40%/0.04)] rounded-full blur-[140px]" />
+
+        <FloatingParticles count={15} />
+
         <div className="container mx-auto px-4 lg:px-8 text-center relative z-10">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
-            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-semibold tracking-[0.15em] uppercase mb-4 border border-primary/10">
+          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
+            <span className="inline-block px-5 py-2 rounded-full bg-primary/8 text-primary text-xs font-semibold tracking-[0.2em] uppercase mb-6 border border-primary/12">
               Our Products
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-foreground mb-6 tracking-tight">Our Products</h1>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
-              Discover our range of premium elevator solutions engineered for safety, performance, and elegance.
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-foreground mb-6 tracking-tight leading-[1.05] text-shadow-hero">
+              Our Products
+            </h1>
+            <p className="text-muted-foreground text-lg lg:text-xl max-w-2xl mx-auto mb-10 leading-relaxed opacity-80">
+              Discover our range of premium elevator solutions engineered for safety, performance, and architectural elegance.
             </p>
-            <div className="flex justify-center gap-2">
+            <div className="flex justify-center gap-3">
               {tabOptions.map((tab, i) => (
-                <button
+                <motion.button
                   key={tab}
                   onClick={() => setActiveTab(i)}
-                  className={`px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.97 }}
+                  className={`px-7 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
                     activeTab === i
-                      ? "bg-gradient-to-r from-primary to-gold-light text-primary-foreground shadow-[0_0_20px_hsl(43_66%_52%/0.2)]"
-                      : "bg-secondary/30 text-muted-foreground hover:text-foreground border border-border/50"
+                      ? "bg-gradient-to-r from-primary to-gold-light text-primary-foreground shadow-[0_0_30px_hsl(43_66%_52%/0.25)]"
+                      : "glass-card text-muted-foreground hover:text-foreground hover:border-primary/15"
                   }`}
                 >
                   {tab}
-                </button>
+                </motion.button>
               ))}
             </div>
           </motion.div>
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
       </section>
 
-      <section className="py-20 relative">
-        <SectionDivider />
-        <div className="container mx-auto px-4 lg:px-8 pt-8">
+      {/* ─── ELEVATOR SHOWCASE ─── */}
+      <div>
+        <div className="container mx-auto px-4 lg:px-8 pt-12">
           <SectionHeading badge="Categories" title="Elevator Solutions" subtitle="Choose the right elevator for your building type" />
-          <div className="space-y-8 max-w-5xl mx-auto">
-            {elevatorCategories.map((cat, i) => (
-              <GlassCard key={i} className="p-8" premium delay={i * 0.1}>
-                <div className="flex flex-col lg:flex-row gap-8">
-                  <div className="lg:w-1/3">
-                    <div className="w-full aspect-[4/3] bg-gradient-to-br from-secondary/50 to-navy-light/30 rounded-xl flex items-center justify-center text-primary border border-border/30">
-                      {cat.icon}
-                    </div>
-                  </div>
-                  <div className="lg:w-2/3">
-                    <h3 className="text-2xl font-heading font-bold text-foreground mb-2">{cat.title}</h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-4">{cat.desc}</p>
-                    <div className="grid grid-cols-2 gap-2 mb-4">
-                      {cat.features.map((f) => (
-                        <div key={f} className="flex items-center gap-2 text-muted-foreground text-sm">
-                          <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {f}
-                        </div>
-                      ))}
-                    </div>
-                    <Link to="/contact" className="inline-flex items-center gap-1 text-primary text-sm font-semibold hover:gap-2 transition-all duration-300">
-                      Learn More <ChevronRight className="w-4 h-4" />
-                    </Link>
-                  </div>
-                </div>
-              </GlassCard>
-            ))}
-          </div>
         </div>
-      </section>
+        {elevatorProducts.map((product, i) => (
+          <ProductShowcase key={i} product={product} index={i} />
+        ))}
+      </div>
 
-      <section className="py-20 relative">
-        <SectionDivider />
-        <div className="container mx-auto px-4 lg:px-8 pt-8">
-          <SectionHeading badge="Pricing" title="Finishes & Pricing" subtitle="Choose from our range of elevator finishes" />
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <SectionDivider />
+
+      {/* ─── FINISHES & PRICING ─── */}
+      <section className="py-24 lg:py-32 section-glow relative">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_40%,hsl(43_66%_52%/0.04),transparent)]" />
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
+          <SectionHeading badge="Pricing" title="Finishes & Pricing" subtitle="Choose from our range of elevator finishes to match your budget and style" />
+          <div className="grid md:grid-cols-3 gap-8 lg:gap-10 max-w-5xl mx-auto">
             {finishes.map((f, i) => (
-              <GlassCard key={i} className={`p-8 text-center relative overflow-hidden ${f.popular ? "border-primary/25 glow-gold-strong" : ""}`} premium={!!f.popular} delay={i * 0.1}>
+              <GlassCard
+                key={i}
+                className={`p-8 lg:p-10 text-center relative overflow-hidden ${f.popular ? "border-primary/20 glow-gold-strong" : ""}`}
+                premium={!!f.popular}
+                delay={i * 0.12}
+                tilt
+              >
                 {f.popular && (
                   <>
                     <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
-                    <span className="inline-block px-3 py-1 rounded-full bg-primary/15 text-primary text-xs font-semibold mb-3 border border-primary/15">Most Popular</span>
+                    <div className="absolute inset-0 bg-gradient-to-b from-primary/6 to-transparent pointer-events-none" />
+                    <span className="relative inline-block px-4 py-1.5 rounded-full bg-primary/12 text-primary text-xs font-semibold mb-4 border border-primary/15">Most Popular</span>
                   </>
                 )}
-                <h3 className="text-xl font-heading font-bold text-foreground mb-2">{f.name}</h3>
-                <p className="text-gradient-gold text-2xl font-heading font-bold mb-6">{f.price}</p>
-                <ul className="space-y-3 mb-6">
+                <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-3">{f.name}</h3>
+                <p className="text-gradient-gold text-3xl lg:text-4xl font-heading font-extrabold mb-8">{f.price}</p>
+                <ul className="space-y-3.5 mb-8">
                   {f.features.map((feat) => (
-                    <li key={feat} className="text-muted-foreground text-sm flex items-center gap-2 justify-center">
+                    <li key={feat} className="text-muted-foreground text-sm flex items-center gap-2.5 justify-center">
                       <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {feat}
                     </li>
                   ))}
                 </ul>
-                <Link to="/contact" className="block w-full py-3 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-300 hover:shadow-[0_0_20px_hsl(43_66%_52%/0.2)]">
+                <Link to="/contact" className="block w-full py-3.5 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-300 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.25)]">
                   Get Quote
                 </Link>
               </GlassCard>
@@ -171,50 +277,88 @@ const Products = () => {
         </div>
       </section>
 
-      <section className="py-20 section-glow relative">
-        <SectionDivider />
-        <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
+      <SectionDivider />
+
+      {/* ─── CURATED PACKAGES ─── */}
+      <section className="py-24 lg:py-32 relative section-mesh">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_40%_50%,hsl(43_66%_52%/0.03),transparent)]" />
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <SectionHeading badge="Packages" title="Curated Packages" subtitle="Pre-configured elevator packages tailored for specific needs" />
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 lg:gap-10 max-w-5xl mx-auto">
             {packages.map((pkg, i) => (
-              <GlassCard key={i} className={`p-8 relative overflow-hidden ${pkg.popular ? "border-primary/25 glow-gold-strong" : ""}`} premium={!!pkg.popular} delay={i * 0.1}>
+              <GlassCard
+                key={i}
+                className={`p-8 lg:p-10 relative overflow-hidden ${pkg.popular ? "border-primary/20 glow-gold-strong" : ""}`}
+                premium={!!pkg.popular}
+                delay={i * 0.1}
+                tilt
+              >
                 {pkg.popular && (
                   <>
                     <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
                     <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
-                    <span className="relative inline-block px-3 py-1 rounded-full bg-primary/15 text-primary text-xs font-semibold mb-3 border border-primary/15">Popular</span>
                   </>
                 )}
-                <h3 className="text-xl font-heading font-bold text-foreground mb-2 relative">{pkg.name}</h3>
-                <p className="text-muted-foreground text-sm mb-4 relative">{pkg.desc}</p>
-                <ul className="space-y-2 mb-6 relative">
-                  {pkg.specs.map((s) => (
-                    <li key={s} className="text-muted-foreground text-sm flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {s}
-                    </li>
-                  ))}
-                </ul>
-                <Link to="/contact" className="relative block w-full py-3 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-300 text-center hover:shadow-[0_0_20px_hsl(43_66%_52%/0.2)]">
-                  Enquire Now
-                </Link>
+                <div className="relative">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center text-primary mb-5 icon-glow">
+                    {pkg.icon}
+                  </div>
+                  {pkg.popular && (
+                    <span className="inline-block px-3 py-1 rounded-full bg-primary/12 text-primary text-xs font-semibold mb-3 border border-primary/15">Popular</span>
+                  )}
+                  <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-2">{pkg.name}</h3>
+                  <p className="text-muted-foreground text-sm mb-6 opacity-75">{pkg.desc}</p>
+                  <ul className="space-y-3 mb-8">
+                    {pkg.specs.map((s) => (
+                      <li key={s} className="text-muted-foreground text-sm flex items-center gap-2.5">
+                        <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {s}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link to="/contact" className="block w-full py-3.5 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-300 text-center hover:shadow-[0_0_30px_hsl(43_66%_52%/0.25)]">
+                    Enquire Now
+                  </Link>
+                </div>
               </GlassCard>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20 relative">
-        <SectionDivider />
-        <div className="container mx-auto px-4 lg:px-8 pt-8">
+      <SectionDivider />
+
+      {/* ─── DESIGN CUSTOMIZATION GALLERY ─── */}
+      <section className="py-24 lg:py-32 section-glow relative">
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <SectionHeading badge="Customization" title="Design Customization" subtitle="Personalize every detail of your elevator" />
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7 max-w-6xl mx-auto">
             {designCategories.map((cat, i) => (
-              <GlassCard key={cat} className="p-4" premium delay={i * 0.06}>
-                <div className="aspect-square bg-gradient-to-br from-secondary/30 to-navy-light/20 rounded-xl mb-3 flex items-center justify-center border border-border/30">
-                  <span className="text-muted-foreground text-xs">Gallery</span>
-                </div>
-                <h4 className="text-foreground text-sm font-heading font-semibold text-center">{cat}</h4>
-              </GlassCard>
+              <ScrollReveal key={cat.name} delay={i * 0.06}>
+                <motion.div
+                  whileHover={{ y: -8 }}
+                  transition={{ duration: 0.35 }}
+                  className="glass-card-premium rounded-2xl overflow-hidden group cursor-pointer"
+                >
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={cat.image}
+                      alt={cat.name}
+                      className="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-115"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+                    <div className="absolute inset-0 border border-primary/0 group-hover:border-primary/15 transition-all duration-500" />
+                    {/* Hover glow */}
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-24 bg-primary/15 rounded-full blur-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  </div>
+                  <div className="p-5 flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0 group-hover:bg-primary/20 transition-colors duration-300">
+                      {cat.icon}
+                    </div>
+                    <h4 className="text-foreground text-sm font-heading font-semibold">{cat.name}</h4>
+                  </div>
+                </motion.div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
