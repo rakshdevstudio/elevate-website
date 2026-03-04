@@ -12,6 +12,7 @@ const AdminLeads = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [sourceFilter, setSourceFilter] = useState<string>("all");
   const [visitModal, setVisitModal] = useState<{ leadId: string; leadName: string; leadPhone: string } | null>(null);
 
   useEffect(() => {
