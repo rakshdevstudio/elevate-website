@@ -137,6 +137,8 @@ const Products = () => {
         <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background via-background/80 to-transparent" />
       </section>
 
+      <TrustBadges />
+
       {/* ELEVATOR SHOWCASE */}
       <div>
         <div className="container mx-auto px-4 lg:px-8 pt-12">
