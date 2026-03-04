@@ -116,6 +116,8 @@ const Careers = () => {
           </GlassCard>
         </div>
       </section>
+
+      <CTABanner variant="whatsapp" />
     </>
   );
 };
