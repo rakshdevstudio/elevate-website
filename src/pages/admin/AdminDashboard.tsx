@@ -12,6 +12,7 @@ import { toast } from "@/hooks/use-toast";
 
 const AdminDashboard = () => {
   const [leads, setLeads] = useState<Tables<"leads">[]>([]);
+  const [siteVisits, setSiteVisits] = useState<(Tables<"site_visits"> & { lead_name?: string })[]>([]);
   const [loading, setLoading] = useState(true);
   const [notifications, setNotifications] = useState<Tables<"leads">[]>([]);
 
