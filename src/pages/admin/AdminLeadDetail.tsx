@@ -88,12 +88,17 @@ const AdminLeadDetail = () => {
   };
 
   const scheduleVisit = async () => {
-    if (!visitDate || !id) return;
+    if (!visitDate || !id || !lead) return;
     const { data } = await supabase.from("site_visits").insert({
       lead_id: id, scheduled_date: visitDate, scheduled_time: visitTime, engineer_name: visitEngineer, address: visitAddress,
+      customer_name: lead.name, phone: lead.phone,
     }).select().single();
     if (data) setSiteVisits((prev) => [data, ...prev]);
     await supabase.from("lead_history").insert({ lead_id: id, action: "visit_scheduled", new_value: visitDate });
+    // Auto-update lead status to inspection_scheduled
+    await supabase.from("leads").update({ status: "inspection_scheduled" }).eq("id", id);
+    await supabase.from("lead_history").insert({ lead_id: id, action: "status_change", old_value: lead.status, new_value: "inspection_scheduled" });
+    setLead((prev) => prev ? { ...prev, status: "inspection_scheduled" } : null);
     setVisitDate(""); setVisitTime(""); setVisitEngineer(""); setVisitAddress("");
   };
 

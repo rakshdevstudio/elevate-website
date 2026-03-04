@@ -145,10 +145,12 @@ export type Database = {
         Row: {
           address: string | null
           created_at: string
+          customer_name: string | null
           engineer_name: string | null
           id: string
           lead_id: string
           notes: string | null
+          phone: string | null
           scheduled_date: string
           scheduled_time: string | null
           status: string
@@ -157,10 +159,12 @@ export type Database = {
         Insert: {
           address?: string | null
           created_at?: string
+          customer_name?: string | null
           engineer_name?: string | null
           id?: string
           lead_id: string
           notes?: string | null
+          phone?: string | null
           scheduled_date: string
           scheduled_time?: string | null
           status?: string
@@ -169,10 +173,12 @@ export type Database = {
         Update: {
           address?: string | null
           created_at?: string
+          customer_name?: string | null
           engineer_name?: string | null
           id?: string
           lead_id?: string
           notes?: string | null
+          phone?: string | null
           scheduled_date?: string
           scheduled_time?: string | null
           status?: string

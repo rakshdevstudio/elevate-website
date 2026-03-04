@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Users, UserPlus, CalendarDays, TrendingUp, ArrowRight, Phone, Building2,
-  Bell, Star, MessageSquare, DollarSign,
+  Bell, Star, MessageSquare, DollarSign, MapPin,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
@@ -12,19 +12,26 @@ import { toast } from "@/hooks/use-toast";
 
 const AdminDashboard = () => {
   const [leads, setLeads] = useState<Tables<"leads">[]>([]);
+  const [siteVisits, setSiteVisits] = useState<(Tables<"site_visits"> & { lead_name?: string })[]>([]);
   const [loading, setLoading] = useState(true);
   const [notifications, setNotifications] = useState<Tables<"leads">[]>([]);
 
   useEffect(() => {
-    const fetchLeads = async () => {
-      const { data } = await supabase
-        .from("leads")
-        .select("*")
-        .order("created_at", { ascending: false });
-      setLeads(data || []);
+    const fetchData = async () => {
+      const [leadsRes, visitsRes] = await Promise.all([
+        supabase.from("leads").select("*").order("created_at", { ascending: false }),
+        supabase.from("site_visits").select("*").eq("status", "scheduled").order("scheduled_date", { ascending: true }),
+      ]);
+      setLeads(leadsRes.data || []);
+      if (visitsRes.data) {
+        const leadIds = [...new Set(visitsRes.data.map((v) => v.lead_id))];
+        const { data: leadsData } = await supabase.from("leads").select("id, name").in("id", leadIds);
+        const leadMap = new Map(leadsData?.map((l) => [l.id, l.name]) || []);
+        setSiteVisits(visitsRes.data.map((v) => ({ ...v, lead_name: (v as any).customer_name || leadMap.get(v.lead_id) || "Unknown" })));
+      }
       setLoading(false);
     };
-    fetchLeads();
+    fetchData();
 
     // Real-time subscription for new leads
     const channel = supabase
@@ -57,11 +64,23 @@ const AdminDashboard = () => {
   const conversionRate = totalLeads > 0 ? ((converted / totalLeads) * 100).toFixed(1) : "0";
   const totalValue = leads.reduce((sum, l) => sum + (l.estimated_value || 0), 0);
 
+  // Visit stats
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekEnd.getDate() + 7);
+  const visitsThisWeek = siteVisits.filter((v) => {
+    const d = new Date(v.scheduled_date);
+    return d >= weekStart && d < weekEnd;
+  }).length;
+
+  const upcomingVisits = siteVisits
+    .filter((v) => new Date(v.scheduled_date) >= new Date(todayStart.toISOString().split("T")[0]))
+    .slice(0, 5);
+
   const stats = [
     { label: "Total Leads", value: totalLeads, icon: Users, color: "from-primary/20 to-primary/5" },
     { label: "Today", value: leadsToday, icon: UserPlus, color: "from-emerald-500/20 to-emerald-500/5" },
     { label: "This Week", value: leadsWeek, icon: CalendarDays, color: "from-blue-500/20 to-blue-500/5" },
-    { label: "This Month", value: leadsMonth, icon: TrendingUp, color: "from-purple-500/20 to-purple-500/5" },
+    { label: "Visits This Week", value: visitsThisWeek, icon: MapPin, color: "from-orange-500/20 to-orange-500/5" },
     { label: "Conversion Rate", value: `${conversionRate}%`, icon: Star, color: "from-amber-500/20 to-amber-500/5" },
     { label: "Pipeline Value", value: totalValue > 0 ? `₹${(totalValue / 100000).toFixed(1)}L` : "₹0", icon: DollarSign, color: "from-cyan-500/20 to-cyan-500/5" },
   ];
@@ -188,6 +207,35 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Upcoming Site Visits */}
+      {upcomingVisits.length > 0 && (
+        <div className="glass-card rounded-2xl p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-foreground font-heading font-semibold text-sm">📅 Upcoming Site Visits</h3>
+            <Link to="/admin/visits" className="text-primary text-xs font-medium flex items-center gap-1 hover:gap-2 transition-all">
+              View Calendar <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+            {upcomingVisits.map((visit) => (
+              <Link key={visit.id} to={`/admin/lead/${visit.lead_id}`} className="p-3 rounded-xl bg-secondary/15 hover:bg-secondary/25 transition-colors">
+                <p className="text-foreground text-xs font-medium truncate">{visit.lead_name}</p>
+                <div className="flex items-center gap-1 text-muted-foreground text-[10px] mt-1">
+                  <CalendarDays className="w-3 h-3" />
+                  {new Date(visit.scheduled_date).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+                  {visit.scheduled_time && <span className="ml-1">{visit.scheduled_time}</span>}
+                </div>
+                {visit.engineer_name && (
+                  <div className="flex items-center gap-1 text-muted-foreground text-[10px] mt-0.5">
+                    <MapPin className="w-3 h-3" />{visit.engineer_name}
+                  </div>
+                )}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

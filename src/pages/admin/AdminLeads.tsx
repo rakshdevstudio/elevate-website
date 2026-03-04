@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Search, Filter, Phone, Mail, Building2, ArrowRight, ChevronDown, Download, MessageSquare, Star } from "lucide-react";
+import { Search, Filter, Phone, Mail, Building2, ArrowRight, ChevronDown, Download, MessageSquare, Star, CalendarPlus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables, Enums } from "@/integrations/supabase/types";
 import { statusColors, statusLabels, allStatuses, calculateLeadScore, getScoreColor } from "@/lib/lead-utils";
+import ScheduleVisitModal from "@/components/admin/ScheduleVisitModal";
 
 const AdminLeads = () => {
   const [leads, setLeads] = useState<Tables<"leads">[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [visitModal, setVisitModal] = useState<{ leadId: string; leadName: string; leadPhone: string } | null>(null);
 
   useEffect(() => {
     const fetchLeads = async () => {
@@ -119,6 +121,13 @@ const AdminLeads = () => {
                 </div>
 
                 <div className="flex items-center gap-2">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setVisitModal({ leadId: lead.id, leadName: lead.name, leadPhone: lead.phone }); }}
+                    className="p-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                    title="Schedule Site Visit"
+                  >
+                    <CalendarPlus className="w-3.5 h-3.5" />
+                  </button>
                   <a href={`https://wa.me/${lead.phone.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition-colors" onClick={(e) => e.stopPropagation()}>
                     <MessageSquare className="w-3.5 h-3.5" />
                   </a>
@@ -146,6 +155,19 @@ const AdminLeads = () => {
         })}
         {filtered.length === 0 && <p className="text-muted-foreground text-sm text-center py-12">No leads match your search.</p>}
       </div>
+
+      {visitModal && (
+        <ScheduleVisitModal
+          leadId={visitModal.leadId}
+          leadName={visitModal.leadName}
+          leadPhone={visitModal.leadPhone}
+          onClose={() => setVisitModal(null)}
+          onScheduled={() => {
+            // Refresh leads to reflect status change
+            supabase.from("leads").select("*").order("created_at", { ascending: false }).then(({ data }) => setLeads(data || []));
+          }}
+        />
+      )}
     </div>
   );
 };
