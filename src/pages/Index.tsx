@@ -263,7 +263,7 @@ const ContactSection = () => (
           ))}
         </div>
         </ScrollReveal>
-        <GlassCard className="p-8" hover={false}>
+        <ScrollReveal direction="right">
           <form className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <input placeholder="Full Name" className="bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors" />
