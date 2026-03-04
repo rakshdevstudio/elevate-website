@@ -121,6 +121,13 @@ const AdminLeads = () => {
                 </div>
 
                 <div className="flex items-center gap-2">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setVisitModal({ leadId: lead.id, leadName: lead.name, leadPhone: lead.phone }); }}
+                    className="p-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                    title="Schedule Site Visit"
+                  >
+                    <CalendarPlus className="w-3.5 h-3.5" />
+                  </button>
                   <a href={`https://wa.me/${lead.phone.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition-colors" onClick={(e) => e.stopPropagation()}>
                     <MessageSquare className="w-3.5 h-3.5" />
                   </a>
