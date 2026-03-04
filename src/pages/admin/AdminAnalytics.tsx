@@ -6,7 +6,7 @@ import {
 } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
-import { STATUS_CHART_COLORS, statusLabels, pipelineStatuses } from "@/lib/lead-utils";
+import { STATUS_CHART_COLORS, SOURCE_CHART_COLORS, statusLabels, pipelineStatuses, sourceLabels } from "@/lib/lead-utils";
 
 const tooltipStyle = {
   contentStyle: {
