@@ -87,3 +87,27 @@ export function getScoreBg(score: number): string {
   if (score >= 40) return "bg-amber-500/15 border-amber-500/20";
   return "bg-red-500/15 border-red-500/20";
 }
+
+export const sourceLabels: Record<string, string> = {
+  website_form: "Website",
+  whatsapp: "WhatsApp",
+  phone: "Phone",
+  referral: "Referral",
+  walk_in: "Walk-in",
+  other: "Other",
+  meta_ads: "Meta Ads",
+  google_ads: "Google Ads",
+  manual_entry: "Manual Entry",
+};
+
+export const SOURCE_CHART_COLORS: Record<string, string> = {
+  website_form: "#3b82f6",
+  whatsapp: "#22c55e",
+  phone: "#f59e0b",
+  referral: "#a855f7",
+  walk_in: "#06b6d4",
+  other: "#6b7280",
+  meta_ads: "#3b5998",
+  google_ads: "#ea4335",
+  manual_entry: "#8b5cf6",
+};

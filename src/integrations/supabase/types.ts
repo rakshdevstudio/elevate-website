@@ -234,6 +234,9 @@ export type Database = {
         | "referral"
         | "walk_in"
         | "other"
+        | "meta_ads"
+        | "google_ads"
+        | "manual_entry"
       lead_status:
         | "new"
         | "contacted"
@@ -377,6 +380,9 @@ export const Constants = {
         "referral",
         "walk_in",
         "other",
+        "meta_ads",
+        "google_ads",
+        "manual_entry",
       ],
       lead_status: [
         "new",

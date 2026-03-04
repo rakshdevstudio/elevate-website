@@ -6,7 +6,7 @@ import {
 } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
-import { STATUS_CHART_COLORS, statusLabels, pipelineStatuses } from "@/lib/lead-utils";
+import { STATUS_CHART_COLORS, SOURCE_CHART_COLORS, statusLabels, pipelineStatuses, sourceLabels } from "@/lib/lead-utils";
 
 const tooltipStyle = {
   contentStyle: {
@@ -77,10 +77,14 @@ const AdminAnalytics = () => {
   // Source distribution
   const sourceMap = new Map<string, number>();
   leads.forEach((l) => {
-    const src = l.lead_source.replace(/_/g, " ");
+    const src = l.lead_source;
     sourceMap.set(src, (sourceMap.get(src) || 0) + 1);
   });
-  const sourceData = Array.from(sourceMap, ([name, count]) => ({ name, leads: count }));
+  const sourceData = Array.from(sourceMap, ([key, count]) => ({
+    name: sourceLabels[key] || key.replace(/_/g, " "),
+    leads: count,
+    fill: SOURCE_CHART_COLORS[key] || "#6b7280",
+  }));
 
   // Funnel data
   const funnelData = pipelineStatuses
