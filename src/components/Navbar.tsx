@@ -37,7 +37,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link to="/" className="flex items-center gap-2.5 group">
-            <img src={logo} alt="X Elevators" className="h-10 w-10 object-contain transition-transform duration-300 group-hover:scale-110" />
+            <img src={logo} alt="X Elevators" className="h-14 w-14 lg:h-16 lg:w-16 object-contain transition-transform duration-300 group-hover:scale-110" />
             <div className="font-heading">
               <span className="text-foreground font-bold text-base lg:text-lg uppercase tracking-wider">X Elevators</span>
               <span className="hidden sm:inline text-muted-foreground/60 text-xs ml-1.5 uppercase tracking-wider">Pvt. Ltd.</span>

@@ -15,7 +15,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
             <div className="flex items-center gap-2.5 mb-5">
-              <img src={logo} alt="X Elevators" className="h-10 w-10 object-contain" />
+              <img src={logo} alt="X Elevators" className="h-16 w-16 object-contain" />
               <span className="text-foreground font-heading font-bold text-lg uppercase tracking-wider">X Elevators Pvt. Ltd.</span>
             </div>
             <p className="text-muted-foreground/70 text-sm leading-relaxed mb-6">
