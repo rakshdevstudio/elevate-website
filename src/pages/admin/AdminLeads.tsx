@@ -90,6 +90,14 @@ const AdminLeads = () => {
           </select>
           <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
         </div>
+        <div className="relative">
+          <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <select value={sourceFilter} onChange={(e) => setSourceFilter(e.target.value)} className="input-premium pl-11 pr-10 appearance-none cursor-pointer min-w-[180px]">
+            <option value="all">All Sources</option>
+            {Object.entries(sourceLabels).map(([key, label]) => (<option key={key} value={key}>{label}</option>))}
+          </select>
+          <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+        </div>
         <button onClick={exportCSV} className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition-colors whitespace-nowrap">
           <Download className="w-4 h-4" /> Export CSV
         </button>
