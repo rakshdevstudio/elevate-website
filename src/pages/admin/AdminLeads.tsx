@@ -126,6 +126,7 @@ const AdminLeads = () => {
                       {lead.email && <span className="flex items-center gap-1"><Mail className="w-3 h-3" />{lead.email}</span>}
                       {lead.building_type && <span className="flex items-center gap-1"><Building2 className="w-3 h-3" />{lead.building_type}</span>}
                       {lead.assigned_to && <span className="text-primary/70">👤 {lead.assigned_to}</span>}
+                      <span className="px-1.5 py-0.5 rounded bg-secondary/50 text-muted-foreground">{sourceLabels[lead.lead_source] || lead.lead_source}</span>
                     </div>
                   </div>
                 </div>
