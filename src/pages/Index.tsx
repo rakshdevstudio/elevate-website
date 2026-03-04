@@ -122,7 +122,7 @@ const Finishes = () => {
         <SectionHeading badge="Premium Finishes" title="Finishes & Pricing" subtitle="Choose from our range of elevator finishes to match your budget and style" />
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {finishes.map((f, i) => (
-            <GlassCard key={i} className={`p-8 text-center ${f.popular ? "border-primary/30 glow-gold" : ""}`}>
+            <GlassCard key={i} className={`p-8 text-center ${f.popular ? "border-primary/30 glow-gold" : ""}`} delay={i * 0.12}>
               {f.popular && <span className="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold mb-3">Most Popular</span>}
               <h3 className="text-xl font-heading font-bold text-foreground mb-2">{f.name}</h3>
               <p className="text-gradient-gold text-2xl font-heading font-bold mb-6">{f.price}</p>
