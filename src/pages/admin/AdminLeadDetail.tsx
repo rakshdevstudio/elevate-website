@@ -92,7 +92,7 @@ const AdminLeadDetail = () => {
     { icon: Mail, label: "Email", value: lead.email },
     { icon: Building2, label: "Building Type", value: lead.building_type },
     { icon: Layers, label: "Floors", value: lead.number_of_floors },
-    { icon: Elevator, label: "Elevator Type", value: lead.elevator_type },
+    { icon: Box, label: "Elevator Type", value: lead.elevator_type },
     { icon: Building2, label: "Company", value: lead.company_name },
   ].filter((i) => i.value);
 
