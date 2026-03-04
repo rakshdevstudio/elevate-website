@@ -264,26 +264,28 @@ const ContactSection = () => (
         </div>
         </ScrollReveal>
         <ScrollReveal direction="right">
-          <form className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <input placeholder="Full Name" className="bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors" />
-              <input placeholder="Phone Number" className="bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors" />
-            </div>
-            <input placeholder="Email Address" className="w-full bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors" />
-            <select className="w-full bg-secondary/50 border border-border rounded-lg px-4 py-3 text-muted-foreground text-sm focus:outline-none focus:border-primary transition-colors">
-              <option>Select Service</option>
-              <option>Residential Elevator</option>
-              <option>Commercial Elevator</option>
-              <option>Hospital Elevator</option>
-              <option>AMC Plan</option>
-              <option>Modernization</option>
-            </select>
-            <textarea placeholder="Your Message" rows={4} className="w-full bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors resize-none" />
-            <button type="button" className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold text-sm hover:bg-gold-light transition-colors">
-              Send Message
-            </button>
-          </form>
-        </GlassCard>
+          <GlassCard className="p-8" hover={false}>
+            <form className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <input placeholder="Full Name" className="bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors" />
+                <input placeholder="Phone Number" className="bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors" />
+              </div>
+              <input placeholder="Email Address" className="w-full bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors" />
+              <select className="w-full bg-secondary/50 border border-border rounded-lg px-4 py-3 text-muted-foreground text-sm focus:outline-none focus:border-primary transition-colors">
+                <option>Select Service</option>
+                <option>Residential Elevator</option>
+                <option>Commercial Elevator</option>
+                <option>Hospital Elevator</option>
+                <option>AMC Plan</option>
+                <option>Modernization</option>
+              </select>
+              <textarea placeholder="Your Message" rows={4} className="w-full bg-secondary/50 border border-border rounded-lg px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors resize-none" />
+              <button type="button" className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold text-sm hover:bg-gold-light transition-colors">
+                Send Message
+              </button>
+            </form>
+          </GlassCard>
+        </ScrollReveal>
       </div>
     </div>
   </section>
