@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      lead_history: {
+        Row: {
+          action: string
+          created_at: string
+          id: string
+          lead_id: string
+          new_value: string | null
+          old_value: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          id?: string
+          lead_id: string
+          new_value?: string | null
+          old_value?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          id?: string
+          lead_id?: string
+          new_value?: string | null
+          old_value?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_history_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lead_notes: {
         Row: {
           created_at: string
@@ -48,12 +86,15 @@ export type Database = {
       }
       leads: {
         Row: {
+          assigned_to: string | null
           building_type: string | null
           company_name: string | null
           created_at: string
           elevator_type: string | null
           email: string | null
+          estimated_value: number | null
           id: string
+          lead_score: number | null
           lead_source: Database["public"]["Enums"]["lead_source"]
           message: string | null
           name: string
@@ -63,12 +104,15 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          assigned_to?: string | null
           building_type?: string | null
           company_name?: string | null
           created_at?: string
           elevator_type?: string | null
           email?: string | null
+          estimated_value?: number | null
           id?: string
+          lead_score?: number | null
           lead_source?: Database["public"]["Enums"]["lead_source"]
           message?: string | null
           name: string
@@ -78,12 +122,15 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          assigned_to?: string | null
           building_type?: string | null
           company_name?: string | null
           created_at?: string
           elevator_type?: string | null
           email?: string | null
+          estimated_value?: number | null
           id?: string
+          lead_score?: number | null
           lead_source?: Database["public"]["Enums"]["lead_source"]
           message?: string | null
           name?: string
@@ -93,6 +140,53 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      site_visits: {
+        Row: {
+          address: string | null
+          created_at: string
+          engineer_name: string | null
+          id: string
+          lead_id: string
+          notes: string | null
+          scheduled_date: string
+          scheduled_time: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          engineer_name?: string | null
+          id?: string
+          lead_id: string
+          notes?: string | null
+          scheduled_date: string
+          scheduled_time?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          engineer_name?: string | null
+          id?: string
+          lead_id?: string
+          notes?: string | null
+          scheduled_date?: string
+          scheduled_time?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "site_visits_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -139,6 +233,7 @@ export type Database = {
         | "contacted"
         | "inspection_scheduled"
         | "quotation_sent"
+        | "negotiation"
         | "converted"
         | "lost"
     }
@@ -282,6 +377,7 @@ export const Constants = {
         "contacted",
         "inspection_scheduled",
         "quotation_sent",
+        "negotiation",
         "converted",
         "lost",
       ],
