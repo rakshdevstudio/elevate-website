@@ -8,37 +8,53 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        const currentUser = session?.user ?? null;
-        setUser(currentUser);
-        if (currentUser) {
-          const { data } = await supabase.rpc("has_role", {
-            _user_id: currentUser.id,
-            _role: "admin",
-          });
-          setIsAdmin(!!data);
-        } else {
-          setIsAdmin(false);
-        }
-        setLoading(false);
-      }
-    );
+    let mounted = true;
 
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      const currentUser = session?.user ?? null;
-      setUser(currentUser);
-      if (currentUser) {
+    const checkAdmin = async (currentUser: User | null) => {
+      if (!currentUser) {
+        if (mounted) {
+          setUser(null);
+          setIsAdmin(false);
+          setLoading(false);
+        }
+        return;
+      }
+      
+      if (mounted) setUser(currentUser);
+      
+      try {
         const { data } = await supabase.rpc("has_role", {
           _user_id: currentUser.id,
           _role: "admin",
         });
-        setIsAdmin(!!data);
+        if (mounted) {
+          setIsAdmin(!!data);
+          setLoading(false);
+        }
+      } catch {
+        if (mounted) {
+          setIsAdmin(false);
+          setLoading(false);
+        }
       }
-      setLoading(false);
+    };
+
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      checkAdmin(session?.user ?? null);
     });
 
-    return () => subscription.unsubscribe();
+    // Listen for changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        checkAdmin(session?.user ?? null);
+      }
+    );
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signIn = async (email: string, password: string) => {
