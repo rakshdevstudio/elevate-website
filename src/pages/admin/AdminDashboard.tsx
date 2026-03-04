@@ -17,15 +17,21 @@ const AdminDashboard = () => {
   const [notifications, setNotifications] = useState<Tables<"leads">[]>([]);
 
   useEffect(() => {
-    const fetchLeads = async () => {
-      const { data } = await supabase
-        .from("leads")
-        .select("*")
-        .order("created_at", { ascending: false });
-      setLeads(data || []);
+    const fetchData = async () => {
+      const [leadsRes, visitsRes] = await Promise.all([
+        supabase.from("leads").select("*").order("created_at", { ascending: false }),
+        supabase.from("site_visits").select("*").eq("status", "scheduled").order("scheduled_date", { ascending: true }),
+      ]);
+      setLeads(leadsRes.data || []);
+      if (visitsRes.data) {
+        const leadIds = [...new Set(visitsRes.data.map((v) => v.lead_id))];
+        const { data: leadsData } = await supabase.from("leads").select("id, name").in("id", leadIds);
+        const leadMap = new Map(leadsData?.map((l) => [l.id, l.name]) || []);
+        setSiteVisits(visitsRes.data.map((v) => ({ ...v, lead_name: (v as any).customer_name || leadMap.get(v.lead_id) || "Unknown" })));
+      }
       setLoading(false);
     };
-    fetchLeads();
+    fetchData();
 
     // Real-time subscription for new leads
     const channel = supabase
