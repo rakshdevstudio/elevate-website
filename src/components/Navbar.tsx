@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import logo from "@/assets/logo.png";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -28,18 +29,16 @@ const Navbar = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-navy-deep/95 backdrop-blur-md shadow-navy border-b border-gold/10" : "bg-transparent"
+        scrolled ? "bg-navy-deep/95 backdrop-blur-md shadow-navy border-b border-primary/10" : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-heading font-extrabold text-lg">X</span>
-            </div>
+            <img src={logo} alt="X Elevators" className="h-10 w-10 object-contain" />
             <div className="font-heading">
-              <span className="text-foreground font-bold text-lg">X Elevators</span>
-              <span className="hidden sm:inline text-muted-foreground text-xs ml-1">Pvt Ltd</span>
+              <span className="text-foreground font-bold text-base lg:text-lg uppercase tracking-wide">X Elevators</span>
+              <span className="hidden sm:inline text-muted-foreground text-xs ml-1 uppercase">Pvt. Ltd.</span>
             </div>
           </Link>
 
@@ -48,27 +47,30 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 relative ${
                   location.pathname === link.path
-                    ? "text-primary bg-primary/10"
+                    ? "text-primary"
                     : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
                 }`}
               >
                 {link.label}
+                {location.pathname === link.path && (
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-primary rounded-full" />
+                )}
               </Link>
             ))}
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
-            <a href="tel:+911234567890" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
+            <a href="tel:+919844002026" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
               <Phone className="w-4 h-4" />
-              <span>+91 123 456 7890</span>
+              <span>+91 9844002026</span>
             </a>
             <Link
               to="/contact"
               className="bg-primary text-primary-foreground px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-gold-light transition-colors"
             >
-              Get a Quote
+              Get Quote
             </Link>
           </div>
 
@@ -107,7 +109,7 @@ const Navbar = () => {
                 to="/contact"
                 className="block text-center bg-primary text-primary-foreground px-5 py-3 rounded-lg text-sm font-semibold mt-3"
               >
-                Get a Quote
+                Get Quote
               </Link>
             </div>
           </motion.div>
