@@ -209,7 +209,11 @@ const AdminAnalytics = () => {
                   <XAxis type="number" tick={{ fontSize: 9, fill: "hsl(212 25% 68%)" }} allowDecimals={false} />
                   <YAxis dataKey="name" type="category" tick={{ fontSize: 9, fill: "hsl(212 25% 68%)" }} width={100} />
                   <Tooltip {...tooltipStyle} />
-                  <Bar dataKey="leads" fill="hsl(43 66% 52%)" radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="leads" radius={[0, 4, 4, 0]}>
+                    {sourceData.map((entry, index) => (
+                      <Cell key={index} fill={entry.fill} />
+                    ))}
+                  </Bar>
                 </BarChart>
               </ResponsiveContainer>
             ) : (<p className="text-muted-foreground text-sm text-center pt-20">No data yet</p>)}
