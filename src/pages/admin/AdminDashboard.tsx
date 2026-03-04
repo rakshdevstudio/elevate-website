@@ -207,6 +207,35 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Upcoming Site Visits */}
+      {upcomingVisits.length > 0 && (
+        <div className="glass-card rounded-2xl p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-foreground font-heading font-semibold text-sm">📅 Upcoming Site Visits</h3>
+            <Link to="/admin/visits" className="text-primary text-xs font-medium flex items-center gap-1 hover:gap-2 transition-all">
+              View Calendar <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+            {upcomingVisits.map((visit) => (
+              <Link key={visit.id} to={`/admin/lead/${visit.lead_id}`} className="p-3 rounded-xl bg-secondary/15 hover:bg-secondary/25 transition-colors">
+                <p className="text-foreground text-xs font-medium truncate">{visit.lead_name}</p>
+                <div className="flex items-center gap-1 text-muted-foreground text-[10px] mt-1">
+                  <CalendarDays className="w-3 h-3" />
+                  {new Date(visit.scheduled_date).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+                  {visit.scheduled_time && <span className="ml-1">{visit.scheduled_time}</span>}
+                </div>
+                {visit.engineer_name && (
+                  <div className="flex items-center gap-1 text-muted-foreground text-[10px] mt-0.5">
+                    <MapPin className="w-3 h-3" />{visit.engineer_name}
+                  </div>
+                )}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
