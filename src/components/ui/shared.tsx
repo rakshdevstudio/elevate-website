@@ -80,9 +80,8 @@ export const GlassCard = ({ children, className = "", hover = true, delay = 0, p
       style={tilt ? { rotateX, rotateY, transformPerspective: 800 } : undefined}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`${premium ? "glass-card-premium" : "glass-card"} rounded-2xl ${
-        hover ? "transition-all duration-500 cursor-pointer" : ""
-      } ${className}`}
+      className={`${premium ? "glass-card-premium" : "glass-card"} rounded-2xl ${hover ? "transition-all duration-500 cursor-pointer" : ""
+        } ${className}`}
     >
       {children}
     </motion.div>
@@ -93,11 +92,12 @@ interface StatCardProps {
   value: string;
   label: string;
   icon?: ReactNode;
+  delay?: number;
 }
 
-export const AnimatedCounter = ({ value, label, icon }: StatCardProps) => {
+export const StatCard = ({ value, label, icon, delay = 0 }: StatCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
   const [displayValue, setDisplayValue] = useState("0");
 
   useEffect(() => {
@@ -106,35 +106,82 @@ export const AnimatedCounter = ({ value, label, icon }: StatCardProps) => {
     if (!numericMatch) { setDisplayValue(value); return; }
     const target = parseInt(numericMatch[1]);
     const suffix = value.replace(/\d+/, "");
-    const duration = 2200;
+    const duration = 1800;
     const startTime = Date.now();
-
     const animate = () => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 4);
-      const current = Math.round(target * eased);
-      setDisplayValue(current + suffix);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayValue(Math.round(target * eased) + suffix);
       if (progress < 1) requestAnimationFrame(animate);
     };
     requestAnimationFrame(animate);
   }, [isInView, value]);
 
   return (
-    <GlassCard className="text-center p-8 lg:p-10 relative overflow-hidden group" premium tilt>
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-primary/3 pointer-events-none opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-primary/8 rounded-full blur-[60px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-      {icon && <div className="text-primary mb-4 flex justify-center relative z-10 icon-glow">{icon}</div>}
-      <div ref={ref} className="text-4xl md:text-5xl font-heading font-extrabold text-gradient-gold mb-3 text-shadow-glow relative z-10">
-        {displayValue}
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -8, transition: { duration: 0.28, ease: "easeOut" } }}
+      className="group relative rounded-2xl glass-card-premium overflow-hidden cursor-pointer"
+    >
+      {/* Background radial glow that intensifies on hover */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/6 via-transparent to-primary/4 opacity-70 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+      {/* Top shimmer line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      {/* Hover glow ring */}
+      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{ boxShadow: "0 0 40px hsl(43 66% 52% / 0.12), 0 0 80px hsl(43 66% 52% / 0.06)" }} />
+
+      <div className="relative z-10 p-8 lg:p-10 flex flex-col items-center text-center">
+        {/* Icon area: circular gradient container with pulsing orb */}
+        {icon && (
+          <div className="relative mb-7">
+            {/* Pulsing background orb */}
+            <motion.div
+              className="absolute inset-0 rounded-full bg-primary/20 blur-xl"
+              animate={{ scale: [1, 1.35, 1], opacity: [0.35, 0.6, 0.35] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            />
+            {/* Icon container */}
+            <motion.div
+              whileHover={{ scale: 1.12 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="relative w-16 h-16 rounded-2xl flex items-center justify-center text-primary"
+              style={{
+                background: "linear-gradient(135deg, hsl(43 66% 52% / 0.18) 0%, hsl(43 66% 52% / 0.06) 100%)",
+                boxShadow: "0 0 24px hsl(43 66% 52% / 0.15), inset 0 1px 0 hsl(0 0% 100% / 0.08), 0 0 0 1px hsl(43 66% 52% / 0.12)",
+              }}
+            >
+              <div className="group-hover:[filter:drop-shadow(0_0_10px_hsl(43_66%_52%/0.6))] transition-all duration-300">
+                {icon}
+              </div>
+            </motion.div>
+          </div>
+        )}
+
+        {/* Animated number */}
+        <div className="text-5xl md:text-6xl font-heading font-extrabold text-gradient-gold text-shadow-glow tracking-tight mb-3">
+          {displayValue}
+        </div>
+
+        {/* Separator */}
+        <div className="w-12 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-3 group-hover:w-20 transition-all duration-500" />
+
+        {/* Label */}
+        <div className="text-muted-foreground/80 text-sm font-medium tracking-wide leading-snug">
+          {label}
+        </div>
       </div>
-      <div className="w-16 h-0.5 mx-auto bg-gradient-to-r from-transparent via-primary/60 to-transparent mb-3" />
-      <div className="text-muted-foreground text-sm font-medium tracking-wide relative z-10">{label}</div>
-    </GlassCard>
+    </motion.div>
   );
 };
 
-export const StatCard = AnimatedCounter;
+// Keep backward compat alias
+export const AnimatedCounter = StatCard;
 
 interface PageHeroProps {
   badge?: string;
@@ -248,8 +295,8 @@ export const FloatingParticles = ({ count = 25 }: { count?: number }) => (
           top: `${Math.random() * 100}%`,
           width: `${1 + Math.random() * 2}px`,
           height: `${1 + Math.random() * 2}px`,
-          background: i % 3 === 0 
-            ? 'hsl(43 66% 52% / 0.3)' 
+          background: i % 3 === 0
+            ? 'hsl(43 66% 52% / 0.3)'
             : 'hsl(0 0% 100% / 0.15)',
         }}
         animate={{

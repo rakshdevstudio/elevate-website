@@ -56,41 +56,154 @@ const Hero = () => (
   </section>
 );
 
+const missionVisionCards = [
+  {
+    icon: <Shield className="w-7 h-7" />,
+    title: "Our Mission",
+    description:
+      "To provide world-class elevator solutions that combine cutting-edge technology with uncompromising safety standards, making vertical transportation accessible and reliable for every building in India.",
+    delay: 0,
+  },
+  {
+    icon: <Zap className="w-7 h-7" />,
+    title: "Our Vision",
+    description:
+      "To become India's most trusted elevator brand by 2030, setting new benchmarks in design, technology, and customer satisfaction while building lasting relationships with every client.",
+    delay: 0.15,
+  },
+];
+
 const MissionVision = () => (
-  <section className="py-24 lg:py-32 section-glow relative">
+  <section className="py-24 lg:py-32 section-glow relative overflow-hidden">
+    {/* Section-level ambient glow */}
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_60%,hsl(43_66%_52%/0.04),transparent_70%)] pointer-events-none" />
     <div className="container mx-auto px-4 lg:px-8 relative z-10">
-      <SectionHeading badge="Who We Are" title="Our Mission & Vision" subtitle="Committed to transforming vertical mobility with innovation and safety" />
+      <SectionHeading
+        badge="Who We Are"
+        title="Our Mission & Vision"
+        subtitle="Committed to transforming vertical mobility with innovation and safety"
+      />
       <div className="grid md:grid-cols-2 gap-8 lg:gap-10 max-w-5xl mx-auto">
-        <GlassCard className="p-8 lg:p-10" premium tilt>
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-6 icon-glow"><Shield className="w-7 h-7 text-primary" /></div>
-          <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-4">Our Mission</h3>
-          <p className="text-muted-foreground text-sm lg:text-base leading-relaxed opacity-80">To provide world-class elevator solutions that combine cutting-edge technology with uncompromising safety standards, making vertical transportation accessible and reliable for every building in India.</p>
-        </GlassCard>
-        <GlassCard className="p-8 lg:p-10" premium delay={0.15} tilt>
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-6 icon-glow"><Zap className="w-7 h-7 text-primary" /></div>
-          <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-4">Our Vision</h3>
-          <p className="text-muted-foreground text-sm lg:text-base leading-relaxed opacity-80">To become India's most trusted elevator brand by 2030, setting new benchmarks in design, technology, and customer satisfaction while building lasting relationships with every client.</p>
-        </GlassCard>
+        {missionVisionCards.map((card) => (
+          <motion.div
+            key={card.title}
+            initial={{ opacity: 0, y: 45 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.8, delay: card.delay, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ y: -10, transition: { duration: 0.3, ease: "easeOut" } }}
+            className="group relative rounded-3xl overflow-hidden cursor-pointer"
+            style={{
+              background:
+                "linear-gradient(160deg, hsl(212 50% 15% / 0.65) 0%, hsl(212 48% 10% / 0.45) 55%, hsl(212 55% 8% / 0.5) 100%)",
+              backdropFilter: "blur(32px) saturate(1.3)",
+              WebkitBackdropFilter: "blur(32px) saturate(1.3)",
+              border: "1px solid hsl(43 66% 52% / 0.1)",
+              boxShadow:
+                "inset 0 1px 0 hsl(0 0% 100% / 0.06), inset 0 -1px 0 hsl(213 62% 3% / 0.3), 0 16px 64px hsl(213 62% 3% / 0.5), 0 4px 16px hsl(213 62% 3% / 0.3)",
+            }}
+          >
+            {/* Hover border glow */}
+            <div
+              className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+              style={{
+                boxShadow:
+                  "0 0 0 1px hsl(43 66% 52% / 0.22), 0 0 50px hsl(43 66% 52% / 0.1), 0 0 100px hsl(43 66% 52% / 0.05)",
+              }}
+            />
+
+            {/* Subtle light-sweep reflection on hover */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none"
+              initial={{ opacity: 0, x: "-100%" }}
+              whileHover={{ opacity: 1, x: "150%", transition: { duration: 0.6, ease: "easeInOut" } }}
+              style={{
+                background:
+                  "linear-gradient(105deg, transparent 40%, hsl(0 0% 100% / 0.04) 50%, transparent 60%)",
+                width: "60%",
+              }}
+            />
+
+            {/* Top shimmer line */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+            {/* Background inner glow (always present, intensifies on hover) */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+            <div className="relative z-10 p-8 lg:p-10">
+              {/* Icon area with pulsing orb */}
+              <div className="relative mb-8 w-fit">
+                {/* Pulsing orb */}
+                <motion.div
+                  className="absolute inset-0 rounded-2xl bg-primary/25 blur-2xl"
+                  animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0.55, 0.3] }}
+                  transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+                />
+                {/* Halo ring */}
+                <div
+                  className="absolute -inset-2 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse 80% 80% at 50% 50%, hsl(43 66% 52% / 0.14), transparent 70%)",
+                  }}
+                />
+                {/* Icon container */}
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  className="relative w-16 h-16 rounded-2xl flex items-center justify-center text-primary"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, hsl(43 66% 52% / 0.2) 0%, hsl(43 66% 52% / 0.07) 100%)",
+                    boxShadow:
+                      "0 0 28px hsl(43 66% 52% / 0.18), inset 0 1px 0 hsl(0 0% 100% / 0.1), 0 0 0 1px hsl(43 66% 52% / 0.15)",
+                  }}
+                >
+                  <div className="group-hover:[filter:drop-shadow(0_0_10px_hsl(43_66%_52%/0.7))] transition-all duration-300">
+                    {card.icon}
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Title */}
+              <h3 className="text-2xl lg:text-3xl font-heading font-bold text-foreground mb-4 tracking-tight">
+                {card.title}
+              </h3>
+
+              {/* Separator */}
+              <div className="w-10 h-px bg-gradient-to-r from-primary/60 to-transparent mb-5 group-hover:w-16 transition-all duration-500" />
+
+              {/* Description */}
+              <p className="text-muted-foreground/75 text-sm lg:text-base leading-relaxed">
+                {card.description}
+              </p>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   </section>
 );
 
+
 const ImpactMetrics = () => (
-  <section className="py-24 lg:py-32 relative">
+  <section className="py-24 lg:py-32 relative overflow-hidden">
     <SectionDivider />
-    <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,hsl(43_66%_52%/0.03),transparent_70%)]" />
+    {/* Rich background orbs */}
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,hsl(43_66%_52%/0.04),transparent_70%)]" />
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
     <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
       <SectionHeading badge="Our Impact" title="Numbers That Speak" />
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 lg:gap-8 max-w-5xl mx-auto">
-        <StatCard value="75+" label="Projects Installed" icon={<Building2 className="w-8 h-8" />} />
-        <StatCard value="120+" label="Happy Customers" icon={<Users className="w-8 h-8" />} />
-        <StatCard value="99%" label="Uptime Rate" icon={<Zap className="w-8 h-8" />} />
-        <StatCard value="25+" label="Team Members" icon={<Award className="w-8 h-8" />} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7 max-w-5xl mx-auto">
+        <StatCard value="75+" label="Projects Installed" icon={<Building2 className="w-7 h-7" />} delay={0} />
+        <StatCard value="120+" label="Happy Customers" icon={<Users className="w-7 h-7" />} delay={0.1} />
+        <StatCard value="99%" label="Uptime Rate" icon={<Zap className="w-7 h-7" />} delay={0.2} />
+        <StatCard value="25+" label="Team Members" icon={<Award className="w-7 h-7" />} delay={0.3} />
       </div>
     </div>
   </section>
 );
+
 
 const IndustriesServed = () => {
   const industries = [
