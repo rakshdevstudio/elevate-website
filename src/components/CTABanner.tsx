@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, MessageCircle, Phone, Shield, Award, CheckCircle2, Zap } from "lucide-react";
 import { GlassCard, ScrollReveal } from "@/components/ui/shared";
+import StarBorder from "@/components/StarBorder";
 import { submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
 import { toast } from "@/hooks/use-toast";
 
@@ -110,10 +111,17 @@ export const TrustBadges = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.08, duration: 0.5 }}
-            className="flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-foreground/8 bg-foreground/3 backdrop-blur-sm"
           >
-            <span className="text-primary">{badge.icon}</span>
-            <span className="text-foreground/70 text-xs font-medium whitespace-nowrap">{badge.label}</span>
+            <StarBorder
+              thickness={1}
+              speed={7 + i * 0.6}
+              rounded="rounded-full"
+            >
+              <div className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-foreground/3 backdrop-blur-sm">
+                <span className="text-primary">{badge.icon}</span>
+                <span className="text-foreground/70 text-xs font-medium whitespace-nowrap">{badge.label}</span>
+              </div>
+            </StarBorder>
           </motion.div>
         ))}
       </div>

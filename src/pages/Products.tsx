@@ -4,6 +4,8 @@ import { Building2, Home, CheckCircle2, ChevronRight, Heart, Stethoscope, ArrowR
 import { useState } from "react";
 import { CTABanner, TrustBadges } from "@/components/CTABanner";
 import { motion, AnimatePresence } from "framer-motion";
+import TiltedCard from "@/components/TiltedCard";
+import StarBorder from "@/components/StarBorder";
 
 const tabOptions = ["MRL Based Elevators", "Full Structure Elevator"];
 
@@ -69,13 +71,12 @@ const ProductShowcase = ({ product, index }: { product: typeof elevatorProducts[
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className={`flex flex-col ${isReversed ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-10 lg:gap-16 items-center max-w-6xl mx-auto`}>
           <ScrollReveal direction={isReversed ? 'right' : 'left'} className="lg:w-1/2">
-            <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.5 }} className="relative group rounded-2xl overflow-hidden">
-              <div className={`absolute inset-0 bg-gradient-to-br ${product.accent} opacity-60 z-10 pointer-events-none`} />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent z-10 pointer-events-none" />
-              <img src={product.image} alt={product.title} className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
-              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/10 rounded-full blur-[40px] z-0" />
-              <div className="absolute inset-0 border border-primary/0 group-hover:border-primary/15 rounded-2xl transition-all duration-500 z-20 pointer-events-none" />
-            </motion.div>
+            <TiltedCard
+              src={product.image}
+              alt={product.title}
+              overlayClass={product.accent}
+              maxTilt={12}
+            />
           </ScrollReveal>
           <ScrollReveal direction={isReversed ? 'left' : 'right'} className="lg:w-1/2">
             <div>
@@ -158,27 +159,29 @@ const Products = () => {
           <SectionHeading badge="Pricing" title="Finishes & Pricing" subtitle="Choose from our range of elevator finishes to match your budget and style" />
           <div className="grid md:grid-cols-3 gap-8 lg:gap-10 max-w-5xl mx-auto">
             {finishes.map((f, i) => (
-              <GlassCard key={i} className={`p-8 lg:p-10 text-center relative overflow-hidden ${f.popular ? "border-primary/20 glow-gold-strong" : ""}`} premium={!!f.popular} delay={i * 0.12} tilt>
-                {f.popular && (
-                  <>
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-primary/6 to-transparent pointer-events-none" />
-                    <span className="relative inline-block px-4 py-1.5 rounded-full bg-primary/12 text-primary text-xs font-semibold mb-4 border border-primary/15">Most Popular</span>
-                  </>
-                )}
-                <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-3">{f.name}</h3>
-                <p className="text-gradient-gold text-3xl lg:text-4xl font-heading font-extrabold mb-8">{f.price}</p>
-                <ul className="space-y-3.5 mb-8">
-                  {f.features.map((feat) => (
-                    <li key={feat} className="text-muted-foreground text-sm flex items-center gap-2.5 justify-center">
-                      <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {feat}
-                    </li>
-                  ))}
-                </ul>
-                <Link to="/contact" className="block w-full py-3.5 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-300 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.25)]">
-                  Get Quote
-                </Link>
-              </GlassCard>
+              <StarBorder key={i} speed={f.popular ? 3 : 6} className="h-full">
+                <GlassCard className={`p-8 lg:p-10 text-center relative ${f.popular ? "border-primary/20 glow-gold-strong" : ""}`} premium={!!f.popular} delay={i * 0.12} tilt>
+                  {f.popular && (
+                    <>
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-b from-primary/6 to-transparent pointer-events-none" />
+                      <span className="relative inline-block px-4 py-1.5 rounded-full bg-primary/12 text-primary text-xs font-semibold mb-4 border border-primary/15">Most Popular</span>
+                    </>
+                  )}
+                  <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-3">{f.name}</h3>
+                  <p className="text-gradient-gold text-3xl lg:text-4xl font-heading font-extrabold mb-8">{f.price}</p>
+                  <ul className="space-y-3.5 mb-8">
+                    {f.features.map((feat) => (
+                      <li key={feat} className="text-muted-foreground text-sm flex items-center gap-2.5 justify-center">
+                        <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {feat}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link to="/contact" className="block w-full py-3.5 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-300 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.25)]">
+                    Get Quote
+                  </Link>
+                </GlassCard>
+              </StarBorder>
             ))}
           </div>
         </div>

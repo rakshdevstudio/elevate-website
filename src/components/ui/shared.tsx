@@ -48,25 +48,31 @@ interface GlassCardProps {
   delay?: number;
   premium?: boolean;
   tilt?: boolean;
+  /** When true, a radial glow follows the cursor within the card */
+  glowFollow?: boolean;
 }
 
-export const GlassCard = ({ children, className = "", hover = true, delay = 0, premium = false, tilt = false }: GlassCardProps) => {
+export const GlassCard = ({ children, className = "", hover = true, delay = 0, premium = false, tilt = false, glowFollow = false }: GlassCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [3, -3]), { stiffness: 200, damping: 30 });
   const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-3, 3]), { stiffness: 200, damping: 30 });
+  const [glow, setGlow] = useState<{ x: number; y: number; visible: boolean }>({ x: 50, y: 50, visible: false });
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!tilt || !cardRef.current) return;
+    if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
-    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
-    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
+    const nx = (e.clientX - rect.left) / rect.width;
+    const ny = (e.clientY - rect.top) / rect.height;
+    if (tilt) { mouseX.set(nx - 0.5); mouseY.set(ny - 0.5); }
+    if (glowFollow) setGlow({ x: nx * 100, y: ny * 100, visible: true });
   };
 
   const handleMouseLeave = () => {
     mouseX.set(0);
     mouseY.set(0);
+    if (glowFollow) setGlow(prev => ({ ...prev, visible: false }));
   };
 
   return (
@@ -83,6 +89,16 @@ export const GlassCard = ({ children, className = "", hover = true, delay = 0, p
       className={`${premium ? "glass-card-premium" : "glass-card"} rounded-2xl ${hover ? "transition-all duration-500 cursor-pointer" : ""
         } ${className}`}
     >
+      {glowFollow && (
+        <div
+          aria-hidden
+          className="absolute inset-0 rounded-2xl pointer-events-none z-0 transition-opacity duration-300"
+          style={{
+            opacity: glow.visible ? 1 : 0,
+            background: `radial-gradient(circle 180px at ${glow.x}% ${glow.y}%, hsl(43 66% 52% / 0.10), transparent 70%)`,
+          }}
+        />
+      )}
       {children}
     </motion.div>
   );

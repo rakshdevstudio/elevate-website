@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import FloatingButtons from "./components/FloatingButtons";
+import ClickSpark from "./components/ClickSpark";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -49,6 +50,7 @@ const App = () => (
             path="*"
             element={
               <>
+                <ClickSpark />
                 <Navbar />
                 <main className="min-h-screen">
                   <Routes>
