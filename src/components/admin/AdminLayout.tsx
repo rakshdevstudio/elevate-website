@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
 import {
-  LayoutDashboard, Users, BarChart3, LogOut, ChevronRight, Menu, X, Kanban, CalendarDays,
+  LayoutDashboard, Users, BarChart3, LogOut, ChevronRight, Menu, X, Kanban, CalendarDays, Briefcase
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import logo from "@/assets/logo.png";
@@ -12,6 +12,7 @@ const navItems = [
   { label: "Pipeline", path: "/admin/pipeline", icon: Kanban },
   { label: "Leads", path: "/admin/leads", icon: Users },
   { label: "Site Visits", path: "/admin/site-visits", icon: CalendarDays },
+  { label: "Careers", path: "/admin/careers", icon: Briefcase },
   { label: "Analytics", path: "/admin/analytics", icon: BarChart3 },
 ];
 
@@ -64,8 +65,8 @@ const AdminLayout = () => {
                 to={item.path}
                 onClick={() => setSidebarOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 group ${isActive
-                    ? "bg-primary/10 text-primary border border-primary/15"
-                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/30"
+                  ? "bg-primary/10 text-primary border border-primary/15"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary/30"
                   }`}
               >
                 <item.icon className="w-4 h-4" />

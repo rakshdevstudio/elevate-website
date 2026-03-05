@@ -40,7 +40,7 @@ const Footer = () => {
               <img
                 src={logo}
                 alt="X Elevators"
-                className="h-16 w-16 object-contain group-hover:opacity-90 transition-opacity duration-300"
+                className="h-20 w-20 object-contain group-hover:opacity-90 transition-opacity duration-300"
               />
               <span className="text-foreground font-heading font-bold text-lg uppercase tracking-wider group-hover:text-primary transition-colors duration-300">
                 X Elevators Pvt. Ltd.

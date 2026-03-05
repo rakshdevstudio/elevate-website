@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Phone, MessageSquare, Building2, ArrowRight, GripVertical } from "lucide-react";
+import { Phone, MessageSquare, Building2, ArrowRight, GripVertical, CalendarDays } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { format, subMonths, startOfMonth, endOfMonth } from "date-fns";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { Tables, Enums } from "@/integrations/supabase/types";
 import { statusColors, statusLabels, statusDotColors, pipelineStatuses, calculateLeadScore, getScoreColor } from "@/lib/lead-utils";
 
@@ -11,10 +13,35 @@ const AdminPipeline = () => {
   const [loading, setLoading] = useState(true);
   const [draggedLead, setDraggedLead] = useState<string | null>(null);
   const [dragOverStatus, setDragOverStatus] = useState<string | null>(null);
+  const [selectedMonth, setSelectedMonth] = useState<string>("this_month");
+
+  // Generate last 6 months for the filter
+  const monthOptions = Array.from({ length: 6 }).map((_, i) => {
+    const date = subMonths(new Date(), i);
+    const value = format(date, "yyyy-MM");
+
+    let label = format(date, "MMMM yyyy");
+    if (i === 0) label = "This Month";
+    if (i === 1) label = "Last Month";
+
+    return { value, label, date };
+  });
 
   useEffect(() => {
     const fetchLeads = async () => {
-      const { data } = await supabase.from("leads").select("*").order("created_at", { ascending: false });
+      setLoading(true);
+      let query = supabase.from("leads").select("*").order("created_at", { ascending: false });
+
+      if (selectedMonth !== "all") {
+        const option = monthOptions.find((o) => o.value === selectedMonth);
+        if (option) {
+          const start = startOfMonth(option.date).toISOString();
+          const end = endOfMonth(option.date).toISOString();
+          query = query.gte("created_at", start).lte("created_at", end);
+        }
+      }
+
+      const { data } = await query;
       setLeads(data || []);
       setLoading(false);
     };
@@ -26,7 +53,7 @@ const AdminPipeline = () => {
       .subscribe();
 
     return () => { supabase.removeChannel(channel); };
-  }, []);
+  }, [selectedMonth]);
 
   const handleDragStart = (e: React.DragEvent, leadId: string) => {
     setDraggedLead(leadId);
@@ -75,7 +102,24 @@ const AdminPipeline = () => {
 
   return (
     <div className="space-y-4">
-      <p className="text-muted-foreground text-xs">Drag and drop leads between columns to update their status</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card/30 p-4 rounded-2xl border border-border/30">
+        <p className="text-muted-foreground text-xs sm:text-sm">Drag and drop leads between columns to update their status</p>
+
+        <div className="flex items-center gap-2">
+          <CalendarDays className="w-4 h-4 text-muted-foreground" />
+          <Select value={selectedMonth} onValueChange={setSelectedMonth}>
+            <SelectTrigger className="w-[180px] bg-secondary/20 border border-border/50 rounded-xl h-9 text-xs">
+              <SelectValue placeholder="Filter by date" />
+            </SelectTrigger>
+            <SelectContent>
+              {monthOptions.map((opt) => (
+                <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+              ))}
+              <SelectItem value="all">All Leads</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
 
       <div className="flex gap-4 overflow-x-auto pb-4" style={{ minHeight: "70vh" }}>
         {pipelineStatuses.map((status) => {
@@ -85,9 +129,8 @@ const AdminPipeline = () => {
           return (
             <div
               key={status}
-              className={`flex-shrink-0 w-[260px] flex flex-col rounded-2xl transition-all duration-200 ${
-                isDragOver ? "bg-primary/5 ring-1 ring-primary/20" : ""
-              }`}
+              className={`flex-shrink-0 w-[260px] flex flex-col rounded-2xl transition-all duration-200 ${isDragOver ? "bg-primary/5 ring-1 ring-primary/20" : ""
+                }`}
               onDragOver={(e) => handleDragOver(e, status)}
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, status)}
@@ -111,9 +154,8 @@ const AdminPipeline = () => {
                       draggable
                       onDragStart={(e: any) => handleDragStart(e, lead.id)}
                       layout
-                      className={`glass-card rounded-xl p-3 cursor-grab active:cursor-grabbing group hover:border-primary/15 transition-all ${
-                        draggedLead === lead.id ? "opacity-50" : ""
-                      }`}
+                      className={`glass-card rounded-xl p-3 cursor-grab active:cursor-grabbing group hover:border-primary/15 transition-all ${draggedLead === lead.id ? "opacity-50" : ""
+                        }`}
                     >
                       <div className="flex items-start gap-2">
                         <GripVertical className="w-3 h-3 text-muted-foreground/30 mt-0.5 shrink-0 group-hover:text-muted-foreground transition-colors" />

@@ -23,6 +23,7 @@ import AdminLeadDetail from "./pages/admin/AdminLeadDetail";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import AdminPipeline from "./pages/admin/AdminPipeline";
 import AdminSiteVisits from "./pages/admin/AdminSiteVisits";
+import AdminCareers from "./pages/admin/AdminCareers";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="lead/:id" element={<AdminLeadDetail />} />
             <Route path="site-visits" element={<AdminSiteVisits />} />
             <Route path="analytics" element={<AdminAnalytics />} />
+            <Route path="careers" element={<AdminCareers />} />
           </Route>
 
           {/* Public routes */}

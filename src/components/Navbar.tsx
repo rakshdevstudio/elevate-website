@@ -28,16 +28,15 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
-        scrolled
-          ? "bg-[hsl(213_62%_6%/0.85)] backdrop-blur-2xl shadow-[0_4px_40px_hsl(213_62%_3%/0.6)] border-b border-primary/5"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled
+        ? "bg-[hsl(213_62%_6%/0.85)] backdrop-blur-2xl shadow-[0_4px_40px_hsl(213_62%_3%/0.6)] border-b border-primary/5"
+        : "bg-transparent"
+        }`}
     >
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link to="/" className="flex items-center gap-2.5 group">
-            <img src={logo} alt="X Elevators" className="h-14 w-14 lg:h-16 lg:w-16 object-contain transition-transform duration-300 group-hover:scale-110" />
+            <img src={logo} alt="X Elevators" className="h-16 w-20 lg:h-20 lg:w-20 object-contain transition-transform duration-300 group-hover:scale-110" />
             <div className="font-heading">
               <span className="text-foreground font-bold text-base lg:text-lg uppercase tracking-wider">X Elevators</span>
               <span className="hidden sm:inline text-muted-foreground/60 text-xs ml-1.5 uppercase tracking-wider">Pvt. Ltd.</span>
@@ -49,16 +48,14 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 relative group ${
-                  location.pathname === link.path
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
+                className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 relative group ${location.pathname === link.path
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
+                  }`}
               >
                 {link.label}
-                <span className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-primary to-gold-light rounded-full transition-all duration-400 ${
-                  location.pathname === link.path ? "w-6 opacity-100" : "w-0 opacity-0 group-hover:w-5 group-hover:opacity-100"
-                }`} />
+                <span className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-primary to-gold-light rounded-full transition-all duration-400 ${location.pathname === link.path ? "w-6 opacity-100" : "w-0 opacity-0 group-hover:w-5 group-hover:opacity-100"
+                  }`} />
               </Link>
             ))}
           </nav>
@@ -104,11 +101,10 @@ const Navbar = () => {
                 >
                   <Link
                     to={link.path}
-                    className={`block px-4 py-3.5 rounded-xl text-sm font-medium transition-all ${
-                      location.pathname === link.path
-                        ? "text-primary bg-primary/8"
-                        : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
-                    }`}
+                    className={`block px-4 py-3.5 rounded-xl text-sm font-medium transition-all ${location.pathname === link.path
+                      ? "text-primary bg-primary/8"
+                      : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                      }`}
                   >
                     {link.label}
                   </Link>

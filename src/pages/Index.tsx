@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { SectionHeading, GlassCard, StatCard, ScrollReveal, FloatingParticles, SectionDivider, StaggerContainer, StaggerChild } from "@/components/ui/shared";
 import { Shield, Zap, Award, Users, Building2, Wrench, ChevronRight, CheckCircle2, Phone, Mail, MapPin, ChevronDown, PhoneCall, ArrowRight, Home, Building, Hospital, Hotel, Factory, Search, PenTool, Settings, HardHat, BadgeCheck, Send } from "lucide-react";
 import { TrustBadges } from "@/components/CTABanner";
+import { AnimatedList } from "@/components/AnimatedList";
 import { useState } from "react";
 import { submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
 import { toast } from "@/hooks/use-toast";
@@ -436,20 +437,9 @@ const FAQ = () => {
       <div className="container mx-auto px-4 lg:px-8 max-w-3xl pt-8 relative z-10">
         <SectionHeading badge="FAQ" title="Frequently Asked Questions" subtitle="Find answers to common questions about our elevator solutions" />
         <div className="space-y-4">
-          {faqs.map((faq, i) => (
-            <motion.div
-              key={i}
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              whileInView={{ scale: 1, opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{
-                type: "spring",
-                stiffness: 350,
-                damping: 30,
-                delay: i * 0.1,
-              }}
-            >
-              <div className={`glass-card-premium rounded-2xl overflow-hidden transition-all duration-500 ${openIndex === i ? 'glow-gold' : ''}`}>
+          <AnimatedList delay={150}>
+            {faqs.map((faq, i) => (
+              <div key={i} className={`glass-card-premium rounded-2xl overflow-hidden transition-all duration-500 ${openIndex === i ? 'glow-gold' : ''}`}>
                 <button onClick={() => setOpenIndex(openIndex === i ? null : i)} className="w-full flex items-center justify-between p-6 text-left group">
                   <div className="flex items-center gap-4">
                     <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center text-primary text-xs font-bold shrink-0 group-hover:from-primary/25 group-hover:to-primary/10 transition-all duration-300">{String(i + 1).padStart(2, "0")}</span>
@@ -465,8 +455,8 @@ const FAQ = () => {
                   )}
                 </AnimatePresence>
               </div>
-            </motion.div>
-          ))}
+            ))}
+          </AnimatedList>
         </div>
       </div>
     </section>
