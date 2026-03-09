@@ -27,25 +27,26 @@ const StarBorder = <T extends React.ElementType = 'div'>({
         <Component
             className={`star-border-container ${className}`}
             {...(rest as any)}
-            style={{
-                padding: `${thickness}px`,
-                ...(rest as any).style
-            }}
         >
             <div
-                className="border-gradient-bottom"
-                style={{
-                    background: `radial-gradient(circle, ${color}, transparent 10%)`,
-                    animationDuration: typeof speed === 'number' ? `${speed}s` : speed
-                }}
-            ></div>
-            <div
-                className="border-gradient-top"
-                style={{
-                    background: `radial-gradient(circle, ${color}, transparent 10%)`,
-                    animationDuration: typeof speed === 'number' ? `${speed}s` : speed
-                }}
-            ></div>
+                className="border-wrapper"
+                style={{ padding: `${thickness}px`, ...(rest as any).style }}
+            >
+                <div
+                    className="border-gradient-bottom"
+                    style={{
+                        background: `radial-gradient(circle, ${color}, transparent 10%)`,
+                        animationDuration: typeof speed === 'number' ? `${speed}s` : speed
+                    }}
+                ></div>
+                <div
+                    className="border-gradient-top"
+                    style={{
+                        background: `radial-gradient(circle, ${color}, transparent 10%)`,
+                        animationDuration: typeof speed === 'number' ? `${speed}s` : speed
+                    }}
+                ></div>
+            </div>
             <div className={`inner-content ${innerClassName}`}>{children}</div>
         </Component>
     );
