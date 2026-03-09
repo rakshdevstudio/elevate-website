@@ -115,7 +115,8 @@ export const TrustBadges = () => (
             <StarBorder
               thickness={1}
               speed={7 + i * 0.6}
-              rounded="rounded-full"
+              className="rounded-full"
+              innerClassName="rounded-full"
             >
               <div className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-foreground/3 backdrop-blur-sm">
                 <span className="text-primary">{badge.icon}</span>

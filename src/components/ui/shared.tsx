@@ -2,16 +2,19 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import { motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import StarBorder from "../StarBorder";
 
 interface SectionHeadingProps {
   badge?: string;
+  badgeClassName?: string;
   title: string;
+  titleClassName?: string;
   subtitle?: string;
   center?: boolean;
   children?: ReactNode;
 }
 
-export const SectionHeading = ({ badge, title, subtitle, center = true }: SectionHeadingProps) => (
+export const SectionHeading = ({ badge, badgeClassName, title, titleClassName, subtitle, center = true }: SectionHeadingProps) => (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -25,12 +28,12 @@ export const SectionHeading = ({ badge, title, subtitle, center = true }: Sectio
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="inline-block px-5 py-2 rounded-full bg-primary/8 text-primary text-xs font-semibold tracking-[0.2em] uppercase mb-5 border border-primary/12 backdrop-blur-sm"
+        className={`inline-block px-5 py-2 rounded-full bg-primary/8 text-primary font-semibold tracking-[0.2em] uppercase mb-5 border border-primary/12 backdrop-blur-sm ${badgeClassName || "text-xs"}`}
       >
         {badge}
       </motion.span>
     )}
-    <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] font-heading font-bold text-foreground mb-5 tracking-tight leading-[1.1]">
+    <h2 className={`font-heading font-bold text-foreground mb-5 tracking-tight leading-[1.1] ${titleClassName || "text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem]"}`}>
       {title}
     </h2>
     {subtitle && (
@@ -86,20 +89,37 @@ export const GlassCard = ({ children, className = "", hover = true, delay = 0, p
       style={tilt ? { rotateX, rotateY, transformPerspective: 800 } : undefined}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`${premium ? "glass-card-premium" : "glass-card"} rounded-2xl ${hover ? "transition-all duration-500 cursor-pointer" : ""
-        } ${className}`}
+      className={`rounded-2xl ${hover ? "transition-all duration-500 cursor-pointer text-left" : ""} ${premium ? "h-full" : `glass-card ${className}`}`}
     >
-      {glowFollow && (
-        <div
-          aria-hidden
-          className="absolute inset-0 rounded-2xl pointer-events-none z-0 transition-opacity duration-300"
-          style={{
-            opacity: glow.visible ? 1 : 0,
-            background: `radial-gradient(circle 180px at ${glow.x}% ${glow.y}%, hsl(43 66% 52% / 0.10), transparent 70%)`,
-          }}
-        />
+      {premium ? (
+        <StarBorder speed="5s" color="#D4AF37" className={`w-full h-full ${className.includes('group') ? 'group' : ''}`} innerClassName={`glass-card-premium w-full h-full ${className.replace('group', '')}`}>
+          {glowFollow && (
+            <div
+              aria-hidden
+              className="absolute inset-0 rounded-2xl pointer-events-none z-0 transition-opacity duration-300"
+              style={{
+                opacity: glow.visible ? 1 : 0,
+                background: `radial-gradient(circle 180px at ${glow.x}% ${glow.y}%, hsl(43 66% 52% / 0.10), transparent 70%)`,
+              }}
+            />
+          )}
+          {children}
+        </StarBorder>
+      ) : (
+        <>
+          {glowFollow && (
+            <div
+              aria-hidden
+              className="absolute inset-0 rounded-2xl pointer-events-none z-0 transition-opacity duration-300"
+              style={{
+                opacity: glow.visible ? 1 : 0,
+                background: `radial-gradient(circle 180px at ${glow.x}% ${glow.y}%, hsl(43 66% 52% / 0.10), transparent 70%)`,
+              }}
+            />
+          )}
+          {children}
+        </>
       )}
-      {children}
     </motion.div>
   );
 };
@@ -142,56 +162,58 @@ export const StatCard = ({ value, label, icon, delay = 0 }: StatCardProps) => {
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -8, transition: { duration: 0.28, ease: "easeOut" } }}
-      className="group relative rounded-2xl glass-card-premium overflow-hidden cursor-pointer"
+      className="group relative rounded-2xl h-full cursor-pointer"
     >
-      {/* Background radial glow that intensifies on hover */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/6 via-transparent to-primary/4 opacity-70 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-      {/* Top shimmer line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      {/* Hover glow ring */}
-      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{ boxShadow: "0 0 40px hsl(43 66% 52% / 0.12), 0 0 80px hsl(43 66% 52% / 0.06)" }} />
+      <StarBorder speed="5s" color="#D4AF37" className="w-full h-full" innerClassName="glass-card-premium w-full h-full overflow-hidden">
+        {/* Background radial glow that intensifies on hover */}
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/6 via-transparent to-primary/4 opacity-70 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+        {/* Top shimmer line */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* Hover glow ring */}
+        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{ boxShadow: "0 0 40px hsl(43 66% 52% / 0.12), 0 0 80px hsl(43 66% 52% / 0.06)" }} />
 
-      <div className="relative z-10 p-8 lg:p-10 flex flex-col items-center text-center">
-        {/* Icon area: circular gradient container with pulsing orb */}
-        {icon && (
-          <div className="relative mb-7">
-            {/* Pulsing background orb */}
-            <motion.div
-              className="absolute inset-0 rounded-full bg-primary/20 blur-xl"
-              animate={{ scale: [1, 1.35, 1], opacity: [0.35, 0.6, 0.35] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            />
-            {/* Icon container */}
-            <motion.div
-              whileHover={{ scale: 1.12 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              className="relative w-16 h-16 rounded-2xl flex items-center justify-center text-primary"
-              style={{
-                background: "linear-gradient(135deg, hsl(43 66% 52% / 0.18) 0%, hsl(43 66% 52% / 0.06) 100%)",
-                boxShadow: "0 0 24px hsl(43 66% 52% / 0.15), inset 0 1px 0 hsl(0 0% 100% / 0.08), 0 0 0 1px hsl(43 66% 52% / 0.12)",
-              }}
-            >
-              <div className="group-hover:[filter:drop-shadow(0_0_10px_hsl(43_66%_52%/0.6))] transition-all duration-300">
-                {icon}
-              </div>
-            </motion.div>
+        <div className="relative z-10 p-8 lg:p-10 flex flex-col items-center text-center">
+          {/* Icon area: circular gradient container with pulsing orb */}
+          {icon && (
+            <div className="relative mb-7">
+              {/* Pulsing background orb */}
+              <motion.div
+                className="absolute inset-0 rounded-full bg-primary/20 blur-xl"
+                animate={{ scale: [1, 1.35, 1], opacity: [0.35, 0.6, 0.35] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              />
+              {/* Icon container */}
+              <motion.div
+                whileHover={{ scale: 1.12 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="relative w-16 h-16 rounded-2xl flex items-center justify-center text-primary"
+                style={{
+                  background: "linear-gradient(135deg, hsl(43 66% 52% / 0.18) 0%, hsl(43 66% 52% / 0.06) 100%)",
+                  boxShadow: "0 0 24px hsl(43 66% 52% / 0.15), inset 0 1px 0 hsl(0 0% 100% / 0.08), 0 0 0 1px hsl(43 66% 52% / 0.12)",
+                }}
+              >
+                <div className="group-hover:[filter:drop-shadow(0_0_10px_hsl(43_66%_52%/0.6))] transition-all duration-300">
+                  {icon}
+                </div>
+              </motion.div>
+            </div>
+          )}
+
+          {/* Animated number */}
+          <div className="text-4xl md:text-5xl font-heading font-extrabold text-gradient-gold text-shadow-glow tracking-tight mb-3">
+            {displayValue}
           </div>
-        )}
 
-        {/* Animated number */}
-        <div className="text-5xl md:text-6xl font-heading font-extrabold text-gradient-gold text-shadow-glow tracking-tight mb-3">
-          {displayValue}
+          {/* Separator */}
+          <div className="w-12 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-3 group-hover:w-20 transition-all duration-500" />
+
+          {/* Label */}
+          <div className="text-muted-foreground/80 text-sm font-medium tracking-wide leading-snug">
+            {label}
+          </div>
         </div>
-
-        {/* Separator */}
-        <div className="w-12 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-3 group-hover:w-20 transition-all duration-500" />
-
-        {/* Label */}
-        <div className="text-muted-foreground/80 text-sm font-medium tracking-wide leading-snug">
-          {label}
-        </div>
-      </div>
+      </StarBorder>
     </motion.div>
   );
 };

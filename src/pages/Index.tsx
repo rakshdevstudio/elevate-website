@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionHeading, GlassCard, StatCard, ScrollReveal, FloatingParticles, SectionDivider, StaggerContainer, StaggerChild } from "@/components/ui/shared";
-import { Shield, Zap, Award, Users, Building2, Wrench, ChevronRight, CheckCircle2, Phone, Mail, MapPin, ChevronDown, PhoneCall, ArrowRight, Home, Building, Hospital, Hotel, Factory, Search, PenTool, Settings, HardHat, BadgeCheck, Send } from "lucide-react";
+import { Shield, Zap, Award, Users, Building2, Wrench, ChevronRight, CheckCircle2, Phone, Mail, MapPin, ChevronDown, PhoneCall, ArrowRight, Home, Building, Hospital, Hotel, Factory, Search, PenTool, Settings, HardHat, BadgeCheck, Send, Activity, Star, Leaf, Volume2 } from "lucide-react";
 import { TrustBadges } from "@/components/CTABanner";
 import { AnimatedList } from "@/components/AnimatedList";
 import { useState } from "react";
@@ -62,14 +62,14 @@ const missionVisionCards = [
     icon: <Shield className="w-7 h-7" />,
     title: "Our Mission",
     description:
-      "To provide world-class elevator solutions that combine cutting-edge technology with uncompromising safety standards, making vertical transportation accessible and reliable for every building in India.",
+      "To deliver innovative and reliable elevator solutions that combine advanced engineering, safety excellence, and superior performance for every building we serve.",
     delay: 0,
   },
   {
     icon: <Zap className="w-7 h-7" />,
     title: "Our Vision",
     description:
-      "To become India's most trusted elevator brand by 2030, setting new benchmarks in design, technology, and customer satisfaction while building lasting relationships with every client.",
+      "To be recognized as a trusted leader in vertical mobility, setting new benchmarks in innovation, quality, and customer experience across the elevator industry.",
     delay: 0.15,
   },
 ];
@@ -194,7 +194,7 @@ const ImpactMetrics = () => (
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,hsl(43_66%_52%/0.04),transparent_70%)]" />
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
     <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
-      <SectionHeading badge="Our Impact" title="Numbers That Speak" />
+      <SectionHeading badge="Our Impact" badgeClassName="text-lg md:text-xl lg:text-2xl px-6 py-3 tracking-[0.25em]" title="Numbers That Speak" titleClassName="text-3xl md:text-4xl lg:text-5xl tracking-tight text-foreground/80" />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7 max-w-5xl mx-auto">
         <StatCard value="75+" label="Projects Installed" icon={<Building2 className="w-7 h-7" />} delay={0} />
         <StatCard value="120+" label="Happy Customers" icon={<Users className="w-7 h-7" />} delay={0.1} />
@@ -240,42 +240,51 @@ const IndustriesServed = () => {
 
 const ProcessSection = () => {
   const steps = [
-    { icon: <Search className="w-6 h-6" />, title: "Site Inspection", desc: "Our engineers visit your site to assess requirements, shaft dimensions, and structural feasibility." },
-    { icon: <PenTool className="w-6 h-6" />, title: "Design Planning", desc: "Custom elevator design tailored to your building's architecture, capacity needs, and aesthetic preferences." },
-    { icon: <Settings className="w-6 h-6" />, title: "Manufacturing", desc: "Precision manufacturing with quality-controlled components, ready for seamless installation." },
-    { icon: <HardHat className="w-6 h-6" />, title: "Installation", desc: "Professional installation by certified technicians with minimal disruption to your building operations." },
-    { icon: <BadgeCheck className="w-6 h-6" />, title: "Safety Certification", desc: "Rigorous testing and government certification ensuring your elevator meets all safety standards." },
+    { icon: <Search className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Consultation", desc: "Understanding your building requirements and providing tailored elevator solutions." },
+    { icon: <MapPin className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Site Inspection", desc: "Our engineers visit your site to assess requirements, shaft dimensions, and structural feasibility." },
+    { icon: <CheckCircle2 className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Order Confirmation", desc: "Finalizing custom elevator design, capacity, and aesthetics before kicking off manufacturing." },
+    { icon: <Settings className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Production", desc: "Precision manufacturing with quality-controlled components, ready for seamless installation." },
+    { icon: <HardHat className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Installation", desc: "Professional installation by certified technicians with minimal disruption to your building operations." },
+    { icon: <Activity className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Testing & Commissioning", desc: "Comprehensive system testing and commissioning to ensure smooth operation and compliance with safety standards." },
+    { icon: <BadgeCheck className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Safety & Quality", desc: "Rigorous testing and government certification ensuring your elevator meets all safety standards." },
+    { icon: <Award className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Handover to Client", desc: "Final demonstration of features, handover of keys, and initiation of your warranty period." },
   ];
 
   return (
     <section className="py-24 lg:py-32 section-glow relative">
       <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
-        <SectionHeading badge="Our Process" title="How Elevator Installation Works" subtitle="A streamlined 5-step process from consultation to certification" />
-        <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 lg:gap-6">
+      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10 text-center">
+        <SectionHeading badge="Our Process" title="How Elevator Installation Works" subtitle="A streamlined 8-step process from consultation to certification" />
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
             {steps.map((step, i) => (
               <ScrollReveal key={step.title} delay={i * 0.1}>
-                <div className="relative">
-                  <GlassCard className="p-6 text-center relative overflow-hidden group" premium tilt>
+                <div className="relative h-full">
+                  <GlassCard className="p-5 lg:p-6 text-center relative overflow-hidden group h-full flex flex-col" premium tilt>
                     <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="text-primary/30 font-heading font-extrabold text-4xl absolute top-3 right-3">
+                    <div className="text-primary/10 group-hover:text-primary/20 transition-colors font-heading font-extrabold text-4xl lg:text-5xl absolute top-3 lg:top-4 right-3 lg:right-4 pointer-events-none">
                       {String(i + 1).padStart(2, "0")}
                     </div>
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mx-auto mb-4 icon-glow">
+                    <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mx-auto mb-3 lg:mb-4 icon-glow relative z-10">
                       {step.icon}
                     </div>
-                    <h3 className="text-foreground text-sm font-heading font-semibold mb-2">{step.title}</h3>
-                    <p className="text-muted-foreground text-xs leading-relaxed opacity-70">{step.desc}</p>
+                    <h3 className="text-foreground text-sm lg:text-base font-heading font-semibold mb-2 relative z-10">{step.title}</h3>
+                    <p className="text-muted-foreground text-[11px] lg:text-xs leading-relaxed opacity-70 relative z-10 flex-1">{step.desc}</p>
                   </GlassCard>
-                  {i < steps.length - 1 && (
-                    <div className="hidden md:block absolute top-1/2 -right-3 lg:-right-4 w-4 lg:w-6 h-0.5 bg-gradient-to-r from-primary/30 to-primary/10 z-20" />
-                  )}
                 </div>
               </ScrollReveal>
             ))}
           </div>
         </div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-12 text-center text-sm lg:text-base font-medium text-gradient-gold tracking-wide"
+        >
+          Quick and efficient delivery timeline
+        </motion.p>
       </div>
     </section>
   );
@@ -315,40 +324,152 @@ const Solutions = () => {
 
 const Finishes = () => {
   const finishes = [
-    { name: "Basic", price: "₹5-6 Lakhs", features: ["Standard SS finish", "Manual door", "Basic lighting", "Standard control panel"], popular: false },
-    { name: "Standard", price: "₹5-8 Lakhs", features: ["Hairline SS finish", "Automatic door", "LED lighting", "Digital display", "Designer flooring"], popular: true },
-    { name: "Premium", price: "₹10-20 Lakhs", features: ["Mirror/Etched SS finish", "Glass cabin options", "Designer false ceiling", "Touchscreen COP", "Customized interiors"], popular: false },
+    {
+      id: "basic",
+      icon: "B",
+      iconBg: "bg-slate-500/30 text-slate-300 border border-slate-500/30",
+      title: "Basic",
+      price: "₹6 Lakhs onwards",
+      subtitle: "MS Powder-Coated",
+      features: [
+        "MS powder-coated cabin finish",
+        "Standard push button panel",
+        "Basic LED cabin lighting",
+        "Manual/Auto door operation",
+        "1-year comprehensive warranty"
+      ],
+      badge: null,
+      cardStyle: "glass-card border-white/5 text-emerald-500",
+      priceStyle: "text-white",
+      highlight: false
+    },
+    {
+      id: "standard",
+      icon: "S",
+      iconBg: "bg-blue-600/30 text-blue-400 border border-blue-500/30",
+      title: "Standard",
+      price: "₹7 Lakhs onwards",
+      subtitle: "SS Cabin + SS Door",
+      features: [
+        "Stainless steel cabin and door finish (with design)",
+        "304 grade with scratch proof protection",
+        "Digital floor indicator display",
+        "Energy-efficient LED lighting",
+        "Automatic door operation",
+        "1-year comprehensive warranty"
+      ],
+      badge: null,
+      cardStyle: "glass-card border-white/5 text-emerald-500",
+      priceStyle: "text-white",
+      highlight: false
+    },
+    {
+      id: "premium-lite",
+      icon: "PL",
+      iconBg: "bg-[#8b5cf6]/30 text-[#a78bfa] border border-[#8b5cf6]/40",
+      title: "Premium Lite",
+      price: "₹8 Lakhs onwards",
+      subtitle: "Fully Customized Luxury",
+      features: [
+        "Any luxury look (fully customized)",
+        "Designed cabin interior with premium materials",
+        "Digital floor indicator display",
+        "Automatic door operation",
+        "1-year comprehensive warranty"
+      ],
+      badge: { text: "New Trend", color: "bg-[#8b5cf6] text-white", icon: <Star className="w-3 h-3 mr-1.5" /> },
+      cardStyle: "bg-[#0f172a] border-[#8b5cf6]/50 shadow-xl text-[#F5D061]",
+      priceStyle: "text-gradient-gold",
+      highlight: true
+    },
+    {
+      id: "premium-plus",
+      icon: "P+",
+      iconBg: "bg-[#D4AF37]/30 text-[#F5D061] border border-[#D4AF37]/40",
+      title: "Premium Plus",
+      price: "₹9 Lakhs onwards",
+      subtitle: "Gold/Rose Gold/Black Design/Wooden",
+      features: [
+        "Luxury gold/rose gold/black/wooden finish",
+        "Smart touchscreen control panel",
+        "Premium IoT-enabled monitoring",
+        "Designer cabin interior with premium materials",
+        "2-year comprehensive warranty"
+      ],
+      badge: { text: "Most Popular", color: "bg-gradient-to-r from-[#D4AF37] to-[#F5D061] text-zinc-900", icon: <Star className="w-3 h-3 mr-1.5 fill-zinc-900" /> },
+      cardStyle: "bg-[#0f172a] border-[#D4AF37] shadow-[0_0_40px_hsl(43_66%_52%/0.15)] ring-1 ring-[#D4AF37]/50 text-[#F5D061]",
+      priceStyle: "text-gradient-gold",
+      highlight: true,
+      glow: true
+    }
   ];
 
   return (
     <section className="py-24 lg:py-32 relative">
       <SectionDivider />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_30%_at_50%_50%,hsl(43_66%_52%/0.03),transparent)]" />
-      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
-        <SectionHeading badge="Premium Finishes" title="Finishes & Pricing" subtitle="Choose from our range of elevator finishes to match your budget and style" />
-        <div className="grid md:grid-cols-3 gap-8 lg:gap-10 max-w-5xl mx-auto">
-          {finishes.map((f, i) => (
-            <GlassCard key={i} className={`p-8 lg:p-10 text-center relative overflow-hidden ${f.popular ? "border-primary/20 glow-gold-strong" : ""}`} delay={i * 0.12} premium={f.popular} tilt>
-              {f.popular && (
-                <>
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
-                  <span className="relative inline-block px-4 py-1.5 rounded-full bg-primary/12 text-primary text-xs font-semibold mb-4 border border-primary/15">Most Popular</span>
-                </>
+
+      {/* SECTION HEADER */}
+      <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center mb-16">
+        {/* Animated glowing divider above the header */}
+        <div className="w-full max-w-4xl mx-auto h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-12 opacity-50 glow-gold-strong" />
+
+        <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-[10px] md:text-xs font-bold tracking-widest uppercase mb-4 border border-primary/20">
+          PREMIUM SOLUTIONS
+        </span>
+        <h2 className="text-4xl md:text-5xl lg:text-5xl font-heading font-extrabold text-white mb-5 tracking-tight">
+          Finishes & Pricing
+        </h2>
+        <p className="text-muted-foreground/80 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+          Select from our curated collection of premium finishes, meticulously designed to complement your building's architectural elegance and align with your investment requirements.
+        </p>
+      </div>
+
+      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          {finishes.map((f) => (
+            <div key={f.id} className="relative h-full flex pt-4">
+              {/* Badge positioned above the card */}
+              {f.badge && (
+                <div className={`absolute top-0 left-1/2 -translate-x-1/2 z-20 px-3.5 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase flex items-center shadow-lg ${f.badge.color}`}>
+                  {f.badge.icon}
+                  {f.badge.text}
+                </div>
               )}
-              <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-3">{f.name}</h3>
-              <p className="text-gradient-gold text-2xl lg:text-3xl font-heading font-extrabold mb-8">{f.price}</p>
-              <ul className="space-y-3.5 mb-8">
-                {f.features.map((feat) => (
-                  <li key={feat} className="text-muted-foreground text-sm flex items-center gap-2.5 justify-center">
-                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {feat}
-                  </li>
-                ))}
-              </ul>
-              <Link to="/contact" className="relative block w-full py-3.5 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-400 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.25)]">
-                Get Quote
-              </Link>
-            </GlassCard>
+
+              <div className={`relative flex flex-col w-full h-full p-8 rounded-xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl ${f.cardStyle}`}>
+
+                {/* Highlight/Glow effects */}
+                {f.glow && (
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+                )}
+
+                {/* Icon Circle */}
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-heading font-bold text-lg mb-6 shadow-md ${f.iconBg}`}>
+                  {f.icon}
+                </div>
+
+                {/* Header info */}
+                <h3 className="text-xl font-heading font-bold text-white mb-1.5">{f.title}</h3>
+                <p className={`text-[22px] font-heading font-extrabold mb-1.5 ${f.highlight ? "text-gradient-gold" : "text-white"}`}>{f.price}</p>
+                <p className="text-[13px] text-muted-foreground mb-8 min-h-[35px] border-b border-white/10 pb-4">{f.subtitle}</p>
+
+                {/* Features list */}
+                <ul className="space-y-4 mb-10 flex-grow">
+                  {f.features.map((feat, idx) => (
+                    <li key={idx} className="text-[13px] text-foreground/80 flex items-start gap-3">
+                      <CheckCircle2 className={`w-4 h-4 mt-0.5 shrink-0 ${f.highlight ? "text-[#D4AF37]" : "text-emerald-500"}`} />
+                      <span className="leading-snug">{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Button */}
+                <Link to="/contact" className="mt-auto w-full py-3 rounded-lg font-semibold text-sm transition-all duration-300 flex items-center justify-center bg-gradient-to-r from-[#D4AF37] to-[#F5D061] text-zinc-900 hover:shadow-[0_0_20px_hsl(43_66%_52%/0.3)] hover:scale-[1.02]">
+                  Get Quote
+                </Link>
+              </div>
+            </div>
           ))}
         </div>
       </div>
@@ -620,6 +741,146 @@ const ContactSection = () => {
   );
 };
 
+const TechnologySelector = () => {
+  const [activeMotor, setActiveMotor] = useState(0);
+
+  const features = [
+    { icon: <Zap className="w-5 h-5" />, title: "Premium Quality", subtitle: "Italian engineering excellence" },
+    { icon: <Leaf className="w-5 h-5" />, title: "Energy Efficiency", subtitle: "Advanced power-saving technology" },
+    { icon: <Shield className="w-5 h-5" />, title: "Durability", subtitle: "Long-lasting components" },
+    { icon: <Volume2 className="w-5 h-5" />, title: "Smooth Operation", subtitle: "Superior ride comfort" },
+  ];
+
+  const motors = [
+    {
+      id: "hydraulic",
+      name: "Italian Hydraulic Unit",
+      tagline: "Smooth operation for low-rise buildings",
+      points: [
+        "Ideal for low-rise buildings, villas, bungalows, and private homes",
+        "Smooth start and stop due to hydraulic operation",
+        "Safe in power failure – lift can be lowered to the nearest floor",
+        "No overhead machine room required",
+        "Can carry heavy loads – best for goods/passenger lifts",
+        "Works well for irregular shafts and retrofit projects",
+        "Cost-effective solution for buildings up to 5–6 floors",
+        "Less wear & tear since hydraulic system has fewer moving parts",
+        "Noise-free and vibration-free operation",
+        "Backed by Italian GMV technology – known for global quality",
+        "No counterweight required, saving space and cost"
+      ]
+    },
+    {
+      id: "gearless",
+      name: "Italian Gearless Motor",
+      tagline: "Space-saving design without machine room",
+      points: [
+        "Highly energy-efficient, saving up to 50% on power consumption",
+        "Ideal for mid-to-high-rise buildings and heavy usage",
+        "Compact design without requiring a dedicated machine room (MRL)",
+        "Extremely smooth, noise-free, and vibrationless rides",
+        "Environmentally friendly since it requires no oil or lubrication",
+        "Requires less maintenance due to fewer moving parts",
+        "High-speed performance with accurate floor leveling",
+        "Perfect for modern aesthetics and glass capsule elevators",
+        "Long operational lifespan with superior durability",
+        "Powered by advanced PMSM (Permanent Magnet Synchronous Motor) tech"
+      ]
+    },
+    {
+      id: "geared",
+      name: "Italian Geared Motor",
+      tagline: "Traditional setup with dedicated machine room",
+      points: [
+        "Reliable and proven technology for traditional elevator setups",
+        "Cost-effective option for mid-rise buildings",
+        "Requires a dedicated machine room at the top of the shaft",
+        "Easy availability of spare parts and straightforward maintenance",
+        "Heavy-duty performance built for moderate to high traffic",
+        "Solid construction with durable bronze gears and steel worms",
+        "Can be upgraded with modern V3F drives for improved efficiency",
+        "Classic operational feel with robust safety mechanisms",
+        "Excellent load-bearing capabilities for commercial use",
+        "Lower initial installation cost compared to gearless systems"
+      ]
+    }
+  ];
+
+  return (
+    <section className="mt-24 mb-24 relative z-10 w-full overflow-hidden">
+      <div className="container mx-auto px-4 lg:px-6 max-w-7xl">
+        {/* PART 1: Feature Highlights Row */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {features.map((feat, idx) => (
+            <div key={idx} className="flex items-center gap-4 p-4 rounded-xl bg-black/20 border border-white/5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/30 group">
+              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300 shrink-0">
+                {feat.icon}
+              </div>
+              <div>
+                <h4 className="text-white font-semibold text-sm mb-0.5">{feat.title}</h4>
+                <p className="text-muted-foreground text-xs">{feat.subtitle}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* PART 2: Technology Selector Panel */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+          {/* Left Side - Menu */}
+          <div className="lg:col-span-1 flex flex-col space-y-4">
+            {motors.map((motor, idx) => {
+              const isActive = activeMotor === idx;
+              return (
+                <button
+                  key={motor.id}
+                  onClick={() => setActiveMotor(idx)}
+                  className={`w-full text-left p-6 rounded-xl border transition-all duration-300 flex flex-col gap-1 ${isActive
+                      ? "bg-black/30 border-[#D4AF37] border-l-4 shadow-[0_0_20px_hsl(43_66%_52%/0.12)]"
+                      : "bg-black/10 border-white/5 hover:bg-black/20 hover:border-white/10"
+                    }`}
+                >
+                  <h3 className={`font-semibold text-base ${isActive ? "text-[#D4AF37]" : "text-white"}`}>
+                    {motor.name}
+                  </h3>
+                  <p className="text-muted-foreground text-sm">{motor.tagline}</p>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Right Side - Detail Panel */}
+          <div className="lg:col-span-2">
+            <div className="rounded-xl bg-black/20 border border-white/5 backdrop-blur-md p-8 min-h-full">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeMotor}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                >
+                  <h2 className="text-2xl font-bold text-white mb-2">{motors[activeMotor].name}</h2>
+                  <p className="text-[#D4AF37] text-sm font-medium mb-8">{motors[activeMotor].tagline}</p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {motors[activeMotor].points.map((point, idx) => (
+                      <div key={idx} className="flex items-start gap-3 p-4 rounded-lg bg-black/20 border border-white/5 transition-colors duration-300 hover:bg-black/30 hover:border-primary/30">
+                        <CheckCircle2 className="w-5 h-5 text-[#D4AF37] shrink-0 mt-0.5" />
+                        <span className="text-sm text-foreground/80 leading-snug">{point}</span>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+};
 
 const Index = () => (
   <>
@@ -631,6 +892,7 @@ const Index = () => (
     <Solutions />
     <ProcessSection />
     <Finishes />
+    <TechnologySelector />
     <Technology />
     <AMCPlans />
     <CTASection />
