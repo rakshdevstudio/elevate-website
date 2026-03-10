@@ -39,7 +39,7 @@ const Navbar = () => {
             <img src={logo} alt="X Elevators" className="h-16 w-20 lg:h-20 lg:w-20 object-contain transition-transform duration-300 group-hover:scale-110" />
             <div className="font-heading">
               <span className="text-zinc-900 font-bold text-base lg:text-lg uppercase tracking-wider">X Elevators</span>
-              <span className="hidden sm:inline text-zinc-500 text-xs ml-1.5 uppercase tracking-wider">Pvt. Ltd.</span>
+              <span className="hidden sm:inline text-zinc-900 font-bold text-xs ml-1.5 uppercase tracking-wider">Pvt. Ltd.</span>
             </div>
           </Link>
 
@@ -48,9 +48,9 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 relative group ${location.pathname === link.path
+                className={`px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 relative group ${location.pathname === link.path
                   ? "text-primary"
-                  : "text-zinc-700 hover:text-primary"
+                  : "text-zinc-900 hover:text-primary"
                   }`}
               >
                 {link.label}
@@ -61,7 +61,7 @@ const Navbar = () => {
           </nav>
 
           <div className="hidden lg:flex items-center gap-4">
-            <a href="tel:+919844002026" className="flex items-center gap-2 text-sm text-zinc-600 hover:text-primary transition-all duration-300 group">
+            <a href="tel:+919844002026" className="flex items-center gap-2 text-sm text-zinc-900 font-semibold hover:text-primary transition-all duration-300 group">
               <Phone className="w-4 h-4 group-hover:animate-pulse" />
               <span>+91 9844002026</span>
             </a>
@@ -101,9 +101,9 @@ const Navbar = () => {
                 >
                   <Link
                     to={link.path}
-                    className={`block px-4 py-3.5 rounded-xl text-sm font-medium transition-all ${location.pathname === link.path
+                    className={`block px-4 py-3.5 rounded-xl text-sm font-semibold transition-all ${location.pathname === link.path
                       ? "text-primary bg-primary/8"
-                      : "text-zinc-700 hover:text-primary hover:bg-zinc-100"
+                      : "text-zinc-900 hover:text-primary hover:bg-zinc-100"
                       }`}
                   >
                     {link.label}
