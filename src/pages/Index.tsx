@@ -13,7 +13,7 @@ const Hero = () => (
     <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
       <source src="/videos/hero-bg.mp4" type="video/mp4" />
     </video>
-    <div className="absolute inset-0 bg-gradient-to-b from-[hsl(213_62%_6%/0.65)] via-[hsl(213_62%_6%/0.35)] to-[hsl(213_62%_6%/0.88)]" />
+    <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.45), rgba(0,0,0,0.65))" }} />
     <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213_62%_6%/0.4)] via-transparent to-[hsl(213_62%_6%/0.4)]" />
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_40%,hsl(43_66%_52%/0.06),transparent_70%)]" />
     <FloatingParticles count={30} />
@@ -25,17 +25,17 @@ const Hero = () => (
             { icon: <Award className="w-4 h-4" />, label: "Licensed Company" },
             { icon: <Zap className="w-4 h-4" />, label: "99% Automation" },
           ].map((badge, i) => (
-            <motion.span key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }} className="flex items-center gap-2 text-muted-foreground/80 text-sm font-medium px-4 py-2 rounded-full border border-foreground/8 backdrop-blur-sm bg-foreground/3">
+            <motion.span key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }} className="flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-full border border-[rgba(255,255,255,0.2)] backdrop-blur-md bg-[rgba(255,255,255,0.08)]">
               <span className="text-primary">{badge.icon}</span>
               {badge.label}
             </motion.span>
           ))}
         </motion.div>
-        <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }} className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-heading font-extrabold text-foreground mb-6 leading-[0.9] tracking-tight text-shadow-hero">
+        <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }} className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-heading font-extrabold text-white mb-6 leading-[0.9] tracking-tight [text-shadow:0px_4px_20px_rgba(0,0,0,0.55)]">
           <span className="shiny-text">Exceeding</span><br /><span className="shiny-text-gold">Trust</span>
         </motion.h1>
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.7 }} className="text-xl md:text-2xl text-foreground/70 font-light mb-3 tracking-[0.1em] uppercase">Engineering the Future</motion.p>
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.7 }} className="text-base md:text-lg text-muted-foreground/70 max-w-2xl mx-auto mb-12 leading-relaxed">
+        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.7 }} className="text-xl md:text-2xl text-white/90 font-light mb-3 tracking-[0.1em] uppercase">Engineering the Future</motion.p>
+        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.7 }} className="text-base md:text-lg text-white/85 max-w-2xl mx-auto mb-12 leading-relaxed [text-shadow:0px_4px_20px_rgba(0,0,0,0.55)]">
           Next-generation elevator solutions built on strong technical foundations, youthful leadership, and an uncompromising commitment to quality.
         </motion.p>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.6 }} className="flex flex-col sm:flex-row gap-4 justify-center">
