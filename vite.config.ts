@@ -12,6 +12,20 @@ export default defineConfig(({ mode }) => ({
       overlay: false,
     },
   },
+  build: {
+    minify: "esbuild",
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom"]
+        }
+      }
+    }
+  },
+  esbuild: {
+    drop: ["console", "debugger"]
+  },
   plugins: [react()],
   resolve: {
     alias: {

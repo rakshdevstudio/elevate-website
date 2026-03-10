@@ -315,10 +315,10 @@ const About = () => (
         </div>
 
         {/* Team size badge */}
-        <div className="text-center mt-10">
-          <GlassCard className="inline-block p-6" premium>
+        <div className="max-w-md mx-auto mt-10">
+          <GlassCard className="flex flex-col items-center justify-center text-center p-6 rounded-xl border border-white/10" premium>
             <p className="text-gradient-gold text-3xl font-heading font-bold text-shadow-glow">25+</p>
-            <p className="text-muted-foreground text-sm">Team Members</p>
+            <p className="text-white font-medium text-sm mt-1">Peoples</p>
           </GlassCard>
         </div>
       </div>

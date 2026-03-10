@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionHeading, GlassCard, StatCard, ScrollReveal, FloatingParticles, SectionDivider, StaggerContainer, StaggerChild } from "@/components/ui/shared";
-import { Shield, Zap, Award, Users, Building2, Wrench, ChevronRight, CheckCircle2, Phone, Mail, MapPin, ChevronDown, PhoneCall, ArrowRight, Home, Building, Hospital, Hotel, Factory, Search, PenTool, Settings, HardHat, BadgeCheck, Send, Activity, Star, Leaf, Volume2 } from "lucide-react";
+import { Shield, Zap, Award, Users, Building2, Wrench, ChevronRight, CheckCircle2, Phone, Mail, MapPin, ChevronDown, PhoneCall, ArrowRight, Home, Building, Hospital, Hotel, Factory, Search, PenTool, Settings, HardHat, BadgeCheck, Send, Activity, Star, Leaf, Volume2, Brain, Smartphone, BarChart3 } from "lucide-react";
 import { TrustBadges } from "@/components/CTABanner";
 import { AnimatedList } from "@/components/AnimatedList";
 import { useState } from "react";
@@ -477,27 +477,80 @@ const Finishes = () => {
   );
 };
 
-const Technology = () => (
-  <section className="py-24 lg:py-32 section-glow relative">
-    <SectionDivider />
-    <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
-      <SectionHeading badge="Innovation" title="Intelligent Elevator Systems" subtitle="Powered by smart technology for safety, efficiency, and seamless operation" />
-      <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto">
-        {[
-          { title: "IoT Monitoring", desc: "Real-time remote monitoring of elevator performance, diagnostics, and predictive maintenance alerts." },
-          { title: "Energy Efficient Drives", desc: "Regenerative drives that reduce energy consumption by up to 50% while ensuring smooth rides." },
-          { title: "Smart Safety Systems", desc: "Multi-layered safety with emergency braking, door sensors, overload protection, and battery backup." },
-        ].map((t, i) => (
-          <GlassCard key={i} className="p-7 lg:p-8 group" delay={i * 0.12} premium tilt>
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center text-primary mb-5 font-heading font-bold text-lg icon-glow-tech group-hover:icon-glow transition-all duration-500">0{i + 1}</div>
-            <h3 className="text-lg lg:text-xl font-heading font-semibold text-foreground mb-3">{t.title}</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed opacity-75">{t.desc}</p>
-          </GlassCard>
-        ))}
+const Technology = () => {
+  const cards = [
+    {
+      title: "Real-Time Monitoring",
+      description: "Live tracking of elevator performance, usage patterns, and system health through IoT sensors.",
+      features: ["24/7 system monitoring", "Performance analytics", "Usage tracking", "Remote diagnostics"],
+      icon: <Activity className="w-6 h-6" />
+    },
+    {
+      title: "Predictive Maintenance",
+      description: "AI-powered algorithms predict potential issues before they become problems, reducing downtime significantly.",
+      features: ["Prevent breakdowns", "Reduce maintenance costs", "Extend equipment life", "Minimize disruptions"],
+      icon: <Brain className="w-6 h-6" />
+    },
+    {
+      title: "Smart Controls",
+      description: "Touchless operation, destination dispatch, and mobile app integration for modern convenience.",
+      features: ["Contactless operation", "Mobile app control", "Voice activation", "Gesture controls"],
+      icon: <Smartphone className="w-6 h-6" />
+    },
+    {
+      title: "Analytics Dashboard",
+      description: "Comprehensive data insights for building managers to optimize elevator efficiency and usage.",
+      features: ["Usage analytics", "Energy consumption tracking", "Performance reports", "Cost optimization"],
+      icon: <BarChart3 className="w-6 h-6" />
+    }
+  ];
+
+  return (
+    <section className="py-24 lg:py-32 section-glow relative">
+      <SectionDivider />
+      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
+        <SectionHeading 
+          badge="IoT Enabled" 
+          title="Intelligent Elevator Systems" 
+          subtitle="Experience the future with our IoT-enabled smart elevators featuring predictive maintenance, touchless controls, and real-time monitoring for optimal performance." 
+        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto mt-12">
+          {cards.map((card, idx) => (
+            <div key={idx} className="group flex flex-col items-center sm:items-start text-center sm:text-left">
+              <div className="text-primary/50 font-heading font-extrabold text-2xl -translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 md:-mb-1 md:ml-4 flex items-center gap-2">
+                <span className="w-4 h-px bg-primary/40 hidden md:block"></span>
+                0{idx + 1}
+              </div>
+              <div className="rounded-xl bg-black/20 backdrop-blur-md border border-white/10 p-6 flex flex-col gap-3 hover:-translate-y-[6px] hover:shadow-lg transition-all duration-300 w-full relative z-10">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-1">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    {card.icon}
+                  </div>
+                  <div className="flex flex-col gap-2 mt-1 sm:mt-0">
+                    <h3 className="text-xl font-heading font-bold text-white">
+                      {card.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed opacity-90 max-w-sm">
+                      {card.description}
+                    </p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 mt-auto pt-4 border-t border-white/5 sm:pl-16">
+                  {card.features.map((feature, fIdx) => (
+                    <div key={fIdx} className="flex items-center justify-center sm:justify-start gap-2">
+                      <span className="text-primary text-[10px]">●</span>
+                      <span className="text-xs text-foreground/80">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 const AMCPlans = () => {
   const plans = [
