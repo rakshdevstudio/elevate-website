@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, Phone, Mail, Building2, Layers, Box, MessageSquare, Calendar, Clock, Send,
-  ChevronDown, Star, User, History, MapPin, Download,
+  ChevronDown, Star, User, History, MapPin, Download, IndianRupee,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -122,6 +122,8 @@ const AdminLeadDetail = () => {
     { icon: Layers, label: "Floors", value: lead.number_of_floors },
     { icon: Box, label: "Elevator Type", value: lead.elevator_type },
     { icon: Building2, label: "Company", value: lead.company_name },
+    { icon: IndianRupee, label: "Budget Range", value: (lead as any).budget_range ? `₹${(lead as any).budget_range} Lakhs` : null },
+    { icon: MapPin, label: "Address", value: (lead as any).address },
   ].filter((i) => i.value);
 
   const historyIcons: Record<string, string> = {
