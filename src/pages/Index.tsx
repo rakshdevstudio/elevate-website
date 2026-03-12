@@ -1,76 +1,114 @@
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionHeading, GlassCard, StatCard, ScrollReveal, FloatingParticles, SectionDivider, StaggerContainer, StaggerChild } from "@/components/ui/shared";
-import { Shield, Zap, Award, Users, Building2, Wrench, ChevronRight, CheckCircle2, Phone, Mail, MapPin, ChevronDown, PhoneCall, ArrowRight, Home, Building, Hospital, Hotel, Factory, Search, PenTool, Settings, HardHat, BadgeCheck, Send, Activity, Star, Leaf, Volume2, Brain, Smartphone, BarChart3 } from "lucide-react";
+import { Shield, Zap, Award, Users, Building2, Wrench, ChevronRight, CheckCircle2, Phone, Mail, MapPin, ChevronDown, PhoneCall, ArrowRight, Home, Building, Hospital, Hotel, Factory, Search, PenTool, Settings, HardHat, BadgeCheck, Send, Activity, Star, Leaf, Volume2, Brain, Smartphone, BarChart3, Truck, Clock, Headphones } from "lucide-react";
 import { TrustBadges } from "@/components/CTABanner";
 import { AnimatedList } from "@/components/AnimatedList";
-import { useState } from "react";
+import BrochureDownload from "@/components/BrochureDownload";
+import { useState, useEffect } from "react";
 import { submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
 import { toast } from "@/hooks/use-toast";
 
-const Hero = () => (
-  <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-    <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
-      <source src="/videos/hero-bg.mp4" type="video/mp4" />
-    </video>
-    <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.45), rgba(0,0,0,0.65))" }} />
-    <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213_62%_6%/0.4)] via-transparent to-[hsl(213_62%_6%/0.4)]" />
-    <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_40%,hsl(43_66%_52%/0.06),transparent_70%)]" />
-    <FloatingParticles count={30} />
-    <div className="container mx-auto px-4 lg:px-8 relative z-10">
-      <div className="max-w-5xl mx-auto text-center">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7 }} className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mb-12">
-          {[
-            { icon: <Shield className="w-4 h-4" />, label: "ISO Certified" },
-            { icon: <Award className="w-4 h-4" />, label: "Licensed Company" },
-            { icon: <Zap className="w-4 h-4" />, label: "99% Automation" },
-          ].map((badge, i) => (
-            <motion.span key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }} className="flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-full border border-[rgba(255,255,255,0.2)] backdrop-blur-md bg-[rgba(255,255,255,0.08)]">
-              <span className="text-primary">{badge.icon}</span>
-              {badge.label}
-            </motion.span>
-          ))}
-        </motion.div>
-        <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }} className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-heading font-extrabold text-white mb-6 leading-[0.9] tracking-tight [text-shadow:0px_4px_20px_rgba(0,0,0,0.55)]">
-          <span className="shiny-text">Exceeding</span><br /><span className="shiny-text-gold">Trust</span>
-        </motion.h1>
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.7 }} className="text-xl md:text-2xl text-white/90 font-light mb-3 tracking-[0.1em] uppercase">Engineering the Future</motion.p>
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.7 }} className="text-base md:text-lg text-white/85 max-w-2xl mx-auto mb-12 leading-relaxed [text-shadow:0px_4px_20px_rgba(0,0,0,0.55)]">
-          Next-generation elevator solutions built on strong technical foundations, youthful leadership, and an uncompromising commitment to quality.
-        </motion.p>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.6 }} className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link to="/contact" className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-10 py-4 rounded-full font-semibold text-base transition-all duration-400 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.4),0_0_80px_hsl(43_66%_52%/0.15)] hover:scale-105 active:scale-100 btn-glow">
-            Get a Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-          </Link>
-          <a href="tel:+919844002026" className="group inline-flex items-center justify-center gap-2 border border-foreground/15 text-foreground px-10 py-4 rounded-full font-semibold text-base hover:bg-foreground/8 hover:border-foreground/25 transition-all duration-400 backdrop-blur-md">
-            <PhoneCall className="w-4 h-4 group-hover:animate-pulse" /> Call Us Now
-          </a>
-        </motion.div>
+const rotatingWords = ["Trust", "Safety", "Innovation", "Reliability", "Excellence"];
+
+const Hero = () => {
+  const [wordIndex, setWordIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWordIndex((prev) => (prev + 1) % rotatingWords.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
+        <source src="/videos/hero-bg.mp4" type="video/mp4" />
+      </video>
+      <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.45), rgba(0,0,0,0.65))" }} />
+      <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213_62%_6%/0.4)] via-transparent to-[hsl(213_62%_6%/0.4)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_40%,hsl(43_66%_52%/0.06),transparent_70%)]" />
+      <FloatingParticles count={30} />
+      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+        <div className="max-w-5xl mx-auto text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7 }} className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-12">
+            {[
+              { icon: <Shield className="w-4 h-4" />, label: "ISO Certified" },
+              { icon: <Award className="w-4 h-4" />, label: "Licensed Company" },
+              { icon: <Zap className="w-4 h-4" />, label: "99% Automation" },
+              { icon: <Truck className="w-4 h-4" />, label: "Quick & Fast Delivery" },
+            ].map((badge, i) => (
+              <motion.span key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }} className="flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-full border border-[rgba(255,255,255,0.2)] backdrop-blur-md bg-[rgba(255,255,255,0.08)]">
+                <span className="text-primary">{badge.icon}</span>
+                {badge.label}
+              </motion.span>
+            ))}
+          </motion.div>
+          <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }} className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-heading font-extrabold text-white mb-6 leading-[0.9] tracking-tight [text-shadow:0px_4px_20px_rgba(0,0,0,0.55)]">
+            <span
+              className="shiny-text"
+              style={{
+                filter: "brightness(1.4) drop-shadow(0 0 18px hsl(43 66% 52% / 0.6))",
+                textShadow: "0 0 30px hsl(43 66% 52% / 0.4), 0 4px 20px rgba(0,0,0,0.5)",
+              }}
+            >Exceeding</span>
+            <br />
+            <span className="inline-block relative h-[1.1em] overflow-hidden align-bottom">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={rotatingWords[wordIndex]}
+                  className="shiny-text-gold inline-block"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -40 }}
+                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {rotatingWords[wordIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+          </motion.h1>
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.7 }} className="text-xl md:text-2xl text-white/90 font-light mb-3 tracking-[0.1em] uppercase">Engineering the Future</motion.p>
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.7 }} className="text-base md:text-lg text-white/85 max-w-2xl mx-auto mb-12 leading-relaxed [text-shadow:0px_4px_20px_rgba(0,0,0,0.55)]">
+            Next-generation elevator solutions built on strong technical foundations, youthful leadership, and an uncompromising commitment to quality.
+          </motion.p>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.6 }} className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/contact" className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-10 py-4 rounded-full font-semibold text-base transition-all duration-400 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.4),0_0_80px_hsl(43_66%_52%/0.15)] hover:scale-105 active:scale-100 btn-glow">
+              Get a Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+            </Link>
+            <a href="tel:+919844002026" className="group inline-flex items-center justify-center gap-2 border border-foreground/15 text-foreground px-10 py-4 rounded-full font-semibold text-base hover:bg-foreground/8 hover:border-foreground/25 transition-all duration-400 backdrop-blur-md">
+              <PhoneCall className="w-4 h-4 group-hover:animate-pulse" /> Call Us Now
+            </a>
+          </motion.div>
+        </div>
       </div>
-    </div>
-    <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background via-background/80 to-transparent" />
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }} className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-      <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} className="w-6 h-10 rounded-full border-2 border-foreground/20 flex items-start justify-center p-1.5">
-        <motion.div className="w-1.5 h-1.5 rounded-full bg-primary" />
-      </motion.div>
-    </motion.div>
-  </section>
-);
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background via-background/80 to-transparent" />
+    </section>
+  );
+};
 
 const missionVisionCards = [
   {
-    icon: <Shield className="w-7 h-7" />,
-    title: "Our Mission",
+    icon: <Zap className="w-7 h-7" />,
+    label: "Vision",
     description:
-      "To deliver innovative and reliable elevator solutions that combine advanced engineering, safety excellence, and superior performance for every building we serve.",
+      "To be a trusted and innovative elevator company, setting industry benchmarks in safety, quality, and engineering excellence while delivering reliable vertical mobility solutions. We strive for sustainable growth through integrity, advanced technology, and a strong commitment to customer satisfaction.",
     delay: 0,
   },
   {
-    icon: <Zap className="w-7 h-7" />,
-    title: "Our Vision",
+    icon: <Shield className="w-7 h-7" />,
+    label: "Mission",
     description:
-      "To be recognized as a trusted leader in vertical mobility, setting new benchmarks in innovation, quality, and customer experience across the elevator industry.",
+      "To design and deliver safe, efficient, and reliable elevator solutions with uncompromising quality standards, ethical practices, and continuous improvement. We aim to build lasting relationships with customers, partners, and our team while contributing to modern infrastructure development.",
     delay: 0.15,
+  },
+  {
+    icon: <Star className="w-7 h-7" />,
+    label: "Quality Commitment",
+    description:
+      "Quality is the foundation of X Elevators Pvt. Ltd. We are committed to delivering superior elevator solutions through stringent safety compliance, proven components, precision execution, and continuous performance improvement—ensuring long-term reliability and trust.",
+    delay: 0.3,
   },
 ];
 
@@ -84,10 +122,10 @@ const MissionVision = () => (
         title="Our Mission & Vision"
         subtitle="Committed to transforming vertical mobility with innovation and safety"
       />
-      <div className="grid md:grid-cols-2 gap-8 lg:gap-10 max-w-5xl mx-auto">
+      <div className="grid md:grid-cols-3 gap-8 lg:gap-10 max-w-6xl mx-auto">
         {missionVisionCards.map((card) => (
           <motion.div
-            key={card.title}
+            key={card.label}
             initial={{ opacity: 0, y: 45 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
@@ -132,43 +170,10 @@ const MissionVision = () => (
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
             <div className="relative z-10 p-8 lg:p-10">
-              {/* Icon area with pulsing orb */}
-              <div className="relative mb-8 w-fit">
-                {/* Pulsing orb */}
-                <motion.div
-                  className="absolute inset-0 rounded-2xl bg-primary/25 blur-2xl"
-                  animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0.55, 0.3] }}
-                  transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-                />
-                {/* Halo ring */}
-                <div
-                  className="absolute -inset-2 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{
-                    background:
-                      "radial-gradient(ellipse 80% 80% at 50% 50%, hsl(43 66% 52% / 0.14), transparent 70%)",
-                  }}
-                />
-                {/* Icon container */}
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="relative w-16 h-16 rounded-2xl flex items-center justify-center text-primary"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, hsl(43 66% 52% / 0.2) 0%, hsl(43 66% 52% / 0.07) 100%)",
-                    boxShadow:
-                      "0 0 28px hsl(43 66% 52% / 0.18), inset 0 1px 0 hsl(0 0% 100% / 0.1), 0 0 0 1px hsl(43 66% 52% / 0.15)",
-                  }}
-                >
-                  <div className="group-hover:[filter:drop-shadow(0_0_10px_hsl(43_66%_52%/0.7))] transition-all duration-300">
-                    {card.icon}
-                  </div>
-                </motion.div>
-              </div>
-
-              {/* Title */}
-              <h3 className="text-2xl lg:text-3xl font-heading font-bold text-foreground mb-4 tracking-tight">
-                {card.title}
+              {/* Card title — "Our <Gold Label>" format matching Base44 */}
+              <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-5">
+                Our{" "}
+                <span className="text-primary">{card.label}</span>
               </h3>
 
               {/* Separator */}
@@ -187,23 +192,144 @@ const MissionVision = () => (
 );
 
 
+const impactStats = [
+  { value: "75+", label: "Projects Installed", sub: "by our hands" },
+  { value: "120+", label: "Customers Served", sub: "Trusted partnerships" },
+  { value: "ISO", label: "Certified Standard", sub: "Quality assured" },
+  { value: "99%", label: "Automation", sub: "Digital processes" },
+  { value: "Fast", label: "Quick Deliver", sub: "Timeline" },
+  { value: "5", label: "Cities Covered", sub: "South India" },
+  { value: "25+", label: "Peoples", sub: "Dedicated professionals committed to excellence" },
+];
+
+const impactFeatures = [
+  {
+    icon: <PenTool className="w-6 h-6" />,
+    title: "Customization Experts",
+    desc: "From basic MS powder-coated to premium gold finishes – we tailor every elevator to match your building's aesthetic perfectly.",
+    tags: ["Custom Cabin Designs", "Branded Interiors", "Flexible Sizing"],
+  },
+  {
+    icon: <BarChart3 className="w-6 h-6" />,
+    title: "Transparent Pricing",
+    desc: "Our Total Cost of Ownership model ensures no hidden charges. Get lifetime cost clarity from day one.",
+    tags: ["No Hidden Costs", "TCO Calculator", "Flexible Payment Plans"],
+  },
+  {
+    icon: <Shield className="w-6 h-6" />,
+    title: "Certified Safety Standards",
+    desc: "ISO 9001:2015 certified with multiple safety certifications ensuring the highest safety standards.",
+    tags: ["ISO Certified", "CE Marked", "BIS Approved"],
+  },
+  {
+    icon: <Smartphone className="w-6 h-6" />,
+    title: "Digital-First Service",
+    desc: "Experience modern service with IoT monitoring and digital maintenance records.",
+    tags: ["IoT Enabled", "Digital Records", "Real-time Monitoring"],
+  },
+  {
+    icon: <Headphones className="w-6 h-6" />,
+    title: "24x7 Expert Support",
+    desc: "Round-the-clock emergency support with <60 minute response time and certified technicians.",
+    tags: ["Emergency Response", "Expert Technicians", "Preventive Maintenance"],
+  },
+];
+
 const ImpactMetrics = () => (
   <section className="py-24 lg:py-32 relative overflow-hidden">
     <SectionDivider />
-    {/* Rich background orbs */}
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,hsl(43_66%_52%/0.04),transparent_70%)]" />
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
     <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
-      <SectionHeading badge="Our Impact" badgeClassName="text-lg md:text-xl lg:text-2xl px-6 py-3 tracking-[0.25em]" title="Numbers That Speak" titleClassName="text-3xl md:text-4xl lg:text-5xl tracking-tight text-foreground/80" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7 max-w-5xl mx-auto">
-        <StatCard value="75+" label="Projects Installed" icon={<Building2 className="w-7 h-7" />} delay={0} />
-        <StatCard value="120+" label="Happy Customers" icon={<Users className="w-7 h-7" />} delay={0.1} />
-        <StatCard value="99%" label="Uptime Rate" icon={<Zap className="w-7 h-7" />} delay={0.2} />
-        <StatCard value="25+" label="Team Members" icon={<Award className="w-7 h-7" />} delay={0.3} />
+
+      {/* Heading */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="mb-16 text-center"
+      >
+        <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] font-heading font-bold tracking-tight leading-[1.1] mb-5">
+          Our <span className="text-primary">Impact</span>
+        </h2>
+        <p className="text-muted-foreground max-w-2xl mx-auto text-base lg:text-lg leading-relaxed opacity-80">
+          We don't just install elevators – we engineer complete vertical transportation solutions that combine innovation, reliability, and exceptional service.
+        </p>
+      </motion.div>
+
+      {/* 7 Stat Cards Row */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 lg:gap-4 max-w-6xl mx-auto mb-16">
+        {impactStats.map((stat, i) => (
+          <motion.div
+            key={stat.label}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ y: -6, transition: { duration: 0.28, ease: "easeOut" } }}
+            className="group relative rounded-2xl p-4 lg:p-5 text-center cursor-pointer"
+            style={{
+              background: "linear-gradient(160deg, hsl(212 50% 15% / 0.55) 0%, hsl(212 48% 10% / 0.4) 100%)",
+              backdropFilter: "blur(20px)",
+              border: "1px solid hsl(43 66% 52% / 0.1)",
+              boxShadow: "inset 0 1px 0 hsl(0 0% 100% / 0.05), 0 8px 32px hsl(213 62% 3% / 0.3)",
+            }}
+          >
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <p className="text-2xl lg:text-3xl font-heading font-extrabold text-primary mb-1 leading-none">{stat.value}</p>
+            <p className="text-foreground text-xs font-semibold mb-0.5">{stat.label}</p>
+            <p className="text-muted-foreground/60 text-[10px] leading-tight">{stat.sub}</p>
+          </motion.div>
+        ))}
       </div>
+
+      {/* 5 Feature Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-5 max-w-7xl mx-auto">
+        {impactFeatures.map((feat, i) => (
+          <motion.div
+            key={feat.title}
+            initial={{ opacity: 0, y: 35 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ y: -8, transition: { duration: 0.3, ease: "easeOut" } }}
+            className="group relative rounded-2xl p-6 cursor-pointer"
+            style={{
+              background: "linear-gradient(160deg, hsl(212 50% 15% / 0.6) 0%, hsl(212 48% 10% / 0.45) 100%)",
+              backdropFilter: "blur(24px)",
+              border: "1px solid hsl(43 66% 52% / 0.08)",
+              boxShadow: "inset 0 1px 0 hsl(0 0% 100% / 0.05), 0 12px 40px hsl(213 62% 3% / 0.4)",
+            }}
+          >
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div
+              className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+              style={{ boxShadow: "0 0 0 1px hsl(43 66% 52% / 0.18), 0 0 40px hsl(43 66% 52% / 0.08)" }}
+            />
+            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mb-4 icon-glow">
+              {feat.icon}
+            </div>
+            <h3 className="text-foreground font-heading font-bold text-base mb-2">{feat.title}</h3>
+            <p className="text-muted-foreground/75 text-xs leading-relaxed mb-4">{feat.desc}</p>
+            <div className="flex flex-wrap gap-1.5">
+              {feat.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-2.5 py-1 rounded-full text-[10px] font-semibold text-primary border border-primary/20 bg-primary/8 whitespace-nowrap"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
     </div>
   </section>
 );
+
 
 
 const IndustriesServed = () => {
@@ -240,23 +366,24 @@ const IndustriesServed = () => {
 
 const ProcessSection = () => {
   const steps = [
-    { icon: <Search className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Consultation", desc: "Understanding your building requirements and providing tailored elevator solutions." },
-    { icon: <MapPin className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Site Inspection", desc: "Our engineers visit your site to assess requirements, shaft dimensions, and structural feasibility." },
+    { icon: <Search className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Consultation / Site Inspection", desc: "Our engineers understand your requirements and visit your site to assess shaft dimensions and structural feasibility." },
     { icon: <CheckCircle2 className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Order Confirmation", desc: "Finalizing custom elevator design, capacity, and aesthetics before kicking off manufacturing." },
     { icon: <Settings className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Production", desc: "Precision manufacturing with quality-controlled components, ready for seamless installation." },
-    { icon: <HardHat className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Installation", desc: "Professional installation by certified technicians with minimal disruption to your building operations." },
-    { icon: <Activity className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Testing & Commissioning", desc: "Comprehensive system testing and commissioning to ensure smooth operation and compliance with safety standards." },
-    { icon: <BadgeCheck className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Safety & Quality", desc: "Rigorous testing and government certification ensuring your elevator meets all safety standards." },
-    { icon: <Award className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Handover to Client", desc: "Final demonstration of features, handover of keys, and initiation of your warranty period." },
+    { icon: <Truck className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Delivery", desc: "Components are carefully transported and delivered to your site on schedule, ready for installation." },
+    { icon: <HardHat className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Installation / Testing", desc: "Professional installation by certified technicians followed by comprehensive system testing and commissioning." },
+    { icon: <BadgeCheck className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Safety & Quality / Handover", desc: "Rigorous safety certification, final demonstration of features, and handover with initiation of your warranty period." },
   ];
 
   return (
     <section className="py-24 lg:py-32 section-glow relative">
       <SectionDivider />
       <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10 text-center">
-        <SectionHeading badge="Our Process" title="How Elevator Installation Works" subtitle="A streamlined 8-step process from consultation to certification" />
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
+        <SectionHeading badge="Our Process" title="How We Deliver" subtitle="A streamlined 6-step process from consultation to handover" />
+        <p className="-mt-10 mb-12 text-center text-sm lg:text-base font-medium text-gradient-gold tracking-wide">
+          Quick and efficient delivery timeline
+        </p>
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             {steps.map((step, i) => (
               <ScrollReveal key={step.title} delay={i * 0.1}>
                 <div className="relative h-full">
@@ -277,14 +404,6 @@ const ProcessSection = () => {
           </div>
         </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-12 text-center text-sm lg:text-base font-medium text-gradient-gold tracking-wide"
-        >
-          Quick and efficient delivery timeline
-        </motion.p>
       </div>
     </section>
   );
@@ -366,7 +485,7 @@ const Finishes = () => {
     {
       id: "premium-lite",
       icon: "PL",
-      iconBg: "bg-[#8b5cf6]/30 text-[#a78bfa] border border-[#8b5cf6]/40",
+      iconBg: "bg-brand/20 text-brand border border-brand/40",
       title: "Premium Lite",
       price: "₹8 Lakhs onwards",
       subtitle: "Fully Customized Luxury",
@@ -377,8 +496,8 @@ const Finishes = () => {
         "Automatic door operation",
         "1-year comprehensive warranty"
       ],
-      badge: { text: "New Trend", color: "bg-[#8b5cf6] text-white", icon: <Star className="w-3 h-3 mr-1.5" /> },
-      cardStyle: "bg-[#0f172a] border-[#8b5cf6]/50 shadow-xl text-[#F5D061]",
+      badge: { text: "New Trend", color: "bg-brand text-white", icon: <Star className="w-3 h-3 mr-1.5" /> },
+      cardStyle: "bg-[#0f172a] border-brand/50 shadow-xl text-[#F5D061]",
       priceStyle: "text-gradient-gold",
       highlight: true
     },
@@ -509,10 +628,17 @@ const Technology = () => {
     <section className="py-24 lg:py-32 section-glow relative">
       <SectionDivider />
       <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
-        <SectionHeading 
-          badge="IoT Enabled" 
-          title="Intelligent Elevator Systems" 
-          subtitle="Experience the future with our IoT-enabled smart elevators featuring predictive maintenance, touchless controls, and real-time monitoring for optimal performance." 
+        <SectionHeading
+          badge="IoT Enabled"
+          title={
+            <span className="flex items-center justify-center gap-4 flex-wrap">
+              Intelligent Elevator Systems
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-amber-500/15 text-amber-400 border border-amber-500/30">
+                <Clock className="w-3 h-3" /> Coming Soon
+              </span>
+            </span>
+          }
+          subtitle="Our next-generation intelligent elevator system featuring predictive maintenance and remote monitoring is coming soon. Experience the future of vertical mobility."
         />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto mt-12">
           {cards.map((card, idx) => (
@@ -554,9 +680,44 @@ const Technology = () => {
 
 const AMCPlans = () => {
   const plans = [
-    { name: "Silver", price: "₹20,000/yr", features: ["Bimonthly maintenance", "Safety inspection", "Phone support (business hrs)", "Parts at additional cost", "48hr response time"] },
-    { name: "Gold", price: "₹35,000/yr", features: ["Monthly maintenance", "Preventive maintenance", "24/7 emergency support", "20% parts discount", "24hr response time"], popular: true },
-    { name: "Platinum", price: "₹70,000/yr", features: ["Fortnightly maintenance", "Full preventive maintenance", "24/7 priority support", "Free parts replacement", "4hr emergency response"] },
+    {
+      name: "Silver",
+      price: "₹20,000",
+      features: [
+        "Bimonthly maintenance",
+        "24/7 emergency support",
+        "Non comprehensive",
+        "Unlimited breakdown support",
+        "Digital reports",
+        "Parts at additional cost",
+      ],
+    },
+    {
+      name: "Gold",
+      price: "₹35,000",
+      features: [
+        "Bimonthly maintenance",
+        "24/7 emergency support",
+        "Semi comprehensive",
+        "Unlimited breakdown support",
+        "Digital reports",
+        "Discounted parts replacement",
+      ],
+      popular: true,
+    },
+    {
+      name: "Platinum",
+      price: "₹70,000",
+      features: [
+        "Monthly maintenance",
+        "Priority emergency support",
+        "Predictive maintenance",
+        "Unlimited breakdown support",
+        "Digital reports",
+        "Comprehensive",
+        "Free parts replacement",
+      ],
+    },
   ];
 
   return (
@@ -564,36 +725,85 @@ const AMCPlans = () => {
       <SectionDivider />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,hsl(43_66%_52%/0.03),transparent)]" />
       <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
-        <SectionHeading badge="Maintenance" title="AMC Plans" subtitle="Keep your elevator running perfectly with our Annual Maintenance Contracts" />
-        <div className="grid md:grid-cols-3 gap-8 lg:gap-10 max-w-5xl mx-auto">
+        {/* Title matching Base44: "Annual Maintenance Contract Plans" */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-16 text-center"
+        >
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold tracking-tight leading-[1.1]">
+            Annual Maintenance{" "}
+            <span className="text-primary">Contract Plans</span>
+          </h2>
+        </motion.div>
+
+        <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto items-start">
           {plans.map((p, i) => (
-            <GlassCard key={i} className={`p-8 lg:p-10 text-center relative overflow-hidden ${p.popular ? "border-primary/20 glow-gold-strong" : ""}`} delay={i * 0.12} premium={p.popular} tilt>
+            <motion.div
+              key={p.name}
+              initial={{ opacity: 0, y: 35 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+              className={`relative rounded-2xl overflow-hidden ${p.popular ? "mt-[-16px]" : ""}`}
+              style={{
+                background: p.popular
+                  ? "linear-gradient(160deg, hsl(212 50% 14% / 0.9) 0%, hsl(212 48% 10% / 0.85) 100%)"
+                  : "linear-gradient(160deg, hsl(212 50% 15% / 0.7) 0%, hsl(212 48% 10% / 0.55) 100%)",
+                backdropFilter: "blur(24px)",
+                border: p.popular
+                  ? "1px solid hsl(43 66% 52% / 0.35)"
+                  : "1px solid hsl(43 66% 52% / 0.1)",
+                boxShadow: p.popular
+                  ? "0 0 60px hsl(43 66% 52% / 0.12), 0 20px 60px hsl(213 62% 3% / 0.5)"
+                  : "0 12px 40px hsl(213 62% 3% / 0.3)",
+              }}
+            >
+              {/* Most Popular badge */}
               {p.popular && (
-                <>
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-b from-primary/6 to-transparent pointer-events-none" />
-                  <span className="relative inline-block px-4 py-1.5 rounded-full bg-primary/12 text-primary text-xs font-semibold mb-4 border border-primary/15">Best Value</span>
-                </>
+                <div className="flex justify-center pt-4 pb-2">
+                  <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-primary to-gold-light text-primary-foreground text-xs font-semibold">
+                    <Star className="w-3 h-3" /> Most Popular
+                  </span>
+                </div>
               )}
-              <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-3 relative">{p.name}</h3>
-              <p className="text-gradient-gold text-3xl lg:text-4xl font-heading font-extrabold mb-8 relative">{p.price}</p>
-              <ul className="space-y-3.5 mb-8 relative">
-                {p.features.map((f) => (
-                  <li key={f} className="text-muted-foreground text-sm flex items-center gap-2.5 justify-center">
-                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {f}
-                  </li>
-                ))}
-              </ul>
-              <Link to="/contact" className="relative block w-full py-3.5 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-400 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.25)]">
-                Choose Plan
-              </Link>
-            </GlassCard>
+
+              <div className="p-8 lg:p-10">
+                <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-3 text-center">{p.name}</h3>
+                <p className="text-center mb-8">
+                  <span className="text-3xl lg:text-4xl font-heading font-extrabold text-primary">{p.price}</span>
+                  <span className="text-muted-foreground/60 text-sm">/year</span>
+                </p>
+
+                <ul className="space-y-3 mb-8">
+                  {p.features.map((f) => (
+                    <li key={f} className="text-muted-foreground text-sm flex items-center gap-2.5">
+                      <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {f}
+                    </li>
+                  ))}
+                </ul>
+
+                <Link
+                  to="/contact"
+                  className={`block w-full py-3.5 rounded-xl font-semibold text-sm text-center transition-all duration-300 ${
+                    p.popular
+                      ? "bg-gradient-to-r from-primary to-gold-light text-primary-foreground hover:shadow-[0_0_30px_hsl(43_66%_52%/0.4)] hover:scale-[1.02]"
+                      : "bg-white/8 text-foreground border border-white/10 hover:bg-white/12 hover:border-white/20"
+                  }`}
+                >
+                  Choose {p.name}
+                </Link>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>
     </section>
   );
 };
+
 
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -648,7 +858,7 @@ const CTASection = () => (
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/3 pointer-events-none" />
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-32 bg-primary/8 rounded-full blur-[80px] pointer-events-none" />
             <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-extrabold text-foreground mb-5 tracking-tight">Ready to <span className="text-gradient-gold">Elevate</span> Your Building?</h2>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-extrabold text-foreground mb-5 tracking-tight">Ready to <span className="text-gradient-gold">Elevate</span> Your Prestige?</h2>
               <p className="text-muted-foreground text-base lg:text-lg max-w-2xl mx-auto mb-10 leading-relaxed opacity-80">
                 Get a free site inspection and personalized elevator recommendation from our expert engineers.
               </p>
@@ -669,7 +879,8 @@ const CTASection = () => (
 );
 
 const ContactSection = () => {
-  const [form, setForm] = useState({ name: "", phone: "", email: "", company_name: "", elevator_type: "", number_of_floors: "", building_type: "", message: "" });
+  const [form, setForm] = useState({ name: "", phone: "", email: "", company_name: "", elevator_type: "", number_of_floors: "", building_type: "", message: "", address: "" });
+  const [budget, setBudget] = useState(15);
   const [submitting, setSubmitting] = useState(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -681,11 +892,12 @@ const ContactSection = () => {
       return;
     }
     setSubmitting(true);
-    const { success, error } = await submitLead({ ...form, lead_source: "website_form" });
+    const { success, error } = await submitLead({ ...form, budget_range: budget, lead_source: "website_form" });
     setSubmitting(false);
     if (success) {
       toast({ title: "✅ Thank You!", description: SUCCESS_MESSAGE });
-      setForm({ name: "", phone: "", email: "", company_name: "", elevator_type: "", number_of_floors: "", building_type: "", message: "" });
+      setForm({ name: "", phone: "", email: "", company_name: "", elevator_type: "", number_of_floors: "", building_type: "", message: "", address: "" });
+      setBudget(15);
     } else {
       toast({ title: "Submission failed", description: error, variant: "destructive" });
     }
@@ -695,14 +907,14 @@ const ContactSection = () => {
       <SectionDivider />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_60%_50%,hsl(43_66%_52%/0.04),transparent)]" />
       <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
-        <SectionHeading badge="Get In Touch" title="Let's Connect" subtitle="Ready to elevate your building? Reach out for a free consultation" />
+        <SectionHeading badge="Get In Touch" title="Let's Connect" subtitle="Ready to Elevate Your Prestige? Reach out for a free consultation" />
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 max-w-5xl mx-auto">
           <ScrollReveal direction="left">
             <div className="space-y-5">
               {[
                 { icon: <Phone className="w-5 h-5" />, title: "Call Us", info: "+91 9844002026 / +91 6384961909" },
                 { icon: <Mail className="w-5 h-5" />, title: "Email Us", info: "info@xelevators.in" },
-                { icon: <MapPin className="w-5 h-5" />, title: "Visit Us", info: "Bangalore & Chennai, India" },
+                { icon: <MapPin className="w-5 h-5" />, title: "Visit Us", info: "Karnataka & Tamilnadu, India" },
               ].map((c, i) => (
                 <GlassCard key={i} className="p-6 flex items-start gap-5" delay={i * 0.1} premium>
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">{c.icon}</div>
@@ -778,8 +990,32 @@ const ContactSection = () => {
                   </div>
                 </div>
                 <div>
+                  <label className="block text-sm font-medium text-foreground/80 mb-1.5">Address</label>
+                  <input name="address" value={form.address} onChange={handleChange} placeholder="Your site / building address" className="input-premium w-full" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-foreground/80 mb-2">Budget Range</label>
+                  <div className="px-1">
+                    <input
+                      type="range"
+                      min="5"
+                      max="50"
+                      step="1"
+                      value={budget}
+                      onChange={(e) => setBudget(Number(e.target.value))}
+                      className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-primary bg-white/10"
+                      style={{ accentColor: "hsl(43 66% 52%)" }}
+                    />
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="text-muted-foreground/50 text-xs">₹5 Lakhs</span>
+                      <span className="text-primary font-semibold text-sm">Selected: ₹{budget} Lakhs</span>
+                      <span className="text-muted-foreground/50 text-xs">₹50 Lakhs</span>
+                    </div>
+                  </div>
+                </div>
+                <div>
                   <label className="block text-sm font-medium text-foreground/80 mb-1.5">Project Details</label>
-                  <textarea name="message" value={form.message} onChange={handleChange} placeholder="Tell us about your project requirements, timeline, budget, or any specific needs..." rows={5} className="w-full input-premium resize-none" />
+                  <textarea name="message" value={form.message} onChange={handleChange} placeholder="Tell us about your project requirements, timeline, or any specific needs..." rows={4} className="w-full input-premium resize-none" />
                 </div>
                 <button type="submit" disabled={submitting} className="w-full bg-gradient-to-r from-primary to-gold-light text-primary-foreground py-4 rounded-xl font-semibold text-sm transition-all duration-400 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.35)] hover:scale-[1.02] active:scale-100 btn-glow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                   <Send className="w-4 h-4" /> {submitting ? "Submitting..." : "Submit Request"}
@@ -889,8 +1125,8 @@ const TechnologySelector = () => {
                   key={motor.id}
                   onClick={() => setActiveMotor(idx)}
                   className={`w-full text-left p-6 rounded-xl border transition-all duration-300 flex flex-col gap-1 ${isActive
-                      ? "bg-black/30 border-[#D4AF37] border-l-4 shadow-[0_0_20px_hsl(43_66%_52%/0.12)]"
-                      : "bg-black/10 border-white/5 hover:bg-black/20 hover:border-white/10"
+                    ? "bg-black/30 border-[#D4AF37] border-l-4 shadow-[0_0_20px_hsl(43_66%_52%/0.45),0_0_50px_hsl(43_66%_52%/0.2)]"
+                    : "bg-black/10 border-white/5 hover:bg-black/20 hover:border-white/10"
                     }`}
                 >
                   <h3 className={`font-semibold text-base ${isActive ? "text-[#D4AF37]" : "text-white"}`}>
@@ -948,6 +1184,7 @@ const Index = () => (
     <TechnologySelector />
     <Technology />
     <AMCPlans />
+    <BrochureDownload />
     <CTASection />
     <FAQ />
     <ContactSection />

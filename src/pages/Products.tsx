@@ -6,6 +6,7 @@ import { CTABanner, TrustBadges } from "@/components/CTABanner";
 import { motion, AnimatePresence } from "framer-motion";
 import TiltedCard from "@/components/TiltedCard";
 import StarBorder from "@/components/StarBorder";
+import BrochureDownload from "@/components/BrochureDownload";
 
 const tabOptions = ["MRL Based Elevators", "Full Structure Elevator"];
 
@@ -252,6 +253,7 @@ const Products = () => {
         </div>
       </section>
 
+      <BrochureDownload />
       <CTABanner variant="quote" />
     </>
   );

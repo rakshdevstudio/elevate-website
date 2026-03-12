@@ -7,7 +7,7 @@ import StarBorder from "../StarBorder";
 interface SectionHeadingProps {
   badge?: string;
   badgeClassName?: string;
-  title: string;
+  title: ReactNode;
   titleClassName?: string;
   subtitle?: string;
   center?: boolean;

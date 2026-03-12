@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { PageHero, SectionHeading, GlassCard, StatCard, SectionDivider, ScrollReveal } from "@/components/ui/shared";
 import { Shield, Award, Users, Target, Building2, Heart, Lightbulb, CheckCircle2, Pencil, Cog, Clock, Monitor, HeadphonesIcon, Home, Building, Hospital, Hotel, Factory } from "lucide-react";
 import { CTABanner, TrustBadges } from "@/components/CTABanner";
+import BrochureDownload from "@/components/BrochureDownload";
 
 const founders = [
   {
@@ -370,6 +371,7 @@ const About = () => (
       </div>
     </section>
 
+    <BrochureDownload />
     <CTABanner variant="quote" />
   </>
 );

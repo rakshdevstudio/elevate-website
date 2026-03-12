@@ -3,12 +3,14 @@ import { PageHero, SectionHeading, GlassCard, SectionDivider, ScrollReveal } fro
 import { Phone, Mail, MapPin, Globe, Clock, Headphones, MessageSquare, Send, PhoneCall } from "lucide-react";
 import { submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
 import { toast } from "@/hooks/use-toast";
+import BrochureDownload from "@/components/BrochureDownload";
 
 const Contact = () => {
   const [form, setForm] = useState({
     name: "", phone: "", email: "", company_name: "",
-    elevator_type: "", number_of_floors: "", building_type: "", message: "",
+    elevator_type: "", number_of_floors: "", building_type: "", message: "", address: "",
   });
+  const [budget, setBudget] = useState(15);
   const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -32,13 +34,16 @@ const Contact = () => {
         number_of_floors: form.number_of_floors,
         building_type: form.building_type,
         message: form.message,
+        address: form.address,
+        budget_range: budget,
         lead_source: "website_form",
       });
       if (!success) {
         toast({ title: "Submission failed", description: error, variant: "destructive" });
       } else {
         toast({ title: "✅ Thank You!", description: SUCCESS_MESSAGE });
-        setForm({ name: "", phone: "", email: "", company_name: "", elevator_type: "", number_of_floors: "", building_type: "", message: "" });
+        setForm({ name: "", phone: "", email: "", company_name: "", elevator_type: "", number_of_floors: "", building_type: "", message: "", address: "" });
+        setBudget(15);
       }
     } catch {
       toast({ title: "Unexpected error", description: "Please try again later.", variant: "destructive" });
@@ -148,9 +153,35 @@ const Contact = () => {
                         </select>
                       </div>
                     </div>
+                    <div className="space-y-5">
+                      <div>
+                        <label className="block text-foreground text-sm font-medium mb-2">Address</label>
+                        <input name="address" value={form.address} onChange={handleChange} placeholder="Your site / building address" className="w-full input-premium" />
+                      </div>
+                      <div>
+                        <label className="block text-foreground text-sm font-medium mb-2">Budget Range</label>
+                        <div className="px-1">
+                          <input
+                            type="range"
+                            min="5"
+                            max="50"
+                            step="1"
+                            value={budget}
+                            onChange={(e) => setBudget(Number(e.target.value))}
+                            className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-white/10"
+                            style={{ accentColor: "hsl(43 66% 52%)" }}
+                          />
+                          <div className="flex justify-between items-center mt-2">
+                            <span className="text-muted-foreground/50 text-xs">₹5 Lakhs</span>
+                            <span className="text-primary font-semibold text-sm">Selected: ₹{budget} Lakhs</span>
+                            <span className="text-muted-foreground/50 text-xs">₹50 Lakhs</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <div>
                       <label className="block text-foreground text-sm font-medium mb-2">Project Details</label>
-                      <textarea name="message" value={form.message} onChange={handleChange} placeholder="Tell us about your project requirements, timeline, budget, or any specific needs..." rows={5} className="w-full input-premium resize-none" />
+                      <textarea name="message" value={form.message} onChange={handleChange} placeholder="Tell us about your project requirements, timeline, or any specific needs..." rows={4} className="w-full input-premium resize-none" />
                     </div>
                     <button type="submit" disabled={submitting} className="w-full bg-gradient-to-r from-primary to-gold-light text-primary-foreground py-4 rounded-xl font-semibold text-base transition-all duration-300 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.35)] hover:scale-[1.02] active:scale-100 btn-glow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                       <Send className="w-4 h-4" /> {submitting ? "Submitting..." : "Submit Request"}
@@ -184,6 +215,8 @@ const Contact = () => {
           </div>
         </div>
       </section>
+
+      <BrochureDownload />
 
       <section className="py-24 lg:py-32 relative">
         <SectionDivider />

@@ -37,11 +37,13 @@ const Footer = () => {
           {/* Brand column */}
           <div>
             <Link to="/" className="flex items-center gap-2.5 mb-5 group w-fit">
-              <img
-                src={logo}
-                alt="X Elevators"
-                className="h-20 w-20 object-contain group-hover:opacity-90 transition-opacity duration-300"
-              />
+              <div className="bg-white rounded-lg p-2 shadow-md shrink-0">
+                <img
+                  src={logo}
+                  alt="X Elevators"
+                  className="h-16 w-16 object-contain group-hover:opacity-90 transition-opacity duration-300"
+                />
+              </div>
               <span className="text-foreground font-heading font-bold text-lg uppercase tracking-wider group-hover:text-primary transition-colors duration-300">
                 X Elevators Pvt. Ltd.
               </span>
@@ -162,7 +164,7 @@ const Footer = () => {
                   className="w-4 h-4 text-primary shrink-0"
                   aria-hidden="true"
                 />
-                <span>Bangalore &amp; Chennai, India</span>
+                <span>Karnataka &amp; Tamilnadu, India</span>
               </li>
             </ul>
           </div>

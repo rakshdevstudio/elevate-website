@@ -63,6 +63,7 @@ export default {
           dark: "hsl(var(--gold-dark))",
           glow: "hsl(var(--gold-glow))",
         },
+        brand: "#1B6EF3",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

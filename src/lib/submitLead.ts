@@ -10,6 +10,8 @@ export interface LeadPayload {
     elevator_type?: string | null;
     message?: string | null;
     lead_source?: string;
+    budget_range?: number | null;
+    address?: string | null;
 }
 
 /**
@@ -31,6 +33,8 @@ export async function submitLead(payload: LeadPayload): Promise<{ success: boole
             message: payload.message?.trim() || null,
             lead_source: payload.lead_source ?? "website_form",
             status: "new",
+            budget_range: payload.budget_range ?? null,
+            address: payload.address?.trim() || null,
         });
 
         if (error) return { success: false, error: error.message };
