@@ -253,7 +253,7 @@ export const PageHero = ({ badge, title, subtitle, backgroundImage }: PageHeroPr
         <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-foreground mb-6 tracking-tight leading-[1.05] text-shadow-hero">{title}</h1>
         <p className="text-muted-foreground text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed opacity-80 mb-10">{subtitle}</p>
         <Link to="/contact" className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-10 py-4 rounded-full font-semibold text-base transition-all duration-300 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.4)] hover:scale-105 btn-glow">
-          Get a Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          Reach us <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
       </motion.div>
     </div>

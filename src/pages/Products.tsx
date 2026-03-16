@@ -1,14 +1,12 @@
 import { Link } from "react-router-dom";
 import { SectionHeading, GlassCard, SectionDivider, ScrollReveal, FloatingParticles } from "@/components/ui/shared";
-import { Building2, Home, CheckCircle2, ChevronRight, Heart, Stethoscope, ArrowRight, Layers, PanelTop, Lamp, Monitor, Grip, Square, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { CheckCircle2, Heart, ArrowRight, Layers, PanelTop, Lamp, Monitor, Grip, Square, Sparkles } from "lucide-react";
 import { CTABanner, TrustBadges } from "@/components/CTABanner";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import TiltedCard from "@/components/TiltedCard";
 import StarBorder from "@/components/StarBorder";
 import BrochureDownload from "@/components/BrochureDownload";
 
-const tabOptions = ["MRL Based Elevators", "Full Structure Elevator"];
 
 const elevatorProducts = [
   {
@@ -39,19 +37,25 @@ const elevatorProducts = [
     image: "/images/product-capsule.webp",
     accent: "from-primary/15 to-[hsl(280_40%_40%/0.1)]",
   },
+  {
+    title: "Structured Lift",
+    desc: "Maximum efficiency without the need for a conventional concrete shaft. Perfect for existing buildings and quick installations with self-supporting steel structures.",
+    features: ["No Concrete Shaft Required", "Quick Installation", "Space Optimized", "Self-Supporting Structure"],
+    image: "/images/product-capsule.webp",
+    accent: "from-[hsl(210_60%_40%/0.1)] to-primary/10",
+  },
+  {
+    title: "Goods Lift",
+    desc: "Heavy-duty vertical transportation for industrial and warehouse use. Engineered to handle significant loads with maximum safety and durability.",
+    features: ["Heavy Load Capacity", "Robust Construction", "Safety Interlocks", "Industrial Grade Durability"],
+    image: "/images/product-commercial.webp",
+    accent: "from-[hsl(0_0%_40%/0.1)] to-primary/10",
+  },
 ];
 
-const finishes = [
-  { name: "Basic", price: "₹5–6 Lakhs", features: ["Standard SS finish", "Manual door", "Basic lighting", "Standard control panel"] },
-  { name: "Standard", price: "₹8–9 Lakhs", features: ["Hairline SS finish", "Automatic door", "LED lighting", "Digital display", "Designer flooring"], popular: true },
-  { name: "Premium", price: "₹10–20 Lakhs", features: ["Mirror/Etched SS finish", "Glass cabin options", "Designer false ceiling", "Touchscreen COP", "Customized interiors"] },
-];
 
-const packages = [
-  { name: "Builder Choice", desc: "Perfect for residential buildings looking for quality at an affordable price.", icon: <Building2 className="w-6 h-6" />, specs: ["4-6 Persons Capacity", "MRL Technology", "Standard SS Finish", "Manual/Auto Door", "Basic COP", "Standard Lighting"] },
-  { name: "Luxury Home Choice", desc: "Premium experience with top-of-the-line finishes and smart features.", icon: <Heart className="w-6 h-6" />, specs: ["6-13 Persons Capacity", "VVVF Drive", "Mirror/Etched SS", "Automatic Door", "Touchscreen COP", "Designer Cabin", "IoT Enabled"], popular: true },
-  { name: "Hospital Standard", desc: "Compliant with hospital standards for safe and efficient patient transportation.", icon: <Stethoscope className="w-6 h-6" />, specs: ["Stretcher Size Cabin", "Smooth VVVF Drive", "Anti-Bacterial Finish", "Wide Auto Doors", "Emergency Battery", "Fire Rated"] },
-];
+
+
 
 const designCategories = [
   { name: "Door Design", image: "/images/custom-door.webp", icon: <Layers className="w-5 h-5" /> },
@@ -93,7 +97,7 @@ const ProductShowcase = ({ product, index }: { product: typeof elevatorProducts[
                 ))}
               </div>
               <Link to="/contact" className="group/btn inline-flex items-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-8 py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.3)] hover:scale-105 active:scale-100">
-                Get a Quote <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                Book Free Inspection <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
               </Link>
             </div>
           </ScrollReveal>
@@ -104,8 +108,6 @@ const ProductShowcase = ({ product, index }: { product: typeof elevatorProducts[
 };
 
 const Products = () => {
-  const [activeTab, setActiveTab] = useState(0);
-
   return (
     <>
       {/* HERO */}
@@ -121,19 +123,12 @@ const Products = () => {
         <FloatingParticles count={15} />
         <div className="container mx-auto px-4 lg:px-8 text-center relative z-10 pt-24 pb-16">
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
-            <span className="inline-block px-5 py-2 rounded-full bg-primary/8 text-primary text-xs font-semibold tracking-[0.2em] uppercase mb-6 border border-primary/12">Our Products</span>
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-foreground mb-6 tracking-tight leading-[1.05] text-shadow-hero">Our Products</h1>
+
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-foreground mb-6 tracking-tight leading-[1.05] text-shadow-hero">Our Premium Solutions</h1>
             <p className="text-muted-foreground text-lg lg:text-xl max-w-2xl mx-auto mb-10 leading-relaxed opacity-80">
               Discover our range of premium elevator solutions engineered for safety, performance, and architectural elegance.
             </p>
-            <div className="flex flex-wrap justify-center gap-3">
-              {tabOptions.map((tab, i) => (
-                <motion.button key={tab} onClick={() => setActiveTab(i)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
-                  className={`px-7 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${activeTab === i ? "bg-gradient-to-r from-primary to-gold-light text-primary-foreground shadow-[0_0_30px_hsl(43_66%_52%/0.25)]" : "glass-card text-muted-foreground hover:text-foreground hover:border-primary/15"}`}>
-                  {tab}
-                </motion.button>
-              ))}
-            </div>
+
           </motion.div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background via-background/80 to-transparent" />
@@ -144,7 +139,7 @@ const Products = () => {
       {/* ELEVATOR SHOWCASE */}
       <div>
         <div className="container mx-auto px-4 lg:px-8 pt-12">
-          <SectionHeading badge="Categories" title="Elevator Solutions" subtitle="Choose the right elevator for your building type" />
+          <SectionHeading badge="Categories" title="Our Elevator Solutions" subtitle="Choose the right elevator for your building type" />
         </div>
         {elevatorProducts.map((product, i) => (
           <ProductShowcase key={i} product={product} index={i} />
@@ -158,80 +153,102 @@ const Products = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_40%,hsl(43_66%_52%/0.04),transparent)]" />
         <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <SectionHeading badge="Pricing" title="Finishes & Pricing" subtitle="Choose from our range of elevator finishes to match your budget and style" />
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-10 max-w-5xl mx-auto">
-            {finishes.map((f, i) => (
-              <StarBorder key={i} speed={f.popular ? 3 : 6} className="h-full">
-                <GlassCard className={`p-8 lg:p-10 text-center relative ${f.popular ? "border-primary/20 glow-gold-strong" : ""}`} premium={!!f.popular} delay={i * 0.12} tilt>
-                  {f.popular && (
-                    <>
-                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
-                      <div className="absolute inset-0 bg-gradient-to-b from-primary/6 to-transparent pointer-events-none" />
-                      <span className="relative inline-block px-4 py-1.5 rounded-full bg-primary/12 text-primary text-xs font-semibold mb-4 border border-primary/15">Most Popular</span>
-                    </>
-                  )}
-                  <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-3">{f.name}</h3>
-                  <p className="text-gradient-gold text-3xl lg:text-4xl font-heading font-extrabold mb-8">{f.price}</p>
-                  <ul className="space-y-3.5 mb-8">
-                    {f.features.map((feat) => (
-                      <li key={feat} className="text-muted-foreground text-sm flex items-center gap-2.5 justify-center">
-                        <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {feat}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link to="/contact" className="block w-full py-3.5 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-300 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.25)]">
-                    Get Quote
-                  </Link>
-                </GlassCard>
-              </StarBorder>
-            ))}
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+            {/* Basic Tier */}
+            <div className="relative h-full flex pt-4">
+              <div className="relative flex flex-col w-full h-full p-8 rounded-xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl glass-card border-white/5">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center font-heading font-bold text-lg mb-6 shadow-md bg-slate-500/30 text-slate-300 border border-slate-500/30">B</div>
+                <h3 className="text-xl font-heading font-bold text-white mb-1.5">Basic</h3>
+                <p className="text-[22px] font-heading font-extrabold mb-1.5 text-white">₹6 Lakhs onwards</p>
+                <p className="text-[13px] text-muted-foreground mb-8 min-h-[35px] border-b border-white/10 pb-4">MS Powder-Coated</p>
+                <ul className="space-y-4 mb-10 flex-grow">
+                  {["MS powder-coated cabin finish", "Standard push button panel", "Basic LED cabin lighting", "Manual/Auto door operation", "1-year comprehensive warranty"].map((feat) => (
+                    <li key={feat} className="text-[13px] text-foreground/80 flex items-start gap-3">
+                      <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0 text-emerald-500" />
+                      <span className="leading-snug">{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link className="mt-auto w-full py-3 rounded-lg font-semibold text-sm transition-all duration-300 flex items-center justify-center bg-gradient-to-r from-[#D4AF37] to-[#F5D061] text-zinc-900 hover:shadow-[0_0_20px_hsl(43_66%_52%/0.3)] hover:scale-[1.02]" to="/contact">Book Free Inspection</Link>
+              </div>
+            </div>
+
+            {/* Standard Tier */}
+            <div className="relative h-full flex pt-4">
+              <div className="relative flex flex-col w-full h-full p-8 rounded-xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl glass-card border-white/5">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center font-heading font-bold text-lg mb-6 shadow-md bg-blue-600/30 text-blue-400 border border-blue-500/30">S</div>
+                <h3 className="text-xl font-heading font-bold text-white mb-1.5">Standard</h3>
+                <p className="text-[22px] font-heading font-extrabold mb-1.5 text-white">₹7 Lakhs onwards</p>
+                <p className="text-[13px] text-muted-foreground mb-8 min-h-[35px] border-b border-white/10 pb-4">SS Cabin + SS Door</p>
+                <ul className="space-y-4 mb-10 flex-grow">
+                  {["Stainless steel cabin and door finish (with design)", "304 grade with scratch proof protection", "Digital floor indicator display", "Energy-efficient LED lighting", "Automatic door operation", "1-year comprehensive warranty"].map((feat) => (
+                    <li key={feat} className="text-[13px] text-foreground/80 flex items-start gap-3">
+                      <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0 text-emerald-500" />
+                      <span className="leading-snug">{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link className="mt-auto w-full py-3 rounded-lg font-semibold text-sm transition-all duration-300 flex items-center justify-center bg-gradient-to-r from-[#D4AF37] to-[#F5D061] text-zinc-900 hover:shadow-[0_0_20px_hsl(43_66%_52%/0.3)] hover:scale-[1.02]" to="/contact">Book Free Inspection</Link>
+              </div>
+            </div>
+
+            {/* Premium Lite Tier - New Trend */}
+            <div className="relative h-full flex pt-4">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 px-3.5 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase flex items-center shadow-lg bg-primary text-zinc-900">
+                <Sparkles className="w-3 h-3 mr-1.5" />New Trend
+              </div>
+              <div className="relative flex flex-col w-full h-full p-8 rounded-xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl bg-[#0f172a] border-primary/50 shadow-xl">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center font-heading font-bold text-lg mb-6 shadow-md bg-primary/20 text-primary border border-primary/40">PL</div>
+                <h3 className="text-xl font-heading font-bold text-white mb-1.5">Premium Lite</h3>
+                <p className="text-[22px] font-heading font-extrabold mb-1.5 text-gradient-gold">₹8 Lakhs onwards</p>
+                <p className="text-[13px] text-muted-foreground mb-8 min-h-[35px] border-b border-white/10 pb-4">Fully Customized Luxury</p>
+                <ul className="space-y-4 mb-10 flex-grow">
+                  {["Any luxury look (fully customized)", "Designed cabin interior with premium materials", "Digital floor indicator display", "Automatic door operation", "1-year comprehensive warranty"].map((feat) => (
+                    <li key={feat} className="text-[13px] text-foreground/80 flex items-start gap-3">
+                      <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0 text-primary" />
+                      <span className="leading-snug">{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link className="mt-auto w-full py-3 rounded-lg font-semibold text-sm transition-all duration-300 flex items-center justify-center bg-gradient-to-r from-[#D4AF37] to-[#F5D061] text-zinc-900 hover:shadow-[0_0_20px_hsl(43_66%_52%/0.3)] hover:scale-[1.02]" to="/contact">Book Free Inspection</Link>
+              </div>
+            </div>
+
+            {/* Premium Plus Tier - Most Popular */}
+            <div className="relative h-full flex pt-4">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 px-3.5 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase flex items-center shadow-lg bg-gradient-to-r from-[#D4AF37] to-[#F5D061] text-zinc-900">
+                <Heart className="w-3 h-3 mr-1.5 fill-zinc-900" />Most Popular
+              </div>
+              <div className="relative flex flex-col w-full h-full p-8 rounded-xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl bg-[#0f172a] border-[#D4AF37] shadow-[0_0_40px_hsl(43_66%_52%/0.15)] ring-1 ring-[#D4AF37]/50">
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-primary/5 to-transparent pointer-events-none"></div>
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center font-heading font-bold text-lg mb-6 shadow-md bg-[#D4AF37]/30 text-[#F5D061] border border-[#D4AF37]/40">P+</div>
+                <h3 className="text-xl font-heading font-bold text-white mb-1.5">Premium Plus</h3>
+                <p className="text-[22px] font-heading font-extrabold mb-1.5 text-gradient-gold">₹9 Lakhs onwards</p>
+                <p className="text-[13px] text-muted-foreground mb-8 min-h-[35px] border-b border-white/10 pb-4">Gold/Rose Gold/Black Design/Wooden</p>
+                <ul className="space-y-4 mb-10 flex-grow">
+                  {["Luxury gold/rose gold/black/wooden finish", "Smart touchscreen control panel", "Premium IoT-enabled monitoring", "Designer cabin interior with premium materials", "2-year comprehensive warranty"].map((feat) => (
+                    <li key={feat} className="text-[13px] text-foreground/80 flex items-start gap-3">
+                      <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0 text-[#D4AF37]" />
+                      <span className="leading-snug">{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link className="mt-auto w-full py-3 rounded-lg font-semibold text-sm transition-all duration-300 flex items-center justify-center bg-gradient-to-r from-[#D4AF37] to-[#F5D061] text-zinc-900 hover:shadow-[0_0_20px_hsl(43_66%_52%/0.3)] hover:scale-[1.02]" to="/contact">Book Free Inspection</Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <SectionDivider />
 
-      {/* CURATED PACKAGES */}
-      <section className="py-24 lg:py-32 relative section-mesh">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_40%_50%,hsl(43_66%_52%/0.03),transparent)]" />
-        <div className="container mx-auto px-4 lg:px-8 relative z-10">
-          <SectionHeading badge="Packages" title="Curated Packages" subtitle="Pre-configured elevator packages tailored for specific needs" />
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-10 max-w-5xl mx-auto">
-            {packages.map((pkg, i) => (
-              <GlassCard key={i} className={`p-8 lg:p-10 relative overflow-hidden ${pkg.popular ? "border-primary/20 glow-gold-strong" : ""}`} premium={!!pkg.popular} delay={i * 0.1} tilt>
-                {pkg.popular && (
-                  <>
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
-                  </>
-                )}
-                <div className="relative">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center text-primary mb-5 icon-glow">{pkg.icon}</div>
-                  {pkg.popular && <span className="inline-block px-3 py-1 rounded-full bg-primary/12 text-primary text-xs font-semibold mb-3 border border-primary/15">Popular</span>}
-                  <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-2">{pkg.name}</h3>
-                  <p className="text-muted-foreground text-sm mb-6 opacity-75">{pkg.desc}</p>
-                  <ul className="space-y-3 mb-8">
-                    {pkg.specs.map((s) => (
-                      <li key={s} className="text-muted-foreground text-sm flex items-center gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-primary shrink-0" /> {s}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link to="/contact" className="block w-full py-3.5 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-300 text-center hover:shadow-[0_0_30px_hsl(43_66%_52%/0.25)]">
-                    Enquire Now
-                  </Link>
-                </div>
-              </GlassCard>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <SectionDivider />
 
       {/* DESIGN CUSTOMIZATION GALLERY */}
       <section className="py-24 lg:py-32 section-glow relative">
         <div className="container mx-auto px-4 lg:px-8 relative z-10">
-          <SectionHeading badge="Customization" title="Design Customization" subtitle="Personalize every detail of your elevator" />
+          <SectionHeading badge="Choose your Design" title="Design Customization" subtitle="Personalize every detail of your elevator" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7 max-w-6xl mx-auto">
             {designCategories.map((cat, i) => (
               <ScrollReveal key={cat.name} delay={i * 0.06}>
@@ -247,6 +264,37 @@ const Products = () => {
                     <h4 className="text-foreground text-sm font-heading font-semibold">{cat.name}</h4>
                   </div>
                 </motion.div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      {/* WHY CHOOSE US */}
+      <section className="py-24 lg:py-32 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(43_66%_52%/0.02),transparent_70%)] pointer-events-none" />
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="mb-16 text-center">
+            <h2 className="font-heading font-bold text-foreground mb-5 tracking-tight leading-[1.1] text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem]">Why Choose X Elevators?</h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10 max-w-6xl mx-auto">
+            {[
+              { title: "ISO Certified", desc: "Quality assured with international standards", icon: <Layers className="w-7 h-7" /> },
+              { title: "<60 Min Response", desc: "Emergency response within 60 minutes", icon: <Monitor className="w-7 h-7" /> },
+              { title: "Certified Technicians", desc: "Factory-trained and certified professionals", icon: <Grip className="w-7 h-7" /> },
+              { title: "Digital Reports", desc: "Real-time service tracking via WhatsApp", icon: <PanelTop className="w-7 h-7" /> },
+              { title: "Preventive Care", desc: "Automated reminders and scheduled maintenance", icon: <Sparkles className="w-7 h-7" /> }
+            ].map((item, i) => (
+              <ScrollReveal key={item.title} delay={i * 0.1}>
+                <div className="flex flex-col items-center text-center group">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center text-primary mb-5 group-hover:from-primary/25 group-hover:to-primary/10 transition-all duration-300 icon-glow">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-base lg:text-lg font-heading font-bold text-foreground mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed opacity-75">{item.desc}</p>
+                </div>
               </ScrollReveal>
             ))}
           </div>

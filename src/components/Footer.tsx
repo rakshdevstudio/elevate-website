@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, ArrowUp, Globe } from "lucide-react";
 import { motion } from "framer-motion";
-import logo from "@/assets/logo.png";
-
+import logo from "@/assets/logo-footer.png";
 const quickLinks = [
   { label: "Home", path: "/" },
   { label: "About Us", path: "/about" },
@@ -26,25 +25,25 @@ const linkClass =
 const Footer = () => {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
+  const logoUrl = logo;
+
   return (
     <footer className="relative border-t border-border/30">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-[hsl(213_62%_5%)] to-[hsl(213_62%_4%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_30%_at_50%_0%,hsl(43_66%_52%/0.03),transparent)] pointer-events-none" />
 
       <div className="container mx-auto px-4 lg:px-8 py-20 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
 
           {/* Brand column */}
-          <div>
-            <Link to="/" className="flex items-center gap-2.5 mb-5 group w-fit">
-              <div className="bg-white rounded-lg p-2 shadow-md shrink-0">
-                <img
-                  src={logo}
-                  alt="X Elevators"
-                  className="h-16 w-16 object-contain group-hover:opacity-90 transition-opacity duration-300"
-                />
-              </div>
-              <span className="text-foreground font-heading font-bold text-lg uppercase tracking-wider group-hover:text-primary transition-colors duration-300">
+          <div className="lg:col-span-2">
+            <Link to="/" className="flex items-center gap-4 mb-6 group w-fit">
+              <img
+                src={logoUrl}
+                alt="X Elevators"
+                className="h-24 w-auto object-contain group-hover:opacity-90 transition-all duration-300"
+              />
+              <span className="text-foreground font-heading font-bold text-lg uppercase tracking-wider group-hover:text-primary transition-colors duration-300 whitespace-nowrap">
                 X Elevators Pvt. Ltd.
               </span>
             </Link>
@@ -52,11 +51,11 @@ const Footer = () => {
               Elevating Trust. Engineering the Future. Next-generation elevator
               solutions with uncompromising commitment to quality.
             </p>
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-2 flex-nowrap overflow-x-auto pb-2 scrollbar-hide">
               {["ISO Certified", "Licensed", "99% Automation"].map((badge) => (
                 <span
                   key={badge}
-                  className="px-3 py-1.5 rounded-full bg-primary/8 text-primary text-xs font-semibold border border-primary/10"
+                  className="px-3 py-1.5 rounded-full bg-primary/8 text-primary text-xs font-semibold border border-primary/10 whitespace-nowrap"
                 >
                   {badge}
                 </span>
@@ -133,11 +132,11 @@ const Footer = () => {
                   aria-hidden="true"
                 />
                 <a
-                  href="mailto:info@xelevators.in"
+                  href="mailto:sales@xelevators.in"
                   className="hover:text-primary transition-colors duration-300"
-                  aria-label="Email info@xelevators.in"
+                  aria-label="Email sales@xelevators.in"
                 >
-                  info@xelevators.in
+                  sales@xelevators.in
                 </a>
               </li>
 

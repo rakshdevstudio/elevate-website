@@ -34,10 +34,17 @@ const Navbar = () => {
         }`}
     >
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="flex items-center justify-between h-16 lg:h-20 relative">
           <Link to="/" className="flex items-center gap-2.5 group">
-            <img src={logo} alt="X Elevators" className="h-16 w-20 lg:h-20 lg:w-20 object-contain transition-transform duration-300 group-hover:scale-110" />
-            <div className="font-heading">
+            {/* Logo container to hold absolute image but take up space in flow */}
+            <div className="w-20 lg:w-28 relative h-full flex items-center">
+              <img 
+                src={logo} 
+                alt="X Elevators" 
+                className="absolute top-1/2 -translate-y-1/2 -left-2 w-[120px] h-auto max-w-none object-contain transition-transform duration-300 group-hover:scale-110 drop-shadow-md z-[60]" 
+              />
+            </div>
+            <div className="font-heading ml-4 sm:ml-6">
               <span className="text-zinc-900 font-bold text-base lg:text-lg uppercase tracking-wider">X Elevators</span>
               <span className="hidden sm:inline text-zinc-900 font-bold text-xs ml-1.5 uppercase tracking-wider">Pvt. Ltd.</span>
             </div>
@@ -60,25 +67,36 @@ const Navbar = () => {
             ))}
           </nav>
 
-          <div className="hidden lg:flex items-center gap-4">
-            <a href="tel:+919844002026" className="flex items-center gap-2 text-sm text-zinc-900 font-semibold hover:text-primary transition-all duration-300 group">
-              <Phone className="w-4 h-4 group-hover:animate-pulse" />
-              <span>+91 9844002026</span>
-            </a>
+          <div className="flex items-center gap-3 lg:gap-4">
+            <Link
+              to="/design"
+              className="hidden lg:flex items-center justify-center bg-gradient-to-r from-[#E5B84B] to-[#C9992D] text-zinc-900 px-[18px] py-[10px] rounded-full font-semibold text-sm transition-all duration-300 hover:scale-105 hover:from-[#d1a641] hover:to-[#b58726] shadow-sm"
+            >
+              Design your Cabin
+            </Link>
+            
             <Link
               to="/contact"
-              className="relative bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-7 py-2.5 rounded-xl text-sm font-semibold transition-all duration-400 hover:shadow-[0_0_30px_hsl(43_66%_52%/0.35)] hover:scale-105 active:scale-100 btn-glow"
+              className="flex items-center justify-center bg-gradient-to-r from-[#E5B84B] to-[#C9992D] text-zinc-900 px-[14px] lg:px-[18px] py-[8px] lg:py-[10px] rounded-full font-semibold text-xs lg:text-sm transition-all duration-300 hover:scale-105 hover:from-[#d1a641] hover:to-[#b58726] shadow-sm"
             >
               Get Quote
             </Link>
-          </div>
 
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 text-zinc-900 hover:text-primary transition-colors duration-300"
-          >
-            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+            <a
+              href="tel:+919844002026"
+              className="flex items-center justify-center bg-gradient-to-r from-[#E5B84B] to-[#C9992D] text-zinc-900 w-[36px] h-[36px] lg:w-[40px] lg:h-[40px] rounded-full transition-all duration-300 hover:scale-105 hover:from-[#d1a641] hover:to-[#b58726] shadow-sm shrink-0"
+              aria-label="Call Us"
+            >
+              <Phone className="w-4 h-4 lg:w-5 lg:h-5" fill="currentColor" />
+            </a>
+
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="lg:hidden p-1.5 ml-1 text-zinc-900 hover:text-primary transition-colors duration-300"
+            >
+              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -114,7 +132,7 @@ const Navbar = () => {
                 to="/contact"
                 className="block text-center bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-5 py-3.5 rounded-xl text-sm font-semibold mt-4"
               >
-                Get Quote
+                Book Free Inspection
               </Link>
             </div>
           </motion.div>

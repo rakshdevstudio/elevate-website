@@ -4,6 +4,7 @@ import { Phone, Mail, MapPin, Globe, Clock, Headphones, MessageSquare, Send, Pho
 import { submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
 import { toast } from "@/hooks/use-toast";
 import BrochureDownload from "@/components/BrochureDownload";
+import { TrustBadges } from "@/components/CTABanner";
 
 const Contact = () => {
   const [form, setForm] = useState({
@@ -54,14 +55,16 @@ const Contact = () => {
 
   return (
     <>
-      <PageHero badge="Contact" title="Get In Touch" subtitle="Ready to elevate your building? Reach out for a free consultation and site inspection." backgroundImage="/images/hero-contact.webp" />
+      <PageHero title="Get In Touch" subtitle="Transform your vertical mobility vision into reality. Partner with our experts for a comprehensive, no-obligation site evaluation and tailored elevator strategy." backgroundImage="/images/hero-contact.webp" />
+
+      <TrustBadges />
 
       <section className="py-24 lg:py-32 relative">
         <SectionDivider />
         <div className="container mx-auto px-4 lg:px-8 pt-8 max-w-5xl">
           <ScrollReveal>
             <div className="mb-16">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-extrabold text-foreground mb-6 tracking-tight">Let's Discuss Your Project</h2>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-extrabold text-foreground mb-6 tracking-tight">Let's Discuss About Your Project</h2>
               <p className="text-muted-foreground text-base lg:text-lg leading-relaxed max-w-3xl opacity-80">
                 Whether you're building a new structure or modernizing existing elevators, we're here to help. Fill out the form and our team will get back to you within 24 hours with a customized solution.
               </p>
@@ -200,7 +203,6 @@ const Contact = () => {
                   { icon: <Mail className="w-5 h-5" />, title: "Email", info: "info@xelevators.in" },
                   { icon: <Globe className="w-5 h-5" />, title: "Website", info: "xelevators.in" },
                   { icon: <MapPin className="w-5 h-5" />, title: "Locations", info: "Bangalore & Chennai, India" },
-                  { icon: <Clock className="w-5 h-5" />, title: "Business Hours", info: "Mon - Sat: 9:00 AM - 6:00 PM" },
                 ].map((c, i) => (
                   <GlassCard key={i} className="p-6 flex items-start gap-5" premium delay={i * 0.06} tilt>
                     <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">{c.icon}</div>
@@ -220,23 +222,23 @@ const Contact = () => {
 
       <section className="py-24 lg:py-32 relative">
         <SectionDivider />
-        <div className="container mx-auto px-4 lg:px-8 max-w-4xl pt-8">
+        <div className="container mx-auto px-4 lg:px-8 max-w-3xl pt-8">
           <ScrollReveal>
-            <div className="relative rounded-2xl overflow-hidden p-8 lg:p-12" style={{ background: 'linear-gradient(160deg, hsl(212 50% 14% / 0.7) 0%, hsl(212 48% 10% / 0.5) 100%)' }}>
+            <div className="relative rounded-2xl overflow-hidden p-6 lg:p-8" style={{ background: 'linear-gradient(160deg, hsl(212 50% 14% / 0.7) 0%, hsl(212 48% 10% / 0.5) 100%)' }}>
               <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/5 rounded-full blur-[80px] pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-red-500/4 rounded-full blur-[60px] pointer-events-none" />
               <div className="absolute inset-0 border border-red-500/10 rounded-2xl pointer-events-none" />
-              <div className="flex items-start gap-5 mb-8 relative z-10">
-                <div className="w-14 h-14 rounded-2xl bg-red-500/15 flex items-center justify-center shrink-0">
-                  <PhoneCall className="w-7 h-7 text-red-400" />
+              <div className="flex flex-col sm:flex-row items-center gap-6 mb-8 relative z-10 text-center sm:text-left">
+                <div className="w-16 h-16 rounded-2xl bg-red-500/15 flex items-center justify-center shrink-0">
+                  <PhoneCall className="w-8 h-8 text-red-400" />
                 </div>
                 <div>
-                  <h3 className="text-2xl lg:text-3xl font-heading font-bold text-foreground mb-2">24/7 Emergency Support</h3>
-                  <p className="text-muted-foreground text-sm opacity-80">Elevator stuck? Call us immediately!</p>
+                  <h3 className="text-2xl font-heading font-bold text-foreground mb-2">Available 24/7 for Sales and HR Queries</h3>
+                  <p className="text-muted-foreground text-sm opacity-80 max-w-lg">Contact our team anytime for sales inquiries, service information, or HR-related support. We are available 24/7 to assist you.</p>
                 </div>
               </div>
-              <a href="tel:+916384961909" className="relative z-10 flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold text-base transition-all duration-300 hover:shadow-[0_0_30px_hsl(0_80%_50%/0.3)] hover:scale-[1.02] active:scale-100">
-                <PhoneCall className="w-5 h-5" /> Call Emergency: +91 6384961909
+              <a href="tel:+916384961909" className="relative z-10 flex items-center justify-center gap-2 max-w-xs mx-auto py-3.5 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold text-base transition-all duration-300 hover:shadow-[0_0_30px_hsl(0_80%_50%/0.3)] hover:scale-[1.02] active:scale-100">
+                <PhoneCall className="w-4 h-4" /> Call Now
               </a>
             </div>
           </ScrollReveal>

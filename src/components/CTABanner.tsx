@@ -14,7 +14,7 @@ interface CTABannerProps {
 export const CTABanner = ({ variant = "quote" }: CTABannerProps) => {
   const configs = {
     quote: {
-      title: "Get Your Free Elevator Quote",
+      title: "Get Your Elevator Quote Now",
       subtitle: "Tell us about your project and receive a customized quote within 24 hours. No commitment required.",
       primaryLabel: "Request Free Quote",
       primaryLink: "/contact",
@@ -118,9 +118,9 @@ export const TrustBadges = () => (
               className="rounded-full"
               innerClassName="rounded-full"
             >
-              <div className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-foreground/3 backdrop-blur-sm">
+              <div className="flex items-center gap-2.5 px-5 py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md">
                 <span className="text-primary">{badge.icon}</span>
-                <span className="text-foreground/70 text-xs font-medium whitespace-nowrap">{badge.label}</span>
+                <span className="text-white text-sm font-medium whitespace-nowrap">{badge.label}</span>
               </div>
             </StarBorder>
           </motion.div>

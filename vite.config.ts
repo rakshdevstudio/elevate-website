@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
     hmr: {
-      overlay: false,
+      overlay: true,
     },
   },
   build: {
@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => ({
     }
   },
   esbuild: {
-    drop: ["console", "debugger"]
+    drop: ["debugger"]
   },
   plugins: [react()],
   resolve: {

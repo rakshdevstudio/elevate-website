@@ -19,7 +19,7 @@ const amcPlans = [
 
 const Services = () => (
   <>
-    <PageHero badge="Our Services" title="Our Services" subtitle="Comprehensive elevator solutions from installation to lifetime maintenance — engineered for safety, performance, and peace of mind." backgroundImage="/images/hero-services.webp" />
+    <PageHero title="Our Services" subtitle="Expert elevator solutions covering everything from seamless installation to proactive lifecycle maintenance—designed to guarantee absolute safety, superior performance, and unmatched reliability." backgroundImage="/images/hero-services.webp" />
 
     <TrustBadges />
 
@@ -93,25 +93,7 @@ const Services = () => (
       <SectionDivider />
       <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
         <SectionHeading badge="More Services" title="Additional Services" />
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
-          <GlassCard className="p-7" premium tilt>
-            <div className="flex gap-4 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">
-                <Wrench className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-lg font-heading font-semibold text-foreground mb-1">Maintenance & AMC</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-4 opacity-75">Comprehensive maintenance services to keep your elevator running at peak performance.</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-2.5">
-              {["Preventive Maintenance", "Breakdown Repairs", "Safety Audits", "Parts Replacement", "Lubrication Service", "Performance Testing"].map((f) => (
-                <div key={f} className="flex items-center gap-2 text-muted-foreground text-xs">
-                  <CheckCircle2 className="w-3 h-3 text-primary shrink-0" /> {f}
-                </div>
-              ))}
-            </div>
-          </GlassCard>
+        <div className="max-w-xl mx-auto">
           <GlassCard className="p-7" premium delay={0.1} tilt>
             <div className="flex gap-4 mb-4">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">
@@ -136,18 +118,6 @@ const Services = () => (
 
     <InlineQuoteForm />
 
-    <section className="py-24 lg:py-32 section-glow relative">
-      <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 text-center max-w-2xl pt-8 relative z-10">
-        <SectionHeading badge="Emergency" title="24/7 Emergency Support" subtitle="Our emergency response team is always ready to help" />
-        <GlassCard className="p-10 border-primary/20 glow-gold-strong relative overflow-hidden" premium>
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
-          <Phone className="w-10 h-10 text-primary mx-auto mb-4 relative z-10" />
-          <p className="text-gradient-gold text-3xl lg:text-4xl font-heading font-extrabold mb-2 text-shadow-glow relative z-10">+91 9844002026</p>
-          <p className="text-muted-foreground text-sm relative z-10 opacity-75">Available 24 hours a day, 7 days a week</p>
-        </GlassCard>
-      </div>
-    </section>
   </>
 );
 

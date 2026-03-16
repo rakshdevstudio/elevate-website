@@ -22,7 +22,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <section className="relative min-h-screen flex items-center pt-32 lg:pt-40 overflow-hidden">
       <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
         <source src="/videos/hero-bg.mp4" type="video/mp4" />
       </video>
@@ -32,7 +32,7 @@ const Hero = () => {
       <FloatingParticles count={30} />
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7 }} className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-12">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7 }} className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-12 mt-8 lg:mt-12">
             {[
               { icon: <Shield className="w-4 h-4" />, label: "ISO Certified" },
               { icon: <Award className="w-4 h-4" />, label: "Licensed Company" },
@@ -45,20 +45,19 @@ const Hero = () => {
               </motion.span>
             ))}
           </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }} className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-heading font-extrabold text-white mb-6 leading-[0.9] tracking-tight [text-shadow:0px_4px_20px_rgba(0,0,0,0.55)]">
+          <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }} className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-heading font-extrabold text-white mb-6 leading-[0.9] tracking-tight">
             <span
               className="shiny-text"
               style={{
-                filter: "brightness(1.4) drop-shadow(0 0 18px hsl(43 66% 52% / 0.6))",
-                textShadow: "0 0 30px hsl(43 66% 52% / 0.4), 0 4px 20px rgba(0,0,0,0.5)",
+                filter: "brightness(1.8) drop-shadow(0 0 24px hsl(43 66% 52% / 0.7))",
               }}
             >Exceeding</span>
             <br />
-            <span className="inline-block relative h-[1.1em] overflow-hidden align-bottom">
+            <span className="inline-block relative h-[1.6em] overflow-hidden align-middle">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={rotatingWords[wordIndex]}
-                  className="shiny-text-gold inline-block"
+                  className="shiny-text-gold inline-block pb-2"
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -40 }}
@@ -70,12 +69,12 @@ const Hero = () => {
             </span>
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.7 }} className="text-xl md:text-2xl text-white/90 font-light mb-3 tracking-[0.1em] uppercase">Engineering the Future</motion.p>
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.7 }} className="text-base md:text-lg text-white/85 max-w-2xl mx-auto mb-12 leading-relaxed [text-shadow:0px_4px_20px_rgba(0,0,0,0.55)]">
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.7 }} className="text-base md:text-lg text-white/85 max-w-2xl mx-auto mb-12 leading-relaxed">
             Next-generation elevator solutions built on strong technical foundations, youthful leadership, and an uncompromising commitment to quality.
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.6 }} className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/contact" className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-10 py-4 rounded-full font-semibold text-base transition-all duration-400 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.4),0_0_80px_hsl(43_66%_52%/0.15)] hover:scale-105 active:scale-100 btn-glow">
-              Get a Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+              Book Free Inspection <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
             <a href="tel:+919844002026" className="group inline-flex items-center justify-center gap-2 border border-foreground/15 text-foreground px-10 py-4 rounded-full font-semibold text-base hover:bg-foreground/8 hover:border-foreground/25 transition-all duration-400 backdrop-blur-md">
               <PhoneCall className="w-4 h-4 group-hover:animate-pulse" /> Call Us Now
@@ -585,7 +584,7 @@ const Finishes = () => {
 
                 {/* Button */}
                 <Link to="/contact" className="mt-auto w-full py-3 rounded-lg font-semibold text-sm transition-all duration-300 flex items-center justify-center bg-gradient-to-r from-[#D4AF37] to-[#F5D061] text-zinc-900 hover:shadow-[0_0_20px_hsl(43_66%_52%/0.3)] hover:scale-[1.02]">
-                  Get Quote
+                  Book Free Inspection
                 </Link>
               </div>
             </div>

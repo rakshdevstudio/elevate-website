@@ -5,58 +5,30 @@ import { Shield, Award, Users, Target, Building2, Heart, Lightbulb, CheckCircle2
 import { CTABanner, TrustBadges } from "@/components/CTABanner";
 import BrochureDownload from "@/components/BrochureDownload";
 
-const founders = [
-  {
-    name: "Mohammed Anas",
-    role: "Founder & CEO",
-    desc: "Visionary leader with deep expertise in elevator engineering and business strategy, setting the course for X Elevators' rapid growth across India.",
-    image: "/images/Mohammed Anas.jpeg",
-    delay: 0,
-  },
-  {
-    name: "Mohammed Asif",
-    role: "Chief Operating Officer",
-    desc: "Operations expert ensuring seamless project delivery, quality control, and an exceptional customer experience at every touchpoint.",
-    image: "/images/Mohammed Asif.png",
-    delay: 0.15,
-  },
-];
-
 
 const values = [
-  { icon: <Pencil className="w-6 h-6" />, title: "Design Excellence", desc: "Every elevator is thoughtfully designed to complement the architecture and aesthetics of your space." },
-  { icon: <Cog className="w-6 h-6" />, title: "Engineering Precision", desc: "Precision-engineered components ensure smooth, safe, and reliable operation for years to come." },
-  { icon: <Clock className="w-6 h-6" />, title: "Disciplined Delivery", desc: "We commit to timelines and deliver projects on schedule without compromising quality." },
-  { icon: <Monitor className="w-6 h-6" />, title: "Digital Transparency", desc: "Real-time project tracking and IoT-enabled monitoring keep you informed at every step." },
-  { icon: <HeadphonesIcon className="w-6 h-6" />, title: "Lifetime Support", desc: "Our relationship doesn't end at installation — we provide dedicated support throughout the elevator's lifecycle." },
-];
-
-const industries = [
-  { icon: <Home className="w-6 h-6" />, label: "Residential Complexes" },
-  { icon: <Building className="w-6 h-6" />, label: "Commercial Complexes" },
-  { icon: <Hospital className="w-6 h-6" />, label: "Hospitals & Healthcare" },
-  { icon: <Hotel className="w-6 h-6" />, label: "Hotels & Malls" },
-  { icon: <Factory className="w-6 h-6" />, label: "Industrial Facilities" },
+  { icon: <Pencil className="w-6 h-6" />, title: "Design Excellence", desc: "Every elevator is designed to match the architecture and aesthetics of your space." },
+  { icon: <Cog className="w-6 h-6" />, title: "Engineering Precision", desc: "Precision-built components ensure smooth, safe, and reliable performance." },
+  { icon: <Monitor className="w-6 h-6" />, title: "Digital Reports", desc: "Clear digital reports keep you updated on project progress and system status." },
+  { icon: <Target className="w-6 h-6" />, title: "Transparent Pricing", desc: "Clear and honest pricing with no hidden costs, giving you full confidence in your investment." },
+  { icon: <Clock className="w-6 h-6" />, title: "Fast & Efficient Delivery", desc: "Streamlined processes ensure quick installation without compromising quality." },
+  { icon: <HeadphonesIcon className="w-6 h-6" />, title: "Lifetime Support", desc: "Ongoing service and maintenance to keep your elevator running reliably for years." },
 ];
 
 const certifications = [
-  "ISO 9001:2015 Quality Management",
-  "CE Marked Elevator Systems",
-  "BIS Approved Components",
-  "IoT Certified Systems",
+  "ISO 9001:2015 Certified",
+  "CE Marked Systems",
+  "BIS Approved"
 ];
 
 const registrations = [
-  "Udyam Registration",
   "MSME Registered",
-  "Startup India Certified",
-  "GST Registered",
-  "Suppliers: Versatile",
+  "24/7 Emergency Support"
 ];
 
 const About = () => (
   <>
-    <PageHero badge="About Us" title="About X Elevators Pvt Ltd" subtitle="We are a next-generation elevator company focused on delivering safe, smart, and stylish vertical transportation solutions across India. Founded with a vision to redefine the elevator industry through quality engineering, digital transparency, and customer-first approach." backgroundImage="/images/hero-about.webp" />
+    <PageHero title="About X Elevators Pvt Ltd" subtitle="We are a next-generation elevator company focused on delivering safe, smart, and stylish vertical transportation solutions across India. Founded with a vision to redefine the elevator industry through quality engineering, digital transparency, and customer-first approach." backgroundImage="/images/hero-about.webp" />
 
     <TrustBadges />
 
@@ -228,91 +200,60 @@ const About = () => (
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_60%,hsl(43_66%_52%/0.04),transparent_70%)] pointer-events-none" />
       <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
         <SectionHeading badge="Leadership" title="Our Team" subtitle="Led by experienced professionals committed to elevating your experience" />
-        <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-          {founders.map((founder) => (
-            <motion.div
-              key={founder.name}
-              initial={{ opacity: 0, y: 45 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.8, delay: founder.delay, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -10, transition: { duration: 0.3, ease: "easeOut" } }}
-              className="group relative rounded-3xl overflow-hidden cursor-pointer"
-              style={{
-                background: "linear-gradient(160deg, hsl(212 50% 15% / 0.65) 0%, hsl(212 48% 10% / 0.45) 55%, hsl(212 55% 8% / 0.5) 100%)",
-                backdropFilter: "blur(32px) saturate(1.3)",
-                WebkitBackdropFilter: "blur(32px) saturate(1.3)",
-                border: "1px solid hsl(43 66% 52% / 0.12)",
-                boxShadow: "inset 0 1px 0 hsl(0 0% 100% / 0.06), inset 0 -1px 0 hsl(213 62% 3% / 0.3), 0 20px 80px hsl(213 62% 3% / 0.5), 0 4px 16px hsl(213 62% 3% / 0.3)",
-              }}
-            >
-              {/* Animated gradient border glow on hover */}
-              <div
-                className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{ boxShadow: "0 0 0 1px hsl(43 66% 52% / 0.25), 0 0 60px hsl(43 66% 52% / 0.1), 0 0 120px hsl(43 66% 52% / 0.05)" }}
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 45 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8, delay: 0, ease: [0.22, 1, 0.36, 1] }}
+            className="glass-card rounded-3xl overflow-hidden gold-border relative group"
+          >
+            <div className="relative aspect-square overflow-hidden rounded-t-3xl">
+              <div 
+                className="absolute inset-0 bg-cover bg-center opacity-10 transition-transform duration-700 group-hover:scale-105" 
+                style={{ backgroundImage: 'url("https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/694bacc0fac3a42b4b20469a/ade196248_image.png")' }}
               />
-              {/* Top shimmer line */}
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              {/* Light-sweep reflection */}
-              <motion.div
-                className="absolute inset-0 pointer-events-none"
-                initial={{ opacity: 0, x: "-100%" }}
-                whileHover={{ opacity: 1, x: "150%", transition: { duration: 0.65, ease: "easeInOut" } }}
-                style={{ background: "linear-gradient(105deg, transparent 40%, hsl(0 0% 100% / 0.04) 50%, transparent 60%)", width: "60%" }}
+              <img 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/694bacc0fac3a42b4b20469a/a779dd4a6_WhatsAppImage2025-12-30at105802AM.jpeg" 
+                alt="Mohammed Anas" 
+                className="relative z-10 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
               />
-              {/* Inner gradient intensifies on hover */}
-              <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-20 pointer-events-none" />
+            </div>
+            <div className="p-8 text-center bg-black/40 backdrop-blur-sm relative z-30">
+              <h3 className="text-2xl font-bold text-white mb-2 font-heading tracking-tight drop-shadow-md">Mohammed Anas</h3>
+              <p className="text-[#C9A961] font-medium mb-3 tracking-wide uppercase text-sm">Founder &amp; CEO</p>
+              <div className="w-10 h-px bg-gradient-to-r from-transparent via-[#C9A961]/50 to-transparent mx-auto mb-4" />
+              <p className="text-gray-400 text-sm leading-relaxed max-w-sm mx-auto">Execution-focused leader driving engineering excellence and long-term growth.</p>
+            </div>
+          </motion.div>
 
-              <div className="relative z-10 p-8 flex flex-col items-center text-center">
-                {/* Avatar with gold ring + halo */}
-                <div className="relative mb-7">
-                  {/* Pulsing halo orb */}
-                  <motion.div
-                    className="absolute -inset-4 rounded-full bg-primary/15 blur-2xl"
-                    animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.55, 0.3] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: founder.delay }}
-                  />
-                  {/* Gold gradient ring */}
-                  <div
-                    className="relative p-[3px] rounded-full group-hover:p-[2px] transition-all duration-300"
-                    style={{
-                      background: "linear-gradient(135deg, hsl(43 66% 52%) 0%, hsl(43 80% 72%) 40%, hsl(43 55% 40%) 70%, hsl(43 66% 52%) 100%)",
-                      boxShadow: "0 0 24px hsl(43 66% 52% / 0.25), 0 0 48px hsl(43 66% 52% / 0.1)",
-                    }}
-                  >
-                    {/* Inner avatar container */}
-                    <div className="relative rounded-full overflow-hidden w-28 h-28 bg-secondary">
-                      <motion.img
-                        src={founder.image}
-                        alt={founder.name}
-                        className="w-full h-full object-cover object-top"
-                        whileHover={{ scale: 1.08 }}
-                        transition={{ duration: 0.4, ease: "easeOut" }}
-                        loading="lazy"
-                      />
-                      {/* Hover brightness overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Name */}
-                <h3 className="text-xl font-heading font-bold text-foreground mb-1 tracking-tight">
-                  {founder.name}
-                </h3>
-                {/* Role */}
-                <p className="text-primary text-sm font-semibold tracking-wide mb-4">
-                  {founder.role}
-                </p>
-                {/* Separator */}
-                <div className="w-10 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-4 group-hover:w-16 transition-all duration-500" />
-                {/* Description */}
-                <p className="text-muted-foreground/75 text-sm leading-relaxed">
-                  {founder.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+          <motion.div
+            initial={{ opacity: 0, y: 45 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="glass-card rounded-3xl overflow-hidden gold-border relative group"
+          >
+            <div className="relative aspect-square overflow-hidden rounded-t-3xl">
+              <div 
+                className="absolute inset-0 bg-cover bg-center opacity-10 transition-transform duration-700 group-hover:scale-105" 
+                style={{ backgroundImage: 'url("https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/694bacc0fac3a42b4b20469a/ade196248_image.png")' }}
+              />
+              <img 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/694bacc0fac3a42b4b20469a/21f81a457_Gemini_Generated_Image_kdfiedkdfiedkdfi.png" 
+                alt="Mohammed Asif" 
+                className="relative z-10 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-20 pointer-events-none" />
+            </div>
+            <div className="p-8 text-center bg-black/40 backdrop-blur-sm relative z-30">
+              <h3 className="text-2xl font-bold text-white mb-2 font-heading tracking-tight drop-shadow-md">Mohammed Asif</h3>
+              <p className="text-[#C9A961] font-medium mb-3 tracking-wide uppercase text-sm">COO (Chief Operation Officer)</p>
+              <div className="w-10 h-px bg-gradient-to-r from-transparent via-[#C9A961]/50 to-transparent mx-auto mb-4" />
+              <p className="text-gray-400 text-sm leading-relaxed max-w-sm mx-auto">Operational specialist ensuring quality delivery, safety compliance, and service reliability.</p>
+            </div>
+          </motion.div>
         </div>
 
         {/* Team size badge */}
@@ -321,21 +262,6 @@ const About = () => (
             <p className="text-gradient-gold text-3xl font-heading font-bold text-shadow-glow">25+</p>
             <p className="text-white font-medium text-sm mt-1">Peoples</p>
           </GlassCard>
-        </div>
-      </div>
-    </section>
-
-    <section className="py-20 relative">
-      <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 pt-8">
-        <SectionHeading badge="Industries" title="Industries We Serve" />
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
-          {industries.map((ind, i) => (
-            <GlassCard key={ind.label} className="p-5 text-center" premium delay={i * 0.08}>
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mx-auto mb-3 icon-glow">{ind.icon}</div>
-              <span className="text-foreground text-sm font-medium">{ind.label}</span>
-            </GlassCard>
-          ))}
         </div>
       </div>
     </section>

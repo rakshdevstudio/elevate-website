@@ -334,11 +334,11 @@
   /* Shiny Text effect — sweeping shimmer highlight */
   .shiny-text {
     background: linear-gradient(120deg,
-        hsl(0 0% 100% / 0.55) 0%,
-        hsl(0 0% 100% / 0.55) 40%,
+        hsl(0 0% 100% / 0.75) 0%,
+        hsl(0 0% 100% / 0.75) 40%,
         hsl(0 0% 100% / 1) 50%,
-        hsl(0 0% 100% / 0.55) 60%,
-        hsl(0 0% 100% / 0.55) 100%);
+        hsl(0 0% 100% / 0.75) 60%,
+        hsl(0 0% 100% / 0.75) 100%);
     background-size: 250% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
