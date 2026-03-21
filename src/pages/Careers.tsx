@@ -106,9 +106,9 @@ const Careers = () => {
     <>
       <PageHero title="Join Our Team" subtitle="Build your career with one of India's fastest-growing elevator companies. We're looking for passionate individuals who share our commitment to excellence." backgroundImage="/images/hero-careers.webp" />
 
-      <section className="py-20 relative">
+      <section className="py-10 md:py-16 relative">
         <SectionDivider />
-        <div className="container mx-auto px-4 lg:px-8 pt-8">
+        <div className="container mx-auto px-6 pt-8">
           <SectionHeading badge="Culture" title="Why To Build With Us" subtitle="Join a team that values growth, innovation, and making a real impact" />
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {cultureCards.map((c, i) => (
@@ -124,9 +124,9 @@ const Careers = () => {
         </div>
       </section>
 
-      <section className="py-20 section-glow relative">
+      <section className="py-10 md:py-16 section-glow relative">
         <SectionDivider />
-        <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
+        <div className="container mx-auto px-6 pt-8 relative z-10">
           <SectionHeading badge="Openings" title="Current Openings" subtitle="Explore available positions and find your perfect role" />
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {openings.map((job, i) => (
@@ -154,9 +154,9 @@ const Careers = () => {
         </div>
       </section>
 
-      <section id="apply" className="py-20 relative">
+      <section id="apply" className="py-10 md:py-16 relative">
         <SectionDivider />
-        <div className="container mx-auto px-4 lg:px-8 max-w-2xl pt-8">
+        <div className="container mx-auto px-6 max-w-2xl pt-8">
           <SectionHeading badge="Apply" title="Apply Now" subtitle="Fill in your details and we'll get back to you" />
           <GlassCard className="p-8 relative overflow-hidden" hover={false} premium>
             <div className="absolute inset-0 bg-gradient-to-br from-primary/3 to-transparent pointer-events-none" />

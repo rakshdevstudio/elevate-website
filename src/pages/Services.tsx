@@ -23,9 +23,9 @@ const Services = () => (
 
     <TrustBadges />
 
-    <section className="py-20 relative">
+    <section className="py-10 md:py-16 relative">
       <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 max-w-4xl pt-8">
+      <div className="container mx-auto px-6 max-w-4xl pt-8">
         <SectionHeading badge="Philosophy" title="Our Service Philosophy" />
         <GlassCard className="p-8 text-center" premium>
           <p className="text-muted-foreground text-base leading-relaxed italic">
@@ -35,11 +35,11 @@ const Services = () => (
       </div>
     </section>
 
-    <section className="py-24 lg:py-32 relative">
+    <section className="py-10 md:py-16 relative">
       <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 pt-8">
+      <div className="container mx-auto px-6 pt-8">
         <SectionHeading title="Why Choose X Elevators?" />
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10 max-w-6xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8 max-w-6xl mx-auto">
           {whyChoose.map((item, i) => (
             <ScrollReveal key={i} delay={i * 0.08}>
               <div className="flex flex-col items-center text-center group">
@@ -57,11 +57,11 @@ const Services = () => (
 
     <CTABanner variant="inspection" />
 
-    <section className="py-24 lg:py-32 section-glow relative">
+    <section className="py-10 md:py-16 section-glow relative">
       <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
+      <div className="container mx-auto px-6 pt-8 relative z-10">
         <SectionHeading badge="AMC Plans" title="Annual Maintenance Contract Plans" subtitle="Choose a plan that fits your needs and budget" />
-        <div className="grid md:grid-cols-3 gap-8 lg:gap-10 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
           {amcPlans.map((p, i) => (
             <GlassCard key={i} className={`p-8 lg:p-10 text-center relative overflow-hidden ${p.color}`} premium={!!p.popular} delay={i * 0.1} tilt>
               {p.popular && (
@@ -89,9 +89,9 @@ const Services = () => (
       </div>
     </section>
 
-    <section className="py-24 lg:py-32 relative">
+    <section className="py-10 md:py-16 relative">
       <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
+      <div className="container mx-auto px-6 pt-8 relative z-10">
         <SectionHeading badge="More Services" title="Additional Services" />
         <div className="max-w-xl mx-auto">
           <GlassCard className="p-7" premium delay={0.1} tilt>

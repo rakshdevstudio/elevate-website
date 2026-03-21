@@ -9,7 +9,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { TrustBadges } from "@/components/CTABanner";
-import { AnimatedList } from "@/components/AnimatedList";
 import BrochureDownload from "@/components/BrochureDownload";
 import React, { useState, useEffect, useRef } from "react";
 import { submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
@@ -28,7 +27,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center pt-32 lg:pt-40 overflow-hidden">
+    <section className="relative min-h-screen flex items-center pt-32 lg:pt-40 pb-16 overflow-hidden">
       <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
         <source src="/videos/hero-bg.mp4" type="video/mp4" />
       </video>
@@ -36,7 +35,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213_62%_6%/0.4)] via-transparent to-[hsl(213_62%_6%/0.4)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_40%,hsl(43_66%_52%/0.06),transparent_70%)]" />
       <FloatingParticles count={30} />
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+      <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7 }} className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-12 mt-8 lg:mt-12">
             {[
@@ -290,15 +289,15 @@ const MissionVisionCard = ({ card }: { card: typeof missionVisionCards[0] }) => 
 };
 
 const MissionVision = () => (
-  <section className="py-24 lg:py-32 section-glow relative overflow-hidden">
+  <section className="py-10 md:py-16 section-glow relative overflow-hidden">
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_60%,hsl(43_66%_52%/0.04),transparent_70%)] pointer-events-none" />
-    <div className="container mx-auto px-4 lg:px-8 relative z-10">
+    <div className="container mx-auto px-6 relative z-10">
       <SectionHeading
         badge="Who We Are"
         title="Our Mission & Vision"
         subtitle="Committed to transforming vertical mobility with innovation and safety"
       />
-      <div className="grid md:grid-cols-3 gap-8 lg:gap-10 max-w-6xl mx-auto">
+      <div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
         {missionVisionCards.map((card) => (
           <MissionVisionCard key={card.label} card={card} />
         ))}
@@ -363,11 +362,11 @@ const ImpactMetrics = () => {
   ];
 
   return (
-    <section className="py-24 lg:py-32 relative overflow-hidden">
+    <section className="py-10 md:py-16 relative overflow-hidden">
       <SectionDivider />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,hsl(43_66%_52%/0.04),transparent_70%)]" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
+      <div className="container mx-auto px-6 pt-8 relative z-10">
 
         {/* Heading */}
         <motion.div
@@ -375,7 +374,7 @@ const ImpactMetrics = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-16 text-center"
+          className="mb-8 text-center"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] font-heading font-bold tracking-tight leading-[1.1] mb-5">
             Our <span className="text-primary">Impact</span>
@@ -386,7 +385,7 @@ const ImpactMetrics = () => {
         </motion.div>
 
         {/* 7 Stat Cards Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 lg:gap-4 max-w-6xl mx-auto mb-16">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 lg:gap-4 max-w-6xl mx-auto mb-8">
           {impactStats.map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -629,9 +628,9 @@ const IndustriesServed = () => {
   ];
 
   return (
-    <section className="py-24 lg:py-32 relative section-mesh">
+    <section className="py-10 md:py-16 relative section-mesh">
       <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
+      <div className="container mx-auto px-6 pt-8 relative z-10">
         <SectionHeading badge="Industries" title="Industries We Serve" subtitle="Trusted across diverse sectors for premium vertical transportation" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 max-w-5xl mx-auto">
           {industries.map((ind, i) => (
@@ -671,9 +670,9 @@ const ProcessSection = () => {
   };
 
   return (
-    <section className="py-16 lg:py-24 section-glow relative bg-background">
+    <section className="py-8 md:py-12 section-glow relative bg-background">
       <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center mb-8 section-container" style={{ paddingTop: '40px' }}>
+      <div className="container mx-auto px-6 relative z-10 text-center mb-8 section-container" style={{ paddingTop: '40px' }}>
         <SectionHeading badge="Our Process" title="How We Deliver" subtitle="A streamlined 6-step process from consultation to handover" />
         <p className="-mt-10 mb-0 text-center text-sm lg:text-base font-medium text-gradient-gold tracking-wide">
           Quick and efficient delivery timeline
@@ -731,10 +730,10 @@ const Solutions = () => {
   ];
 
   return (
-    <section className="py-24 lg:py-32 section-glow section-mesh relative">
+    <section className="py-10 md:py-16 section-glow section-mesh relative">
       <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+      <div className="container mx-auto px-6 pt-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-start">
           {/* LEFT SIDE: Sticky Text */}
           <div className="lg:sticky lg:top-[120px] lg:pt-10 text-center lg:text-left [&_p]:lg:mx-0">
             <SectionHeading badge="What We Offer" title="Complete Elevator Solutions" subtitle="End-to-end elevator services from design and installation to maintenance and modernization" center={false} />
@@ -853,12 +852,12 @@ const Finishes = () => {
   ];
 
   return (
-    <section className="py-24 lg:py-32 relative">
+    <section className="py-10 md:py-16 relative">
       <SectionDivider />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_30%_at_50%_50%,hsl(43_66%_52%/0.03),transparent)]" />
 
       {/* SECTION HEADER */}
-      <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center mb-16">
+      <div className="container mx-auto px-6 relative z-10 text-center mb-8">
         {/* Animated glowing divider above the header */}
         <div className="w-full max-w-4xl mx-auto h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-12 opacity-50 glow-gold-strong" />
 
@@ -873,7 +872,7 @@ const Finishes = () => {
         </p>
       </div>
 
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+      <div className="container mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
           {finishes.map((f) => (
             <div key={f.id} className="relative h-full flex pt-4">
@@ -970,17 +969,17 @@ const AMCPlans = () => {
   ];
 
   return (
-    <section className="py-24 lg:py-32 relative section-mesh">
+    <section className="py-10 md:py-16 relative section-mesh">
       <SectionDivider />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,hsl(43_66%_52%/0.03),transparent)]" />
-      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
+      <div className="container mx-auto px-6 pt-8 relative z-10">
         {/* Title matching Base44: "Annual Maintenance Contract Plans" */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-16 text-center"
+          className="mb-8 text-center"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold tracking-tight leading-[1.1]">
             Annual Maintenance{" "}
@@ -1054,52 +1053,242 @@ const AMCPlans = () => {
 
 
 const FAQ = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const faqs = [
-    { q: "How long does elevator installation take?", a: "Typically, a residential elevator installation takes 4-6 weeks, while commercial installations may take 8-12 weeks depending on the complexity and building requirements." },
-    { q: "What safety features are included?", a: "All our elevators come with emergency braking, door sensors, overload protection, intercom system, battery backup, and fire-rated doors as standard features." },
-    { q: "Do you offer customization options?", a: "Yes! We offer full customization including cabin size, finishes, lighting, flooring, control panel design, and door styles to match your space perfectly." },
-    { q: "What is covered under AMC?", a: "Our AMC plans cover regular maintenance visits, safety inspections, lubrication, adjustments, and depending on your plan, free parts replacement and 24/7 emergency support." },
-    { q: "What is the warranty period?", a: "We provide a comprehensive 2-year warranty on all installations covering parts and labor, with extended warranty options available up to 5 years." },
+  const [openItem, setOpenItem] = useState<number | null>(null);
+
+  const categories = [
+    {
+      title: "🏆 Brand Dominance",
+      items: [
+        {
+          id: 1,
+          question: "Why is X Elevators considered a superior choice in the industry?",
+          answer:
+            "X Elevators delivers premium design excellence, disciplined execution timelines, and lifetime technical partnership—setting a higher standard than conventional suppliers.",
+        },
+        {
+          id: 2,
+          question: "What truly differentiates X Elevators from other elevator companies?",
+          answer:
+            "X Elevators combines architectural-grade cabin aesthetics, structured SOP-driven execution, and transparent pricing under one accountable system.",
+        },
+      ],
+    },
+    {
+      title: "🎨 Cabin Design Excellence",
+      items: [
+        {
+          id: 3,
+          question: "How does X Elevators ensure unmatched cabin design quality?",
+          answer:
+            "X Elevators custom-engineers every cabin to enhance the building’s visual identity—from refined finishes to luxury statement interiors.",
+        },
+        {
+          id: 4,
+          question: "Can X Elevators match premium architectural and branding requirements?",
+          answer:
+            "Yes, X Elevators collaborates closely with architects and builders to deliver elevators that complement high-end project standards.",
+        },
+      ],
+    },
+    {
+      title: "⚡ Timeline & Execution Discipline",
+      items: [
+        {
+          id: 5,
+          question: "How fast can X Elevators deliver a completed elevator installation?",
+          answer:
+            "X Elevators follows a committed execution schedule, ensuring efficient project completion without compromising quality.",
+        },
+        {
+          id: 6,
+          question: "How does X Elevators prevent project delays?",
+          answer:
+            "X Elevators activates engineering, procurement, and production immediately after confirmation under a strict SOP-based workflow.",
+        },
+      ],
+    },
+    {
+      title: "💰 Pricing Transparency",
+      items: [
+        {
+          id: 7,
+          question: "Does X Elevators maintain transparent pricing?",
+          answer:
+            "X Elevators follows a clearly defined scope and cost structure—ensuring no hidden charges at any stage.",
+        },
+        {
+          id: 8,
+          question: "Can X Elevators offer both premium and value-engineered solutions?",
+          answer:
+            "Yes, X Elevators provides luxury customization or optimized configurations based on project priorities and budget.",
+        },
+      ],
+    },
+    {
+      title: "🛡 Safety & Compliance",
+      items: [
+        {
+          id: 9,
+          question: "How does X Elevators ensure elevator safety and compliance?",
+          answer:
+            "X Elevators integrates certified components, multi-layer safety systems, and compliance-driven engineering in every installation.",
+        },
+        {
+          id: 10,
+          question: "Does X Elevators support statutory approvals and documentation?",
+          answer:
+            "Yes, X Elevators provides technical documentation and guidance required for regulatory compliance.",
+        },
+      ],
+    },
+    {
+      title: "♾ Support & Lifetime Partnership",
+      items: [
+        {
+          id: 11,
+          question: "What happens after installation with X Elevators?",
+          answer:
+            "X Elevators continues structured maintenance guidance and technical support beyond project handover.",
+        },
+        {
+          id: 12,
+          question: "What does lifetime partnership mean at X Elevators?",
+          answer:
+            "X Elevators remains a long-term technical partner—supporting performance, upgrades, and service throughout the elevator’s lifecycle.",
+        },
+      ],
+    },
   ];
 
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 28 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.7,
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.08,
+      },
+    },
+  };
+
+  const categoryVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 18 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+    },
+  };
+
   return (
-    <section className="py-24 lg:py-32 section-glow relative">
+    <motion.section
+      className="py-10 md:py-16 section-glow relative overflow-hidden"
+      variants={sectionVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+    >
       <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 max-w-3xl pt-8 relative z-10">
-        <SectionHeading badge="FAQ" title="Frequently Asked Questions" subtitle="Find answers to common questions about our elevator solutions" />
-        <div className="space-y-4">
-          <AnimatedList delay={150}>
-            {faqs.map((faq, i) => (
-              <div key={i} className={`glass-card-premium rounded-2xl overflow-hidden transition-all duration-500 ${openIndex === i ? 'glow-gold' : ''}`}>
-                <button onClick={() => setOpenIndex(openIndex === i ? null : i)} className="w-full flex items-center justify-between p-6 text-left group">
-                  <div className="flex items-center gap-4">
-                    <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center text-primary text-xs font-bold shrink-0 group-hover:from-primary/25 group-hover:to-primary/10 transition-all duration-300">{String(i + 1).padStart(2, "0")}</span>
-                    <span className="text-foreground font-medium text-sm lg:text-base">{faq.q}</span>
-                  </div>
-                  <ChevronDown className={`w-5 h-5 text-primary shrink-0 transition-transform duration-400 ${openIndex === i ? "rotate-180" : ""}`} />
-                </button>
-                <AnimatePresence>
-                  {openIndex === i && (
-                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}>
-                      <div className="px-6 pb-6 pl-[4.25rem]"><p className="text-muted-foreground text-sm leading-relaxed opacity-80">{faq.a}</p></div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_40%_at_50%_45%,hsl(43_66%_52%/0.14),transparent_70%)] animate-pulse" />
+      <div className="container mx-auto px-6 pt-8 relative z-10">
+        <div className="max-w-5xl mx-auto">
+          <SectionHeading
+            badge="FAQ"
+            title="Frequently Asked Questions"
+            subtitle="Find answers to common questions about our elevator solutions"
+          />
+
+          <div className="mt-10 space-y-6">
+            {categories.map((category) => (
+              <motion.div key={category.title} variants={categoryVariants} className="space-y-4">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative"
+                >
+                  <div className="absolute -inset-x-1 -inset-y-1 bg-primary/10 blur-2xl pointer-events-none" />
+                  <h3 className="relative text-xl md:text-2xl font-semibold text-primary tracking-tight">
+                    {category.title}
+                  </h3>
+                </motion.div>
+
+                <div className="space-y-4">
+                  {category.items.map((item) => {
+                    const isOpen = openItem === item.id;
+
+                    return (
+                      <motion.div
+                        key={item.id}
+                        variants={cardVariants}
+                        whileHover={{ y: -4 }}
+                        whileTap={{ scale: 0.995 }}
+                        className={`rounded-xl p-5 backdrop-blur-xl border transition-all duration-300 ${isOpen
+                          ? "bg-white/10 border-primary/45 shadow-[0_10px_30px_hsl(43_66%_52%/0.14)]"
+                          : "bg-white/5 border-white/10 hover:border-primary/35 hover:shadow-[0_10px_30px_hsl(43_66%_52%/0.12)]"
+                          }`}
+                      >
+                        <button
+                          onClick={() => setOpenItem(isOpen ? null : item.id)}
+                          className="w-full text-left flex items-start justify-between gap-4"
+                        >
+                          <div className="pr-3">
+                            <p className="text-white font-semibold text-base lg:text-lg">
+                              {item.id}. {item.question}
+                            </p>
+                          </div>
+                          <motion.span
+                            animate={{ rotate: isOpen ? 180 : 0 }}
+                            transition={{ duration: 0.35, ease: "easeInOut" }}
+                            className="shrink-0 mt-0.5"
+                          >
+                            <ChevronDown className="w-5 h-5 text-primary" />
+                          </motion.span>
+                        </button>
+
+                        <AnimatePresence initial={false}>
+                          {isOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.35, ease: "easeInOut" }}
+                              className="overflow-hidden"
+                            >
+                              <p className="text-gray-300 leading-relaxed mt-3">{item.answer}</p>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </motion.div>
             ))}
-          </AnimatedList>
+          </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
 const CTASection = () => (
-  <section className="py-24 lg:py-32 relative">
+  <section className="py-10 md:py-16 relative">
     <SectionDivider />
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,hsl(43_66%_52%/0.05),transparent)]" />
-    <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
+    <div className="container mx-auto px-6 pt-8 relative z-10">
       <div className="max-w-4xl mx-auto text-center">
         <ScrollReveal>
           <GlassCard className="p-10 lg:p-16 relative overflow-hidden" hover={false} premium>
@@ -1151,12 +1340,12 @@ const ContactSection = () => {
     }
   };
   return (
-    <section className="py-24 lg:py-32 relative">
+    <section className="py-10 md:py-16 relative">
       <SectionDivider />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_60%_50%,hsl(43_66%_52%/0.04),transparent)]" />
-      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
+      <div className="container mx-auto px-6 pt-8 relative z-10">
         <SectionHeading badge="Get In Touch" title="Let's Connect" subtitle="Ready to Elevate Your Prestige? Reach out for a free consultation" />
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 max-w-5xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
           <ScrollReveal direction="left">
             <div className="space-y-5">
               {[
@@ -1366,10 +1555,10 @@ const TechnologySelector = () => {
   };
 
   return (
-    <section className="mt-24 mb-24 relative z-10 w-full overflow-hidden">
-      <div className="container mx-auto px-4 lg:px-6 max-w-7xl">
+    <section className="mt-10 md:mt-12 mb-10 md:mb-12 relative z-10 w-full overflow-hidden">
+      <div className="container mx-auto px-6 max-w-7xl">
         {/* PART 1: Feature Highlights Row (Horizontal Hover Expansion) */}
-        <div className="flex flex-col lg:flex-row h-auto lg:h-[300px] gap-4 lg:gap-5 mb-16 group/section feature-section">
+        <div className="flex flex-col lg:flex-row h-auto lg:h-[300px] gap-4 lg:gap-5 mb-8 group/section feature-section">
           {features.map((feat, idx) => (
             <div 
               key={idx} 

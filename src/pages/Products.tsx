@@ -71,10 +71,10 @@ const ProductShowcase = ({ product, index }: { product: typeof elevatorProducts[
   const isReversed = index % 2 !== 0;
 
   return (
-    <section className="py-16 lg:py-24 relative">
+    <section className="py-8 md:py-12 relative">
       <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse 50% 50% at ${isReversed ? '30%' : '70%'} 50%, hsl(43 66% 52% / 0.03), transparent 70%)` }} />
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
-        <div className={`flex flex-col ${isReversed ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-10 lg:gap-16 items-center max-w-6xl mx-auto`}>
+      <div className="container mx-auto px-6 relative z-10">
+        <div className={`flex flex-col ${isReversed ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-6 md:gap-8 items-center max-w-6xl mx-auto`}>
           <ScrollReveal direction={isReversed ? 'right' : 'left'} className="lg:w-1/2">
             <TiltedCard
               src={product.image}
@@ -121,7 +121,7 @@ const Products = () => {
         <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[180px]" />
         <div className="absolute bottom-1/3 left-1/4 w-[400px] h-[400px] bg-[hsl(210_60%_40%/0.04)] rounded-full blur-[140px]" />
         <FloatingParticles count={15} />
-        <div className="container mx-auto px-4 lg:px-8 text-center relative z-10 pt-24 pb-16">
+        <div className="container mx-auto px-6 text-center relative z-10 pt-20 pb-16">
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
 
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-foreground mb-6 tracking-tight leading-[1.05] text-shadow-hero">Our Premium Solutions</h1>
@@ -138,7 +138,7 @@ const Products = () => {
 
       {/* ELEVATOR SHOWCASE */}
       <div>
-        <div className="container mx-auto px-4 lg:px-8 pt-12">
+        <div className="container mx-auto px-6 pt-8 md:pt-10">
           <SectionHeading badge="Categories" title="Our Elevator Solutions" subtitle="Choose the right elevator for your building type" />
         </div>
         {elevatorProducts.map((product, i) => (
@@ -149,9 +149,9 @@ const Products = () => {
       <SectionDivider />
 
       {/* FINISHES & PRICING */}
-      <section className="py-24 lg:py-32 section-glow relative">
+      <section className="py-10 md:py-16 section-glow relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_40%,hsl(43_66%_52%/0.04),transparent)]" />
-        <div className="container mx-auto px-4 lg:px-8 relative z-10">
+        <div className="container mx-auto px-6 relative z-10">
           <SectionHeading badge="Pricing" title="Finishes & Pricing" subtitle="Choose from our range of elevator finishes to match your budget and style" />
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
@@ -246,8 +246,8 @@ const Products = () => {
       <SectionDivider />
 
       {/* DESIGN CUSTOMIZATION GALLERY */}
-      <section className="py-24 lg:py-32 section-glow relative">
-        <div className="container mx-auto px-4 lg:px-8 relative z-10">
+      <section className="py-10 md:py-16 section-glow relative">
+        <div className="container mx-auto px-6 relative z-10">
           <SectionHeading badge="Choose your Design" title="Design Customization" subtitle="Personalize every detail of your elevator" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7 max-w-6xl mx-auto">
             {designCategories.map((cat, i) => (
@@ -273,13 +273,13 @@ const Products = () => {
       <SectionDivider />
 
       {/* WHY CHOOSE US */}
-      <section className="py-24 lg:py-32 relative overflow-hidden">
+      <section className="py-10 md:py-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(43_66%_52%/0.02),transparent_70%)] pointer-events-none" />
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="mb-16 text-center">
+        <div className="container mx-auto px-6">
+          <div className="mb-8 text-center">
             <h2 className="font-heading font-bold text-foreground mb-5 tracking-tight leading-[1.1] text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem]">Why Choose X Elevators?</h2>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10 max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8 max-w-6xl mx-auto">
             {[
               { title: "ISO Certified", desc: "Quality assured with international standards", icon: <Layers className="w-7 h-7" /> },
               { title: "<60 Min Response", desc: "Emergency response within 60 minutes", icon: <Monitor className="w-7 h-7" /> },

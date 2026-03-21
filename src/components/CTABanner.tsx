@@ -12,6 +12,7 @@ interface CTABannerProps {
 }
 
 export const CTABanner = ({ variant = "quote" }: CTABannerProps) => {
+  const useStarBorder = variant !== "inspection" && variant !== "quote";
   const configs = {
     quote: {
       title: "Get Your Elevator Quote Now",
@@ -56,7 +57,7 @@ export const CTABanner = ({ variant = "quote" }: CTABannerProps) => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,hsl(43_66%_52%/0.05),transparent)]" />
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <ScrollReveal>
-          <GlassCard className="p-10 lg:p-14 relative overflow-hidden text-center max-w-4xl mx-auto" hover={false} premium>
+          <GlassCard className="p-10 lg:p-14 relative overflow-hidden text-center max-w-4xl mx-auto" hover={false} premium={useStarBorder}>
             <div className="absolute inset-0 bg-gradient-to-br from-primary/6 via-transparent to-primary/3 pointer-events-none" />
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-28 bg-primary/10 rounded-full blur-[80px] pointer-events-none" />
             <div className="relative z-10">

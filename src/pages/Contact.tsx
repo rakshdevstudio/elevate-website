@@ -59,11 +59,11 @@ const Contact = () => {
 
       <TrustBadges />
 
-      <section className="py-24 lg:py-32 relative">
+      <section className="py-10 md:py-16 relative">
         <SectionDivider />
-        <div className="container mx-auto px-4 lg:px-8 pt-8 max-w-5xl">
+        <div className="container mx-auto px-6 pt-8 max-w-5xl">
           <ScrollReveal>
-            <div className="mb-16">
+            <div className="mb-8">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-extrabold text-foreground mb-6 tracking-tight">Let's Discuss About Your Project</h2>
               <p className="text-muted-foreground text-base lg:text-lg leading-relaxed max-w-3xl opacity-80">
                 Whether you're building a new structure or modernizing existing elevators, we're here to help. Fill out the form and our team will get back to you within 24 hours with a customized solution.
@@ -71,7 +71,7 @@ const Contact = () => {
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-20">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mb-10 md:mb-12">
             {[
               { icon: <Clock className="w-7 h-7" />, title: "<60 Min Response", desc: "Emergency support" },
               { icon: <Headphones className="w-7 h-7" />, title: "24/7 Helpline", desc: "Always available" },
@@ -91,10 +91,10 @@ const Contact = () => {
         </div>
       </section>
 
-      <section className="py-24 lg:py-32 section-glow relative">
+      <section className="py-10 md:py-16 section-glow relative">
         <SectionDivider />
-        <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 max-w-6xl mx-auto">
+        <div className="container mx-auto px-6 pt-8 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-6 md:gap-8 max-w-6xl mx-auto">
             <ScrollReveal direction="left">
               <div>
                 <h3 className="text-2xl lg:text-3xl font-heading font-bold text-foreground mb-2">Request a Quote</h3>
@@ -220,9 +220,9 @@ const Contact = () => {
 
       <BrochureDownload />
 
-      <section className="py-24 lg:py-32 relative">
+      <section className="py-10 md:py-16 relative">
         <SectionDivider />
-        <div className="container mx-auto px-4 lg:px-8 max-w-3xl pt-8">
+        <div className="container mx-auto px-6 max-w-3xl pt-8">
           <ScrollReveal>
             <div className="relative rounded-2xl overflow-hidden p-6 lg:p-8" style={{ background: 'linear-gradient(160deg, hsl(212 50% 14% / 0.7) 0%, hsl(212 48% 10% / 0.5) 100%)' }}>
               <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/5 rounded-full blur-[80px] pointer-events-none" />

@@ -20,7 +20,7 @@ export const SectionHeading = ({ badge, badgeClassName, title, titleClassName, s
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-80px" }}
     transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-    className={`mb-16 ${center ? "text-center" : ""}`}
+    className={`mb-8 ${center ? "text-center" : ""}`}
   >
     {badge && (
       <motion.span
@@ -33,7 +33,7 @@ export const SectionHeading = ({ badge, badgeClassName, title, titleClassName, s
         {badge}
       </motion.span>
     )}
-    <h2 className={`font-heading font-bold text-foreground mb-5 tracking-tight leading-[1.1] ${titleClassName || "text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem]"}`}>
+    <h2 className={`font-heading font-bold text-foreground mb-4 tracking-tight leading-[1.1] ${titleClassName || "text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem]"}`}>
       {title}
     </h2>
     {subtitle && (
