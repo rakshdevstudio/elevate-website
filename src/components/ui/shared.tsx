@@ -92,7 +92,7 @@ export const GlassCard = ({ children, className = "", hover = true, delay = 0, p
       className={`rounded-2xl ${hover ? "transition-all duration-500 cursor-pointer text-left" : ""} ${premium ? "h-full" : `glass-card ${className}`}`}
     >
       {premium ? (
-        <StarBorder speed="5s" color="#D4AF37" className={`w-full h-full ${className.includes('group') ? 'group' : ''}`} innerClassName={`glass-card-premium w-full h-full ${className.replace('group', '')}`}>
+        <StarBorder speed="5s" color="#D4AF37" className={`w-full h-full ${className.includes('group') ? 'group' : ''}`} innerClassName={`glass-card-premium glare-hover w-full h-full ${className.replace('group', '')}`}>
           {glowFollow && (
             <div
               aria-hidden
@@ -164,7 +164,7 @@ export const StatCard = ({ value, label, icon, delay = 0 }: StatCardProps) => {
       whileHover={{ y: -8, transition: { duration: 0.28, ease: "easeOut" } }}
       className="group relative rounded-2xl h-full cursor-pointer"
     >
-      <StarBorder speed="5s" color="#D4AF37" className="w-full h-full" innerClassName="glass-card-premium w-full h-full overflow-hidden">
+      <StarBorder speed="5s" color="#D4AF37" className="w-full h-full" innerClassName="glass-card-premium glare-hover w-full h-full overflow-hidden">
         {/* Background radial glow that intensifies on hover */}
         <div className="absolute inset-0 bg-gradient-to-b from-primary/6 via-transparent to-primary/4 opacity-70 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
         {/* Top shimmer line */}

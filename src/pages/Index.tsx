@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom";
+import Lenis from 'lenis';
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionHeading, GlassCard, StatCard, ScrollReveal, FloatingParticles, SectionDivider, StaggerContainer, StaggerChild } from "@/components/ui/shared";
-import { Shield, Zap, Award, Users, Building2, Wrench, ChevronRight, CheckCircle2, Phone, Mail, MapPin, ChevronDown, PhoneCall, ArrowRight, Home, Building, Hospital, Hotel, Factory, Search, PenTool, Settings, HardHat, BadgeCheck, Send, Activity, Star, Leaf, Volume2, Brain, Smartphone, BarChart3, Truck, Clock, Headphones } from "lucide-react";
+import { Shield, Zap, Award, Users, Building2, Wrench, ChevronRight, CheckCircle2, Phone, Mail, MapPin, ChevronDown, PhoneCall, ArrowRight, ArrowLeft, Home, Building, Hospital, Hotel, Factory, Search, PenTool, Settings, HardHat, BadgeCheck, Send, Activity, Star, Leaf, Volume2, Brain, Smartphone, BarChart3, Truck, Clock, Headphones } from "lucide-react";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import { TrustBadges } from "@/components/CTABanner";
 import { AnimatedList } from "@/components/AnimatedList";
 import BrochureDownload from "@/components/BrochureDownload";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
 import { toast } from "@/hooks/use-toast";
 
@@ -111,9 +117,180 @@ const missionVisionCards = [
   },
 ];
 
+const MissionVisionCard = ({ card }: { card: typeof missionVisionCards[0] }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = cardRef.current;
+    if (!container) return;
+
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;';
+    container.insertBefore(canvas, container.firstChild);
+
+    const ctx = canvas.getContext('2d')!;
+    let animId: number;
+    let isHovered = false;
+
+    interface Particle {
+      x: number; y: number;
+      scatterX: number; scatterY: number;
+      targetX: number; targetY: number;
+      size: number; opacity: number;
+    }
+
+    let particles: Particle[] = [];
+
+    const resize = () => {
+      const rect = container.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      buildParticles();
+    };
+
+    const buildParticles = () => {
+      const w = canvas.width;
+      const h = canvas.height;
+      // Minimalist: exactly 50 particles per card
+      const count = 50; 
+
+      // Brackets logic scaled for card size
+      const shapePoints: { x: number; y: number }[] = [];
+      const cx = w / 2;
+      const cy = h / 2;
+      const rx = w * 0.44;  
+      const ry = h * 0.40;
+      const arcPoints = 25;
+
+      for (let i = 0; i < arcPoints; i++) {
+        const t = (i / arcPoints) * Math.PI - Math.PI / 2;
+        shapePoints.push({
+          x: cx - rx * 0.92 + Math.cos(t) * rx * 0.12,
+          y: cy + Math.sin(t) * ry,
+        });
+      }
+      for (let i = 0; i < arcPoints; i++) {
+        const t = (i / arcPoints) * Math.PI - Math.PI / 2;
+        shapePoints.push({
+          x: cx + rx * 0.92 - Math.cos(t) * rx * 0.12,
+          y: cy + Math.sin(t) * ry,
+        });
+      }
+
+      particles = Array.from({ length: count }, (_, i) => {
+        const sp = shapePoints[i % shapePoints.length];
+        const sx = Math.random() * w;
+        const sy = Math.random() * h;
+        return {
+          x: sx, y: sy,
+          scatterX: sx, scatterY: sy,
+          targetX: sp.x, targetY: sp.y,
+          size: Math.random() * 0.8 + 0.6, // Smaller elegant dots
+          opacity: Math.random() * 0.3 + 0.1,
+        };
+      });
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const goldR = 213, goldG = 168, goldB = 52;
+
+      particles.forEach(p => {
+        const gx = isHovered ? p.targetX : p.scatterX;
+        const gy = isHovered ? p.targetY : p.scatterY;
+        p.x += (gx - p.x) * 0.08;
+        p.y += (gy - p.y) * 0.08;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${goldR},${goldG},${goldB},${isHovered ? p.opacity + 0.25 : p.opacity})`;
+        ctx.fill();
+      });
+
+      animId = requestAnimationFrame(draw);
+    };
+
+    const onEnter = () => { isHovered = true; };
+    const onLeave = () => { isHovered = false; };
+
+    container.addEventListener('mouseenter', onEnter);
+    container.addEventListener('mouseleave', onLeave);
+
+    const ro = new ResizeObserver(resize);
+    ro.observe(container);
+    resize();
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      ro.disconnect();
+      container.removeEventListener('mouseenter', onEnter);
+      container.removeEventListener('mouseleave', onLeave);
+      canvas.remove();
+    };
+  }, []);
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 45 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.8, delay: card.delay, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -10, transition: { duration: 0.3, ease: "easeOut" } }}
+      className="group relative rounded-3xl overflow-hidden cursor-pointer h-full"
+      style={{
+        background:
+          "linear-gradient(160deg, hsl(212 50% 15% / 0.65) 0%, hsl(212 48% 10% / 0.45) 55%, hsl(212 55% 8% / 0.5) 100%)",
+        backdropFilter: "blur(32px) saturate(1.3)",
+        WebkitBackdropFilter: "blur(32px) saturate(1.3)",
+        border: "1px solid hsl(43 66% 52% / 0.1)",
+        boxShadow:
+          "inset 0 1px 0 hsl(0 0% 100% / 0.06), inset 0 -1px 0 hsl(213 62% 3% / 0.3), 0 16px 64px hsl(213 62% 3% / 0.5), 0 4px 16px hsl(213 62% 3% / 0.3)",
+      }}
+    >
+      {/* Hover border glow */}
+      <div
+        className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{
+          boxShadow:
+            "0 0 0 1px hsl(43 66% 52% / 0.22), 0 0 50px hsl(43 66% 52% / 0.1), 0 0 100px hsl(43 66% 52% / 0.05)",
+        }}
+      />
+
+      {/* Subtle light-sweep reflection on hover */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        initial={{ opacity: 0, x: "-100%" }}
+        whileHover={{ opacity: 1, x: "150%", transition: { duration: 0.6, ease: "easeInOut" } }}
+        style={{
+          background:
+            "linear-gradient(105deg, transparent 40%, hsl(0 0% 100% / 0.04) 50%, transparent 60%)",
+          width: "60%",
+        }}
+      />
+
+      {/* Top shimmer line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+      {/* Background inner glow */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+      <div className="relative z-10 p-8 lg:p-10">
+        <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-5">
+          Our <span className="text-primary">{card.label}</span>
+        </h3>
+        <div className="w-10 h-px bg-gradient-to-r from-primary/60 to-transparent mb-5 group-hover:w-16 transition-all duration-500" />
+        <p className="text-muted-foreground/75 text-sm lg:text-base leading-relaxed">
+          {card.description}
+        </p>
+      </div>
+    </motion.div>
+  );
+};
+
 const MissionVision = () => (
   <section className="py-24 lg:py-32 section-glow relative overflow-hidden">
-    {/* Section-level ambient glow */}
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_60%,hsl(43_66%_52%/0.04),transparent_70%)] pointer-events-none" />
     <div className="container mx-auto px-4 lg:px-8 relative z-10">
       <SectionHeading
@@ -123,67 +300,7 @@ const MissionVision = () => (
       />
       <div className="grid md:grid-cols-3 gap-8 lg:gap-10 max-w-6xl mx-auto">
         {missionVisionCards.map((card) => (
-          <motion.div
-            key={card.label}
-            initial={{ opacity: 0, y: 45 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.8, delay: card.delay, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={{ y: -10, transition: { duration: 0.3, ease: "easeOut" } }}
-            className="group relative rounded-3xl overflow-hidden cursor-pointer"
-            style={{
-              background:
-                "linear-gradient(160deg, hsl(212 50% 15% / 0.65) 0%, hsl(212 48% 10% / 0.45) 55%, hsl(212 55% 8% / 0.5) 100%)",
-              backdropFilter: "blur(32px) saturate(1.3)",
-              WebkitBackdropFilter: "blur(32px) saturate(1.3)",
-              border: "1px solid hsl(43 66% 52% / 0.1)",
-              boxShadow:
-                "inset 0 1px 0 hsl(0 0% 100% / 0.06), inset 0 -1px 0 hsl(213 62% 3% / 0.3), 0 16px 64px hsl(213 62% 3% / 0.5), 0 4px 16px hsl(213 62% 3% / 0.3)",
-            }}
-          >
-            {/* Hover border glow */}
-            <div
-              className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-              style={{
-                boxShadow:
-                  "0 0 0 1px hsl(43 66% 52% / 0.22), 0 0 50px hsl(43 66% 52% / 0.1), 0 0 100px hsl(43 66% 52% / 0.05)",
-              }}
-            />
-
-            {/* Subtle light-sweep reflection on hover */}
-            <motion.div
-              className="absolute inset-0 pointer-events-none"
-              initial={{ opacity: 0, x: "-100%" }}
-              whileHover={{ opacity: 1, x: "150%", transition: { duration: 0.6, ease: "easeInOut" } }}
-              style={{
-                background:
-                  "linear-gradient(105deg, transparent 40%, hsl(0 0% 100% / 0.04) 50%, transparent 60%)",
-                width: "60%",
-              }}
-            />
-
-            {/* Top shimmer line */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-            {/* Background inner glow (always present, intensifies on hover) */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            <div className="relative z-10 p-8 lg:p-10">
-              {/* Card title — "Our <Gold Label>" format matching Base44 */}
-              <h3 className="text-xl lg:text-2xl font-heading font-bold text-foreground mb-5">
-                Our{" "}
-                <span className="text-primary">{card.label}</span>
-              </h3>
-
-              {/* Separator */}
-              <div className="w-10 h-px bg-gradient-to-r from-primary/60 to-transparent mb-5 group-hover:w-16 transition-all duration-500" />
-
-              {/* Description */}
-              <p className="text-muted-foreground/75 text-sm lg:text-base leading-relaxed">
-                {card.description}
-              </p>
-            </div>
-          </motion.div>
+          <MissionVisionCard key={card.label} card={card} />
         ))}
       </div>
     </div>
@@ -234,102 +351,273 @@ const impactFeatures = [
   },
 ];
 
-const ImpactMetrics = () => (
-  <section className="py-24 lg:py-32 relative overflow-hidden">
-    <SectionDivider />
-    <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,hsl(43_66%_52%/0.04),transparent_70%)]" />
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-    <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
+const ImpactMetrics = () => {
+  const [activeBg, setActiveBg] = useState(0);
 
-      {/* Heading */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-16 text-center"
-      >
-        <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] font-heading font-bold tracking-tight leading-[1.1] mb-5">
-          Our <span className="text-primary">Impact</span>
-        </h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto text-base lg:text-lg leading-relaxed opacity-80">
-          We don't just install elevators – we engineer complete vertical transportation solutions that combine innovation, reliability, and exceptional service.
-        </p>
-      </motion.div>
+  const bgImages = [
+    "https://images.unsplash.com/photo-1541888049645-00c776d6fc1a?q=80&w=2940&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=3271&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=3174&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2940&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2938&auto=format&fit=crop"
+  ];
 
-      {/* 7 Stat Cards Row */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 lg:gap-4 max-w-6xl mx-auto mb-16">
-        {impactStats.map((stat, i) => (
-          <motion.div
-            key={stat.label}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.6, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={{ y: -6, transition: { duration: 0.28, ease: "easeOut" } }}
-            className="group relative rounded-2xl p-4 lg:p-5 text-center cursor-pointer"
-            style={{
-              background: "linear-gradient(160deg, hsl(212 50% 15% / 0.55) 0%, hsl(212 48% 10% / 0.4) 100%)",
-              backdropFilter: "blur(20px)",
-              border: "1px solid hsl(43 66% 52% / 0.1)",
-              boxShadow: "inset 0 1px 0 hsl(0 0% 100% / 0.05), 0 8px 32px hsl(213 62% 3% / 0.3)",
-            }}
-          >
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <p className="text-2xl lg:text-3xl font-heading font-extrabold text-primary mb-1 leading-none">{stat.value}</p>
-            <p className="text-foreground text-xs font-semibold mb-0.5">{stat.label}</p>
-            <p className="text-muted-foreground/60 text-[10px] leading-tight">{stat.sub}</p>
-          </motion.div>
-        ))}
-      </div>
+  return (
+    <section className="py-24 lg:py-32 relative overflow-hidden">
+      <SectionDivider />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,hsl(43_66%_52%/0.04),transparent_70%)]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
 
-      {/* 5 Feature Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-5 max-w-7xl mx-auto">
-        {impactFeatures.map((feat, i) => (
-          <motion.div
-            key={feat.title}
-            initial={{ opacity: 0, y: 35 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={{ y: -8, transition: { duration: 0.3, ease: "easeOut" } }}
-            className="group relative rounded-2xl p-6 cursor-pointer"
-            style={{
-              background: "linear-gradient(160deg, hsl(212 50% 15% / 0.6) 0%, hsl(212 48% 10% / 0.45) 100%)",
-              backdropFilter: "blur(24px)",
-              border: "1px solid hsl(43 66% 52% / 0.08)",
-              boxShadow: "inset 0 1px 0 hsl(0 0% 100% / 0.05), 0 12px 40px hsl(213 62% 3% / 0.4)",
-            }}
-          >
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div
-              className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-              style={{ boxShadow: "0 0 0 1px hsl(43 66% 52% / 0.18), 0 0 40px hsl(43 66% 52% / 0.08)" }}
-            />
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mb-4 icon-glow">
-              {feat.icon}
-            </div>
-            <h3 className="text-foreground font-heading font-bold text-base mb-2">{feat.title}</h3>
-            <p className="text-muted-foreground/75 text-xs leading-relaxed mb-4">{feat.desc}</p>
-            <div className="flex flex-wrap gap-1.5">
-              {feat.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2.5 py-1 rounded-full text-[10px] font-semibold text-primary border border-primary/20 bg-primary/8 whitespace-nowrap"
-                >
-                  {tag}
-                </span>
+        {/* Heading */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-16 text-center"
+        >
+          <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] font-heading font-bold tracking-tight leading-[1.1] mb-5">
+            Our <span className="text-primary">Impact</span>
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-base lg:text-lg leading-relaxed opacity-80">
+            We don't just install elevators – we engineer complete vertical transportation solutions that combine innovation, reliability, and exceptional service.
+          </p>
+        </motion.div>
+
+        {/* 7 Stat Cards Row */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 lg:gap-4 max-w-6xl mx-auto mb-16">
+          {impactStats.map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.6, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -6, transition: { duration: 0.28, ease: "easeOut" } }}
+              className="group relative rounded-2xl p-4 lg:p-5 text-center cursor-pointer"
+              style={{
+                background: "linear-gradient(160deg, hsl(212 50% 15% / 0.55) 0%, hsl(212 48% 10% / 0.4) 100%)",
+                backdropFilter: "blur(20px)",
+                border: "1px solid hsl(43 66% 52% / 0.1)",
+                boxShadow: "inset 0 1px 0 hsl(0 0% 100% / 0.05), 0 8px 32px hsl(213 62% 3% / 0.3)",
+              }}
+            >
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <p className="text-2xl lg:text-3xl font-heading font-extrabold text-primary mb-1 leading-none">{stat.value}</p>
+              <p className="text-foreground text-xs font-semibold mb-0.5">{stat.label}</p>
+              <p className="text-muted-foreground/60 text-[10px] leading-tight">{stat.sub}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* 5 Feature Cards - Reference Styling Swiper */}
+        <div className="max-w-[1100px] mx-auto relative">
+          <div className="overflow-hidden">
+            <Swiper
+              modules={[Navigation, Autoplay]}
+              loop={true}
+              centeredSlides={true}
+              slidesPerView={1}
+              spaceBetween={28}
+              autoplay={{ delay: 5000, disableOnInteraction: false }}
+              navigation={{
+                nextEl: '.swiper-button-next-custom',
+                prevEl: '.swiper-button-prev-custom',
+              }}
+              breakpoints={{
+                768: { slidesPerView: 3, spaceBetween: 36 },
+              }}
+              onSlideChange={(swiper) => setActiveBg(swiper.realIndex)}
+              className="py-10 flex items-stretch h-[520px]"
+            >
+              {impactFeatures.map((feat, i) => (
+                <SwiperSlide key={feat.title} className="transition-all duration-700 h-full flex pt-8 pb-8 md:pt-0 md:pb-0">
+                  {({ isActive }) => (
+                    <div className={`w-full flex justify-center items-center transition-all duration-700 h-full ${isActive ? 'scale-[1.04] z-20' : 'scale-90 z-10 opacity-70 hover:opacity-90'}`}>
+
+                      <div
+                        className={`group relative w-full h-[380px] md:h-[420px] lg:h-full flex flex-col justify-start transition-all duration-700 overflow-hidden rounded-xl ${isActive
+                          ? "bg-[#0a0a0a] border border-white/10 shadow-2xl"
+                          : "border border-primary/20 shadow-[0_0_24px_hsl(43_66%_52%/0.08),inset_0_1px_0_hsl(43_66%_52%/0.12)]"
+                          }`}
+                        style={!isActive ? {
+                          background: "linear-gradient(160deg, hsl(212 50% 14% / 0.7) 0%, hsl(212 48% 9% / 0.55) 100%)",
+                          backdropFilter: "blur(20px) saturate(1.4)",
+                          WebkitBackdropFilter: "blur(20px) saturate(1.4)",
+                        } : undefined}
+                      >
+                        {/* Gold shimmer top line on inactive cards */}
+                        {!isActive && (
+                          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent pointer-events-none" />
+                        )}
+
+                        {/* Active Card Image Layer (top 40%) */}
+                        {isActive && (
+                          <div className="relative w-full overflow-hidden bg-[#1a1a1a]" style={{ height: '40%' }}>
+                            <img src={bgImages[i]} className="w-full h-full object-cover opacity-50" alt="" />
+                            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none" />
+                          </div>
+                        )}
+
+                        {/* Text Layout — 60% for active, full height centered for inactive */}
+                        <div
+                          className={`p-5 lg:p-6 transition-all duration-700 w-full flex flex-col ${isActive ? 'justify-start text-left' : 'h-full justify-between text-center items-center'
+                            }`}
+                          style={isActive ? { height: '60%' } : undefined}
+                        >
+                          <div>
+                            <div className={`flex flex-col gap-1 ${isActive ? 'items-start' : 'items-center'}`}>
+                              <span className="transition-colors font-bold text-base font-heading text-primary">
+                                0{i + 1}
+                              </span>
+                              <h3 className={`font-heading font-extrabold text-lg md:text-xl transition-colors m-0 ${isActive ? "text-white" : "text-foreground"
+                                }`}>{feat.title}</h3>
+                            </div>
+
+                            {/* Separator */}
+                            <div className={`h-px mt-3 mb-3 transition-all duration-700 ${isActive
+                              ? "w-14 bg-gradient-to-r from-primary via-primary/60 to-transparent opacity-100"
+                              : "w-10 bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-60 mx-auto"
+                              }`} />
+
+                            <p className={`text-xs lg:text-sm leading-relaxed transition-colors ${isActive ? "text-white/80 font-medium" : "text-muted-foreground/70 hidden md:block"
+                              }`}>{feat.desc}</p>
+                          </div>
+
+                          {/* Tag badges */}
+                          <div className={`flex flex-wrap gap-1.5 mt-4 ${isActive ? 'justify-start' : 'justify-center'}`}>
+                            {feat.tags.map((tag) => (
+                              <span
+                                key={tag}
+                                className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border whitespace-nowrap transition-all duration-500 ${
+                                  isActive
+                                    ? 'text-primary border-primary/30 bg-primary/10'
+                                    : 'text-primary/60 border-primary/15 bg-primary/5'
+                                }`}
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  )}
+                </SwiperSlide>
               ))}
-            </div>
-          </motion.div>
-        ))}
+            </Swiper>
+          </div>
+
+          {/* Custom Navigation Arrows — outside overflow-hidden so they're fully visible */}
+          <div className="absolute top-1/2 -translate-y-1/2 -left-5 lg:-left-7 z-30 swiper-button-prev-custom w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center text-white hover:text-primary hover:bg-black cursor-pointer transition-all shadow-xl hover:scale-110 border border-white/10">
+            <ArrowLeft className="w-4 h-4 lg:w-5 lg:h-5" />
+          </div>
+          <div className="absolute top-1/2 -translate-y-1/2 -right-5 lg:-right-7 z-30 swiper-button-next-custom w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center text-white hover:text-primary hover:bg-black cursor-pointer transition-all shadow-xl hover:scale-110 border border-white/10">
+            <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5" />
+          </div>
+        </div>
+
       </div>
+    </section>
+  );
+};
 
+
+
+const ScrollStack = ({ children }: { children: React.ReactNode }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      lerp: 0.1,
+      smoothWheel: true,
+    });
+
+    const updateCardTransforms = () => {
+      if (!containerRef.current) return;
+      const cards = Array.from(containerRef.current.children) as HTMLElement[];
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const stackSpacing = 40; // Overlap spacing
+      const baseOffset = (windowHeight - 400) / 2; // Center cards vertically while pinning
+
+      cards.forEach((card, i) => {
+        const rect = card.getBoundingClientRect();
+        const cardContainerTop = containerRef.current!.offsetTop;
+        // Each card has a specific "start" point in the scroll
+        const cardTargetScroll = cardContainerTop + (i * 150); 
+        
+        let progress = (scrollY - cardTargetScroll) / 500;
+        progress = Math.max(0, Math.min(1, progress));
+
+        // Stacking logic
+        // We simulate pinning by countering the natural scroll once we reach the target
+        const ty = Math.max(0, scrollY - cardTargetScroll);
+        
+        // Offset each card so they stack with overlap
+        const stackOffset = i * stackSpacing;
+        
+        // Simulation of pinning + stacking
+        const finalTy = ty + stackOffset;
+
+        // Depth effect (Scale & Blur)
+        const scale = 1 - (progress * 0.05 * (cards.length - 1 - i) / cards.length);
+        const blur = progress * (cards.length - 1 - i) * 0.5;
+
+        card.style.transform = `translate3d(0, ${finalTy}px, 0) scale(${1 - (progress * 0.05)})`;
+        card.style.zIndex = `${i + 10}`;
+        card.style.filter = `blur(${blur}px)`;
+        // Optional: fade out previous cards slightly
+        card.style.opacity = `${1 - (progress * 0.2 * (i < cards.length - 1 ? 1 : 0))}`;
+      });
+    };
+
+    function raf(time: number) {
+      lenis.raf(time);
+      updateCardTransforms();
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    window.addEventListener('scroll', updateCardTransforms);
+
+    return () => {
+      lenis.destroy();
+      window.removeEventListener('scroll', updateCardTransforms);
+    };
+  }, []);
+
+  return (
+    <div 
+      ref={containerRef} 
+      className="scroll-stack-container relative display-block max-w-[600px] mx-auto"
+      style={{ 
+        position: 'relative', 
+        display: 'block', 
+        maxWidth: '600px', 
+        margin: '0 auto',
+        paddingBottom: '400px' // Space for stacking
+      }}
+    >
+      {React.Children.map(children, (child, i) => (
+        <div 
+          key={i} 
+          className="scroll-stack-item relative mb-[100px] last:mb-0"
+          style={{ 
+            position: 'relative', 
+            willChange: 'transform, filter',
+            marginBottom: '100px'
+          }}
+        >
+          {child}
+        </div>
+      ))}
     </div>
-  </section>
-);
-
-
+  );
+};
 
 const IndustriesServed = () => {
   const industries = [
@@ -345,10 +633,10 @@ const IndustriesServed = () => {
       <SectionDivider />
       <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
         <SectionHeading badge="Industries" title="Industries We Serve" subtitle="Trusted across diverse sectors for premium vertical transportation" />
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 max-w-5xl mx-auto">
           {industries.map((ind, i) => (
             <ScrollReveal key={ind.label} delay={i * 0.08}>
-              <GlassCard className="p-6 text-center group" premium tilt>
+              <GlassCard className="p-6 text-center group h-full" premium tilt>
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center text-primary mx-auto mb-4 icon-glow group-hover:from-primary/25 group-hover:to-primary/10 transition-all duration-300">
                   {ind.icon}
                 </div>
@@ -365,44 +653,70 @@ const IndustriesServed = () => {
 
 const ProcessSection = () => {
   const steps = [
-    { icon: <Search className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Consultation / Site Inspection", desc: "Our engineers understand your requirements and visit your site to assess shaft dimensions and structural feasibility." },
-    { icon: <CheckCircle2 className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Order Confirmation", desc: "Finalizing custom elevator design, capacity, and aesthetics before kicking off manufacturing." },
-    { icon: <Settings className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Production", desc: "Precision manufacturing with quality-controlled components, ready for seamless installation." },
-    { icon: <Truck className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Delivery", desc: "Components are carefully transported and delivered to your site on schedule, ready for installation." },
-    { icon: <HardHat className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Installation / Testing", desc: "Professional installation by certified technicians followed by comprehensive system testing and commissioning." },
-    { icon: <BadgeCheck className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Safety & Quality / Handover", desc: "Rigorous safety certification, final demonstration of features, and handover with initiation of your warranty period." },
+    { img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=800&fit=crop", icon: <Search className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Consultation / Site Inspection", desc: "Our engineers understand your requirements and visit your site to assess shaft dimensions and structural feasibility." },
+    { img: "https://images.unsplash.com/photo-1541888049645-00c776d6fc1a?w=600&h=800&fit=crop", icon: <CheckCircle2 className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Order Confirmation", desc: "Finalizing custom elevator design, capacity, and aesthetics before kicking off manufacturing." },
+    { img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=800&fit=crop", icon: <Settings className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Production", desc: "Precision manufacturing with quality-controlled components, ready for seamless installation." },
+    { img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=800&fit=crop", icon: <Truck className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Delivery", desc: "Components are carefully transported and delivered to your site on schedule, ready for installation." },
+    { img: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=800&fit=crop", icon: <HardHat className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Installation / Testing", desc: "Professional installation by certified technicians followed by comprehensive system testing and commissioning." },
+    { img: "https://images.unsplash.com/photo-1584724391642-a392e21b0e2b?w=600&h=800&fit=crop", icon: <BadgeCheck className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Safety & Quality / Handover", desc: "Rigorous safety certification, final demonstration of features, and handover with initiation of your warranty period." },
   ];
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleClick = () => {
+    setCurrentIndex(prev => {
+      const next = prev + 1;
+      return next > 3 ? 0 : next;
+    });
+  };
+
   return (
-    <section className="py-24 lg:py-32 section-glow relative">
+    <section className="py-16 lg:py-24 section-glow relative bg-background">
       <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10 text-center">
+      <div className="container mx-auto px-4 lg:px-8 relative z-10 text-center mb-8 section-container" style={{ paddingTop: '40px' }}>
         <SectionHeading badge="Our Process" title="How We Deliver" subtitle="A streamlined 6-step process from consultation to handover" />
-        <p className="-mt-10 mb-12 text-center text-sm lg:text-base font-medium text-gradient-gold tracking-wide">
+        <p className="-mt-10 mb-0 text-center text-sm lg:text-base font-medium text-gradient-gold tracking-wide">
           Quick and efficient delivery timeline
         </p>
-        <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-            {steps.map((step, i) => (
-              <ScrollReveal key={step.title} delay={i * 0.1}>
-                <div className="relative h-full">
-                  <GlassCard className="p-5 lg:p-6 text-center relative overflow-hidden group h-full flex flex-col" premium tilt>
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="text-primary/10 group-hover:text-primary/20 transition-colors font-heading font-extrabold text-4xl lg:text-5xl absolute top-3 lg:top-4 right-3 lg:right-4 pointer-events-none">
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
-                    <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mx-auto mb-3 lg:mb-4 icon-glow relative z-10">
+      </div>
+        
+      <div 
+        className="carousel-container relative w-full lg:max-w-none max-w-5xl mx-auto px-4 lg:px-[10vw] cursor-pointer lg:overflow-hidden pb-16"
+        onClick={handleClick}
+      >
+        <div 
+          className="carousel-track grid grid-cols-1 sm:grid-cols-2 gap-4 lg:flex lg:gap-[40px] transition-transform duration-[800ms] ease-in-out lg:w-max lg:[transform:translateX(var(--translate-x))]" 
+          style={{ '--translate-x': `-${currentIndex * 380}px` } as React.CSSProperties}
+        >
+          {steps.map((step, i) => {
+            return (
+              <div 
+                key={step.title}
+                className="process-card w-full lg:min-w-[340px] lg:w-[340px] h-[380px] lg:h-[420px] lg:flex-shrink-0 transition-all duration-[350ms] ease-out relative rounded-[24px] overflow-hidden flex items-end opacity-100 hover:-translate-y-1.5 hover:scale-[1.06] hover:z-10 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4),0_0_25px_hsl(43_66%_52%/0.35)] group after:absolute after:inset-0 after:rounded-[24px] after:pointer-events-none after:border after:border-transparent after:transition-colors after:duration-300 hover:after:border-primary/60"
+                style={{
+                  backgroundImage: `url('${step.img}')`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                } as React.CSSProperties}
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none transition-opacity duration-500 group-hover:from-black" />
+                
+                <div className="card-content relative z-[2] p-5 lg:p-[24px] text-white w-full text-left flex flex-col justify-end">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center text-primary border border-white/20 shadow-[0_0_15px_hsl(43_66%_52%/0.3)] mt-auto">
                       {step.icon}
                     </div>
-                    <h3 className="text-foreground text-sm lg:text-base font-heading font-semibold mb-2 relative z-10">{step.title}</h3>
-                    <p className="text-muted-foreground text-[11px] lg:text-xs leading-relaxed opacity-70 relative z-10 flex-1">{step.desc}</p>
-                  </GlassCard>
+                    <div className="text-white/40 font-heading font-extrabold text-3xl lg:text-4xl">
+                      {String(i + 1).padStart(2, "0")}
+                    </div>
+                  </div>
+                  <h3 className="text-white text-lg lg:text-xl font-heading font-semibold mb-2">{step.title}</h3>
+                  <p className="text-white/70 text-xs lg:text-sm leading-relaxed">{step.desc}</p>
                 </div>
-              </ScrollReveal>
-            ))}
-          </div>
+              </div>
+            );
+          })}
         </div>
-
       </div>
     </section>
   );
@@ -420,20 +734,36 @@ const Solutions = () => {
     <section className="py-24 lg:py-32 section-glow section-mesh relative">
       <SectionDivider />
       <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
-        <SectionHeading badge="What We Offer" title="Complete Elevator Solutions" subtitle="End-to-end elevator services from design and installation to maintenance and modernization" />
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7">
-          {solutions.map((s, i) => (
-            <GlassCard key={i} className="p-7 group" delay={i * 0.1} premium tilt>
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center mb-5 text-primary group-hover:from-primary group-hover:to-gold-light group-hover:text-primary-foreground transition-all duration-500 icon-glow group-hover:shadow-[0_0_30px_hsl(43_66%_52%/0.3)]">
-                {s.icon}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+          {/* LEFT SIDE: Sticky Text */}
+          <div className="lg:sticky lg:top-[120px] lg:pt-10 text-center lg:text-left [&_p]:lg:mx-0">
+            <SectionHeading badge="What We Offer" title="Complete Elevator Solutions" subtitle="End-to-end elevator services from design and installation to maintenance and modernization" center={false} />
+          </div>
+
+          {/* RIGHT SIDE: Scroll Stacking Cards */}
+          <div className="flex flex-col relative pb-10 lg:pb-[10vh]">
+            {solutions.map((s, i) => (
+              <div
+                key={i}
+                className="relative lg:sticky mb-6 lg:mb-[35vh] transition-transform duration-500 ease-in-out"
+                style={{
+                  top: `calc(120px + ${i * 20}px)`,
+                  zIndex: i + 10,
+                }}
+              >
+                <GlassCard className="p-7 group w-full shadow-2xl" delay={i * 0.1} premium tilt>
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center mb-5 text-primary group-hover:from-primary group-hover:to-gold-light group-hover:text-primary-foreground transition-all duration-500 icon-glow group-hover:shadow-[0_0_30px_hsl(43_66%_52%/0.3)]">
+                    {s.icon}
+                  </div>
+                  <h3 className="text-lg font-heading font-semibold text-foreground mb-3">{s.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-5 opacity-75">{s.desc}</p>
+                  <span className="text-primary text-sm font-medium flex items-center gap-1.5 group-hover:gap-3 transition-all duration-300">
+                    Explore <ChevronRight className="w-4 h-4" />
+                  </span>
+                </GlassCard>
               </div>
-              <h3 className="text-lg font-heading font-semibold text-foreground mb-3">{s.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-5 opacity-75">{s.desc}</p>
-              <span className="text-primary text-sm font-medium flex items-center gap-1.5 group-hover:gap-3 transition-all duration-300">
-                Explore <ChevronRight className="w-4 h-4" />
-              </span>
-            </GlassCard>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -555,7 +885,7 @@ const Finishes = () => {
                 </div>
               )}
 
-              <div className={`relative flex flex-col w-full h-full p-8 rounded-xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl ${f.cardStyle}`}>
+              <div className={`relative flex flex-col w-full h-full p-8 rounded-xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl glare-hover ${f.cardStyle}`}>
 
                 {/* Highlight/Glow effects */}
                 {f.glow && (
@@ -595,87 +925,7 @@ const Finishes = () => {
   );
 };
 
-const Technology = () => {
-  const cards = [
-    {
-      title: "Real-Time Monitoring",
-      description: "Live tracking of elevator performance, usage patterns, and system health through IoT sensors.",
-      features: ["24/7 system monitoring", "Performance analytics", "Usage tracking", "Remote diagnostics"],
-      icon: <Activity className="w-6 h-6" />
-    },
-    {
-      title: "Predictive Maintenance",
-      description: "AI-powered algorithms predict potential issues before they become problems, reducing downtime significantly.",
-      features: ["Prevent breakdowns", "Reduce maintenance costs", "Extend equipment life", "Minimize disruptions"],
-      icon: <Brain className="w-6 h-6" />
-    },
-    {
-      title: "Smart Controls",
-      description: "Touchless operation, destination dispatch, and mobile app integration for modern convenience.",
-      features: ["Contactless operation", "Mobile app control", "Voice activation", "Gesture controls"],
-      icon: <Smartphone className="w-6 h-6" />
-    },
-    {
-      title: "Analytics Dashboard",
-      description: "Comprehensive data insights for building managers to optimize elevator efficiency and usage.",
-      features: ["Usage analytics", "Energy consumption tracking", "Performance reports", "Cost optimization"],
-      icon: <BarChart3 className="w-6 h-6" />
-    }
-  ];
 
-  return (
-    <section className="py-24 lg:py-32 section-glow relative">
-      <SectionDivider />
-      <div className="container mx-auto px-4 lg:px-8 pt-8 relative z-10">
-        <SectionHeading
-          badge="IoT Enabled"
-          title={
-            <span className="flex items-center justify-center gap-4 flex-wrap">
-              Intelligent Elevator Systems
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-amber-500/15 text-amber-400 border border-amber-500/30">
-                <Clock className="w-3 h-3" /> Coming Soon
-              </span>
-            </span>
-          }
-          subtitle="Our next-generation intelligent elevator system featuring predictive maintenance and remote monitoring is coming soon. Experience the future of vertical mobility."
-        />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto mt-12">
-          {cards.map((card, idx) => (
-            <div key={idx} className="group flex flex-col items-center sm:items-start text-center sm:text-left">
-              <div className="text-primary/50 font-heading font-extrabold text-2xl -translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 md:-mb-1 md:ml-4 flex items-center gap-2">
-                <span className="w-4 h-px bg-primary/40 hidden md:block"></span>
-                0{idx + 1}
-              </div>
-              <div className="rounded-xl bg-black/20 backdrop-blur-md border border-white/10 p-6 flex flex-col gap-3 hover:-translate-y-[6px] hover:shadow-lg transition-all duration-300 w-full relative z-10">
-                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-1">
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                    {card.icon}
-                  </div>
-                  <div className="flex flex-col gap-2 mt-1 sm:mt-0">
-                    <h3 className="text-xl font-heading font-bold text-white">
-                      {card.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed opacity-90 max-w-sm">
-                      {card.description}
-                    </p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 mt-auto pt-4 border-t border-white/5 sm:pl-16">
-                  {card.features.map((feature, fIdx) => (
-                    <div key={fIdx} className="flex items-center justify-center sm:justify-start gap-2">
-                      <span className="text-primary text-[10px]">●</span>
-                      <span className="text-xs text-foreground/80">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
 
 const AMCPlans = () => {
   const plans = [
@@ -786,11 +1036,10 @@ const AMCPlans = () => {
 
                 <Link
                   to="/contact"
-                  className={`block w-full py-3.5 rounded-xl font-semibold text-sm text-center transition-all duration-300 ${
-                    p.popular
-                      ? "bg-gradient-to-r from-primary to-gold-light text-primary-foreground hover:shadow-[0_0_30px_hsl(43_66%_52%/0.4)] hover:scale-[1.02]"
-                      : "bg-white/8 text-foreground border border-white/10 hover:bg-white/12 hover:border-white/20"
-                  }`}
+                  className={`block w-full py-3.5 rounded-xl font-semibold text-sm text-center transition-all duration-300 ${p.popular
+                    ? "bg-gradient-to-r from-primary to-gold-light text-primary-foreground hover:shadow-[0_0_30px_hsl(43_66%_52%/0.4)] hover:scale-[1.02]"
+                    : "bg-white/8 text-foreground border border-white/10 hover:bg-white/12 hover:border-white/20"
+                    }`}
                 >
                   Choose {p.name}
                 </Link>
@@ -1031,12 +1280,13 @@ const ContactSection = () => {
 
 const TechnologySelector = () => {
   const [activeMotor, setActiveMotor] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const features = [
-    { icon: <Zap className="w-5 h-5" />, title: "Premium Quality", subtitle: "Italian engineering excellence" },
-    { icon: <Leaf className="w-5 h-5" />, title: "Energy Efficiency", subtitle: "Advanced power-saving technology" },
-    { icon: <Shield className="w-5 h-5" />, title: "Durability", subtitle: "Long-lasting components" },
-    { icon: <Volume2 className="w-5 h-5" />, title: "Smooth Operation", subtitle: "Superior ride comfort" },
+    { img: "https://images.unsplash.com/photo-1541888049645-00c776d6fc1a?w=800&fit=crop", icon: <Zap className="w-5 h-5" />, title: "Premium Quality", subtitle: "Italian engineering excellence" },
+    { img: "https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=800&fit=crop", icon: <Leaf className="w-5 h-5" />, title: "Energy Efficiency", subtitle: "Advanced power-saving technology" },
+    { img: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&fit=crop", icon: <Shield className="w-5 h-5" />, title: "Durability", subtitle: "Long-lasting components" },
+    { img: "https://images.unsplash.com/photo-1626296711019-3ee72c43ab6a?w=800&fit=crop", icon: <Volume2 className="w-5 h-5" />, title: "Smooth Operation", subtitle: "Superior ride comfort" },
   ];
 
   const motors = [
@@ -1044,6 +1294,7 @@ const TechnologySelector = () => {
       id: "hydraulic",
       name: "Italian Hydraulic Unit",
       tagline: "Smooth operation for low-rise buildings",
+      image: "https://images.unsplash.com/photo-1541888049645-00c776d6fc1a?w=800&fit=crop",
       points: [
         "Ideal for low-rise buildings, villas, bungalows, and private homes",
         "Smooth start and stop due to hydraulic operation",
@@ -1062,6 +1313,7 @@ const TechnologySelector = () => {
       id: "gearless",
       name: "Italian Gearless Motor",
       tagline: "Space-saving design without machine room",
+      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&fit=crop",
       points: [
         "Highly energy-efficient, saving up to 50% on power consumption",
         "Ideal for mid-to-high-rise buildings and heavy usage",
@@ -1079,6 +1331,7 @@ const TechnologySelector = () => {
       id: "geared",
       name: "Italian Geared Motor",
       tagline: "Traditional setup with dedicated machine room",
+      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&fit=crop",
       points: [
         "Reliable and proven technology for traditional elevator setups",
         "Cost-effective option for mid-rise buildings",
@@ -1094,76 +1347,147 @@ const TechnologySelector = () => {
     }
   ];
 
+  useEffect(() => {
+    if (isPaused || window.innerWidth < 1024) return;
+    const timer = setInterval(() => {
+      setActiveMotor((prev) => (prev + 1) % motors.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [isPaused, motors.length]);
+
+  const handleNext = () => {
+    setActiveMotor((prev) => (prev + 1) % motors.length);
+    setIsPaused(true);
+  };
+  
+  const handlePrev = () => {
+    setActiveMotor((prev) => (prev - 1 + motors.length) % motors.length);
+    setIsPaused(true);
+  };
+
   return (
     <section className="mt-24 mb-24 relative z-10 w-full overflow-hidden">
       <div className="container mx-auto px-4 lg:px-6 max-w-7xl">
-        {/* PART 1: Feature Highlights Row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        {/* PART 1: Feature Highlights Row (Horizontal Hover Expansion) */}
+        <div className="flex flex-col lg:flex-row h-auto lg:h-[300px] gap-4 lg:gap-5 mb-16 group/section feature-section">
           {features.map((feat, idx) => (
-            <div key={idx} className="flex items-center gap-4 p-4 rounded-xl bg-black/20 border border-white/5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/30 group">
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300 shrink-0">
-                {feat.icon}
-              </div>
-              <div>
-                <h4 className="text-white font-semibold text-sm mb-0.5">{feat.title}</h4>
-                <p className="text-muted-foreground text-xs">{feat.subtitle}</p>
+            <div 
+              key={idx} 
+              className="feature-card relative rounded-[20px] overflow-hidden flex flex-col justify-end p-6 bg-white/5 transition-all duration-500 ease-in-out lg:flex-1 lg:hover:flex-[2.5] group/card opacity-100 lg:group-hover/section:opacity-50 lg:hover:!opacity-100 min-h-[160px] lg:min-h-0"
+            >
+              {/* Hover Image */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center opacity-40 lg:opacity-0 lg:group-hover/card:opacity-100 transition-opacity duration-500 ease-in-out z-0"
+                style={{ backgroundImage: `url('${feat.img}')` }}
+              />
+              
+              {/* Dark Overlay gradient for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-[1]" />
+
+              {/* Text Content */}
+              <div className="relative z-[2] flex flex-col">
+                <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary mb-3 transition-all duration-500 lg:group-hover/card:scale-110 lg:group-hover/card:bg-primary lg:group-hover/card:text-primary-foreground border border-white/10 lg:group-hover/card:border-transparent">
+                  {feat.icon}
+                </div>
+                <h3 className="text-white font-semibold text-xl lg:text-[22px] mb-1 transition-transform duration-500 lg:-translate-y-2 lg:group-hover/card:translate-y-0">{feat.title}</h3>
+                <p className="text-white/70 text-sm opacity-100 lg:opacity-0 transition-all duration-500 lg:translate-y-4 lg:group-hover/card:translate-y-0 lg:group-hover/card:opacity-100 font-medium">{feat.subtitle}</p>
               </div>
             </div>
           ))}
         </div>
 
-        {/* PART 2: Technology Selector Panel */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        {/* PART 2: Technology Selector Panel (3-Panel Premium UI) */}
+        <div 
+          className="grid grid-cols-1 lg:grid-cols-[300px_420px_1fr] gap-[24px] items-stretch h-auto lg:h-[500px]"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => window.innerWidth >= 1024 && setIsPaused(false)}
+        >
+          {/* Column 1 - Main Cards */}
+          <div className="flex flex-col h-full relative">
+            <div className="flex flex-col gap-4 flex-1">
+              {motors.map((motor, idx) => {
+                const isActive = activeMotor === idx;
+                return (
+                  <button
+                    key={motor.id}
+                    onClick={() => {
+                      setActiveMotor(idx);
+                      setIsPaused(true);
+                    }}
+                    className={`w-full text-left p-5 rounded-2xl border transition-all duration-300 flex flex-col justify-center flex-1 ${isActive
+                      ? "bg-black/40 border-[#D4AF37] shadow-[0_0_20px_hsl(43_66%_52%/0.25)] scale-[1.02]"
+                      : "bg-black/20 border-white/5 hover:bg-black/30 hover:border-white/20"
+                      }`}
+                  >
+                    <h3 className={`font-semibold text-lg ${isActive ? "text-[#D4AF37]" : "text-white"}`}>
+                      {motor.name}
+                    </h3>
+                    <p className="text-muted-foreground text-xs leading-relaxed mt-1 opacity-80">{motor.tagline}</p>
+                  </button>
+                );
+              })}
+            </div>
 
-          {/* Left Side - Menu */}
-          <div className="lg:col-span-1 flex flex-col space-y-4">
-            {motors.map((motor, idx) => {
-              const isActive = activeMotor === idx;
-              return (
-                <button
-                  key={motor.id}
-                  onClick={() => setActiveMotor(idx)}
-                  className={`w-full text-left p-6 rounded-xl border transition-all duration-300 flex flex-col gap-1 ${isActive
-                    ? "bg-black/30 border-[#D4AF37] border-l-4 shadow-[0_0_20px_hsl(43_66%_52%/0.45),0_0_50px_hsl(43_66%_52%/0.2)]"
-                    : "bg-black/10 border-white/5 hover:bg-black/20 hover:border-white/10"
-                    }`}
-                >
-                  <h3 className={`font-semibold text-base ${isActive ? "text-[#D4AF37]" : "text-white"}`}>
-                    {motor.name}
-                  </h3>
-                  <p className="text-muted-foreground text-sm">{motor.tagline}</p>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Right Side - Detail Panel */}
-          <div className="lg:col-span-2">
-            <div className="rounded-xl bg-black/20 border border-white/5 backdrop-blur-md p-8 min-h-full">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeMotor}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                >
-                  <h2 className="text-2xl font-bold text-white mb-2">{motors[activeMotor].name}</h2>
-                  <p className="text-[#D4AF37] text-sm font-medium mb-8">{motors[activeMotor].tagline}</p>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {motors[activeMotor].points.map((point, idx) => (
-                      <div key={idx} className="flex items-start gap-3 p-4 rounded-lg bg-black/20 border border-white/5 transition-colors duration-300 hover:bg-black/30 hover:border-primary/30">
-                        <CheckCircle2 className="w-5 h-5 text-[#D4AF37] shrink-0 mt-0.5" />
-                        <span className="text-sm text-foreground/80 leading-snug">{point}</span>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              </AnimatePresence>
+            {/* Navigation Arrows */}
+            <div className="flex items-center gap-3 pt-6 mt-auto">
+              <button 
+                onClick={handlePrev}
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-black/30 border border-white/10 text-white hover:bg-primary/20 hover:border-[#D4AF37]/50 transition-colors"
+                aria-label="Previous"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <button 
+                onClick={handleNext}
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-black/30 border border-white/10 text-white hover:bg-primary/20 hover:border-[#D4AF37]/50 transition-colors"
+                aria-label="Next"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
             </div>
           </div>
 
+          {/* Column 2 - Image Display ONLY */}
+          <div className="rounded-2xl overflow-hidden bg-black/20 border border-white/5 relative min-h-[300px] h-full w-full">
+            <AnimatePresence>
+              <motion.img
+                key={activeMotor}
+                src={motors[activeMotor].image}
+                initial={{ opacity: 0, scale: 1 }}
+                animate={{ opacity: 1, scale: 1.05 }}
+                exit={{ opacity: 0, scale: 1 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="absolute inset-0 w-full h-full object-cover"
+                alt={motors[activeMotor].name}
+              />
+            </AnimatePresence>
+          </div>
+
+          {/* Column 3 - Detail Content ONLY */}
+          <div className="rounded-2xl bg-black/20 border border-white/5 backdrop-blur-md relative overflow-hidden h-full">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeMotor}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="absolute inset-0 p-6 lg:p-8 flex flex-col overflow-y-auto"
+              >
+                <h2 className="text-2xl font-bold text-white mb-2 shrink-0">{motors[activeMotor].name}</h2>
+                <p className="text-[#D4AF37] text-sm font-medium mb-6 shrink-0">{motors[activeMotor].tagline}</p>
+
+                <ul className="flex flex-col gap-4 pb-4">
+                  {motors[activeMotor].points.map((point, idx) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-[#D4AF37] shrink-0 mt-0.5" />
+                      <span className="text-sm text-foreground/80 leading-relaxed">{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </section>
@@ -1181,7 +1505,6 @@ const Index = () => (
     <ProcessSection />
     <Finishes />
     <TechnologySelector />
-    <Technology />
     <AMCPlans />
     <BrochureDownload />
     <CTASection />

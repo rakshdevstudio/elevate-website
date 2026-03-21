@@ -11,7 +11,7 @@ const BrochureDownload = () => {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           whileHover={{ y: -6, transition: { duration: 0.3, ease: "easeOut" } }}
-          className="group relative rounded-3xl overflow-hidden p-8 lg:p-10 flex flex-col sm:flex-row items-center gap-8"
+          className="group relative rounded-3xl overflow-hidden p-8 lg:p-10 flex flex-col sm:flex-row items-center gap-8 glare-hover"
           style={{
             background:
               "linear-gradient(160deg, hsl(212 50% 15% / 0.65) 0%, hsl(212 48% 10% / 0.45) 55%, hsl(212 55% 8% / 0.5) 100%)",
