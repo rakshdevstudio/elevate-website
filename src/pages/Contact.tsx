@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { PageHero, SectionHeading, GlassCard, SectionDivider, ScrollReveal } from "@/components/ui/shared";
 import { Phone, Mail, MapPin, Globe, Clock, Headphones, MessageSquare, Send, PhoneCall } from "lucide-react";
 import { submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
