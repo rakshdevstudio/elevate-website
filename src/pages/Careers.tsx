@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { InteractiveCareers } from "@/components/InteractiveCareers";
 import { PageHero, SectionHeading, GlassCard, SectionDivider, ScrollReveal } from "@/components/ui/shared";
 import { Briefcase, MapPin, Clock, TrendingUp, Users, BookOpen, Heart, Shield, Zap } from "lucide-react";
 import { CTABanner } from "@/components/CTABanner";
@@ -106,25 +107,9 @@ const Careers = () => {
     <>
       <PageHero title="Join Our Team" subtitle="Build your career with one of India's fastest-growing elevator companies. We're looking for passionate individuals who share our commitment to excellence." backgroundImage="/images/hero-careers.webp" />
 
-      <section className="py-10 md:py-16 relative">
-        <SectionDivider />
-        <div className="container mx-auto px-6 pt-8">
-          <SectionHeading badge="Culture" title="Why To Build With Us" subtitle="Join a team that values growth, innovation, and making a real impact" />
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {cultureCards.map((c, i) => (
-              <ScrollReveal key={i} delay={i * 0.08}>
-                <GlassCard className="p-6 text-center" premium tilt>
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mx-auto mb-4 icon-glow">{c.icon}</div>
-                  <h3 className="text-lg font-heading font-semibold text-foreground mb-2">{c.title}</h3>
-                  <p className="text-muted-foreground text-sm">{c.desc}</p>
-                </GlassCard>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <InteractiveCareers />
 
-      <section className="py-10 md:py-16 section-glow relative">
+     <section className="py-10 md:py-16 section-glow relative">
         <SectionDivider />
         <div className="container mx-auto px-6 pt-8 relative z-10">
           <SectionHeading badge="Openings" title="Current Openings" subtitle="Explore available positions and find your perfect role" />

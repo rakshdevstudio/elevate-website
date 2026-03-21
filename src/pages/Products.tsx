@@ -1,12 +1,13 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { SectionHeading, GlassCard, SectionDivider, ScrollReveal, FloatingParticles } from "@/components/ui/shared";
 import { CheckCircle2, Heart, ArrowRight, Layers, PanelTop, Lamp, Monitor, Grip, Square, Sparkles } from "lucide-react";
 import { CTABanner, TrustBadges } from "@/components/CTABanner";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import TiltedCard from "@/components/TiltedCard";
 import StarBorder from "@/components/StarBorder";
 import BrochureDownload from "@/components/BrochureDownload";
-
+import { CinematicFeatureSection } from "@/components/CinematicFeatureSection";
 
 const elevatorProducts = [
   {
@@ -246,63 +247,76 @@ const Products = () => {
       <SectionDivider />
 
       {/* DESIGN CUSTOMIZATION GALLERY */}
-      <section className="py-10 md:py-16 section-glow relative">
+      <section className="py-10 md:py-16 section-glow relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <SectionHeading badge="Choose your Design" title="Design Customization" subtitle="Personalize every detail of your elevator" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7 max-w-6xl mx-auto">
-            {designCategories.map((cat, i) => (
-              <ScrollReveal key={cat.name} delay={i * 0.06}>
-                <motion.div whileHover={{ y: -8 }} transition={{ duration: 0.35 }} className="glass-card-premium rounded-2xl overflow-hidden group cursor-pointer">
-                  <div className="relative overflow-hidden">
-                    <img src={cat.image} alt={cat.name} className="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
-                    <div className="absolute inset-0 border border-primary/0 group-hover:border-primary/15 transition-all duration-500" />
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-24 bg-primary/15 rounded-full blur-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          
+          <div className="flex flex-col items-center max-w-6xl mx-auto mt-12 gap-0">
+            {/* Top row - 3 cards */}
+            <div className="flex justify-center w-full max-w-[1000px] -mb-1">
+              {designCategories.slice(0, 3).map((cat, i) => (
+                <div key={cat.name} className="relative w-1/3 aspect-[4/5] flex-shrink-0 group overflow-hidden border border-white/10 bg-black/40">
+                  <div className="absolute inset-0 transition-transform duration-700 ease-in-out group-hover:scale-105">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" />
+                    <img src={cat.image} alt={cat.name} className="w-full h-full object-cover object-center opacity-80 group-hover:opacity-100 transition-opacity duration-500" loading="lazy" />
                   </div>
-                  <div className="p-5 flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0 group-hover:bg-primary/20 transition-colors duration-300">{cat.icon}</div>
-                    <h4 className="text-foreground text-sm font-heading font-semibold">{cat.name}</h4>
+                  <div className="absolute inset-0 z-20 border-2 border-transparent group-hover:border-[#D4AF37]/50 transition-colors duration-500 pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 w-full p-6 z-30 text-left">
+                    <div className="flex flex-col gap-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="w-8 h-8 rounded bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37] mb-1">{cat.icon}</div>
+                      <h4 className="text-xl font-medium text-white tracking-wider uppercase">{cat.name}</h4>
+                      <div className="w-10 h-0.5 bg-[#D4AF37] transform origin-left transition-all duration-500 group-hover:w-16" />
+                    </div>
                   </div>
-                </motion.div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <SectionDivider />
-
-      {/* WHY CHOOSE US */}
-      <section className="py-10 md:py-16 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(43_66%_52%/0.02),transparent_70%)] pointer-events-none" />
-        <div className="container mx-auto px-6">
-          <div className="mb-8 text-center">
-            <h2 className="font-heading font-bold text-foreground mb-5 tracking-tight leading-[1.1] text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem]">Why Choose X Elevators?</h2>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8 max-w-6xl mx-auto">
-            {[
-              { title: "ISO Certified", desc: "Quality assured with international standards", icon: <Layers className="w-7 h-7" /> },
-              { title: "<60 Min Response", desc: "Emergency response within 60 minutes", icon: <Monitor className="w-7 h-7" /> },
-              { title: "Certified Technicians", desc: "Factory-trained and certified professionals", icon: <Grip className="w-7 h-7" /> },
-              { title: "Digital Reports", desc: "Real-time service tracking via WhatsApp", icon: <PanelTop className="w-7 h-7" /> },
-              { title: "Preventive Care", desc: "Automated reminders and scheduled maintenance", icon: <Sparkles className="w-7 h-7" /> }
-            ].map((item, i) => (
-              <ScrollReveal key={item.title} delay={i * 0.1}>
-                <div className="flex flex-col items-center text-center group">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center text-primary mb-5 group-hover:from-primary/25 group-hover:to-primary/10 transition-all duration-300 icon-glow">
-                    {item.icon}
-                  </div>
-                  <h3 className="text-base lg:text-lg font-heading font-bold text-foreground mb-2">{item.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed opacity-75">{item.desc}</p>
                 </div>
-              </ScrollReveal>
-            ))}
+              ))}
+            </div>
+
+            {/* Middle row - 2 cards */}
+            <div className="flex justify-center w-full max-w-[666px] -mb-1">
+              {designCategories.slice(3, 5).map((cat, i) => (
+                <div key={cat.name} className="relative w-1/2 aspect-[4/5] flex-shrink-0 group overflow-hidden border border-white/10 bg-black/40">
+                  <div className="absolute inset-0 transition-transform duration-700 ease-in-out group-hover:scale-105">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" />
+                    <img src={cat.image} alt={cat.name} className="w-full h-full object-cover object-center opacity-80 group-hover:opacity-100 transition-opacity duration-500" loading="lazy" />
+                  </div>
+                  <div className="absolute inset-0 z-20 border-2 border-transparent group-hover:border-[#D4AF37]/50 transition-colors duration-500 pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 w-full p-6 z-30 text-left">
+                    <div className="flex flex-col gap-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="w-8 h-8 rounded bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37] mb-1">{cat.icon}</div>
+                      <h4 className="text-xl font-medium text-white tracking-wider uppercase">{cat.name}</h4>
+                      <div className="w-10 h-0.5 bg-[#D4AF37] transform origin-left transition-all duration-500 group-hover:w-16" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Bottom row - 1 card */}
+            <div className="flex justify-center w-full max-w-[333px]">
+              {designCategories.slice(5, 6).map((cat, i) => (
+                <div key={cat.name} className="relative w-full aspect-[4/5] flex-shrink-0 group overflow-hidden border border-white/10 bg-black/40">
+                  <div className="absolute inset-0 transition-transform duration-700 ease-in-out group-hover:scale-105">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" />
+                    <img src={cat.image} alt={cat.name} className="w-full h-full object-cover object-center opacity-80 group-hover:opacity-100 transition-opacity duration-500" loading="lazy" />
+                  </div>
+                  <div className="absolute inset-0 z-20 border-2 border-transparent group-hover:border-[#D4AF37]/50 transition-colors duration-500 pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 w-full p-6 z-30 text-left">
+                    <div className="flex flex-col gap-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="w-8 h-8 rounded bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37] mb-1">{cat.icon}</div>
+                      <h4 className="text-xl font-medium text-white tracking-wider uppercase">{cat.name}</h4>
+                      <div className="w-10 h-0.5 bg-[#D4AF37] transform origin-left transition-all duration-500 group-hover:w-16" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
+
       </section>
 
-      <BrochureDownload />
-      <CTABanner variant="quote" />
+      <CinematicFeatureSection />
     </>
   );
 };

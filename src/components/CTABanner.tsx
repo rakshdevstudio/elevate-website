@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
 import { ArrowRight, MessageCircle, Phone, Shield, Award, CheckCircle2, Zap } from "lucide-react";
 import { GlassCard, ScrollReveal } from "@/components/ui/shared";
 import StarBorder from "@/components/StarBorder";
@@ -12,7 +12,6 @@ interface CTABannerProps {
 }
 
 export const CTABanner = ({ variant = "quote" }: CTABannerProps) => {
-  const useStarBorder = variant !== "inspection" && variant !== "quote";
   const configs = {
     quote: {
       title: "Get Your Elevator Quote Now",
@@ -52,48 +51,174 @@ export const CTABanner = ({ variant = "quote" }: CTABannerProps) => {
   const isExternal = config.primaryLink.startsWith("http") || config.primaryLink.startsWith("tel:");
   const isSecondaryExternal = config.secondaryLink.startsWith("http") || config.secondaryLink.startsWith("tel:");
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // For random floating particles
+  const [particles, setParticles] = useState<Array<{id: number; x: number; y: number; size: number; delay: number; duration: number}>>([]);
+
+  useEffect(() => {
+    setParticles(
+      Array.from({ length: 20 }).map((_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: Math.random() * 3 + 1,
+        delay: Math.random() * 5,
+        duration: Math.random() * 10 + 10,
+      }))
+    );
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const { left, top } = containerRef.current.getBoundingClientRect();
+    mouseX.set(e.clientX - left);
+    mouseY.set(e.clientY - top);
+  };
+
+  const bgBorder = useMotionTemplate`radial-gradient(500px circle at ${mouseX}px ${mouseY}px, rgba(212, 175, 55, 0.4), transparent 60%)`;
+  const bgInner = useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(212, 175, 55, 0.08), transparent 70%)`;
+
   return (
-    <section className="py-20 lg:py-28 relative">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,hsl(43_66%_52%/0.05),transparent)]" />
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+    <section className="py-24 lg:py-32 relative overflow-hidden flex justify-center items-center">
+      {/* Slow Moving Background Light Effect */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
+         <motion.div 
+           animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.2, 1] }} 
+           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+           className="w-[800px] h-[800px] bg-primary/10 rounded-full blur-[140px] mix-blend-screen"
+         />
+      </div>
+
+      <div className="container mx-auto px-4 lg:px-8 relative z-10 perspective-1000">
         <ScrollReveal>
-          <GlassCard className="p-10 lg:p-14 relative overflow-hidden text-center max-w-4xl mx-auto" hover={false} premium={useStarBorder}>
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/6 via-transparent to-primary/3 pointer-events-none" />
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-28 bg-primary/10 rounded-full blur-[80px] pointer-events-none" />
-            <div className="relative z-10">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-extrabold text-foreground mb-4 tracking-tight">
-                {config.title}
-              </h2>
-              <p className="text-muted-foreground text-sm lg:text-base max-w-2xl mx-auto mb-8 leading-relaxed opacity-80">
-                {config.subtitle}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                {isExternal ? (
-                  <a href={config.primaryLink} target={config.primaryLink.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-8 py-3.5 rounded-full font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.4)] hover:scale-105 btn-glow">
-                    {config.primaryLabel} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </a>
-                ) : (
-                  <Link to={config.primaryLink} className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-8 py-3.5 rounded-full font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.4)] hover:scale-105 btn-glow">
-                    {config.primaryLabel} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                )}
-                {isSecondaryExternal ? (
-                  <a href={config.secondaryLink} target={config.secondaryLink.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 border border-primary/20 text-foreground px-8 py-3.5 rounded-full font-semibold text-sm hover:bg-primary/10 hover:border-primary/30 transition-all duration-300">
-                    {config.secondaryLabel}
-                  </a>
-                ) : (
-                  <Link to={config.secondaryLink} className="inline-flex items-center justify-center gap-2 border border-primary/20 text-foreground px-8 py-3.5 rounded-full font-semibold text-sm hover:bg-primary/10 hover:border-primary/30 transition-all duration-300">
-                    {config.secondaryLabel}
-                  </Link>
-                )}
+          <motion.div 
+            ref={containerRef}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            whileHover={{ scale: 1.015 }}
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            className="relative overflow-hidden rounded-[32px] p-[1px] max-w-5xl mx-auto group cursor-default shadow-2xl"
+          >
+            {/* Animated Gradient Border Layer */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-white/5 to-primary/20 opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
+            
+            {/* Spotlight Border (Mouse Tracking) */}
+            <motion.div
+               className="pointer-events-none absolute -inset-px rounded-[32px] opacity-0 transition-opacity duration-300 group-hover:opacity-100 mix-blend-screen"
+               style={{ background: bgBorder }}
+            />
+
+            <div className="relative bg-card/60 backdrop-blur-[24px] rounded-[31px] px-6 py-16 lg:p-24 overflow-hidden flex flex-col items-center text-center shadow-[inset_0_2px_20px_rgba(255,255,255,0.02)] z-10">
+              
+              {/* Inner Glow Spotlight (Mouse Tracking) */}
+              <motion.div
+                 className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                 style={{ background: bgInner }}
+              />
+
+              {/* Edge Lighting Highlight (Top edge) */}
+              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent blur-sm" />
+              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+
+              {/* Floating Particles inside CTA */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                 {particles.map((p) => (
+                   <motion.div
+                     key={p.id}
+                     animate={{ 
+                       y: ["0%", "-100%"], 
+                       x: [0, Math.random() * 20 - 10],
+                       opacity: [0, 0.6, 0] 
+                     }}
+                     transition={{
+                       duration: p.duration,
+                       delay: p.delay,
+                       repeat: Infinity,
+                       ease: "linear"
+                     }}
+                     className="absolute rounded-full bg-primary/40 blur-[1px]"
+                     style={{
+                       left: `${p.x}%`,
+                       top: `${p.y}%`,
+                       width: p.size,
+                       height: p.size
+                     }}
+                   />
+                 ))}
+              </div>
+
+              <div className="relative z-20 w-full max-w-3xl">
+                {/* Text Animations */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
+                >
+                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-white mb-6 tracking-tight group-hover:tracking-normal transition-all duration-700 [text-shadow:0_0_40px_rgba(255,255,255,0.1)]">
+                    {config.title}
+                  </h2>
+                </motion.div>
+                
+                <motion.p 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
+                  className="text-gray-400 text-lg lg:text-xl mx-auto mb-10 leading-relaxed font-light"
+                >
+                  {config.subtitle}
+                </motion.p>
+                
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+                  className="flex flex-col sm:flex-row gap-5 justify-center mt-8 items-center"
+                >
+                  {/* Primary Button */}
+                  {isExternal ? (
+                     <a href={config.primaryLink} target="_blank" rel="noopener noreferrer" className="relative group/btn inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-8 py-4 rounded-full font-bold text-base transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(212,175,55,0.4)] overflow-hidden min-w-[200px]">
+                        <span className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300 ease-out" />
+                        <span className="relative z-10 flex items-center gap-2">
+                          {config.primaryLabel} <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1.5 transition-transform duration-300" />
+                        </span>
+                     </a>
+                  ) : (
+                     <Link to={config.primaryLink} className="relative group/btn inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-8 py-4 rounded-full font-bold text-base transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(212,175,55,0.4)] overflow-hidden min-w-[200px]">
+                        <span className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300 ease-out" />
+                        <span className="relative z-10 flex items-center gap-2">
+                          {config.primaryLabel} <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1.5 transition-transform duration-300" />
+                        </span>
+                     </Link>
+                  )}
+
+                  {/* Secondary Button */}
+                  {isSecondaryExternal ? (
+                     <a href={config.secondaryLink} target="_blank" rel="noopener noreferrer" className="relative group/btn2 inline-flex items-center justify-center gap-2 border border-white/20 bg-background/50 backdrop-blur-md text-white px-8 py-4 rounded-full font-semibold text-base transition-all duration-300 hover:bg-white/10 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(212,175,55,0.15)] min-w-[200px]">
+                        <span className="relative z-10">{config.secondaryLabel}</span>
+                     </a>
+                  ) : (
+                     <Link to={config.secondaryLink} className="relative group/btn2 inline-flex items-center justify-center gap-2 border border-white/20 bg-background/50 backdrop-blur-md text-white px-8 py-4 rounded-full font-semibold text-base transition-all duration-300 hover:bg-white/10 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(212,175,55,0.15)] min-w-[200px]">
+                        <span className="relative z-10">{config.secondaryLabel}</span>
+                     </Link>
+                  )}
+                </motion.div>
               </div>
             </div>
-          </GlassCard>
+          </motion.div>
         </ScrollReveal>
       </div>
     </section>
   );
 };
+
 
 export const TrustBadges = () => (
   <section className="py-12 lg:py-16 relative">
