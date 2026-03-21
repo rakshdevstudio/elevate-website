@@ -73,18 +73,33 @@ const Contact = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mb-10 md:mb-12">
             {[
-              { icon: <Clock className="w-7 h-7" />, title: "<60 Min Response", desc: "Emergency support" },
-              { icon: <Headphones className="w-7 h-7" />, title: "24/7 Helpline", desc: "Always available" },
-              { icon: <MessageSquare className="w-7 h-7" />, title: "WhatsApp Support", desc: "Quick responses" },
+              { icon: <Clock className="w-8 h-8 md:w-10 md:h-10 transition-transform duration-500 group-hover/card:scale-110" />, title: "<60 Min Response", desc: "Emergency support" },
+              { icon: <Headphones className="w-8 h-8 md:w-10 md:h-10 transition-transform duration-500 group-hover/card:scale-110" />, title: "24/7 Helpline", desc: "Always available" },
+              { icon: <MessageSquare className="w-8 h-8 md:w-10 md:h-10 transition-transform duration-500 group-hover/card:scale-110" />, title: "WhatsApp Support", desc: "Quick responses" },
             ].map((item, i) => (
-              <ScrollReveal key={i} delay={i * 0.1}>
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center text-primary mb-4 icon-glow">
+              <ScrollReveal key={i} delay={i * 0.1} className="h-full">
+                <motion.div
+                  className="group/card relative flex flex-col items-center text-center p-6 rounded-2xl border border-white/5 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-colors duration-500 h-full overflow-hidden"
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                   {/* Ambient glow behind card */}
+                   <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+                  <motion.div
+                    className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 flex items-center justify-center text-primary mb-6 relative z-10 shadow-[0_0_20px_rgba(234,179,8,0.1)] group-hover/card:shadow-[0_0_30px_rgba(234,179,8,0.25)] transition-shadow duration-500"
+                    animate={{ y: [0, -8, 0] }}
+                    transition={{
+                      duration: 4 + i, // Staggered floating durations slightly
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  >
                     {item.icon}
-                  </div>
-                  <h3 className="text-foreground font-heading font-bold text-base mb-1">{item.title}</h3>
-                  <p className="text-muted-foreground text-sm opacity-70">{item.desc}</p>
-                </div>
+                  </motion.div>
+                  <h3 className="text-foreground font-heading font-bold text-lg md:text-xl mb-2 relative z-10 text-white/90 group-hover/card:text-white transition-colors">{item.title}</h3>
+                  <p className="text-muted-foreground text-sm relative z-10 opacity-70 group-hover/card:opacity-90 transition-opacity">{item.desc}</p>
+                </motion.div>
               </ScrollReveal>
             ))}
           </div>
