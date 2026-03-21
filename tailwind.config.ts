@@ -81,6 +81,10 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        shine: {
+          '0%': { transform: 'translateX(-100%) skewX(-12deg)' },
+          '100%': { transform: 'translateX(200%) skewX(-12deg)' },
+        },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -103,6 +107,7 @@ export default {
         },
       },
       animation: {
+        shine: 'shine 2s infinite',
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in-up": "fade-in-up 0.6s ease-out forwards",

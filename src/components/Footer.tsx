@@ -20,7 +20,7 @@ const serviceLinks = [
 ];
 
 const linkClass =
-  "text-muted-foreground/60 text-sm hover:text-primary hover:translate-x-1 inline-block transition-all duration-300";
+  "relative text-muted-foreground/60 text-sm hover:text-primary inline-block transition-colors duration-300 group-hover:text-primary before:absolute before:inset-x-0 before:-bottom-1 before:h-px before:bg-primary before:origin-left before:scale-x-0 hover:before:scale-x-100 before:transition-transform before:duration-300";
 
 const Footer = () => {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
@@ -28,8 +28,11 @@ const Footer = () => {
   const logoUrl = logo;
 
   return (
-    <footer className="relative border-t border-border/30">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-[hsl(213_62%_5%)] to-[hsl(213_62%_4%)] pointer-events-none" />
+    <footer className="relative border-t border-white/5 bg-[#050505]">
+      {/* Top Border Glow */}
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent shadow-[0_0_20px_rgba(212,175,55,0.3)]" />
+      
+      <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-[#080808] to-[#020202] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_30%_at_50%_0%,hsl(43_66%_52%/0.03),transparent)] pointer-events-none" />
 
       <div className="container mx-auto px-4 lg:px-8 py-20 relative z-10">
