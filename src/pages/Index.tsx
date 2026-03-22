@@ -29,7 +29,7 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center pt-32 lg:pt-40 pb-16 overflow-hidden">
       <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
-        <source src="/videos/Video_Enhanced_With_Cinematic_Shots.mp4" type="video/mp4" />
+        <source src="/videos/Cinematic_Elevator_Business_Video_Generated.mp4" type="video/mp4" />
       </video>
       <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.45), rgba(0,0,0,0.65))" }} />
       <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213_62%_6%/0.4)] via-transparent to-[hsl(213_62%_6%/0.4)]" />
