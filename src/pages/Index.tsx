@@ -1285,32 +1285,115 @@ const FAQ = () => {
 };
 
 const CTASection = () => (
-  <section className="py-10 md:py-16 relative">
+  <section className="py-20 md:py-32 relative overflow-hidden">
     <SectionDivider />
-    <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,hsl(43_66%_52%/0.05),transparent)]" />
-    <div className="container mx-auto px-6 pt-8 relative z-10">
-      <div className="max-w-4xl mx-auto text-center">
-        <ScrollReveal>
-          <GlassCard className="p-10 lg:p-16 relative overflow-hidden" hover={false} premium>
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/3 pointer-events-none" />
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-32 bg-primary/8 rounded-full blur-[80px] pointer-events-none" />
-            <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-extrabold text-foreground mb-5 tracking-tight">Ready to <span className="text-gradient-gold">Elevate</span> Your Prestige?</h2>
-              <p className="text-muted-foreground text-base lg:text-lg max-w-2xl mx-auto mb-10 leading-relaxed opacity-80">
-                Get a free site inspection and personalized elevator recommendation from our expert engineers.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/contact" className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-10 py-4 rounded-full font-semibold text-base transition-all duration-300 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.4)] hover:scale-105 btn-glow">
-                  Request Free Site Inspection <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <a href="https://wa.me/919844002026" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 border border-primary/20 text-foreground px-10 py-4 rounded-full font-semibold text-base hover:bg-primary/10 hover:border-primary/30 transition-all duration-300">
-                  Chat on WhatsApp
-                </a>
-              </div>
+    
+    {/* Background Layers */}
+    <div className="absolute inset-0 bg-background pointer-events-none" />
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(218,165,32,0.08),transparent)] pointer-events-none" />
+    <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.03] pointer-events-none mix-blend-overlay" />
+    
+    {/* Animated subtle gradient shift */}
+    <motion.div 
+      className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 pointer-events-none"
+      animate={{
+        x: ['-100%', '100%']
+      }}
+      transition={{
+        duration: 15,
+        repeat: Infinity,
+        ease: "linear"
+      }}
+    />
+
+    <div className="container mx-auto px-6 pt-12 relative z-10 flex justify-center">
+      <ScrollReveal className="w-full max-w-[900px] relative z-10">
+        <motion.div 
+          className="group relative rounded-[2rem] overflow-hidden"
+          whileHover={{ y: -5 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        >
+          {/* Soft Shadow + Outer Glow */}
+          <div className="absolute inset-0 bg-primary/20 blur-[100px] opacity-0 group-hover:opacity-40 transition-opacity duration-1000 pointer-events-none" />
+
+          {/* Container */}
+          <div className="relative h-full w-full rounded-[2rem] bg-[#030303]/60 backdrop-blur-[30px] border border-[rgba(255,215,0,0.15)] p-12 md:p-16 lg:p-24 overflow-hidden flex flex-col items-center text-center shadow-2xl">
+            
+            {/* Inner Glow / Lighting */}
+            <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[600px] h-[300px] bg-primary/10 blur-[120px] pointer-events-none" />
+
+            {/* Light Sweep Effect */}
+            <div className="absolute inset-0 overflow-hidden rounded-[2rem] pointer-events-none">
+              <motion.div 
+                className="absolute top-0 bottom-0 w-[200%] bg-gradient-to-r from-transparent via-white/5 to-transparent -skew-x-45"
+                animate={{
+                  x: ['-150%', '150%']
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  repeatDelay: 2,
+                  ease: "easeInOut"
+                }}
+              />
             </div>
-          </GlassCard>
-        </ScrollReveal>
-      </div>
+
+            <div className="relative z-10 max-w-[700px] w-full flex flex-col items-center">
+              <motion.h2 
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-white mb-6 tracking-tight leading-tight"
+              >
+                Ready to <motion.span 
+                  className="text-gradient-gold inline-block font-black"
+                  animate={{ textShadow: ["0 0 10px rgba(234,179,8,0.2)", "0 0 30px rgba(234,179,8,0.7)", "0 0 10px rgba(234,179,8,0.2)"] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                >Elevate</motion.span> Your Prestige?
+              </motion.h2>
+
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className="text-white/70 text-lg md:text-xl mb-12 leading-relaxed font-light max-w-[600px] mx-auto"
+              >
+                Get a free site inspection and personalized elevator recommendation from our expert engineers.
+              </motion.p>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col sm:flex-row gap-5 w-full justify-center"
+              >
+                {/* Primary CTA */}
+                <Link to="/contact" className="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-10 py-5 rounded-full font-semibold text-base transition-all duration-500 hover:scale-[1.03] overflow-hidden">
+                  <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute -inset-1 bg-primary/50 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full" />
+                  <span className="relative z-10 flex items-center gap-2">
+                    Request Free Site Inspection 
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
+                  </span>
+                </Link>
+
+                {/* Secondary CTA */}
+                <a href="https://wa.me/919844002026" target="_blank" rel="noopener noreferrer" className="group relative inline-flex items-center justify-center gap-3 bg-white/[0.03] backdrop-blur-sm border border-primary/20 text-white px-10 py-5 rounded-full font-semibold text-base transition-all duration-500 hover:bg-white/10 hover:border-primary/50 overflow-hidden">
+                  <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 shadow-[inset_0_0_20px_rgba(234,179,8,0.2)] rounded-full transition-opacity duration-500" />
+                  <span className="relative z-10 flex items-center gap-2">
+                    Chat on WhatsApp
+                  </span>
+                </a>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
+      </ScrollReveal>
     </div>
   </section>
 );
