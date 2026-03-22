@@ -50,7 +50,7 @@ const Hero = () => {
               </motion.span>
             ))}
           </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }} className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-heading font-extrabold text-white mb-6 leading-[0.9] tracking-tight">
+          <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] as const }} className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-heading font-extrabold text-white mb-6 leading-[0.9] tracking-tight">
             <span
               className="shiny-text"
               style={{
@@ -58,15 +58,18 @@ const Hero = () => {
               }}
             >Exceeding</span>
             <br />
-            <span className="inline-block relative h-[1.6em] overflow-hidden align-middle">
-              <AnimatePresence mode="wait">
+            <span className="inline-flex relative h-[1.3em] overflow-hidden align-middle justify-center px-1">
+              {/* Invisible placeholder for fixed layout width based on the longest word */}
+              <span className="invisible pointer-events-none whitespace-nowrap opacity-0">Reliability</span>
+              
+              <AnimatePresence>
                 <motion.span
                   key={rotatingWords[wordIndex]}
-                  className="shiny-text-gold inline-block pb-2"
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -40 }}
-                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                  className="shiny-text-gold absolute inset-0 flex items-center justify-center whitespace-nowrap"
+                  initial={{ opacity: 0, y: 50, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: -50, filter: "blur(8px)" }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }}
                 >
                   {rotatingWords[wordIndex]}
                 </motion.span>
@@ -235,7 +238,7 @@ const MissionVisionCard = ({ card }: { card: typeof missionVisionCards[0] }) => 
       initial={{ opacity: 0, y: 45 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.8, delay: card.delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.8, delay: card.delay, ease: [0.22, 1, 0.36, 1] as const }}
       whileHover={{ y: -10, transition: { duration: 0.3, ease: "easeOut" } }}
       className="group relative rounded-3xl overflow-hidden cursor-pointer h-full"
       style={{
@@ -373,7 +376,7 @@ const ImpactMetrics = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }}
           className="mb-8 text-center"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] font-heading font-bold tracking-tight leading-[1.1] mb-5">
@@ -392,7 +395,7 @@ const ImpactMetrics = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.6, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.6, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] as const }}
               whileHover={{ y: -6, transition: { duration: 0.28, ease: "easeOut" } }}
               className="group relative rounded-2xl p-4 lg:p-5 text-center cursor-pointer"
               style={{
@@ -978,7 +981,7 @@ const AMCPlans = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }}
           className="mb-8 text-center"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold tracking-tight leading-[1.1]">
@@ -994,7 +997,7 @@ const AMCPlans = () => {
               initial={{ opacity: 0, y: 35 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] as const }}
               className={`relative rounded-2xl overflow-hidden ${p.popular ? "mt-[-16px]" : ""}`}
               style={{
                 background: p.popular
@@ -1167,7 +1170,7 @@ const FAQ = () => {
       y: 0,
       transition: {
         duration: 0.7,
-        ease: [0.22, 1, 0.36, 1],
+        ease: [0.22, 1, 0.36, 1] as const,
         staggerChildren: 0.08,
       },
     },
@@ -1178,7 +1181,7 @@ const FAQ = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+      transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
     },
   };
 
@@ -1187,7 +1190,7 @@ const FAQ = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+      transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
     },
   };
 
@@ -1216,7 +1219,7 @@ const FAQ = () => {
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] as const }}
                   className="relative"
                 >
                   <div className="absolute -inset-x-1 -inset-y-1 bg-primary/10 blur-2xl pointer-events-none" />
