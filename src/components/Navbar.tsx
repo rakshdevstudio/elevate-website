@@ -266,38 +266,38 @@ const Navbar = () => {
                 </nav>
               </div>
 
-              <div className="flex items-center gap-3 lg:gap-4">
+              <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 flex-nowrap shrink-0">
                 <button
                   type="button"
                   onClick={(e) => {
                     e.preventDefault();
                     setIsComingSoonOpen(true);
                   }}
-                  className="hidden lg:flex items-center justify-center bg-gradient-to-r from-[#E5B84B] to-[#C9992D] text-zinc-900 px-[18px] py-[10px] rounded-full font-semibold text-sm transition-all duration-300 hover:scale-105 hover:from-[#d1a641] hover:to-[#b58726] shadow-sm"
+                  className="hidden md:flex items-center justify-center bg-gradient-to-r from-[#E5B84B] to-[#C9992D] text-zinc-900 px-[16px] xl:px-[18px] py-[8px] xl:py-[10px] rounded-full font-semibold text-sm transition-all duration-300 hover:scale-105 hover:from-[#d1a641] hover:to-[#b58726] shadow-sm whitespace-nowrap"
                 >
                   Design your Cabin
                 </button>
 
                 <Link
                   to="/contact"
-                  className="flex items-center justify-center bg-gradient-to-r from-[#E5B84B] to-[#C9992D] text-zinc-900 px-[14px] lg:px-[18px] py-[8px] lg:py-[10px] rounded-full font-semibold text-xs lg:text-sm transition-all duration-300 hover:scale-105 hover:from-[#d1a641] hover:to-[#b58726] shadow-sm"
+                  className="flex items-center justify-center bg-gradient-to-r from-[#E5B84B] to-[#C9992D] text-zinc-900 px-[12px] sm:px-[14px] lg:px-[18px] py-[7px] sm:py-[8px] lg:py-[10px] rounded-full font-semibold text-xs sm:text-sm transition-all duration-300 hover:scale-105 hover:from-[#d1a641] hover:to-[#b58726] shadow-sm whitespace-nowrap shrink-0"
                 >
                   Get Quote
                 </Link>
 
                 <a
                   href="tel:+919844002026"
-                  className="flex items-center justify-center bg-gradient-to-r from-[#E5B84B] to-[#C9992D] text-zinc-900 w-[36px] h-[36px] lg:w-[40px] lg:h-[40px] rounded-full transition-all duration-300 hover:scale-105 hover:from-[#d1a641] hover:to-[#b58726] shadow-sm shrink-0"
+                  className="flex items-center justify-center bg-gradient-to-r from-[#E5B84B] to-[#C9992D] text-zinc-900 w-[32px] h-[32px] sm:w-[36px] sm:h-[36px] lg:w-[40px] lg:h-[40px] rounded-full transition-all duration-300 hover:scale-105 hover:from-[#d1a641] hover:to-[#b58726] shadow-sm shrink-0"
                   aria-label="Call Us"
                 >
-                  <Phone className="w-4 h-4 lg:w-5 lg:h-5" fill="currentColor" />
+                  <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5" fill="currentColor" />
                 </a>
 
                 <button
                   onClick={() => setMobileOpen(!mobileOpen)}
-                  className="lg:hidden p-1.5 ml-1 text-zinc-900 hover:text-primary transition-colors duration-300"
+                  className="lg:hidden p-1 sm:p-1.5 ml-0.5 sm:ml-1 text-zinc-900 hover:text-primary transition-colors duration-300 shrink-0"
                 >
-                  {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                  {mobileOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
                 </button>
               </div>
             </div>
@@ -313,6 +313,17 @@ const Navbar = () => {
                 className="lg:hidden bg-white/95 backdrop-blur-2xl border-t border-zinc-200 shadow-lg"
               >
                 <div className="container mx-auto px-4 py-5 space-y-1">
+                  <button
+                    onClick={() => {
+                        setMobileOpen(false);
+                        setIsComingSoonOpen(true);
+                    }}
+                    className="w-full relative flex items-center justify-center gap-2 bg-gradient-to-r from-[#E5B84B] to-[#C9992D] text-zinc-900 px-5 py-4 rounded-xl text-base font-bold mb-4 shadow-[0_4px_20px_hsl(43_66%_52%/0.3)] overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-white/30 rounded-xl animate-pulse opacity-50" />
+                    🚀 Design your Cabin
+                  </button>
+                  
                   {navLinks.map((link, i) => (
                     <motion.div
                       key={link.path}
