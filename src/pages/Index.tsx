@@ -58,7 +58,7 @@ const Hero = () => {
               }}
             >Exceeding</span>
             <br />
-            <span className="inline-flex relative h-[1.3em] overflow-hidden align-middle justify-center px-1">
+            <span className="inline-flex relative h-[1.3em] overflow-hidden align-middle justify-center px-1 text-5xl md:text-6xl lg:text-7xl xl:text-8xl mt-2 pb-2">
               {/* Invisible placeholder for fixed layout width based on the longest word */}
               <span className="invisible pointer-events-none whitespace-nowrap opacity-0">Reliability</span>
               
