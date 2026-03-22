@@ -4,6 +4,7 @@ import { Menu, X, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/assets/logo.png";
 import "./NavbarGooey.css";
+import ComingSoonModal from "./ComingSoonModal";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -18,6 +19,7 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [showBanner, setShowBanner] = useState(false);
+  const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
   const lastScrollYRef = useRef(0);
   const location = useLocation();
 
@@ -206,6 +208,7 @@ const Navbar = () => {
   }, [showNavbar]);
 
   return (
+    <>
     <AnimatePresence mode="wait" initial={false}>
       {showNavbar ? (
         <motion.header
@@ -264,12 +267,16 @@ const Navbar = () => {
               </div>
 
               <div className="flex items-center gap-3 lg:gap-4">
-                <Link
-                  to="/design"
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsComingSoonOpen(true);
+                  }}
                   className="hidden lg:flex items-center justify-center bg-gradient-to-r from-[#E5B84B] to-[#C9992D] text-zinc-900 px-[18px] py-[10px] rounded-full font-semibold text-sm transition-all duration-300 hover:scale-105 hover:from-[#d1a641] hover:to-[#b58726] shadow-sm"
                 >
                   Design your Cabin
-                </Link>
+                </button>
 
                 <Link
                   to="/contact"
@@ -357,6 +364,8 @@ const Navbar = () => {
         )
       )}
     </AnimatePresence>
+    <ComingSoonModal isOpen={isComingSoonOpen} onClose={() => setIsComingSoonOpen(false)} />
+    </>
   );
 };
 
