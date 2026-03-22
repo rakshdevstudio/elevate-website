@@ -4,7 +4,7 @@ import { Menu, X, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/assets/logo.png";
 import "./NavbarGooey.css";
-import ComingSoonModal from "./ComingSoonModal";
+import ComingSoonModal from "@/components/ComingSoonModal";
 
 const navLinks = [
   { label: "Home", path: "/" },
