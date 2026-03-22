@@ -33,15 +33,14 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({ isOpen, onClose }) =>
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
   const text = "COMING SOON";
   const letters = text.split("");
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {isOpen ? (
         <motion.div
+          key="coming-soon-modal"
           ref={containerRef}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -180,7 +179,7 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({ isOpen, onClose }) =>
             </motion.button>
           </motion.div>
         </motion.div>
-      )}
+      ) : null}
     </AnimatePresence>
   );
 };
