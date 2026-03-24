@@ -358,11 +358,11 @@ const ImpactMetrics = () => {
   const [activeBg, setActiveBg] = useState(0);
 
   const bgImages = [
-    "https://images.unsplash.com/photo-1541888049645-00c776d6fc1a?q=80&w=2940&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=3271&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=3174&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2940&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2938&auto=format&fit=crop"
+    "/images/CUSTOMIZATION EXPERTS.webp",
+    "/images/TRANSPARENT PRICING.webp",
+    "/images/CERTIFIED SAFETY STANDARDS.webp",
+    "/images/DIGITAL-FIRST SERVICE.webp",
+    "/images/24x7 EXPERT SUPPORT.webp"
   ];
 
   return (
@@ -656,12 +656,12 @@ const IndustriesServed = () => {
 
 const ProcessSection = () => {
   const steps = [
-    { img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=800&fit=crop", icon: <Search className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Consultation / Site Inspection", desc: "Our engineers understand your requirements and visit your site to assess shaft dimensions and structural feasibility." },
-    { img: "https://images.unsplash.com/photo-1541888049645-00c776d6fc1a?w=600&h=800&fit=crop", icon: <CheckCircle2 className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Order Confirmation", desc: "Finalizing custom elevator design, capacity, and aesthetics before kicking off manufacturing." },
-    { img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=800&fit=crop", icon: <Settings className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Production", desc: "Precision manufacturing with quality-controlled components, ready for seamless installation." },
-    { img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=800&fit=crop", icon: <Truck className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Delivery", desc: "Components are carefully transported and delivered to your site on schedule, ready for installation." },
-    { img: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=800&fit=crop", icon: <HardHat className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Installation / Testing", desc: "Professional installation by certified technicians followed by comprehensive system testing and commissioning." },
-    { img: "https://images.unsplash.com/photo-1584724391642-a392e21b0e2b?w=600&h=800&fit=crop", icon: <BadgeCheck className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Safety & Quality / Handover", desc: "Rigorous safety certification, final demonstration of features, and handover with initiation of your warranty period." },
+    { img: "/images/_CONSULTATION _ SITE INSPECTION.webp", icon: <Search className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Consultation / Site Inspection", desc: "Our engineers understand your requirements and visit your site to assess shaft dimensions and structural feasibility." },
+    { img: "/images/ORDER CONFIRMATION.webp", icon: <CheckCircle2 className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Order Confirmation", desc: "Finalizing custom elevator design, capacity, and aesthetics before kicking off manufacturing." },
+    { img: "/images/PRODUCTION.webp", icon: <Settings className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Production", desc: "Precision manufacturing with quality-controlled components, ready for seamless installation." },
+    { img: "/images/DELIVERY.webp", icon: <Truck className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Delivery", desc: "Components are carefully transported and delivered to your site on schedule, ready for installation." },
+    { img: "/images/INSTALLATION _ TESTING.webp", icon: <HardHat className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Installation / Testing", desc: "Professional installation by certified technicians followed by comprehensive system testing and commissioning." },
+    { img: "/images/SAFETY & QUALITY _ HANDOVER.webp", icon: <BadgeCheck className="w-5 h-5 lg:w-6 lg:h-6" />, title: "Safety & Quality / Handover", desc: "Rigorous safety certification, final demonstration of features, and handover with initiation of your warranty period." },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -1559,10 +1559,10 @@ const TechnologySelector = () => {
   const [isPaused, setIsPaused] = useState(false);
 
   const features = [
-    { img: "https://images.unsplash.com/photo-1541888049645-00c776d6fc1a?w=800&fit=crop", icon: <Zap className="w-5 h-5" />, title: "Premium Quality", subtitle: "Italian engineering excellence" },
-    { img: "https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=800&fit=crop", icon: <Leaf className="w-5 h-5" />, title: "Energy Efficiency", subtitle: "Advanced power-saving technology" },
-    { img: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&fit=crop", icon: <Shield className="w-5 h-5" />, title: "Durability", subtitle: "Long-lasting components" },
-    { img: "https://images.unsplash.com/photo-1626296711019-3ee72c43ab6a?w=800&fit=crop", icon: <Volume2 className="w-5 h-5" />, title: "Smooth Operation", subtitle: "Superior ride comfort" },
+    { img: "/images/PREMIUM QUALITY.webp", icon: <Zap className="w-5 h-5" />, title: "Premium Quality", subtitle: "Italian engineering excellence" },
+    { img: "/images/ENERGY EFFICIENCY.webp", icon: <Leaf className="w-5 h-5" />, title: "Energy Efficiency", subtitle: "Advanced power-saving technology" },
+    { img: "/images/DURABILITY.webp", icon: <Shield className="w-5 h-5" />, title: "Durability", subtitle: "Long-lasting components" },
+    { img: "/images/SMOOTH OPERATION.webp", icon: <Volume2 className="w-5 h-5" />, title: "Smooth Operation", subtitle: "Superior ride comfort" },
   ];
 
   const motors = [
@@ -1570,7 +1570,7 @@ const TechnologySelector = () => {
       id: "hydraulic",
       name: "Italian Hydraulic Unit",
       tagline: "Smooth operation for low-rise buildings",
-      image: "https://images.unsplash.com/photo-1541888049645-00c776d6fc1a?w=800&fit=crop",
+      image: "/images/ITALIAN HYDRAULIC UNIT.webp",
       points: [
         "Ideal for low-rise buildings, villas, bungalows, and private homes",
         "Smooth start and stop due to hydraulic operation",
@@ -1589,7 +1589,7 @@ const TechnologySelector = () => {
       id: "gearless",
       name: "Italian Gearless Motor",
       tagline: "Space-saving design without machine room",
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&fit=crop",
+      image: "/images/ITALIAN GEARLESS MOTOR.webp",
       points: [
         "Highly energy-efficient, saving up to 50% on power consumption",
         "Ideal for mid-to-high-rise buildings and heavy usage",
@@ -1607,7 +1607,7 @@ const TechnologySelector = () => {
       id: "geared",
       name: "Italian Geared Motor",
       tagline: "Traditional setup with dedicated machine room",
-      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&fit=crop",
+      image: "/images/ITALIAN GEARED MOTOR.webp",
       points: [
         "Reliable and proven technology for traditional elevator setups",
         "Cost-effective option for mid-rise buildings",
@@ -1653,7 +1653,7 @@ const TechnologySelector = () => {
             >
               {/* Hover Image */}
               <div 
-                className="absolute inset-0 bg-cover bg-center opacity-40 lg:opacity-0 lg:group-hover/card:opacity-100 transition-opacity duration-500 ease-in-out z-0"
+                className="absolute inset-0 bg-cover bg-center opacity-60 lg:opacity-60 lg:group-hover/card:opacity-100 transition-opacity duration-500 ease-in-out z-0"
                 style={{ backgroundImage: `url('${feat.img}')` }}
               />
               
@@ -1724,16 +1724,16 @@ const TechnologySelector = () => {
           </div>
 
           {/* Column 2 - Image Display ONLY */}
-          <div className="rounded-2xl overflow-hidden bg-black/20 border border-white/5 relative min-h-[300px] h-full w-full">
+          <div className="rounded-2xl overflow-hidden bg-black/40 border border-white/5 relative min-h-[300px] h-full w-full flex items-center justify-center p-4">
             <AnimatePresence>
               <motion.img
                 key={activeMotor}
                 src={motors[activeMotor].image}
-                initial={{ opacity: 0, scale: 1 }}
-                animate={{ opacity: 1, scale: 1.05 }}
-                exit={{ opacity: 0, scale: 1 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-contain p-2 lg:p-4"
                 alt={motors[activeMotor].name}
               />
             </AnimatePresence>
