@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { PageHero, SectionHeading, GlassCard, SectionDivider, ScrollReveal } from "@/components/ui/shared";
+import { FloatingParticles, SectionHeading, GlassCard, SectionDivider, ScrollReveal } from "@/components/ui/shared";
 import { Phone, Mail, MapPin, Globe, Clock, Headphones, MessageSquare, Send, PhoneCall } from "lucide-react";
 import { submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
 import { toast } from "@/hooks/use-toast";
@@ -56,7 +56,51 @@ const Contact = () => {
 
   return (
     <>
-      <PageHero title="Get In Touch" subtitle="Transform your vertical mobility vision into reality. Partner with our experts for a comprehensive, no-obligation site evaluation and tailored elevator strategy." backgroundImage="/images/hero-contact.webp" />
+      <section className="relative overflow-hidden min-h-[80vh] lg:min-h-[85vh] flex items-center">
+        <div className="absolute inset-0 bg-navy-gradient" />
+        <div className="absolute inset-0">
+          <img src="/images/hero-contact.webp" alt="" className="w-full h-full object-cover opacity-45" loading="eager" />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[hsl(213_62%_6%/0.9)] via-[hsl(213_62%_6%/0.7)] to-[hsl(213_62%_6%/0.95)]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[hsl(213_62%_6%/0.35)] via-transparent to-[hsl(213_62%_6%/0.35)]" />
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-12 left-1/3 w-[420px] h-[420px] bg-primary/5 rounded-full blur-[160px]" />
+          <div className="absolute bottom-10 right-10 w-[320px] h-[320px] bg-[hsl(210_60%_40%/0.08)] rounded-full blur-[140px]" />
+        </div>
+        <FloatingParticles count={18} />
+        <div className="container mx-auto px-6 lg:px-8 text-center relative z-10 max-w-4xl">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
+            <span className="inline-block px-5 py-2 rounded-full bg-primary/10 text-primary text-xs font-semibold tracking-[0.2em] uppercase mb-6 border border-primary/15 backdrop-blur-md">
+              Let’s Build Something Exceptional
+            </span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-foreground mb-5 tracking-tight leading-[1.1] text-shadow-hero">
+              Get In Touch With Our Experts
+            </h1>
+            <p className="text-muted-foreground text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed mb-10 opacity-85">
+              Transform your vertical mobility vision into reality with expert guidance and precision engineering. Connect with our team for a quick consultation, site evaluation, and tailored elevator solutions designed for your project.
+            </p>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="tel:+916384961909"
+              className="relative inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-10 py-3.5 rounded-full font-semibold text-base transition-all duration-300 hover:shadow-[0_0_45px_hsl(43_66%_52%/0.4)] hover:scale-105 overflow-hidden"
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-full" />
+              Talk to an Expert
+            </a>
+            <a
+              href="#contact-form"
+              className="relative inline-flex items-center justify-center gap-2 px-10 py-3.5 rounded-full border border-white/30 text-white font-semibold text-base transition-all duration-300 hover:border-primary hover:text-primary hover:bg-white/10"
+            >
+              Get Free Site Inspection
+            </a>
+          </motion.div>
+          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="text-muted-foreground text-sm mt-6 opacity-70 tracking-[0.2em]">
+            Response within 60 minutes • Trusted by builders across India
+          </motion.p>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background via-background/80 to-transparent" />
+      </section>
 
       <TrustBadges />
 
@@ -115,7 +159,7 @@ const Contact = () => {
               <div>
                 <h3 className="text-2xl lg:text-3xl font-heading font-bold text-foreground mb-2">Request a Quote</h3>
                 <p className="text-muted-foreground text-sm mb-8 opacity-70">Fill out the form below and we'll get back to you within 24 hours.</p>
-                <GlassCard className="p-8 lg:p-10 relative overflow-hidden" hover={false} premium>
+                <GlassCard id="contact-form" className="p-8 lg:p-10 relative overflow-hidden" hover={false} premium>
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-primary/2 pointer-events-none" />
                   <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 rounded-full blur-[60px] pointer-events-none" />
                   <form onSubmit={handleSubmit} className="space-y-5 relative z-10">

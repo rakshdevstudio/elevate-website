@@ -28,28 +28,28 @@ const elevatorProducts = [
     title: "Hospital Elevators",
     desc: "Purpose-built for healthcare environments with stretcher-compatible cabins, ultra-smooth ride technology, and antibacterial interiors that meet the strictest medical standards.",
     features: ["Stretcher Compatible", "Smooth Ride Technology", "Antibacterial Interiors", "Emergency Backup Systems"],
-    image: "/images/product-hospital.webp",
+    image: "/images/HOSPITAL ELEVATOR.webp",
     accent: "from-[hsl(170_50%_40%/0.12)] to-primary/10",
   },
   {
     title: "Capsule Elevators",
     desc: "A stunning architectural statement piece — panoramic glass elevators that transform vertical transportation into a breathtaking visual experience for prestigious buildings.",
     features: ["Panoramic Glass Design", "Architectural Aesthetics", "Scenic Viewing Experience", "Premium Materials"],
-    image: "/images/product-capsule.webp",
+    image: "/images/CAPSULE ELEVATOR .webp",
     accent: "from-primary/15 to-[hsl(280_40%_40%/0.1)]",
   },
   {
     title: "Structured Lift",
     desc: "Maximum efficiency without the need for a conventional concrete shaft. Perfect for existing buildings and quick installations with self-supporting steel structures.",
     features: ["No Concrete Shaft Required", "Quick Installation", "Space Optimized", "Self-Supporting Structure"],
-    image: "/images/product-capsule.webp",
+    image: "/images/STRUCTURED LIFT.webp",
     accent: "from-[hsl(210_60%_40%/0.1)] to-primary/10",
   },
   {
     title: "Goods Lift",
     desc: "Heavy-duty vertical transportation for industrial and warehouse use. Engineered to handle significant loads with maximum safety and durability.",
     features: ["Heavy Load Capacity", "Robust Construction", "Safety Interlocks", "Industrial Grade Durability"],
-    image: "/images/product-commercial.webp",
+    image: "/images/GOODS LIFT.webp",
     accent: "from-[hsl(0_0%_40%/0.1)] to-primary/10",
   },
 ];
@@ -59,13 +59,11 @@ const elevatorProducts = [
 
 
 const designCategories = [
-  { name: "Door Design", image: "/images/custom-door.webp", icon: <Layers className="w-5 h-5" /> },
-  { name: "Cabin Design", image: "/images/custom-cabin.webp", icon: <Square className="w-5 h-5" /> },
-  { name: "False Ceiling", image: "/images/custom-ceiling.webp", icon: <Lamp className="w-5 h-5" /> },
-  { name: "COP / LOP Panels", image: "/images/custom-cop.webp", icon: <PanelTop className="w-5 h-5" /> },
-  { name: "Display Types", image: "/images/custom-cop.webp", icon: <Monitor className="w-5 h-5" /> },
-  { name: "Hand Rails", image: "/images/custom-cabin.webp", icon: <Grip className="w-5 h-5" /> },
-  { name: "Flooring", image: "/images/custom-cabin.webp", icon: <Sparkles className="w-5 h-5" /> },
+  { name: "Door Design", image: "/images/DOOR DESIGN.webp", icon: <Layers className="w-5 h-5" /> },
+  { name: "Cabin Design", image: "/images/CABIN DESIGN.webp", icon: <Square className="w-5 h-5" />, isHero: true },
+  { name: "False Ceiling", image: "/images/_FALSE CEILING.webp", icon: <Lamp className="w-5 h-5" /> },
+  { name: "COP / LOP Panels", image: "/images/COP _ LOP PANELS.webp", icon: <PanelTop className="w-5 h-5" /> },
+  { name: "Hand Rails", image: "/images/HAND RAILS.webp", icon: <Grip className="w-5 h-5" /> },
 ];
 
 const ProductShowcase = ({ product, index }: { product: typeof elevatorProducts[0]; index: number }) => {
@@ -125,9 +123,14 @@ const Products = () => {
         <div className="container mx-auto px-6 text-center relative z-10 pt-20 pb-16">
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
 
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-foreground mb-6 tracking-tight leading-[1.05] text-shadow-hero">Our Premium Solutions</h1>
+            <span className="inline-block px-6 py-2 rounded-full bg-primary/10 text-primary text-xs font-semibold tracking-[0.2em] uppercase mb-6 border border-primary/20 backdrop-blur-sm">
+              Built for Performance. Designed for Excellence.
+            </span>
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-foreground mb-6 tracking-tight leading-[1.05] text-shadow-hero">
+              Elevator Systems Engineered for Demanding Indian Infrastructure
+            </h1>
             <p className="text-muted-foreground text-lg lg:text-xl max-w-2xl mx-auto mb-10 leading-relaxed opacity-80">
-              Discover our range of premium elevator solutions engineered for safety, performance, and architectural elegance.
+              Modular drives, recovered energy, and precision safety networks merge with sculpted cabins, creating a premium presence that endures high throughput. Each model is calibrated for long-term uptime and field-ready maintainability, so builders and facility teams have consistent performance metrics aligned with global benchmarks.
             </p>
 
           </motion.div>
@@ -251,20 +254,21 @@ const Products = () => {
         <div className="container mx-auto px-6 relative z-10">
           <SectionHeading badge="Choose your Design" title="Design Customization" subtitle="Personalize every detail of your elevator" />
           
-          <div className="flex flex-col items-center max-w-6xl mx-auto mt-12 gap-0">
-            {/* Top row - 3 cards */}
-            <div className="flex justify-center w-full max-w-[1000px] -mb-1">
-              {designCategories.slice(0, 3).map((cat, i) => (
-                <div key={cat.name} className="relative w-1/3 aspect-[4/5] flex-shrink-0 group overflow-hidden border border-white/10 bg-black/40">
-                  <div className="absolute inset-0 transition-transform duration-700 ease-in-out group-hover:scale-105">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" />
-                    <img src={cat.image} alt={cat.name} className="w-full h-full object-cover object-center opacity-80 group-hover:opacity-100 transition-opacity duration-500" loading="lazy" />
+          <div className="flex flex-col lg:flex-row items-center justify-center max-w-[1400px] mx-auto mt-12 gap-6 lg:gap-8">
+            
+            {/* Left Stack (Door & COP) */}
+            <div className="flex flex-col gap-6 w-full lg:w-[300px]">
+              {[designCategories[0], designCategories[3]].map((cat) => (
+                <div key={cat.name} className="relative w-full aspect-[4/3] rounded-2xl group overflow-hidden border border-white/10 bg-black/40 shadow-lg cursor-pointer">
+                  <div className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-105">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10" />
+                    <img src={cat.image} alt={cat.name} className="w-full h-full object-cover object-center opacity-80 group-hover:opacity-100 transition-opacity duration-300" loading="lazy" />
                   </div>
-                  <div className="absolute inset-0 z-20 border-2 border-transparent group-hover:border-[#D4AF37]/50 transition-colors duration-500 pointer-events-none" />
+                  <div className="absolute inset-0 z-20 rounded-2xl border-2 border-transparent group-hover:border-[#D4AF37]/40 group-hover:shadow-[0_0_30px_hsl(43_66%_52%/0.15)] transition-all duration-300 pointer-events-none" />
                   <div className="absolute bottom-0 left-0 w-full p-6 z-30 text-left">
-                    <div className="flex flex-col gap-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="w-8 h-8 rounded bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37] mb-1">{cat.icon}</div>
-                      <h4 className="text-xl font-medium text-white tracking-wider uppercase">{cat.name}</h4>
+                    <div className="flex flex-col gap-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      <div className="w-10 h-10 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37] mb-1 backdrop-blur-sm">{cat.icon}</div>
+                      <h4 className="text-lg font-medium text-white tracking-wider uppercase">{cat.name}</h4>
                       <div className="w-10 h-0.5 bg-[#D4AF37] transform origin-left transition-all duration-500 group-hover:w-16" />
                     </div>
                   </div>
@@ -272,45 +276,48 @@ const Products = () => {
               ))}
             </div>
 
-            {/* Middle row - 2 cards */}
-            <div className="flex justify-center w-full max-w-[666px] -mb-1">
-              {designCategories.slice(3, 5).map((cat, i) => (
-                <div key={cat.name} className="relative w-1/2 aspect-[4/5] flex-shrink-0 group overflow-hidden border border-white/10 bg-black/40">
-                  <div className="absolute inset-0 transition-transform duration-700 ease-in-out group-hover:scale-105">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" />
-                    <img src={cat.image} alt={cat.name} className="w-full h-full object-cover object-center opacity-80 group-hover:opacity-100 transition-opacity duration-500" loading="lazy" />
-                  </div>
-                  <div className="absolute inset-0 z-20 border-2 border-transparent group-hover:border-[#D4AF37]/50 transition-colors duration-500 pointer-events-none" />
-                  <div className="absolute bottom-0 left-0 w-full p-6 z-30 text-left">
-                    <div className="flex flex-col gap-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="w-8 h-8 rounded bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37] mb-1">{cat.icon}</div>
-                      <h4 className="text-xl font-medium text-white tracking-wider uppercase">{cat.name}</h4>
-                      <div className="w-10 h-0.5 bg-[#D4AF37] transform origin-left transition-all duration-500 group-hover:w-16" />
-                    </div>
+            {/* Center Hero (Cabin Design) */}
+            <div className="order-first lg:order-none w-full lg:w-[450px]">
+              <div className="relative w-full aspect-[3/4] rounded-2xl group overflow-hidden border border-[#D4AF37]/30 bg-black/50 shadow-[0_0_40px_hsl(43_66%_52%/0.1)] cursor-pointer">
+                <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-10" />
+                  <img src={designCategories[1].image} alt={designCategories[1].name} className="w-full h-full object-cover object-center opacity-90 group-hover:opacity-100 transition-opacity duration-500" loading="lazy" />
+                </div>
+                <div className="absolute inset-0 z-20 rounded-2xl border-2 border-[#D4AF37]/20 group-hover:border-[#D4AF37]/60 group-hover:shadow-[inset_0_0_30px_hsl(43_66%_52%/0.2)] transition-all duration-300 pointer-events-none" />
+                <div className="absolute top-6 right-6 z-30">
+                  <span className="px-3 py-1 text-xs font-semibold text-[#D4AF37] bg-[#D4AF37]/10 rounded-full border border-[#D4AF37]/20 backdrop-blur-md">START HERE</span>
+                </div>
+                <div className="absolute bottom-0 left-0 w-full p-8 z-30 text-left">
+                  <div className="flex flex-col gap-3 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                    <div className="w-12 h-12 rounded-xl bg-[#D4AF37]/20 flex items-center justify-center text-[#D4AF37] mb-2 backdrop-blur-md shadow-lg">{designCategories[1].icon}</div>
+                    <h4 className="text-2xl font-bold text-white tracking-wider uppercase drop-shadow-md">{designCategories[1].name}</h4>
+                    <p className="text-[#D4AF37]/80 text-sm font-medium w-full max-w-[250px]">Configure your core aesthetic</p>
+                    <div className="w-12 h-1 bg-[#D4AF37] transform origin-left transition-all duration-500 group-hover:w-24 mt-2" />
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
 
-            {/* Bottom row - 1 card */}
-            <div className="flex justify-center w-full max-w-[333px]">
-              {designCategories.slice(5, 6).map((cat, i) => (
-                <div key={cat.name} className="relative w-full aspect-[4/5] flex-shrink-0 group overflow-hidden border border-white/10 bg-black/40">
-                  <div className="absolute inset-0 transition-transform duration-700 ease-in-out group-hover:scale-105">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" />
-                    <img src={cat.image} alt={cat.name} className="w-full h-full object-cover object-center opacity-80 group-hover:opacity-100 transition-opacity duration-500" loading="lazy" />
+            {/* Right Stack (Ceiling & Hand Rails) */}
+            <div className="flex flex-col gap-6 w-full lg:w-[300px]">
+              {[designCategories[2], designCategories[4]].map((cat) => (
+                <div key={cat.name} className="relative w-full aspect-[4/3] rounded-2xl group overflow-hidden border border-white/10 bg-black/40 shadow-lg cursor-pointer">
+                  <div className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-105">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10" />
+                    <img src={cat.image} alt={cat.name} className="w-full h-full object-cover object-center opacity-80 group-hover:opacity-100 transition-opacity duration-300" loading="lazy" />
                   </div>
-                  <div className="absolute inset-0 z-20 border-2 border-transparent group-hover:border-[#D4AF37]/50 transition-colors duration-500 pointer-events-none" />
+                  <div className="absolute inset-0 z-20 rounded-2xl border-2 border-transparent group-hover:border-[#D4AF37]/40 group-hover:shadow-[0_0_30px_hsl(43_66%_52%/0.15)] transition-all duration-300 pointer-events-none" />
                   <div className="absolute bottom-0 left-0 w-full p-6 z-30 text-left">
-                    <div className="flex flex-col gap-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                      <div className="w-8 h-8 rounded bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37] mb-1">{cat.icon}</div>
-                      <h4 className="text-xl font-medium text-white tracking-wider uppercase">{cat.name}</h4>
+                    <div className="flex flex-col gap-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      <div className="w-10 h-10 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center text-[#D4AF37] mb-1 backdrop-blur-sm">{cat.icon}</div>
+                      <h4 className="text-lg font-medium text-white tracking-wider uppercase">{cat.name}</h4>
                       <div className="w-10 h-0.5 bg-[#D4AF37] transform origin-left transition-all duration-500 group-hover:w-16" />
                     </div>
                   </div>
                 </div>
               ))}
             </div>
+            
           </div>
         </div>
 

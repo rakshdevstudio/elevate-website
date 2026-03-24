@@ -485,7 +485,12 @@ const CoreValuesExperience = () => {
 
 const About = () => (
   <>
-    <PageHero title="About X Elevators Pvt Ltd" subtitle="We are a next-generation elevator company focused on delivering safe, smart, and stylish vertical transportation solutions across India. Founded with a vision to redefine the elevator industry through quality engineering, digital transparency, and customer-first approach." backgroundImage="/images/hero-about.webp" />
+    <PageHero
+      badge="Engineering Trust. Elevating India."
+      title="Engineering the Vertical Future of India"
+      subtitle="X Elevators pairs meticulous mechanical design with data-led controls, safety protocols, and refined cabin experiences tailored for the nation's skyline. Every deployment is governed by measurable quality checkpoints and lifecycle discipline, aligning Indian projects with global engineering benchmarks so your vertical infrastructure earns trust for decades."
+      backgroundImage="/images/hero-about.webp"
+    />
 
     <TrustBadges />
 

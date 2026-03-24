@@ -105,7 +105,12 @@ const Careers = () => {
 
   return (
     <>
-      <PageHero title="Join Our Team" subtitle="Build your career with one of India's fastest-growing elevator companies. We're looking for passionate individuals who share our commitment to excellence." backgroundImage="/images/hero-careers.webp" />
+      <PageHero
+        badge="Build the Future With Us"
+        title="Join India's Vertical Engineering Vanguard"
+        subtitle="Engineers, project leaders, and technicians execute programmes that keep millions moving with exacting precision. Bring your curiosity for controls, structural integration, or digital maintenance into a disciplined environment that prizes long-term reliability."
+        backgroundImage="/images/hero-careers.webp"
+      />
 
       <InteractiveCareers />
 

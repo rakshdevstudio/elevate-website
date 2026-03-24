@@ -153,7 +153,12 @@ const ServicePhilosophySection = () => {
 
 const Services = () => (
   <>
-    <PageHero title="Our Services" subtitle="Expert elevator solutions covering everything from seamless installation to proactive lifecycle maintenance—designed to guarantee absolute safety, superior performance, and unmatched reliability." backgroundImage="/images/hero-services.webp" />
+    <PageHero
+      badge="Support That Never Stops"
+      title="Service Intelligence That Preserves Performance"
+      subtitle="Field engineers orchestrate installation, commissioning, predictive maintenance, and rapid-response support with operational transparency. Our service playbook protects asset uptime, calibrates safety margins, and keeps occupants confident day after day."
+      backgroundImage="/images/hero-services.webp"
+    />
 
     <TrustBadges />
 
