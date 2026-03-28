@@ -280,6 +280,7 @@ export type Database = {
       | "new"
       | "contacted"
       | "inspection_scheduled"
+      | "visited_meeting"
       | "quotation_sent"
       | "negotiation"
       | "converted"

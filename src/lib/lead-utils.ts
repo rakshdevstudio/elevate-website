@@ -4,6 +4,7 @@ export const statusColors: Record<string, string> = {
   new: "bg-blue-500/15 text-blue-400 border-blue-500/20",
   contacted: "bg-amber-500/15 text-amber-400 border-amber-500/20",
   inspection_scheduled: "bg-purple-500/15 text-purple-400 border-purple-500/20",
+  visited_meeting: "bg-gradient-to-r from-indigo-500/15 to-blue-500/15 text-indigo-200 border-indigo-500/20",
   quotation_sent: "bg-cyan-500/15 text-cyan-400 border-cyan-500/20",
   negotiation: "bg-orange-500/15 text-orange-400 border-orange-500/20",
   converted: "bg-emerald-500/15 text-emerald-400 border-emerald-500/20",
@@ -14,6 +15,7 @@ export const statusDotColors: Record<string, string> = {
   new: "bg-blue-400",
   contacted: "bg-amber-400",
   inspection_scheduled: "bg-purple-400",
+  visited_meeting: "bg-indigo-400",
   quotation_sent: "bg-cyan-400",
   negotiation: "bg-orange-400",
   converted: "bg-emerald-400",
@@ -24,6 +26,7 @@ export const statusLabels: Record<string, string> = {
   new: "New Lead",
   contacted: "Contacted",
   inspection_scheduled: "Inspection Scheduled",
+  visited_meeting: "Visited / Meeting Done",
   quotation_sent: "Quotation Sent",
   negotiation: "Negotiation",
   converted: "Converted",
@@ -31,17 +34,18 @@ export const statusLabels: Record<string, string> = {
 };
 
 export const allStatuses: Enums<"lead_status">[] = [
-  "new", "contacted", "inspection_scheduled", "quotation_sent", "negotiation", "converted", "lost",
+  "new", "contacted", "inspection_scheduled", "visited_meeting", "quotation_sent", "negotiation", "converted", "lost",
 ];
 
 export const pipelineStatuses: Enums<"lead_status">[] = [
-  "new", "contacted", "inspection_scheduled", "quotation_sent", "negotiation", "converted", "lost",
+  "new", "contacted", "inspection_scheduled", "visited_meeting", "quotation_sent", "negotiation", "converted", "lost",
 ];
 
 export const STATUS_CHART_COLORS: Record<string, string> = {
   new: "#3b82f6",
   contacted: "#f59e0b",
   inspection_scheduled: "#a855f7",
+  visited_meeting: "#6366f1",
   quotation_sent: "#06b6d4",
   negotiation: "#f97316",
   converted: "#10b981",
@@ -91,13 +95,13 @@ export function getScoreBg(score: number): string {
 export const sourceLabels: Record<string, string> = {
   website_form: "Website",
   whatsapp: "WhatsApp",
-  phone: "Phone",
-  referral: "Referral",
-  walk_in: "Walk-in",
-  other: "Other",
+  phone: "Phone Call · Offline",
+  referral: "Referral · Offline",
+  walk_in: "Walk-in · Offline",
+  other: "Offline",
   meta_ads: "Meta Ads",
   google_ads: "Google Ads",
-  manual_entry: "Manual Entry",
+  manual_entry: "Manual Entry · Offline",
 };
 
 export const SOURCE_CHART_COLORS: Record<string, string> = {

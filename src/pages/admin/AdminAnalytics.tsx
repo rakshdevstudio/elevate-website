@@ -98,9 +98,12 @@ const AdminAnalytics = () => {
   // Conversion metrics
   const converted = leads.filter((l) => l.status === "converted").length;
   const lost = leads.filter((l) => l.status === "lost").length;
+  const visited = leads.filter((l) => l.status === "visited_meeting").length;
+  const quotation = leads.filter((l) => l.status === "quotation_sent").length;
   const active = leads.filter((l) => !["converted", "lost"].includes(l.status)).length;
   const conversionRate = leads.length > 0 ? ((converted / leads.length) * 100).toFixed(1) : "0";
   const lossRate = leads.length > 0 ? ((lost / leads.length) * 100).toFixed(1) : "0";
+  const visitToQuote = visited > 0 ? ((quotation / visited) * 100).toFixed(1) : "0";
   const avgValue = leads.filter((l) => l.estimated_value).length > 0
     ? (leads.reduce((s, l) => s + (l.estimated_value || 0), 0) / leads.filter((l) => l.estimated_value).length)
     : 0;
@@ -115,6 +118,8 @@ const AdminAnalytics = () => {
           { label: "Converted", value: converted },
           { label: "Lost", value: lost },
           { label: "Conversion Rate", value: `${conversionRate}%` },
+          { label: "Visited → Quotation", value: `${visitToQuote}%` },
+          { label: "Meetings Done", value: visited },
           { label: "Avg Deal Value", value: avgValue > 0 ? `₹${(avgValue / 100000).toFixed(1)}L` : "N/A" },
         ].map((s, i) => (
           <motion.div key={s.label} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} className="glass-card-premium rounded-2xl p-4 text-center">

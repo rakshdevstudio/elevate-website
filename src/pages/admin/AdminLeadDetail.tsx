@@ -122,7 +122,9 @@ const AdminLeadDetail = () => {
     { icon: Layers, label: "Floors", value: lead.number_of_floors },
     { icon: Box, label: "Elevator Type", value: lead.elevator_type },
     { icon: Building2, label: "Company", value: lead.company_name },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     { icon: IndianRupee, label: "Budget Range", value: (lead as any).budget_range ? `₹${(lead as any).budget_range} Lakhs` : null },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     { icon: MapPin, label: "Address", value: (lead as any).address },
   ].filter((i) => i.value);
 
@@ -131,6 +133,7 @@ const AdminLeadDetail = () => {
     note_added: "📝",
     assigned: "👤",
     visit_scheduled: "📅",
+    visit_completed: "✅",
   };
 
   return (
@@ -307,6 +310,16 @@ const AdminLeadDetail = () => {
                     {h.action === "note_added" && <>Note added: <span className="text-muted-foreground">"{h.new_value}"</span></>}
                     {h.action === "assigned" && <>Assigned to <span className="text-primary">{h.new_value}</span></>}
                     {h.action === "visit_scheduled" && <>Site visit scheduled for <span className="text-primary">{h.new_value}</span></>}
+                    {h.action === "visit_completed" && (() => {
+                      try {
+                        const data = JSON.parse(h.new_value || "{}");
+                        return (
+                          <>Visited / Meeting Completed — <span className="text-primary">{data.visitType || "Visit"}</span> on <span className="text-primary">{data.visitDate}</span>{data.interestLevel ? ` · Interest: ${data.interestLevel}` : ""}{data.nextAction ? ` · Next: ${data.nextAction}` : ""}{data.notes ? ` · Notes: ${data.notes}` : ""}</>
+                        );
+                      } catch {
+                        return <>Visited / Meeting Completed</>;
+                      }
+                    })()}
                   </p>
                   <p className="text-muted-foreground text-[10px] mt-0.5">
                     {new Date(h.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short" })} · {new Date(h.created_at).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}

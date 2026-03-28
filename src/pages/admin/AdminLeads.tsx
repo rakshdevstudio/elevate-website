@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Search, Filter, Phone, Mail, Building2, ArrowRight, ChevronDown, Download, MessageSquare, Star, CalendarPlus } from "lucide-react";
+import { Search, Filter, Phone, Mail, Building2, ArrowRight, ChevronDown, Download, MessageSquare, Star, CalendarPlus, Sparkles, PlusCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables, Enums } from "@/integrations/supabase/types";
 import { statusColors, statusLabels, allStatuses, calculateLeadScore, getScoreColor, sourceLabels } from "@/lib/lead-utils";
 import ScheduleVisitModal from "@/components/admin/ScheduleVisitModal";
+import CaptureLeadModal from "@/components/admin/CaptureLeadModal";
 
 const AdminLeads = () => {
   const [leads, setLeads] = useState<Tables<"leads">[]>([]);
@@ -14,6 +15,9 @@ const AdminLeads = () => {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [sourceFilter, setSourceFilter] = useState<string>("all");
   const [visitModal, setVisitModal] = useState<{ leadId: string; leadName: string; leadPhone: string } | null>(null);
+  const [captureOpen, setCaptureOpen] = useState(false);
+
+  const offlineSources: string[] = ["walk_in", "phone", "referral", "manual_entry", "other"];
 
   useEffect(() => {
     const fetchLeads = async () => {
@@ -39,7 +43,9 @@ const AdminLeads = () => {
       (lead.building_type && lead.building_type.toLowerCase().includes(search.toLowerCase())) ||
       (lead.assigned_to && lead.assigned_to.toLowerCase().includes(search.toLowerCase()));
     const matchesStatus = statusFilter === "all" || lead.status === statusFilter;
-    const matchesSource = sourceFilter === "all" || lead.lead_source === sourceFilter;
+    const matchesSource = sourceFilter === "all"
+      || (sourceFilter === "offline_group" && offlineSources.includes(lead.lead_source))
+      || lead.lead_source === sourceFilter;
     return matchesSearch && matchesStatus && matchesSource;
   });
 
@@ -76,6 +82,25 @@ const AdminLeads = () => {
 
   return (
     <div className="space-y-6">
+      <div className="glass-card rounded-2xl p-4 flex flex-col lg:flex-row lg:items-center gap-3 border border-primary/20">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-primary/15 text-primary flex items-center justify-center">
+            <Sparkles className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-xs text-muted-foreground uppercase tracking-[0.2em]">Offline Capture</p>
+            <p className="text-sm font-semibold text-foreground">Capture Lead</p>
+          </div>
+        </div>
+        <p className="text-muted-foreground text-xs lg:text-sm flex-1">Full-screen premium flow for walk-ins, calls, referrals with instant scoring.</p>
+        <button
+          onClick={() => setCaptureOpen(true)}
+          className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-primary to-gold-light text-primary-foreground text-sm font-semibold shadow-[0_10px_40px_rgba(255,215,128,0.25)] hover:shadow-[0_14px_50px_rgba(255,215,128,0.3)] transition-all"
+        >
+          <PlusCircle className="w-4 h-4" /> Capture Lead
+        </button>
+      </div>
+
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
@@ -94,6 +119,7 @@ const AdminLeads = () => {
           <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <select value={sourceFilter} onChange={(e) => setSourceFilter(e.target.value)} className="input-premium pl-11 pr-10 appearance-none cursor-pointer min-w-[180px]">
             <option value="all">All Sources</option>
+            <option value="offline_group">Offline (All)</option>
             {Object.entries(sourceLabels).map(([key, label]) => (<option key={key} value={key}>{label}</option>))}
           </select>
           <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
@@ -179,6 +205,15 @@ const AdminLeads = () => {
           }}
         />
       )}
+
+      <CaptureLeadModal
+        open={captureOpen}
+        onClose={() => setCaptureOpen(false)}
+        onCreated={(lead) => {
+          setLeads((prev) => [lead, ...prev]);
+          setCaptureOpen(false);
+        }}
+      />
     </div>
   );
 };
