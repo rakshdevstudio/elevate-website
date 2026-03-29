@@ -90,15 +90,24 @@ export type Database = {
           building_type: string | null
           company_name: string | null
           created_at: string
+          execution_engineer: string | null
+          execution_notes: string | null
+          execution_start_date: string | null
           elevator_type: string | null
           email: string | null
           estimated_value: number | null
           id: string
+          installation_status: Database["public"]["Enums"]["installation_status"] | null
           lead_score: number | null
           lead_source: Database["public"]["Enums"]["lead_source"]
           message: string | null
           name: string
           number_of_floors: string | null
+          completion_date: string | null
+          project_value: number | null
+          warranty_status: string | null
+          final_notes: string | null
+          client_satisfaction: number | null
           phone: string
           status: Database["public"]["Enums"]["lead_status"]
           updated_at: string
@@ -108,15 +117,24 @@ export type Database = {
           building_type?: string | null
           company_name?: string | null
           created_at?: string
+          execution_engineer?: string | null
+          execution_notes?: string | null
+          execution_start_date?: string | null
           elevator_type?: string | null
           email?: string | null
           estimated_value?: number | null
           id?: string
+          installation_status?: Database["public"]["Enums"]["installation_status"] | null
           lead_score?: number | null
           lead_source?: Database["public"]["Enums"]["lead_source"]
           message?: string | null
           name: string
           number_of_floors?: string | null
+          completion_date?: string | null
+          project_value?: number | null
+          warranty_status?: string | null
+          final_notes?: string | null
+          client_satisfaction?: number | null
           phone: string
           status?: Database["public"]["Enums"]["lead_status"]
           updated_at?: string
@@ -126,15 +144,24 @@ export type Database = {
           building_type?: string | null
           company_name?: string | null
           created_at?: string
+          execution_engineer?: string | null
+          execution_notes?: string | null
+          execution_start_date?: string | null
           elevator_type?: string | null
           email?: string | null
           estimated_value?: number | null
           id?: string
+          installation_status?: Database["public"]["Enums"]["installation_status"] | null
           lead_score?: number | null
           lead_source?: Database["public"]["Enums"]["lead_source"]
           message?: string | null
           name?: string
           number_of_floors?: string | null
+          completion_date?: string | null
+          project_value?: number | null
+          warranty_status?: string | null
+          final_notes?: string | null
+          client_satisfaction?: number | null
           phone?: string
           status?: Database["public"]["Enums"]["lead_status"]
           updated_at?: string
@@ -413,6 +440,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      installation_status: ["pending", "in_progress", "near_completion"],
       lead_source: [
         "website_form",
         "whatsapp",
@@ -428,9 +456,12 @@ export const Constants = {
         "new",
         "contacted",
         "inspection_scheduled",
+        "visited_meeting",
         "quotation_sent",
         "negotiation",
         "converted",
+        "execution_wip",
+        "installed",
         "lost",
       ],
     },

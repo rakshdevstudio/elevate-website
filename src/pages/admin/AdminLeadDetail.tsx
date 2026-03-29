@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, Phone, Mail, Building2, Layers, Box, MessageSquare, Calendar, Clock, Send,
-  ChevronDown, Star, User, History, MapPin, Download, IndianRupee,
+  ChevronDown, Star, User, History, MapPin, Download, IndianRupee, Wrench, CheckCircle2,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -229,6 +229,34 @@ const AdminLeadDetail = () => {
             />
           </div>
         </div>
+
+        {(lead.execution_start_date || lead.status === "execution_wip" || lead.status === "installed") && (
+          <div className="grid sm:grid-cols-2 gap-3 mt-5">
+            <div className="p-4 rounded-xl border border-amber-400/30 bg-amber-500/5">
+              <div className="flex items-center gap-2 mb-2">
+                <Wrench className="w-4 h-4 text-amber-300" />
+                <p className="text-sm font-semibold text-foreground">Execution (WIP)</p>
+              </div>
+              <p className="text-[11px] text-muted-foreground">Start: <span className="text-foreground font-semibold">{lead.execution_start_date ? new Date(lead.execution_start_date).toLocaleDateString("en-IN", { day: "numeric", month: "short" }) : "Not set"}</span></p>
+              <p className="text-[11px] text-muted-foreground">Engineer: <span className="text-foreground font-semibold">{lead.execution_engineer || lead.assigned_to || "Unassigned"}</span></p>
+              <p className="text-[11px] text-muted-foreground">Install Status: <span className="text-foreground font-semibold">{lead.installation_status?.replace(/_/g, " ") || "Pending"}</span></p>
+              {lead.execution_notes && <p className="text-[11px] text-muted-foreground mt-2">Notes: <span className="text-foreground">{lead.execution_notes}</span></p>}
+            </div>
+            {lead.status === "installed" && (
+              <div className="p-4 rounded-xl border border-emerald-400/30 bg-emerald-500/5">
+                <div className="flex items-center gap-2 mb-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+                  <p className="text-sm font-semibold text-foreground">Installed</p>
+                </div>
+                <p className="text-[11px] text-muted-foreground">Completion: <span className="text-foreground font-semibold">{lead.completion_date ? new Date(lead.completion_date).toLocaleDateString("en-IN", { day: "numeric", month: "short" }) : "Pending"}</span></p>
+                <p className="text-[11px] text-muted-foreground">Project Value: <span className="text-foreground font-semibold">{lead.project_value ? `₹${(lead.project_value / 100000).toFixed(1)}L` : "N/A"}</span></p>
+                {lead.warranty_status && <p className="text-[11px] text-muted-foreground">Warranty: <span className="text-foreground font-semibold">{lead.warranty_status}</span></p>}
+                {lead.client_satisfaction && <p className="text-[11px] text-muted-foreground">Client Satisfaction: <span className="text-foreground font-semibold">{Array.from({ length: lead.client_satisfaction }).map(() => "⭐").join("")}</span></p>}
+                {lead.final_notes && <p className="text-[11px] text-muted-foreground mt-2">Notes: <span className="text-foreground">{lead.final_notes}</span></p>}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Quick actions */}
         <div className="flex flex-wrap gap-3 mt-5">

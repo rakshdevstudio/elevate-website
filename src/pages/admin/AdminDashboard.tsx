@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Users, UserPlus, CalendarDays, TrendingUp, ArrowRight, Phone, Building2,
-  Bell, Star, MessageSquare, DollarSign, MapPin,
+  Bell, Star, MessageSquare, DollarSign, MapPin, Hammer, CheckCircle2,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
@@ -61,7 +61,10 @@ const AdminDashboard = () => {
   const leadsWeek = leads.filter((l) => new Date(l.created_at) >= weekStart).length;
   const leadsMonth = leads.filter((l) => new Date(l.created_at) >= monthStart).length;
   const converted = leads.filter((l) => l.status === "converted").length;
+  const execution = leads.filter((l) => l.status === "execution_wip").length;
+  const installed = leads.filter((l) => l.status === "installed").length;
   const conversionRate = totalLeads > 0 ? ((converted / totalLeads) * 100).toFixed(1) : "0";
+  const installRate = totalLeads > 0 ? ((installed / totalLeads) * 100).toFixed(1) : "0";
   const totalValue = leads.reduce((sum, l) => sum + (l.estimated_value || 0), 0);
 
   // Visit stats
@@ -82,6 +85,9 @@ const AdminDashboard = () => {
     { label: "This Week", value: leadsWeek, icon: CalendarDays, color: "from-blue-500/20 to-blue-500/5" },
     { label: "Visits This Week", value: visitsThisWeek, icon: MapPin, color: "from-orange-500/20 to-orange-500/5" },
     { label: "Conversion Rate", value: `${conversionRate}%`, icon: Star, color: "from-amber-500/20 to-amber-500/5" },
+    { label: "Install Rate", value: `${installRate}%`, icon: TrendingUp, color: "from-emerald-500/25 to-emerald-500/5" },
+    { label: "Execution (WIP)", value: execution, icon: Hammer, color: "from-amber-500/25 to-amber-500/5" },
+    { label: "Installed", value: installed, icon: CheckCircle2, color: "from-teal-500/20 to-teal-500/5" },
     { label: "Pipeline Value", value: totalValue > 0 ? `₹${(totalValue / 100000).toFixed(1)}L` : "₹0", icon: DollarSign, color: "from-cyan-500/20 to-cyan-500/5" },
   ];
 

@@ -8,6 +8,8 @@ export const statusColors: Record<string, string> = {
   quotation_sent: "bg-cyan-500/15 text-cyan-400 border-cyan-500/20",
   negotiation: "bg-orange-500/15 text-orange-400 border-orange-500/20",
   converted: "bg-emerald-500/15 text-emerald-400 border-emerald-500/20",
+  execution_wip: "bg-amber-500/20 text-amber-200 border-amber-400/30 shadow-[0_0_16px_rgba(245,158,11,0.25)]",
+  installed: "bg-emerald-500/20 text-emerald-100 border-emerald-400/40 shadow-[0_0_18px_rgba(16,185,129,0.35)]",
   lost: "bg-red-500/15 text-red-400 border-red-500/20",
 };
 
@@ -19,6 +21,8 @@ export const statusDotColors: Record<string, string> = {
   quotation_sent: "bg-cyan-400",
   negotiation: "bg-orange-400",
   converted: "bg-emerald-400",
+  execution_wip: "bg-amber-300",
+  installed: "bg-green-400",
   lost: "bg-red-400",
 };
 
@@ -30,15 +34,35 @@ export const statusLabels: Record<string, string> = {
   quotation_sent: "Quotation Sent",
   negotiation: "Negotiation",
   converted: "Converted",
+  execution_wip: "Execution (WIP)",
+  installed: "Installed",
   lost: "Lost",
 };
 
 export const allStatuses: Enums<"lead_status">[] = [
-  "new", "contacted", "inspection_scheduled", "visited_meeting", "quotation_sent", "negotiation", "converted", "lost",
+  "new",
+  "contacted",
+  "inspection_scheduled",
+  "visited_meeting",
+  "quotation_sent",
+  "negotiation",
+  "converted",
+  "execution_wip",
+  "installed",
+  "lost",
 ];
 
 export const pipelineStatuses: Enums<"lead_status">[] = [
-  "new", "contacted", "inspection_scheduled", "visited_meeting", "quotation_sent", "negotiation", "converted", "lost",
+  "new",
+  "contacted",
+  "inspection_scheduled",
+  "visited_meeting",
+  "quotation_sent",
+  "negotiation",
+  "converted",
+  "execution_wip",
+  "installed",
+  "lost",
 ];
 
 export const STATUS_CHART_COLORS: Record<string, string> = {
@@ -49,6 +73,8 @@ export const STATUS_CHART_COLORS: Record<string, string> = {
   quotation_sent: "#06b6d4",
   negotiation: "#f97316",
   converted: "#10b981",
+  execution_wip: "#eab308",
+  installed: "#22c55e",
   lost: "#ef4444",
 };
 

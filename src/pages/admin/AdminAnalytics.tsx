@@ -20,12 +20,17 @@ const tooltipStyle = {
 
 const AdminAnalytics = () => {
   const [leads, setLeads] = useState<Tables<"leads">[]>([]);
+  const [history, setHistory] = useState<Tables<"lead_history">[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetch = async () => {
-      const { data } = await supabase.from("leads").select("*").order("created_at", { ascending: true });
-      setLeads(data || []);
+      const [leadsRes, historyRes] = await Promise.all([
+        supabase.from("leads").select("*").order("created_at", { ascending: true }),
+        supabase.from("lead_history").select("lead_id, action, new_value, created_at").order("created_at", { ascending: true }),
+      ]);
+      setLeads(leadsRes.data || []);
+      setHistory(historyRes.data || []);
       setLoading(false);
     };
     fetch();
@@ -97,16 +102,70 @@ const AdminAnalytics = () => {
 
   // Conversion metrics
   const converted = leads.filter((l) => l.status === "converted").length;
+  const execution = leads.filter((l) => l.status === "execution_wip").length;
+  const installed = leads.filter((l) => l.status === "installed").length;
   const lost = leads.filter((l) => l.status === "lost").length;
   const visited = leads.filter((l) => l.status === "visited_meeting").length;
   const quotation = leads.filter((l) => l.status === "quotation_sent").length;
-  const active = leads.filter((l) => !["converted", "lost"].includes(l.status)).length;
+  const active = leads.filter((l) => !["lost", "installed"].includes(l.status)).length;
   const conversionRate = leads.length > 0 ? ((converted / leads.length) * 100).toFixed(1) : "0";
   const lossRate = leads.length > 0 ? ((lost / leads.length) * 100).toFixed(1) : "0";
   const visitToQuote = visited > 0 ? ((quotation / visited) * 100).toFixed(1) : "0";
   const avgValue = leads.filter((l) => l.estimated_value).length > 0
     ? (leads.reduce((s, l) => s + (l.estimated_value || 0), 0) / leads.filter((l) => l.estimated_value).length)
     : 0;
+
+  // Conversion -> Installation analytics using history timelines
+  const conversionDates = new Map<string, string>();
+  const installDates = new Map<string, string>();
+  history.forEach((h) => {
+    if (h.action === "status_change") {
+      if (h.new_value === "converted" && !conversionDates.has(h.lead_id)) conversionDates.set(h.lead_id, h.created_at);
+      if (h.new_value === "installed" && !installDates.has(h.lead_id)) installDates.set(h.lead_id, h.created_at);
+    }
+  });
+  const conversionCount = conversionDates.size;
+  const installedCount = Array.from(installDates.keys()).filter((id) => conversionDates.has(id)).length;
+  const conversionToInstallRate = conversionCount > 0 ? ((installedCount / conversionCount) * 100).toFixed(1) : "0";
+  const convertToInstallDurations: number[] = [];
+  installDates.forEach((installDate, leadId) => {
+    const convertedOn = conversionDates.get(leadId);
+    if (convertedOn) {
+      const delta = new Date(installDate).getTime() - new Date(convertedOn).getTime();
+      if (delta > 0) convertToInstallDurations.push(delta);
+    }
+  });
+  const avgConvertToInstallDays = convertToInstallDurations.length
+    ? (convertToInstallDurations.reduce((s, d) => s + d, 0) / convertToInstallDurations.length / (1000 * 60 * 60 * 24)).toFixed(1)
+    : "—";
+
+  // Engineer performance based on execution ownership
+  const engineerMap = new Map<string, { inProgress: number; installed: number; totalDays: number; completedWithDates: number }>();
+  leads.forEach((lead) => {
+    const engineer = lead.execution_engineer || lead.assigned_to;
+    if (!engineer) return;
+    const entry = engineerMap.get(engineer) || { inProgress: 0, installed: 0, totalDays: 0, completedWithDates: 0 };
+    if (lead.status === "execution_wip") entry.inProgress += 1;
+    if (lead.status === "installed") {
+      entry.installed += 1;
+      if (lead.execution_start_date && lead.completion_date) {
+        const delta = new Date(lead.completion_date).getTime() - new Date(lead.execution_start_date).getTime();
+        if (delta > 0) {
+          entry.totalDays += delta / (1000 * 60 * 60 * 24);
+          entry.completedWithDates += 1;
+        }
+      }
+    }
+    engineerMap.set(engineer, entry);
+  });
+  const engineerRows = Array.from(engineerMap, ([name, stats]) => ({
+    name,
+    inProgress: stats.inProgress,
+    installed: stats.installed,
+    avgDays: stats.completedWithDates ? (stats.totalDays / stats.completedWithDates).toFixed(1) : "—",
+  }))
+    .sort((a, b) => b.installed - a.installed || b.inProgress - a.inProgress)
+    .slice(0, 5);
 
   return (
     <div className="space-y-6">
@@ -116,8 +175,12 @@ const AdminAnalytics = () => {
           { label: "Total Leads", value: leads.length },
           { label: "Active Pipeline", value: active },
           { label: "Converted", value: converted },
+          { label: "Execution (WIP)", value: execution },
+          { label: "Installed", value: installed },
           { label: "Lost", value: lost },
           { label: "Conversion Rate", value: `${conversionRate}%` },
+          { label: "Conv → Install", value: `${conversionToInstallRate}%` },
+          { label: "Avg Convert → Install", value: `${avgConvertToInstallDays} days` },
           { label: "Visited → Quotation", value: `${visitToQuote}%` },
           { label: "Meetings Done", value: visited },
           { label: "Avg Deal Value", value: avgValue > 0 ? `₹${(avgValue / 100000).toFixed(1)}L` : "N/A" },
@@ -225,6 +288,27 @@ const AdminAnalytics = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Engineer performance */}
+      {engineerRows.length > 0 && (
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-card rounded-2xl p-6">
+          <h3 className="text-foreground font-heading font-semibold text-sm mb-4">Engineer Performance</h3>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {engineerRows.map((row) => (
+              <div key={row.name} className="p-4 rounded-xl border border-border/40 bg-secondary/10">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-sm font-semibold text-foreground">{row.name}</p>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-200 border border-emerald-400/20">
+                    {row.installed} installs
+                  </span>
+                </div>
+                <p className="text-[11px] text-muted-foreground">In Execution: <span className="text-foreground font-semibold">{row.inProgress}</span></p>
+                <p className="text-[11px] text-muted-foreground">Avg Exec → Install: <span className="text-foreground font-semibold">{row.avgDays} days</span></p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 };
