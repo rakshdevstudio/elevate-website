@@ -22,6 +22,8 @@ const AdminSiteVisits = () => {
   const [loading, setLoading] = useState(true);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Filters
   const [filterStatus, setFilterStatus] = useState("all");
@@ -72,6 +74,9 @@ const AdminSiteVisits = () => {
     return visits.filter((v) => v.scheduled_date === dateStr);
   };
 
+  const formatPrettyDate = (dateStr: string) =>
+    new Date(dateStr).toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+
   const today = new Date();
   const isToday = (day: number) => today.getFullYear() === year && today.getMonth() === month && today.getDate() === day;
 
@@ -91,6 +96,7 @@ const AdminSiteVisits = () => {
     .slice(0, 10);
 
   const selectedDayVisits = selectedDay ? getVisitsForDay(selectedDay) : [];
+  const selectedVisits = selectedDate ? visits.filter((v) => v.scheduled_date === selectedDate) : [];
 
   if (loading) {
     return <div className="flex items-center justify-center h-64"><div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>;
@@ -160,7 +166,12 @@ const AdminSiteVisits = () => {
               return (
                 <button
                   key={day}
-                  onClick={() => setSelectedDay(isSelected ? null : day)}
+                  onClick={() => {
+                    setSelectedDay(isSelected ? null : day);
+                    const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                    setSelectedDate(dateStr);
+                    setIsModalOpen(true);
+                  }}
                   className={`aspect-square rounded-lg p-1 text-center relative transition-all cursor-pointer ${
                     isSelected ? "bg-primary/20 border border-primary/40 ring-1 ring-primary/20"
                     : isToday(day) ? "bg-primary/15 border border-primary/30"
@@ -264,6 +275,52 @@ const AdminSiteVisits = () => {
           </div>
         </div>
       </div>
+
+      {isModalOpen && selectedDate && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => { setIsModalOpen(false); }}
+        >
+          <div
+            className="w-[420px] max-h-[80vh] overflow-y-auto rounded-2xl bg-gradient-to-br from-[#0b1a2a] to-[#0d2238] border border-white/10 shadow-2xl p-5 relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold text-white">
+                {formatPrettyDate(selectedDate)}
+              </h2>
+              <button onClick={() => setIsModalOpen(false)} className="text-white/60 hover:text-white">
+                ✕
+              </button>
+            </div>
+
+            {selectedVisits.length === 0 && (
+              <div className="text-center text-white/50 py-10">
+                No visits scheduled
+              </div>
+            )}
+
+            <div className="space-y-3">
+              {selectedVisits.map((visit) => (
+                <div key={visit.id} className="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="text-white font-medium">
+                    {visit.lead_name || "Client"}
+                  </div>
+                  <div className="text-sm text-white/60 mt-1">
+                    ⏰ {visit.scheduled_time || "—"}
+                  </div>
+                  <div className="text-sm text-white/60">
+                    📍 {visit.address || "Location TBD"}
+                  </div>
+                  <div className="text-sm text-white/40">
+                    👷 {visit.engineer_name || "Not assigned"}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* All visits table */}
       <div className="glass-card rounded-2xl p-6">
