@@ -116,12 +116,12 @@ const Contact = () => {
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mb-10 md:mb-12">
-            {[
-              { icon: <Clock className="w-8 h-8 md:w-10 md:h-10 transition-transform duration-500 group-hover/card:scale-110" />, title: "<60 Min Response", desc: "Emergency support" },
-              { icon: <Headphones className="w-8 h-8 md:w-10 md:h-10 transition-transform duration-500 group-hover/card:scale-110" />, title: "24/7 Helpline", desc: "Always available" },
-              { icon: <MessageSquare className="w-8 h-8 md:w-10 md:h-10 transition-transform duration-500 group-hover/card:scale-110" />, title: "WhatsApp Support", desc: "Quick responses" },
-            ].map((item, i) => (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mb-10 md:mb-12">
+              {[
+                { icon: <Clock className="w-8 h-8 md:w-10 md:h-10 transition-transform duration-500 group-hover/card:scale-110" />, title: "<60 Min Response", desc: "Emergency support" },
+                { icon: <Headphones className="w-8 h-8 md:w-10 md:h-10 transition-transform duration-500 group-hover/card:scale-110" />, title: "Available 24/7 Support", desc: "Always available" },
+                { icon: <MessageSquare className="w-8 h-8 md:w-10 md:h-10 transition-transform duration-500 group-hover/card:scale-110" />, title: "WhatsApp Support", desc: "Quick responses" },
+              ].map((item, i) => (
               <ScrollReveal key={i} delay={i * 0.1} className="h-full">
                 <motion.div
                   className="group/card relative flex flex-col items-center text-center p-6 rounded-2xl border border-white/5 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-colors duration-500 h-full overflow-hidden"
@@ -159,10 +159,11 @@ const Contact = () => {
               <div>
                 <h3 className="text-2xl lg:text-3xl font-heading font-bold text-foreground mb-2">Request a Quote</h3>
                 <p className="text-muted-foreground text-sm mb-8 opacity-70">Fill out the form below and we'll get back to you within 24 hours.</p>
-                <GlassCard id="contact-form" className="p-8 lg:p-10 relative overflow-hidden" hover={false} premium>
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-primary/2 pointer-events-none" />
-                  <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 rounded-full blur-[60px] pointer-events-none" />
-                  <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
+                <div id="contact-form">
+                  <GlassCard className="p-8 lg:p-10 relative overflow-hidden" hover={false} premium>
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-primary/2 pointer-events-none" />
+                    <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 rounded-full blur-[60px] pointer-events-none" />
+                    <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
                         <label className="block text-foreground text-sm font-medium mb-2">Full Name <span className="text-primary">*</span></label>
@@ -250,8 +251,9 @@ const Contact = () => {
                       <Send className="w-4 h-4" /> {submitting ? "Submitting..." : "Submit Request"}
                     </button>
                     <p className="text-muted-foreground/50 text-xs text-center">By submitting, you agree to our privacy policy. No spam, ever.</p>
-                  </form>
-                </GlassCard>
+                    </form>
+                  </GlassCard>
+                </div>
               </div>
             </ScrollReveal>
 
@@ -262,7 +264,7 @@ const Contact = () => {
                   { icon: <Phone className="w-5 h-5" />, title: "Phone", info: "+91 9844002026\n+91 6384961909" },
                   { icon: <Mail className="w-5 h-5" />, title: "Email", info: "info@xelevators.in" },
                   { icon: <Globe className="w-5 h-5" />, title: "Website", info: "xelevators.in" },
-                  { icon: <MapPin className="w-5 h-5" />, title: "Locations", info: "Bangalore & Chennai, India" },
+                  { icon: <MapPin className="w-5 h-5" />, title: "Locations", info: "Karnataka & Tamilnadu, India" },
                 ].map((c, i) => (
                   <GlassCard key={i} className="p-6 flex items-start gap-5" premium delay={i * 0.06} tilt>
                     <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">{c.icon}</div>
@@ -293,7 +295,7 @@ const Contact = () => {
                   <PhoneCall className="w-8 h-8 text-red-400" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-heading font-bold text-foreground mb-2">Available 24/7 for Sales and HR Queries</h3>
+                  <h3 className="text-2xl font-heading font-bold text-foreground mb-2">Available 24/7 for Support</h3>
                   <p className="text-muted-foreground text-sm opacity-80 max-w-lg">Contact our team anytime for sales inquiries, service information, or HR-related support. We are available 24/7 to assist you.</p>
                 </div>
               </div>
