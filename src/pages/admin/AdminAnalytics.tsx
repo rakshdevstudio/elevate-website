@@ -39,10 +39,6 @@ const AdminAnalytics = () => {
     fetch();
   }, []);
 
-  if (loading) {
-    return <div className="flex items-center justify-center h-64"><div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>;
-  }
-
   // Daily data (last 30 days)
   const last30 = new Date();
   last30.setDate(last30.getDate() - 30);
@@ -152,10 +148,10 @@ const AdminAnalytics = () => {
     return map;
   }, [payments]);
 
-  const installedLeads = leads.filter((l) => l.status === "installed" && l.project_value);
+  const installedLeads = leads.filter((l) => l.status === "installed");
 
   const revenueRows = installedLeads.map((lead) => {
-    const total = lead.project_value || 0;
+    const total = lead.project_value || lead.estimated_value || 0;
     const collectedRaw = paymentsByLead.get(lead.id) || 0;
     const collected = Math.min(collectedRaw, total);
     const due = Math.max(total - collected, 0);
@@ -206,6 +202,10 @@ const AdminAnalytics = () => {
       total: data.total,
       count: data.count,
     }));
+
+  if (loading) {
+    return <div className="flex items-center justify-center h-64"><div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>;
+  }
 
   // Engineer performance based on execution ownership
   const engineerMap = new Map<string, { inProgress: number; installed: number; totalDays: number; completedWithDates: number }>();

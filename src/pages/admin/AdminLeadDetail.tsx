@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import type { Tables, Enums } from "@/integrations/supabase/types";
 import { statusColors, statusLabels, allStatuses, calculateLeadScore, getScoreColor, getScoreBg } from "@/lib/lead-utils";
+import PaymentModal from "@/components/admin/PaymentModal";
 
 const AdminLeadDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,6 +25,7 @@ const AdminLeadDetail = () => {
   const [assignedTo, setAssignedTo] = useState("");
   const [estimatedValue, setEstimatedValue] = useState("");
   const [activeTab, setActiveTab] = useState<"notes" | "timeline" | "visits">("notes");
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
 
   // Schedule visit state
   const [visitDate, setVisitDate] = useState("");
@@ -56,8 +58,10 @@ const AdminLeadDetail = () => {
   }, [id]);
 
   const score = useMemo(() => lead ? calculateLeadScore(lead) : 0, [lead]);
+  const totalValue = lead?.project_value || lead?.estimated_value || 0;
   const collectedAmount = useMemo(() => payments.reduce((sum, p) => sum + (p.amount || 0), 0), [payments]);
-  const paymentProgress = lead?.project_value ? Math.min(Math.round((collectedAmount / lead.project_value) * 100), 100) : 0;
+  const paymentProgress = totalValue ? Math.min(Math.round((collectedAmount / totalValue) * 100), 100) : 0;
+  const dueAmount = totalValue ? Math.max(totalValue - collectedAmount, 0) : 0;
 
   const updateStatus = async (status: Enums<"lead_status">) => {
     if (!id || !lead) return;
@@ -266,27 +270,44 @@ const AdminLeadDetail = () => {
         {/* Payments timeline */}
         {lead.status === "installed" && (
           <div className="mt-6 glass-card rounded-2xl p-4 border border-border/40">
-            <div className="flex items-center justify-between mb-3">
-              <h4 className="text-foreground font-heading font-semibold text-sm">Payments Timeline</h4>
-              <div className="text-right">
-                <p className="text-xs text-muted-foreground">Collected: <span className="text-emerald-400 font-semibold">₹{collectedAmount.toLocaleString("en-IN")}</span></p>
-                {lead.project_value && (
-                  <p className="text-xs text-muted-foreground">Pending: <span className="text-red-400 font-semibold">₹{Math.max(lead.project_value - collectedAmount, 0).toLocaleString("en-IN")}</span></p>
-                )}
+            {/* Summary cards */}
+            <div className="grid sm:grid-cols-3 gap-3 mb-4">
+              <div className="p-3 rounded-xl bg-secondary/10 border border-border/30">
+                <p className="text-[11px] text-muted-foreground mb-1">Total Value</p>
+                <p className="text-lg font-heading font-bold text-foreground">₹{(totalValue || 0).toLocaleString("en-IN")}</p>
+              </div>
+              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-400/30">
+                <p className="text-[11px] text-emerald-200 mb-1">Collected</p>
+                <p className="text-lg font-heading font-bold text-emerald-100">₹{collectedAmount.toLocaleString("en-IN")}</p>
+              </div>
+              <div className={`p-3 rounded-xl border ${dueAmount > 0 ? "bg-red-500/10 border-red-400/40" : "bg-emerald-500/10 border-emerald-400/30"}`}>
+                <p className="text-[11px] text-muted-foreground mb-1">Due</p>
+                <p className={`text-lg font-heading font-bold ${dueAmount > 0 ? "text-red-200" : "text-emerald-100"}`}>
+                  ₹{dueAmount.toLocaleString("en-IN")} {dueAmount === 0 && "✅"}
+                </p>
               </div>
             </div>
+
             {lead.project_value && (
               <div className="w-full bg-border/30 rounded-full h-2 mb-3 overflow-hidden">
                 <div className="h-2 bg-gradient-to-r from-emerald-500 to-emerald-400" style={{ width: `${paymentProgress}%` }} />
               </div>
             )}
 
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="text-foreground font-heading font-semibold text-sm">Payments Timeline</h4>
+              {dueAmount > 0 ? (
+                <span className="text-[11px] px-2 py-1 rounded-full bg-red-500/15 text-red-100 border border-red-400/30">Due ₹{dueAmount.toLocaleString("en-IN")}</span>
+              ) : (
+                <span className="text-[11px] px-2 py-1 rounded-full bg-emerald-500/15 text-emerald-100 border border-emerald-400/30">Fully Paid ✅</span>
+              )}
+            </div>
+
             <div className="space-y-3">
               {(Array.isArray(lead.payment_terms) ? lead.payment_terms : []).map((term: any, idx: number) => {
                 const pct = term?.percentage || 0;
-                const termAmount = lead.project_value ? Math.round((pct / 100) * lead.project_value) : 0;
-                const paidForTerm = payments.reduce((sum, p) => sum + (p.amount || 0), 0); // simple overall, per-term matching could be added
-                const done = paidForTerm >= termAmount;
+                const termAmount = totalValue ? Math.round((pct / 100) * totalValue) : 0;
+                const done = collectedAmount >= termAmount;
                 return (
                   <div key={idx} className="p-3 rounded-xl border border-border/30 bg-secondary/10 flex items-center gap-3">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${done ? "bg-emerald-500/20 text-emerald-300" : "bg-amber-500/15 text-amber-200"}`}>
@@ -294,7 +315,7 @@ const AdminLeadDetail = () => {
                     </div>
                     <div className="flex-1">
                       <p className="text-sm text-foreground font-semibold">{term?.label || "Milestone"}</p>
-                      <p className="text-[11px] text-muted-foreground">₹{termAmount.toLocaleString("en-IN")} of ₹{lead.project_value?.toLocaleString("en-IN")}</p>
+                      <p className="text-[11px] text-muted-foreground">₹{termAmount.toLocaleString("en-IN")} of ₹{totalValue.toLocaleString("en-IN")}</p>
                     </div>
                     <div className="text-xs text-muted-foreground">
                       {done ? <span className="text-emerald-400">Completed</span> : <span className="text-amber-300">Pending</span>}
@@ -305,16 +326,19 @@ const AdminLeadDetail = () => {
 
               {payments.length > 0 && (
                 <div className="space-y-2">
-                  {payments.map((p) => (
-                    <div key={p.id} className="p-3 rounded-lg bg-secondary/10 border border-border/30 flex items-center justify-between text-xs">
-                      <div>
-                        <p className="text-foreground font-semibold">₹{p.amount.toLocaleString("en-IN")}</p>
-                        <p className="text-muted-foreground">{p.method || "payment"} · {new Date(p.paid_on).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</p>
-                        {p.note && <p className="text-muted-foreground/80 italic">{p.note}</p>}
+                  {payments
+                    .slice()
+                    .sort((a, b) => new Date(b.paid_on).getTime() - new Date(a.paid_on).getTime())
+                    .map((p) => (
+                      <div key={p.id} className="p-3 rounded-lg bg-secondary/10 border border-border/30 flex items-center justify-between text-xs">
+                        <div>
+                          <p className="text-foreground font-semibold">₹{p.amount.toLocaleString("en-IN")}</p>
+                          <p className="text-muted-foreground">{p.method || "payment"} · {new Date(p.paid_on).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</p>
+                          {p.note && <p className="text-muted-foreground/80 italic">{p.note}</p>}
+                        </div>
+                        <span className="text-muted-foreground">{new Date(p.created_at).toLocaleDateString("en-IN")}</span>
                       </div>
-                      <span className="text-muted-foreground">{new Date(p.created_at).toLocaleDateString("en-IN")}</span>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               )}
 
@@ -323,10 +347,19 @@ const AdminLeadDetail = () => {
               )}
 
               <div className="flex flex-wrap gap-2 pt-2">
-                <button className="px-4 py-2 rounded-xl bg-primary/15 text-primary text-xs font-semibold hover:bg-primary/25 transition-colors">
+                <button
+                  onClick={() => setPaymentModalOpen(true)}
+                  className="px-4 py-2 rounded-xl bg-primary/15 text-primary text-xs font-semibold hover:bg-primary/25 transition-colors"
+                >
                   Collect Payment
                 </button>
-                <button className="px-4 py-2 rounded-xl bg-emerald-500/10 text-emerald-300 text-xs font-semibold hover:bg-emerald-500/20 transition-colors">
+                <button
+                  onClick={() => {
+                    const text = `Hi ${lead.name}, ₹${dueAmount.toLocaleString("en-IN")} is pending for your project. Please let us know when we can collect the payment.`;
+                    window.open(`https://wa.me/${lead.phone.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+                  }}
+                  className="px-4 py-2 rounded-xl bg-emerald-500/10 text-emerald-300 text-xs font-semibold hover:bg-emerald-500/20 transition-colors"
+                >
                   WhatsApp Reminder
                 </button>
                 <button className="px-4 py-2 rounded-xl bg-secondary/20 text-muted-foreground text-xs font-semibold hover:bg-secondary/30 transition-colors">
@@ -337,20 +370,42 @@ const AdminLeadDetail = () => {
           </div>
         )}
 
-        {/* Quick actions */}
-        <div className="flex flex-wrap gap-3 mt-5">
-          <a href={`tel:${lead.phone}`} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition-colors">
-            <Phone className="w-3.5 h-3.5" /> Call
+      <PaymentModal
+        lead={paymentModalOpen ? lead : null}
+        onClose={() => setPaymentModalOpen(false)}
+        onSubmit={async (payload) => {
+          if (!lead) return;
+          const { data, error } = await supabase.from("payments").insert({
+            lead_id: lead.id,
+            amount: payload.amount,
+            paid_on: payload.paid_on,
+            method: payload.method,
+            note: payload.note,
+          }).select().single();
+          if (!error && data) {
+            setPayments((prev) => [data, ...prev]);
+          }
+          setPaymentModalOpen(false);
+        }}
+      />
+
+      {/* Quick actions */}
+      <div className="flex flex-wrap gap-3 mt-5">
+        <a href={`tel:${lead.phone}`} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition-colors">
+          <Phone className="w-3.5 h-3.5" /> Call
+        </a>
+        <button
+          onClick={() => window.open(`https://wa.me/${lead.phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi ${lead.name}, this is X Elevators. We received your inquiry about elevator installation. How can we help you?`)}`, "_blank", "noopener,noreferrer")}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/10 text-emerald-400 text-xs font-medium hover:bg-emerald-500/20 transition-colors"
+        >
+          <MessageSquare className="w-3.5 h-3.5" /> WhatsApp
+        </button>
+        {lead.email && (
+          <a href={`mailto:${lead.email}`} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-500/10 text-blue-400 text-xs font-medium hover:bg-blue-500/20 transition-colors">
+            <Mail className="w-3.5 h-3.5" /> Email
           </a>
-          <a href={`https://wa.me/${lead.phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi ${lead.name}, this is X Elevators. We received your inquiry about elevator installation. How can we help you?`)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/10 text-emerald-400 text-xs font-medium hover:bg-emerald-500/20 transition-colors">
-            <MessageSquare className="w-3.5 h-3.5" /> WhatsApp
-          </a>
-          {lead.email && (
-            <a href={`mailto:${lead.email}`} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-500/10 text-blue-400 text-xs font-medium hover:bg-blue-500/20 transition-colors">
-              <Mail className="w-3.5 h-3.5" /> Email
-            </a>
-          )}
-        </div>
+        )}
+      </div>
       </motion.div>
 
       {/* Tabs */}
