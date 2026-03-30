@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell,
@@ -139,14 +139,14 @@ const AdminAnalytics = () => {
     : "—";
 
   // Revenue Intelligence — installed leads only
-  const paymentsByLead = useMemo(() => {
+  const paymentsByLead = (() => {
     const map = new Map<string, number>();
     payments.forEach((p) => {
       if (!p.lead_id) return;
       map.set(p.lead_id, (map.get(p.lead_id) || 0) + (p.amount || 0));
     });
     return map;
-  }, [payments]);
+  })();
 
   const installedLeads = leads.filter((l) => l.status === "installed");
 
