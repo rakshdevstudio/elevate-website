@@ -52,6 +52,44 @@ export type Database = {
           },
         ]
       }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          lead_id: string | null
+          method: string | null
+          note: string | null
+          paid_on: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          lead_id?: string | null
+          method?: string | null
+          note?: string | null
+          paid_on: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          lead_id?: string | null
+          method?: string | null
+          note?: string | null
+          paid_on?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lead_notes: {
         Row: {
           created_at: string
@@ -105,6 +143,7 @@ export type Database = {
           number_of_floors: string | null
           completion_date: string | null
           project_value: number | null
+          payment_terms: Json | null
           warranty_status: string | null
           final_notes: string | null
           client_satisfaction: number | null
@@ -132,6 +171,7 @@ export type Database = {
           number_of_floors?: string | null
           completion_date?: string | null
           project_value?: number | null
+          payment_terms?: Json | null
           warranty_status?: string | null
           final_notes?: string | null
           client_satisfaction?: number | null
@@ -159,6 +199,7 @@ export type Database = {
           number_of_floors?: string | null
           completion_date?: string | null
           project_value?: number | null
+          payment_terms?: Json | null
           warranty_status?: string | null
           final_notes?: string | null
           client_satisfaction?: number | null

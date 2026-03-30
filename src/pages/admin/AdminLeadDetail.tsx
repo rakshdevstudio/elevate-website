@@ -17,6 +17,7 @@ const AdminLeadDetail = () => {
   const [notes, setNotes] = useState<Tables<"lead_notes">[]>([]);
   const [history, setHistory] = useState<Tables<"lead_history">[]>([]);
   const [siteVisits, setSiteVisits] = useState<Tables<"site_visits">[]>([]);
+  const [payments, setPayments] = useState<Tables<"payments">[]>([]);
   const [newNote, setNewNote] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -33,16 +34,18 @@ const AdminLeadDetail = () => {
   useEffect(() => {
     const fetchAll = async () => {
       if (!id) return;
-      const [leadRes, notesRes, historyRes, visitsRes] = await Promise.all([
+      const [leadRes, notesRes, historyRes, visitsRes, paymentsRes] = await Promise.all([
         supabase.from("leads").select("*").eq("id", id).single(),
         supabase.from("lead_notes").select("*").eq("lead_id", id).order("created_at", { ascending: false }),
         supabase.from("lead_history").select("*").eq("lead_id", id).order("created_at", { ascending: false }),
         supabase.from("site_visits").select("*").eq("lead_id", id).order("scheduled_date", { ascending: false }),
+        supabase.from("payments").select("*").eq("lead_id", id).order("paid_on", { ascending: false }),
       ]);
       setLead(leadRes.data);
       setNotes(notesRes.data || []);
       setHistory(historyRes.data || []);
       setSiteVisits(visitsRes.data || []);
+      setPayments(paymentsRes.data || []);
       if (leadRes.data) {
         setAssignedTo(leadRes.data.assigned_to || "");
         setEstimatedValue(leadRes.data.estimated_value?.toString() || "");
@@ -53,6 +56,8 @@ const AdminLeadDetail = () => {
   }, [id]);
 
   const score = useMemo(() => lead ? calculateLeadScore(lead) : 0, [lead]);
+  const collectedAmount = useMemo(() => payments.reduce((sum, p) => sum + (p.amount || 0), 0), [payments]);
+  const paymentProgress = lead?.project_value ? Math.min(Math.round((collectedAmount / lead.project_value) * 100), 100) : 0;
 
   const updateStatus = async (status: Enums<"lead_status">) => {
     if (!id || !lead) return;
@@ -255,6 +260,80 @@ const AdminLeadDetail = () => {
                 {lead.final_notes && <p className="text-[11px] text-muted-foreground mt-2">Notes: <span className="text-foreground">{lead.final_notes}</span></p>}
               </div>
             )}
+          </div>
+        )}
+
+        {/* Payments timeline */}
+        {lead.status === "installed" && (
+          <div className="mt-6 glass-card rounded-2xl p-4 border border-border/40">
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="text-foreground font-heading font-semibold text-sm">Payments Timeline</h4>
+              <div className="text-right">
+                <p className="text-xs text-muted-foreground">Collected: <span className="text-emerald-400 font-semibold">₹{collectedAmount.toLocaleString("en-IN")}</span></p>
+                {lead.project_value && (
+                  <p className="text-xs text-muted-foreground">Pending: <span className="text-red-400 font-semibold">₹{Math.max(lead.project_value - collectedAmount, 0).toLocaleString("en-IN")}</span></p>
+                )}
+              </div>
+            </div>
+            {lead.project_value && (
+              <div className="w-full bg-border/30 rounded-full h-2 mb-3 overflow-hidden">
+                <div className="h-2 bg-gradient-to-r from-emerald-500 to-emerald-400" style={{ width: `${paymentProgress}%` }} />
+              </div>
+            )}
+
+            <div className="space-y-3">
+              {(Array.isArray(lead.payment_terms) ? lead.payment_terms : []).map((term: any, idx: number) => {
+                const pct = term?.percentage || 0;
+                const termAmount = lead.project_value ? Math.round((pct / 100) * lead.project_value) : 0;
+                const paidForTerm = payments.reduce((sum, p) => sum + (p.amount || 0), 0); // simple overall, per-term matching could be added
+                const done = paidForTerm >= termAmount;
+                return (
+                  <div key={idx} className="p-3 rounded-xl border border-border/30 bg-secondary/10 flex items-center gap-3">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${done ? "bg-emerald-500/20 text-emerald-300" : "bg-amber-500/15 text-amber-200"}`}>
+                      {pct}%
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm text-foreground font-semibold">{term?.label || "Milestone"}</p>
+                      <p className="text-[11px] text-muted-foreground">₹{termAmount.toLocaleString("en-IN")} of ₹{lead.project_value?.toLocaleString("en-IN")}</p>
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {done ? <span className="text-emerald-400">Completed</span> : <span className="text-amber-300">Pending</span>}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {payments.length > 0 && (
+                <div className="space-y-2">
+                  {payments.map((p) => (
+                    <div key={p.id} className="p-3 rounded-lg bg-secondary/10 border border-border/30 flex items-center justify-between text-xs">
+                      <div>
+                        <p className="text-foreground font-semibold">₹{p.amount.toLocaleString("en-IN")}</p>
+                        <p className="text-muted-foreground">{p.method || "payment"} · {new Date(p.paid_on).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</p>
+                        {p.note && <p className="text-muted-foreground/80 italic">{p.note}</p>}
+                      </div>
+                      <span className="text-muted-foreground">{new Date(p.created_at).toLocaleDateString("en-IN")}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {payments.length === 0 && (
+                <p className="text-muted-foreground text-xs text-center">No payments recorded yet.</p>
+              )}
+
+              <div className="flex flex-wrap gap-2 pt-2">
+                <button className="px-4 py-2 rounded-xl bg-primary/15 text-primary text-xs font-semibold hover:bg-primary/25 transition-colors">
+                  Collect Payment
+                </button>
+                <button className="px-4 py-2 rounded-xl bg-emerald-500/10 text-emerald-300 text-xs font-semibold hover:bg-emerald-500/20 transition-colors">
+                  WhatsApp Reminder
+                </button>
+                <button className="px-4 py-2 rounded-xl bg-secondary/20 text-muted-foreground text-xs font-semibold hover:bg-secondary/30 transition-colors">
+                  Download Invoice
+                </button>
+              </div>
+            </div>
           </div>
         )}
 
