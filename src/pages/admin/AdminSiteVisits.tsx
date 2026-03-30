@@ -93,6 +93,17 @@ const AdminSiteVisits = () => {
 
   const upcomingVisits = filteredVisits
     .filter((v) => new Date(v.scheduled_date) >= new Date(today.toISOString().split("T")[0]) && v.status === "scheduled")
+    .sort((a, b) => {
+      const aDate = new Date(a.scheduled_date).getTime();
+      const bDate = new Date(b.scheduled_date).getTime();
+      if (aDate === bDate) {
+        // optional: sort by time if present (HH:MM)
+        if (a.scheduled_time && b.scheduled_time) {
+          return a.scheduled_time.localeCompare(b.scheduled_time);
+        }
+      }
+      return aDate - bDate;
+    })
     .slice(0, 10);
 
   const selectedDayVisits = selectedDay ? getVisitsForDay(selectedDay) : [];
