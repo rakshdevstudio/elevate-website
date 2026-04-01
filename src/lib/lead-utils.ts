@@ -8,8 +8,10 @@ export const statusColors: Record<string, string> = {
   quotation_sent: "bg-cyan-500/15 text-cyan-400 border-cyan-500/20",
   negotiation: "bg-orange-500/15 text-orange-400 border-orange-500/20",
   converted: "bg-emerald-500/15 text-emerald-400 border-emerald-500/20",
+  material_dispatched: "bg-teal-500/15 text-teal-300 border-teal-500/25 shadow-[0_0_20px_rgba(20,184,166,0.25)]",
   execution_wip: "bg-amber-500/20 text-amber-200 border-amber-400/30 shadow-[0_0_16px_rgba(245,158,11,0.25)]",
   installed: "bg-emerald-500/20 text-emerald-100 border-emerald-400/40 shadow-[0_0_18px_rgba(16,185,129,0.35)]",
+  handover: "bg-green-600/20 text-emerald-100 border-emerald-500/40 shadow-[0_0_22px_rgba(16,185,129,0.35)]",
   lost: "bg-red-500/15 text-red-400 border-red-500/20",
 };
 
@@ -21,8 +23,10 @@ export const statusDotColors: Record<string, string> = {
   quotation_sent: "bg-cyan-400",
   negotiation: "bg-orange-400",
   converted: "bg-emerald-400",
+  material_dispatched: "bg-teal-400",
   execution_wip: "bg-amber-300",
   installed: "bg-green-400",
+  handover: "bg-emerald-500",
   lost: "bg-red-400",
 };
 
@@ -34,8 +38,10 @@ export const statusLabels: Record<string, string> = {
   quotation_sent: "Quotation Sent",
   negotiation: "Negotiation",
   converted: "Converted",
+  material_dispatched: "Material Dispatched",
   execution_wip: "Execution (WIP)",
   installed: "Installed",
+  handover: "Handover",
   lost: "Lost",
 };
 
@@ -47,8 +53,10 @@ export const allStatuses: Enums<"lead_status">[] = [
   "quotation_sent",
   "negotiation",
   "converted",
+  "material_dispatched",
   "execution_wip",
   "installed",
+  "handover",
   "lost",
 ];
 
@@ -60,8 +68,10 @@ export const pipelineStatuses: Enums<"lead_status">[] = [
   "quotation_sent",
   "negotiation",
   "converted",
+  "material_dispatched",
   "execution_wip",
   "installed",
+  "handover",
   "lost",
 ];
 
@@ -73,8 +83,10 @@ export const STATUS_CHART_COLORS: Record<string, string> = {
   quotation_sent: "#06b6d4",
   negotiation: "#f97316",
   converted: "#10b981",
+  material_dispatched: "#14b8a6",
   execution_wip: "#eab308",
   installed: "#22c55e",
+  handover: "#16a34a",
   lost: "#ef4444",
 };
 

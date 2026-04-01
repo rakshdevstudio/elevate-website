@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { FloatingParticles, SectionHeading, GlassCard, SectionDivider, ScrollReveal } from "@/components/ui/shared";
 import { Phone, Mail, MapPin, Globe, Clock, Headphones, MessageSquare, Send, PhoneCall } from "lucide-react";
-import { submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
+import { clampBudgetRange, MAX_BUDGET_LAKHS, MIN_BUDGET_LAKHS, submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
 import { toast } from "@/hooks/use-toast";
 import BrochureDownload from "@/components/BrochureDownload";
 import { TrustBadges } from "@/components/CTABanner";
@@ -37,7 +37,7 @@ const Contact = () => {
         building_type: form.building_type,
         message: form.message,
         address: form.address,
-        budget_range: budget,
+        budget_range: clampBudgetRange(budget),
         lead_source: "website_form",
       });
       if (!success) {
@@ -228,17 +228,17 @@ const Contact = () => {
                           <input
                             type="range"
                             min="5"
-                            max="50"
+                            max={MAX_BUDGET_LAKHS}
                             step="1"
                             value={budget}
-                            onChange={(e) => setBudget(Number(e.target.value))}
+                            onChange={(e) => setBudget(Math.min(MAX_BUDGET_LAKHS, Math.max(MIN_BUDGET_LAKHS, Number(e.target.value))))}
                             className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-white/10"
                             style={{ accentColor: "hsl(43 66% 52%)" }}
                           />
                           <div className="flex justify-between items-center mt-2">
                             <span className="text-muted-foreground/50 text-xs">₹5 Lakhs</span>
                             <span className="text-primary font-semibold text-sm">Selected: ₹{budget} Lakhs</span>
-                            <span className="text-muted-foreground/50 text-xs">₹50 Lakhs</span>
+                            <span className="text-muted-foreground/50 text-xs">₹30 Lakhs</span>
                           </div>
                         </div>
                       </div>

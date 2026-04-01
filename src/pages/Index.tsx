@@ -10,8 +10,8 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { TrustBadges } from "@/components/CTABanner";
 import BrochureDownload from "@/components/BrochureDownload";
-import React, { useState, useEffect, useRef } from "react";
-import { submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { clampBudgetRange, MAX_BUDGET_LAKHS, MIN_BUDGET_LAKHS, submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
 import { toast } from "@/hooks/use-toast";
 
 const rotatingWords = ["Trust", "Safety", "Innovation", "Reliability", "Excellence"];
@@ -1057,112 +1057,82 @@ const AMCPlans = () => {
 
 
 const FAQ = () => {
-  const [openItem, setOpenItem] = useState<number | null>(null);
+  const [openItem, setOpenItem] = useState<number | null>(1);
 
-  const categories = [
+  const faqItems = useMemo(() => ([
     {
-      title: "🏆 Brand Dominance",
-      items: [
-        {
-          id: 1,
-          question: "Why is X Elevators considered a superior choice in the industry?",
-          answer:
-            "X Elevators delivers premium design excellence, disciplined execution timelines, and lifetime technical partnership—setting a higher standard than conventional suppliers.",
-        },
-        {
-          id: 2,
-          question: "What truly differentiates X Elevators from other elevator companies?",
-          answer:
-            "X Elevators combines architectural-grade cabin aesthetics, structured SOP-driven execution, and transparent pricing under one accountable system.",
-        },
-      ],
+      id: 1,
+      question: "Why is X Elevators considered a superior choice in the industry?",
+      answer:
+        "X Elevators delivers premium design excellence, disciplined execution timelines, and lifetime technical partnership—setting a higher standard than conventional suppliers.",
     },
     {
-      title: "🎨 Cabin Design Excellence",
-      items: [
-        {
-          id: 3,
-          question: "How does X Elevators ensure unmatched cabin design quality?",
-          answer:
-            "X Elevators custom-engineers every cabin to enhance the building’s visual identity—from refined finishes to luxury statement interiors.",
-        },
-        {
-          id: 4,
-          question: "Can X Elevators match premium architectural and branding requirements?",
-          answer:
-            "Yes, X Elevators collaborates closely with architects and builders to deliver elevators that complement high-end project standards.",
-        },
-      ],
+      id: 2,
+      question: "What truly differentiates X Elevators from other elevator companies?",
+      answer:
+        "X Elevators combines architectural-grade cabin aesthetics, structured SOP-driven execution, and transparent pricing under one accountable system.",
     },
     {
-      title: "⚡ Timeline & Execution Discipline",
-      items: [
-        {
-          id: 5,
-          question: "How fast can X Elevators deliver a completed elevator installation?",
-          answer:
-            "X Elevators follows a committed execution schedule, ensuring efficient project completion without compromising quality.",
-        },
-        {
-          id: 6,
-          question: "How does X Elevators prevent project delays?",
-          answer:
-            "X Elevators activates engineering, procurement, and production immediately after confirmation under a strict SOP-based workflow.",
-        },
-      ],
+      id: 3,
+      question: "How does X Elevators ensure unmatched cabin design quality?",
+      answer:
+        "X Elevators custom-engineers every cabin to enhance the building’s visual identity—from refined finishes to luxury statement interiors.",
     },
     {
-      title: "💰 Pricing Transparency",
-      items: [
-        {
-          id: 7,
-          question: "Does X Elevators maintain transparent pricing?",
-          answer:
-            "X Elevators follows a clearly defined scope and cost structure—ensuring no hidden charges at any stage.",
-        },
-        {
-          id: 8,
-          question: "Can X Elevators offer both premium and value-engineered solutions?",
-          answer:
-            "Yes, X Elevators provides luxury customization or optimized configurations based on project priorities and budget.",
-        },
-      ],
+      id: 4,
+      question: "Can X Elevators match premium architectural and branding requirements?",
+      answer:
+        "Yes, X Elevators collaborates closely with architects and builders to deliver elevators that complement high-end project standards.",
     },
     {
-      title: "🛡 Safety & Compliance",
-      items: [
-        {
-          id: 9,
-          question: "How does X Elevators ensure elevator safety and compliance?",
-          answer:
-            "X Elevators integrates certified components, multi-layer safety systems, and compliance-driven engineering in every installation.",
-        },
-        {
-          id: 10,
-          question: "Does X Elevators support statutory approvals and documentation?",
-          answer:
-            "Yes, X Elevators provides technical documentation and guidance required for regulatory compliance.",
-        },
-      ],
+      id: 5,
+      question: "How fast can X Elevators deliver a completed elevator installation?",
+      answer:
+        "X Elevators follows a committed execution schedule, ensuring efficient project completion without compromising quality.",
     },
     {
-      title: "♾ Support & Lifetime Partnership",
-      items: [
-        {
-          id: 11,
-          question: "What happens after installation with X Elevators?",
-          answer:
-            "X Elevators continues structured maintenance guidance and technical support beyond project handover.",
-        },
-        {
-          id: 12,
-          question: "What does lifetime partnership mean at X Elevators?",
-          answer:
-            "X Elevators remains a long-term technical partner—supporting performance, upgrades, and service throughout the elevator’s lifecycle.",
-        },
-      ],
+      id: 6,
+      question: "How does X Elevators prevent project delays?",
+      answer:
+        "X Elevators activates engineering, procurement, and production immediately after confirmation under a strict SOP-based workflow.",
     },
-  ];
+    {
+      id: 7,
+      question: "Does X Elevators maintain transparent pricing?",
+      answer:
+        "X Elevators follows a clearly defined scope and cost structure—ensuring no hidden charges at any stage.",
+    },
+    {
+      id: 8,
+      question: "Can X Elevators offer both premium and value-engineered solutions?",
+      answer:
+        "Yes, X Elevators provides luxury customization or optimized configurations based on project priorities and budget.",
+    },
+    {
+      id: 9,
+      question: "How does X Elevators ensure elevator safety and compliance?",
+      answer:
+        "X Elevators integrates certified components, multi-layer safety systems, and compliance-driven engineering in every installation.",
+    },
+    {
+      id: 10,
+      question: "Does X Elevators support statutory approvals and documentation?",
+      answer:
+        "Yes, X Elevators provides technical documentation and guidance required for regulatory compliance.",
+    },
+    {
+      id: 11,
+      question: "What happens after installation with X Elevators?",
+      answer:
+        "X Elevators continues structured maintenance guidance and technical support beyond project handover.",
+    },
+    {
+      id: 12,
+      question: "What does lifetime partnership mean at X Elevators?",
+      answer:
+        "X Elevators remains a long-term technical partner—supporting performance, upgrades, and service throughout the elevator’s lifecycle.",
+    },
+  ]), []);
 
   const sectionVariants = {
     hidden: { opacity: 0, y: 28 },
@@ -1174,15 +1144,6 @@ const FAQ = () => {
         ease: [0.22, 1, 0.36, 1] as const,
         staggerChildren: 0.08,
       },
-    },
-  };
-
-  const categoryVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
     },
   };
 
@@ -1206,81 +1167,71 @@ const FAQ = () => {
       <SectionDivider />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_40%_at_50%_45%,hsl(43_66%_52%/0.14),transparent_70%)] animate-pulse" />
       <div className="container mx-auto px-6 pt-8 relative z-10">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <SectionHeading
             badge="FAQ"
             title="Frequently Asked Questions"
             subtitle="Find answers to common questions about our elevator solutions"
           />
 
-          <div className="mt-10 space-y-6">
-            {categories.map((category) => (
-              <motion.div key={category.title} variants={categoryVariants} className="space-y-4">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] as const }}
-                  className="relative"
-                >
-                  <div className="absolute -inset-x-1 -inset-y-1 bg-primary/10 blur-2xl pointer-events-none" />
-                  <h3 className="relative text-xl md:text-2xl font-semibold text-primary tracking-tight">
-                    {category.title}
-                  </h3>
-                </motion.div>
+          <div className="mt-10 space-y-4 md:space-y-5">
+            <div className="space-y-4 md:space-y-5">
+              {faqItems.map((item, index) => {
+                const isOpen = openItem === item.id;
 
-                <div className="space-y-4">
-                  {category.items.map((item) => {
-                    const isOpen = openItem === item.id;
-
-                    return (
-                      <motion.div
-                        key={item.id}
-                        variants={cardVariants}
-                        whileHover={{ y: -4 }}
-                        whileTap={{ scale: 0.995 }}
-                        className={`rounded-xl p-5 backdrop-blur-xl border transition-all duration-300 ${isOpen
-                          ? "bg-white/10 border-primary/45 shadow-[0_10px_30px_hsl(43_66%_52%/0.14)]"
-                          : "bg-white/5 border-white/10 hover:border-primary/35 hover:shadow-[0_10px_30px_hsl(43_66%_52%/0.12)]"
-                          }`}
+                return (
+                  <motion.div
+                    key={item.id}
+                    variants={cardVariants}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.996 }}
+                    className={`relative overflow-hidden rounded-2xl border backdrop-blur-xl transition-all duration-300 ${isOpen
+                      ? "border-primary/35 bg-white/10 shadow-[0_0_0_1px_hsl(43_66%_52%/0.12),0_18px_50px_hsl(43_66%_52%/0.12)]"
+                      : "border-white/10 bg-white/5 hover:border-primary/25 hover:bg-white/[0.07] hover:shadow-[0_14px_40px_hsl(43_66%_52%/0.08)]"
+                      }`}
+                  >
+                    <div className={`absolute inset-0 opacity-0 transition-opacity duration-300 ${isOpen ? "opacity-100 bg-[radial-gradient(circle_at_top_left,hsl(43_66%_52%/0.12),transparent_55%)]" : ""}`} />
+                    <button
+                      onClick={() => setOpenItem(isOpen ? null : item.id)}
+                      className="relative z-10 w-full text-left flex items-center justify-between gap-4 px-5 md:px-6 py-4 md:py-5"
+                      aria-expanded={isOpen}
+                    >
+                      <div className="min-w-0">
+                        <p className="text-base md:text-lg font-semibold text-foreground leading-snug">
+                          <span className="text-primary/80 mr-2">{String(index + 1).padStart(2, "0")}.</span>
+                          {item.question}
+                        </p>
+                      </div>
+                      <motion.span
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className={`shrink-0 rounded-full p-2 transition-colors ${isOpen ? "bg-primary/10 text-primary" : "bg-white/5 text-muted-foreground"}`}
                       >
-                        <button
-                          onClick={() => setOpenItem(isOpen ? null : item.id)}
-                          className="w-full text-left flex items-start justify-between gap-4"
+                        <ChevronDown className="w-4 h-4" />
+                      </motion.span>
+                    </button>
+
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.35, ease: "easeInOut" }}
+                          className="relative z-10 overflow-hidden"
                         >
-                          <div className="pr-3">
-                            <p className="text-white font-semibold text-base lg:text-lg">
-                              {item.id}. {item.question}
+                          <div className="px-5 md:px-6 pb-5 md:pb-6 pt-0">
+                            <p className="text-muted-foreground leading-7 md:leading-8 text-sm md:text-[15px]">
+                              {item.answer}
                             </p>
                           </div>
-                          <motion.span
-                            animate={{ rotate: isOpen ? 180 : 0 }}
-                            transition={{ duration: 0.35, ease: "easeInOut" }}
-                            className="shrink-0 mt-0.5"
-                          >
-                            <ChevronDown className="w-5 h-5 text-primary" />
-                          </motion.span>
-                        </button>
-
-                        <AnimatePresence initial={false}>
-                          {isOpen && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.35, ease: "easeInOut" }}
-                              className="overflow-hidden"
-                            >
-                              <p className="text-gray-300 leading-relaxed mt-3">{item.answer}</p>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
@@ -1416,7 +1367,7 @@ const ContactSection = () => {
       return;
     }
     setSubmitting(true);
-    const { success, error } = await submitLead({ ...form, budget_range: budget, lead_source: "website_form" });
+    const { success, error } = await submitLead({ ...form, budget_range: clampBudgetRange(budget), lead_source: "website_form" });
     setSubmitting(false);
     if (success) {
       toast({ title: "✅ Thank You!", description: SUCCESS_MESSAGE });
@@ -1523,17 +1474,17 @@ const ContactSection = () => {
                     <input
                       type="range"
                       min="5"
-                      max="50"
+                      max={MAX_BUDGET_LAKHS}
                       step="1"
                       value={budget}
-                      onChange={(e) => setBudget(Number(e.target.value))}
+                      onChange={(e) => setBudget(Math.min(MAX_BUDGET_LAKHS, Math.max(MIN_BUDGET_LAKHS, Number(e.target.value))))}
                       className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-primary bg-white/10"
                       style={{ accentColor: "hsl(43 66% 52%)" }}
                     />
                     <div className="flex justify-between items-center mt-2">
                       <span className="text-muted-foreground/50 text-xs">₹5 Lakhs</span>
                       <span className="text-primary font-semibold text-sm">Selected: ₹{budget} Lakhs</span>
-                      <span className="text-muted-foreground/50 text-xs">₹50 Lakhs</span>
+                      <span className="text-muted-foreground/50 text-xs">₹30 Lakhs</span>
                     </div>
                   </div>
                 </div>

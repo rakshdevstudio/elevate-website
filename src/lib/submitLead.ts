@@ -1,5 +1,11 @@
 import { supabase } from "@/integrations/supabase/client";
 
+export const MIN_BUDGET_LAKHS = 5;
+export const MAX_BUDGET_LAKHS = 30;
+
+export const clampBudgetRange = (budget: number) =>
+    Math.min(MAX_BUDGET_LAKHS, Math.max(MIN_BUDGET_LAKHS, Math.trunc(budget)));
+
 export interface LeadPayload {
     name: string;
     phone: string;
@@ -21,6 +27,17 @@ export interface LeadPayload {
  */
 export async function submitLead(payload: LeadPayload): Promise<{ success: boolean; error?: string }> {
     try {
+        const budgetRange = payload.budget_range == null ? null : Math.trunc(payload.budget_range);
+        if (budgetRange !== null && (budgetRange < MIN_BUDGET_LAKHS || budgetRange > MAX_BUDGET_LAKHS)) {
+            return {
+                success: false,
+                error:
+                    budgetRange > MAX_BUDGET_LAKHS
+                        ? "Budget cannot exceed ₹30 Lakhs"
+                        : "Budget must be at least ₹5 Lakhs",
+            };
+        }
+
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { error } = await (supabase.from("leads") as any).insert({
             name: payload.name.trim(),
@@ -33,7 +50,7 @@ export async function submitLead(payload: LeadPayload): Promise<{ success: boole
             message: payload.message?.trim() || null,
             lead_source: payload.lead_source ?? "website_form",
             status: "new",
-            budget_range: payload.budget_range ?? null,
+            budget_range: budgetRange,
             address: payload.address?.trim() || null,
         });
 

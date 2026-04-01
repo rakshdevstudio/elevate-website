@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Phone, MessageSquare, Building2, ArrowRight, GripVertical, CalendarDays, MapPin, Handshake, Wrench, Hammer, CheckCircle2, Sparkles } from "lucide-react";
+import { Phone, MessageSquare, Building2, ArrowRight, GripVertical, CalendarDays, MapPin, Handshake, Wrench, Hammer, CheckCircle2, Sparkles, Lock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { format, subMonths, startOfMonth, endOfMonth } from "date-fns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -10,8 +10,9 @@ import { statusColors, statusLabels, statusDotColors, pipelineStatuses, calculat
 import CaptureVisitModal, { VisitCapturePayload } from "@/components/admin/CaptureVisitModal";
 import ExecutionModal, { ExecutionPayload } from "@/components/admin/ExecutionModal";
 import InstallationModal, { InstallationPayload } from "@/components/admin/InstallationModal";
+import { toast } from "@/hooks/use-toast";
 
-type PipelineStatus = Tables<"leads">["status"] | "execution_wip" | "installed";
+type PipelineStatus = Tables<"leads">["status"];
 type PipelineLead = Omit<Tables<"leads">, "status"> & { status: PipelineStatus };
 
 const AdminPipeline = () => {
@@ -19,6 +20,8 @@ const AdminPipeline = () => {
   const [loading, setLoading] = useState(true);
   const [draggedLead, setDraggedLead] = useState<string | null>(null);
   const [dragOverStatus, setDragOverStatus] = useState<string | null>(null);
+  const [payments, setPayments] = useState<Tables<"payments">[]>([]);
+  const [blockedColumn, setBlockedColumn] = useState<string | null>(null);
   const [selectedMonth, setSelectedMonth] = useState<string>("this_month");
   const [visitModalLead, setVisitModalLead] = useState<PipelineLead | null>(null);
   const [executionLead, setExecutionLead] = useState<PipelineLead | null>(null);
@@ -65,6 +68,37 @@ const AdminPipeline = () => {
     return () => { supabase.removeChannel(channel); };
   }, [selectedMonth, monthOptions]);
 
+  useEffect(() => {
+    const fetchPayments = async () => {
+      const { data } = await supabase.from("payments").select("*");
+      setPayments(data || []);
+    };
+    fetchPayments();
+
+    const channel = supabase
+      .channel("pipeline-payments")
+      .on("postgres_changes", { event: "*", schema: "public", table: "payments" }, () => { fetchPayments(); })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, []);
+
+  const paymentsByLead = useMemo(() => {
+    const map = new Map<string, number>();
+    payments.forEach((p) => {
+      if (!p.lead_id) return;
+      map.set(p.lead_id, (map.get(p.lead_id) || 0) + (p.amount || 0));
+    });
+    return map;
+  }, [payments]);
+
+  const computeDue = (lead: PipelineLead) => {
+    const total = lead.project_value || 0;
+    const collected = paymentsByLead.get(lead.id) || 0;
+    const due = Math.max(total - collected, 0);
+    return { total, collected, due };
+  };
+
   const handleDragStart = (e: React.DragEvent, leadId: string) => {
     setDraggedLead(leadId);
     e.dataTransfer.effectAllowed = "move";
@@ -88,6 +122,23 @@ const AdminPipeline = () => {
     const lead = leads.find((l) => l.id === draggedLead);
     if (!lead || lead.status === newStatus) { setDraggedLead(null); return; }
 
+    if (newStatus === "handover") {
+      const { total, due } = computeDue(lead);
+      if (total <= 0 || due > 0) {
+        toast({
+          title: "Cannot complete handover",
+          description: total <= 0
+            ? "Project value missing. Add project value before handover."
+            : `Cannot complete handover. ₹${due.toLocaleString("en-IN")} still pending.`,
+          variant: "destructive",
+        });
+        setBlockedColumn("handover");
+        setTimeout(() => setBlockedColumn(null), 450);
+        setDraggedLead(null);
+        return;
+      }
+    }
+
     if (newStatus === "visited_meeting") {
       setVisitModalLead(lead);
       setDraggedLead(null);
@@ -105,16 +156,33 @@ const AdminPipeline = () => {
     }
 
     // Optimistic update
-    setLeads((prev) => prev.map((l) => l.id === draggedLead ? { ...l, status: newStatus } : l));
+    const optimisticPayload: Partial<PipelineLead> = { status: newStatus };
+    if (newStatus === "material_dispatched" && !lead.material_dispatch_date) {
+      optimisticPayload.material_dispatch_date = new Date().toISOString();
+    }
+    setLeads((prev) => prev.map((l) => l.id === draggedLead ? { ...l, ...optimisticPayload } : l));
     setDraggedLead(null);
 
-    await supabase.from("leads").update({ status: newStatus as Enums<"lead_status"> }).eq("id", draggedLead);
+    await supabase.from("leads").update({
+      status: newStatus as Enums<"lead_status">,
+      material_dispatch_date: newStatus === "material_dispatched" ? (lead.material_dispatch_date || new Date().toISOString()) : lead.material_dispatch_date,
+    }).eq("id", draggedLead);
     await supabase.from("lead_history").insert({
       lead_id: draggedLead,
       action: "status_change",
       old_value: lead.status,
       new_value: newStatus as Enums<"lead_status">,
     });
+    if (newStatus === "material_dispatched") {
+      await supabase.from("lead_history").insert({
+        lead_id: draggedLead,
+        action: "material_dispatched",
+        new_value: lead.material_dispatch_date || new Date().toISOString(),
+      });
+    }
+    if (newStatus === "handover") {
+      toast({ title: "Project successfully handed over." });
+    }
   };
 
   if (loading) {
@@ -150,20 +218,35 @@ const AdminPipeline = () => {
         {(pipelineStatuses as PipelineStatus[]).map((status) => {
           const columnLeads = leads.filter((l) => l.status === status);
           const isDragOver = dragOverStatus === status;
+          const draggedLeadEntity = leads.find((l) => l.id === draggedLead);
+          const draggedDue = draggedLeadEntity ? computeDue(draggedLeadEntity) : null;
+          const columnLocked = status === "handover";
+          const blockedDrop = columnLocked && draggedDue ? (draggedDue.total <= 0 || draggedDue.due > 0) : false;
 
           const glowClass = status === "execution_wip"
             ? "bg-amber-500/5 ring-1 ring-amber-300/40 shadow-[0_10px_40px_rgba(234,179,8,0.18)]"
             : status === "installed"
               ? "bg-emerald-500/5 ring-1 ring-emerald-300/35 shadow-[0_10px_40px_rgba(34,197,94,0.2)]"
+              : status === "handover" && blockedDrop
+                ? "bg-red-500/5 ring-2 ring-red-400/60 shadow-[0_12px_50px_rgba(248,113,113,0.35)]"
               : isDragOver
                 ? "bg-primary/5 ring-1 ring-primary/20 shadow-[0_10px_40px_rgba(99,102,241,0.25)]"
                 : "";
 
           return (
-            <div
+            <motion.div
               key={status}
+              animate={blockedColumn === status ? { x: [-6, 6, -4, 4, 0] } : { x: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 18 }}
               className={`flex-shrink-0 w-[260px] flex flex-col rounded-2xl transition-all duration-200 ${glowClass}`}
-              onDragOver={(e) => handleDragOver(e, status)}
+              onDragOver={(e) => {
+                if (columnLocked && blockedDrop) {
+                  e.preventDefault();
+                  setDragOverStatus(status);
+                  return;
+                }
+                handleDragOver(e, status);
+              }}
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, status)}
             >
@@ -175,6 +258,7 @@ const AdminPipeline = () => {
                     {(status === "visited_meeting") && <Handshake className="w-3 h-3 text-indigo-300" />}
                     {(status === "execution_wip") && <Wrench className="w-3 h-3 text-amber-300" />}
                     {(status === "installed") && <CheckCircle2 className="w-3 h-3 text-emerald-300" />}
+                    {(status === "handover") && <Lock className="w-3 h-3 text-red-300" />}
                     {statusLabels[status]}
                   </span>
                   <span className="ml-auto text-muted-foreground text-[10px] bg-secondary/30 px-2 py-0.5 rounded-full">{columnLeads.length}</span>
@@ -187,6 +271,10 @@ const AdminPipeline = () => {
                   const score = lead.lead_score ?? calculateLeadScore(lead);
                   const isExecution = lead.status === "execution_wip";
                   const isInstalled = lead.status === "installed";
+                  const isMaterialDispatched = lead.status === "material_dispatched";
+                  const isHandover = lead.status === "handover";
+                  const paymentActive = ["converted", "material_dispatched", "execution_wip", "installed", "handover"].includes(lead.status);
+                  const totals = computeDue(lead);
 
                   return (
                     <motion.div
@@ -200,6 +288,10 @@ const AdminPipeline = () => {
                         isExecution ? "ring-1 ring-amber-400/50 shadow-[0_16px_60px_rgba(234,179,8,0.22)] animate-pulse" : ""
                       } ${
                         isInstalled ? "ring-1 ring-emerald-400/50 shadow-[0_16px_60px_rgba(16,185,129,0.28)]" : ""
+                      } ${
+                        isMaterialDispatched ? "ring-1 ring-teal-400/50 shadow-[0_14px_50px_rgba(20,184,166,0.25)]" : ""
+                      } ${
+                        isHandover ? "ring-1 ring-emerald-500/60 shadow-[0_14px_50px_rgba(16,185,129,0.3)]" : ""
                       }`}
                       animate={
                         lead.status === "visited_meeting"
@@ -266,6 +358,21 @@ const AdminPipeline = () => {
                                 )}
                               </>
                             )}
+                            {isMaterialDispatched && (
+                              <span className="text-[10px] px-2 py-1 rounded-full bg-teal-500/15 text-teal-100 border border-teal-400/40 flex items-center gap-1">
+                                🚚 Material Dispatched {lead.material_dispatch_date ? format(new Date(lead.material_dispatch_date), "dd MMM") : ""}
+                              </span>
+                            )}
+                            {paymentActive && lead.project_value && (
+                              <span className={`text-[10px] px-2 py-1 rounded-full border flex items-center gap-1 ${
+                                totals.due === 0 ? "bg-emerald-500/15 text-emerald-100 border-emerald-400/30" : "bg-red-500/10 text-red-200 border-red-400/30"
+                              }`}>
+                                💰 {totals.due === 0 ? "Fully Paid" : `Due ₹${totals.due.toLocaleString("en-IN")}`}
+                              </span>
+                            )}
+                            {paymentActive && !lead.project_value && (
+                              <span className="text-[10px] px-2 py-1 rounded-full bg-amber-500/10 text-amber-100 border border-amber-400/30">Set project value</span>
+                            )}
                             {lead.status === "visited_meeting" && (
                               <>
                                 <span className="text-[10px] px-2 py-1 rounded-full bg-indigo-500/15 text-indigo-200 border border-indigo-500/30 flex items-center gap-1">
@@ -323,7 +430,7 @@ const AdminPipeline = () => {
                   </div>
                 )}
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>

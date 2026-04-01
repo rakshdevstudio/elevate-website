@@ -10,6 +10,7 @@ import { useAuth } from "@/hooks/useAuth";
 import type { Tables, Enums } from "@/integrations/supabase/types";
 import { statusColors, statusLabels, allStatuses, calculateLeadScore, getScoreColor, getScoreBg } from "@/lib/lead-utils";
 import PaymentModal from "@/components/admin/PaymentModal";
+import { toast } from "@/hooks/use-toast";
 
 const AdminLeadDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,6 +25,10 @@ const AdminLeadDetail = () => {
   const [saving, setSaving] = useState(false);
   const [assignedTo, setAssignedTo] = useState("");
   const [estimatedValue, setEstimatedValue] = useState("");
+  const [projectValue, setProjectValue] = useState("");
+  const [dispatchDate, setDispatchDate] = useState("");
+  const [materialsNotes, setMaterialsNotes] = useState("");
+  const [logisticsPartner, setLogisticsPartner] = useState("");
   const [activeTab, setActiveTab] = useState<"notes" | "timeline" | "visits">("notes");
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
 
@@ -51,6 +56,10 @@ const AdminLeadDetail = () => {
       if (leadRes.data) {
         setAssignedTo(leadRes.data.assigned_to || "");
         setEstimatedValue(leadRes.data.estimated_value?.toString() || "");
+        setProjectValue(leadRes.data.project_value?.toString() || "");
+        setDispatchDate(leadRes.data.material_dispatch_date ? leadRes.data.material_dispatch_date.split("T")[0] : "");
+        setMaterialsNotes(leadRes.data.materials_notes || "");
+        setLogisticsPartner(leadRes.data.logistics_partner || "");
       }
       setLoading(false);
     };
@@ -58,18 +67,33 @@ const AdminLeadDetail = () => {
   }, [id]);
 
   const score = useMemo(() => lead ? calculateLeadScore(lead) : 0, [lead]);
-  const totalValue = lead?.project_value || lead?.estimated_value || 0;
+  const totalValue = lead?.project_value || 0;
   const collectedAmount = useMemo(() => payments.reduce((sum, p) => sum + (p.amount || 0), 0), [payments]);
   const paymentProgress = totalValue ? Math.min(Math.round((collectedAmount / totalValue) * 100), 100) : 0;
   const dueAmount = totalValue ? Math.max(totalValue - collectedAmount, 0) : 0;
+  const paymentActiveStatuses: Enums<"lead_status">[] = ["converted", "material_dispatched", "execution_wip", "installed", "handover"];
+  const paymentsVisible = lead ? paymentActiveStatuses.includes(lead.status) : false;
 
   const updateStatus = async (status: Enums<"lead_status">) => {
     if (!id || !lead) return;
+    if (status === "handover") {
+      if (!totalValue) {
+        toast({ title: "Project value missing", description: "Add project value before handover.", variant: "destructive" });
+        return;
+      }
+      if (dueAmount > 0) {
+        toast({ title: "Cannot complete handover", description: `₹${dueAmount.toLocaleString("en-IN")} still pending.`, variant: "destructive" });
+        return;
+      }
+    }
     const oldStatus = lead.status;
     await supabase.from("leads").update({ status }).eq("id", id);
     await supabase.from("lead_history").insert({ lead_id: id, action: "status_change", old_value: oldStatus, new_value: status });
     setLead((prev) => prev ? { ...prev, status } : null);
     setHistory((prev) => [{ id: crypto.randomUUID(), lead_id: id, user_id: user?.id || null, action: "status_change", old_value: oldStatus, new_value: status, created_at: new Date().toISOString() }, ...prev]);
+    if (status === "handover") {
+      toast({ title: "Project successfully handed over." });
+    }
   };
 
   const updateAssignment = async () => {
@@ -84,6 +108,32 @@ const AdminLeadDetail = () => {
     const val = parseFloat(estimatedValue) || null;
     await supabase.from("leads").update({ estimated_value: val }).eq("id", id);
     setLead((prev) => prev ? { ...prev, estimated_value: val } : null);
+  };
+
+  const updateProjectVal = async () => {
+    if (!id) return;
+    const val = parseFloat(projectValue) || null;
+    await supabase.from("leads").update({ project_value: val }).eq("id", id);
+    setLead((prev) => prev ? { ...prev, project_value: val } : null);
+    if (val) toast({ title: "Project value saved", description: `₹${val.toLocaleString("en-IN")}` });
+  };
+
+  const saveDispatch = async () => {
+    if (!id || !lead) return;
+    const payload = {
+      material_dispatch_date: dispatchDate || null,
+      materials_notes: materialsNotes || null,
+      logistics_partner: logisticsPartner || null,
+      status: lead.status === "converted" ? "material_dispatched" as Enums<"lead_status"> : lead.status,
+    };
+    await supabase.from("leads").update(payload).eq("id", id);
+    await supabase.from("lead_history").insert({
+      lead_id: id,
+      action: "material_dispatched",
+      new_value: JSON.stringify(payload),
+    });
+    setLead((prev) => prev ? { ...prev, ...payload } : null);
+    toast({ title: "Material dispatched", description: "Dispatch details saved." });
   };
 
   const addNote = async () => {
@@ -143,6 +193,7 @@ const AdminLeadDetail = () => {
     assigned: "👤",
     visit_scheduled: "📅",
     visit_completed: "✅",
+    material_dispatched: "🚚",
   };
 
   return (
@@ -215,7 +266,7 @@ const AdminLeadDetail = () => {
         )}
 
         {/* Assignment & value */}
-        <div className="grid sm:grid-cols-2 gap-3 mt-5">
+        <div className="grid sm:grid-cols-3 gap-3 mt-5">
           <div className="flex items-center gap-2">
             <User className="w-4 h-4 text-primary shrink-0" />
             <input
@@ -237,6 +288,19 @@ const AdminLeadDetail = () => {
               className="input-premium flex-1 text-xs py-2"
             />
           </div>
+          {paymentActiveStatuses.includes(lead.status) && (
+            <div className="flex items-center gap-2">
+              <span className="text-emerald-400 text-sm font-bold shrink-0">₹</span>
+              <input
+                value={projectValue}
+                onChange={(e) => setProjectValue(e.target.value)}
+                onBlur={updateProjectVal}
+                type="number"
+                placeholder="Project value (required for payments)"
+                className="input-premium flex-1 text-xs py-2"
+              />
+            </div>
+          )}
         </div>
 
         {(lead.execution_start_date || lead.status === "execution_wip" || lead.status === "installed") && (
@@ -267,9 +331,52 @@ const AdminLeadDetail = () => {
           </div>
         )}
 
+        {paymentActiveStatuses.includes(lead.status) && (
+          <div className="mt-6 p-4 rounded-2xl border border-border/40 glass-card space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] px-2 py-1 rounded-full bg-teal-500/15 text-teal-100 border border-teal-400/30">Material Dispatched</span>
+              {lead.material_dispatch_date && <span className="text-[11px] text-muted-foreground">on {new Date(lead.material_dispatch_date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</span>}
+            </div>
+            <div className="grid sm:grid-cols-3 gap-3">
+              <div>
+                <p className="text-[11px] text-muted-foreground mb-1">Dispatch Date</p>
+                <input type="date" value={dispatchDate} onChange={(e) => setDispatchDate(e.target.value)} className="input-premium text-xs w-full" />
+              </div>
+              <div>
+                <p className="text-[11px] text-muted-foreground mb-1">Logistics Partner</p>
+                <input value={logisticsPartner} onChange={(e) => setLogisticsPartner(e.target.value)} placeholder="BlueDart / Delhivery" className="input-premium text-xs w-full" />
+              </div>
+              <div>
+                <p className="text-[11px] text-muted-foreground mb-1">Notes</p>
+                <input value={materialsNotes} onChange={(e) => setMaterialsNotes(e.target.value)} placeholder="Tracking, materials list..." className="input-premium text-xs w-full" />
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <button onClick={saveDispatch} className="px-4 py-2 rounded-xl bg-teal-500/15 text-teal-100 text-xs font-semibold border border-teal-400/30 hover:bg-teal-500/25 transition-colors">
+                Save dispatch info
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Payments timeline */}
-        {lead.status === "installed" && (
+        {paymentsVisible && (
           <div className="mt-6 glass-card rounded-2xl p-4 border border-border/40">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <p className="text-[11px] text-muted-foreground uppercase tracking-[0.2em]">Project Financials</p>
+                <h4 className="text-foreground font-heading font-semibold text-lg">Finance + Operations Lock</h4>
+              </div>
+              <span className={`text-[11px] px-3 py-1 rounded-full border ${
+                totalValue === 0
+                  ? "bg-amber-500/10 text-amber-200 border-amber-400/40"
+                  : dueAmount === 0
+                    ? "bg-emerald-500/15 text-emerald-100 border-emerald-400/30"
+                    : "bg-red-500/10 text-red-200 border-red-400/30"
+              }`}>
+                {totalValue === 0 ? "Set project value" : dueAmount === 0 ? "Fully Paid ✅" : `Pending ₹${dueAmount.toLocaleString("en-IN")}`}
+              </span>
+            </div>
             {/* Summary cards */}
             <div className="grid sm:grid-cols-3 gap-3 mb-4">
               <div className="p-3 rounded-xl bg-secondary/10 border border-border/30">
@@ -288,7 +395,7 @@ const AdminLeadDetail = () => {
               </div>
             </div>
 
-            {lead.project_value && (
+            {totalValue > 0 && (
               <div className="w-full bg-border/30 rounded-full h-2 mb-3 overflow-hidden">
                 <div className="h-2 bg-gradient-to-r from-emerald-500 to-emerald-400" style={{ width: `${paymentProgress}%` }} />
               </div>
@@ -349,7 +456,8 @@ const AdminLeadDetail = () => {
               <div className="flex flex-wrap gap-2 pt-2">
                 <button
                   onClick={() => setPaymentModalOpen(true)}
-                  className="px-4 py-2 rounded-xl bg-primary/15 text-primary text-xs font-semibold hover:bg-primary/25 transition-colors"
+                  disabled={!totalValue}
+                  className="px-4 py-2 rounded-xl bg-primary/15 text-primary text-xs font-semibold hover:bg-primary/25 transition-colors disabled:opacity-50"
                 >
                   Collect Payment
                 </button>
@@ -481,6 +589,16 @@ const AdminLeadDetail = () => {
                       } catch {
                         return <>Visited / Meeting Completed</>;
                       }
+                    })()}
+                    {h.action === "material_dispatched" && (() => {
+                      let dateValue: string | null = null;
+                      try {
+                        const data = JSON.parse(h.new_value || "null");
+                        dateValue = data?.material_dispatch_date || data;
+                      } catch {
+                        dateValue = h.new_value;
+                      }
+                      return <>Material dispatched {dateValue ? `on ${new Date(dateValue).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}` : ""}</>;
                     })()}
                   </p>
                   <p className="text-muted-foreground text-[10px] mt-0.5">

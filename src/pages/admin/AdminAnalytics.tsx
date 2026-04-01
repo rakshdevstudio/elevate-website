@@ -101,8 +101,10 @@ const AdminAnalytics = () => {
 
   // Conversion metrics
   const converted = leads.filter((l) => l.status === "converted").length;
+  const materialDispatched = leads.filter((l) => l.status === "material_dispatched").length;
   const execution = leads.filter((l) => l.status === "execution_wip").length;
   const installed = leads.filter((l) => l.status === "installed").length;
+  const handover = leads.filter((l) => l.status === "handover").length;
   const lost = leads.filter((l) => l.status === "lost").length;
   const visited = leads.filter((l) => l.status === "visited_meeting").length;
   const quotation = leads.filter((l) => l.status === "quotation_sent").length;
@@ -110,6 +112,8 @@ const AdminAnalytics = () => {
   const conversionRate = leads.length > 0 ? ((converted / leads.length) * 100).toFixed(1) : "0";
   const lossRate = leads.length > 0 ? ((lost / leads.length) * 100).toFixed(1) : "0";
   const visitToQuote = visited > 0 ? ((quotation / visited) * 100).toFixed(1) : "0";
+  const convertToDispatchRate = converted > 0 ? ((((materialDispatched + execution + installed + handover) / converted) * 100)).toFixed(1) : "0";
+  const installToHandoverRate = installed > 0 ? ((handover / installed) * 100).toFixed(1) : "0";
   const avgValue = leads.filter((l) => l.estimated_value).length > 0
     ? (leads.reduce((s, l) => s + (l.estimated_value || 0), 0) / leads.filter((l) => l.estimated_value).length)
     : 0;
@@ -148,10 +152,11 @@ const AdminAnalytics = () => {
     return map;
   })();
 
-  const installedLeads = leads.filter((l) => l.status === "installed");
+  const revenueEligibleStatuses: Tables<"leads">["status"][] = ["converted", "material_dispatched", "execution_wip", "installed", "handover"];
+  const revenueLeads = leads.filter((l) => (l.project_value || 0) > 0 && revenueEligibleStatuses.includes(l.status));
 
-  const revenueRows = installedLeads.map((lead) => {
-    const total = lead.project_value || lead.estimated_value || 0;
+  const revenueRows = revenueLeads.map((lead) => {
+    const total = lead.project_value || 0;
     const collectedRaw = paymentsByLead.get(lead.id) || 0;
     const collected = Math.min(collectedRaw, total);
     const due = Math.max(total - collected, 0);
@@ -166,7 +171,7 @@ const AdminAnalytics = () => {
       due,
       progress: total > 0 ? Math.round((collected / total) * 100) : 0,
       lastPaymentDate: lastPayment ? lastPayment.paid_on : null,
-      completionMonth: lead.completion_date ? lead.completion_date.substring(0, 7) : lead.updated_at.substring(0, 7),
+      completionMonth: lead.updated_at.substring(0, 7),
       completionDate: lead.completion_date,
     };
   });
@@ -243,10 +248,14 @@ const AdminAnalytics = () => {
           { label: "Total Leads", value: leads.length },
           { label: "Active Pipeline", value: active },
           { label: "Converted", value: converted },
+          { label: "Material Dispatched", value: materialDispatched },
           { label: "Execution (WIP)", value: execution },
           { label: "Installed", value: installed },
+          { label: "Handover", value: handover },
           { label: "Lost", value: lost },
           { label: "Conversion Rate", value: `${conversionRate}%` },
+          { label: "Conv → Dispatch", value: `${convertToDispatchRate}%` },
+          { label: "Install → Handover", value: `${installToHandoverRate}%` },
           { label: "Conv → Install", value: `${conversionToInstallRate}%` },
           { label: "Avg Convert → Install", value: `${avgConvertToInstallDays} days` },
           { label: "Visited → Quotation", value: `${visitToQuote}%` },
@@ -259,6 +268,25 @@ const AdminAnalytics = () => {
           </motion.div>
         ))}
       </div>
+
+      {/* Monthly value / collected / due */}
+      {monthlyRevenue.length > 0 && (
+        <div className="grid sm:grid-cols-3 gap-3">
+          {(() => {
+            const latest = monthlyRevenue[monthlyRevenue.length - 1];
+            return [
+              { label: `Monthly Total (${latest.month})`, value: `₹${latest.total.toLocaleString("en-IN")}` },
+              { label: "Collected", value: `₹${latest.collected.toLocaleString("en-IN")}` },
+              { label: "Due", value: `₹${latest.due.toLocaleString("en-IN")}` },
+            ];
+          })().map((item) => (
+            <div key={item.label} className="glass-card rounded-2xl p-4 border border-border/30">
+              <p className="text-sm font-semibold text-foreground">{item.value}</p>
+              <p className="text-[11px] text-muted-foreground">{item.label}</p>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Charts grid */}
       <div className="grid lg:grid-cols-2 gap-6">

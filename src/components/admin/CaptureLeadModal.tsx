@@ -24,6 +24,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { calculateLeadScore, getScoreBg, getScoreColor } from "@/lib/lead-utils";
 import { toast } from "@/hooks/use-toast";
+import { clampBudgetRange, MAX_BUDGET_LAKHS, MIN_BUDGET_LAKHS } from "@/lib/submitLead";
 
 const sourceOptions = [
   { id: "walk_in", label: "Walk-in", icon: Building2 },
@@ -115,12 +116,13 @@ const CaptureLeadModal = ({ open, onClose, onCreated }: CaptureLeadModalProps) =
 
   const numericPhone = phone.replace(/\D/g, "");
   const phoneValid = numericPhone.length >= 10;
+  const normalizedBudget = clampBudgetRange(budget);
 
   const valueInLakhs = useMemo(() => {
-    const min = Math.max(5, budget - 2);
-    const max = Math.min(50, budget + 6);
+    const min = Math.max(MIN_BUDGET_LAKHS, normalizedBudget - 2);
+    const max = Math.min(MAX_BUDGET_LAKHS, normalizedBudget + 6);
     return { min, max };
-  }, [budget]);
+  }, [normalizedBudget]);
 
   const enrichedLeadScore = useMemo(() => {
     const baseScore = calculateLeadScore({
@@ -128,11 +130,11 @@ const CaptureLeadModal = ({ open, onClose, onCreated }: CaptureLeadModalProps) =
       number_of_floors: floors.toString(),
       elevator_type: elevatorType || elevatorSuggestions[buildingType]?.[0],
       email,
-      estimated_value: budget * 100000,
+      estimated_value: normalizedBudget * 100000,
     });
     const urgencyBoost = urgency === "hot" ? 10 : urgency === "warm" ? 5 : 0;
     return Math.min(100, baseScore + urgencyBoost + (source === "referral" ? 5 : 0));
-  }, [buildingType, floors, elevatorType, email, budget, urgency, source]);
+  }, [buildingType, floors, elevatorType, email, normalizedBudget, urgency, source]);
 
   const suggestedEngineer = useMemo(() => {
     const city = location.toLowerCase();
@@ -204,13 +206,13 @@ const CaptureLeadModal = ({ open, onClose, onCreated }: CaptureLeadModalProps) =
       lead_source: source === "event_expo" ? "other" : source,
       assigned_to: assignedTo || suggestedEngineer || null,
       lead_score: enrichedLeadScore,
-      estimated_value: budget * 100000,
+      estimated_value: normalizedBudget * 100000,
       status: action === "hot" ? "contacted" : "new",
       message: [
         `Offline source: ${sourceOptions.find((s) => s.id === source)?.label || "Offline"}`,
         `Urgency: ${urgency.toUpperCase()}`,
-        `Budget: ₹${budget}L`,
-        `Expected: ₹${valueInLakhs.min}L - ₹${valueInLakhs.max}L`,
+        `Budget: ₹${normalizedBudget} Lakhs`,
+        `Expected: ₹${valueInLakhs.min} Lakhs - ₹${valueInLakhs.max} Lakhs`,
         notes ? `Notes: ${notes}` : null,
       ].filter(Boolean).join(" | "),
     } as Record<string, unknown>;
@@ -446,21 +448,21 @@ const CaptureLeadModal = ({ open, onClose, onCreated }: CaptureLeadModalProps) =
                           </div>
                         </div>
                         <div>
-                          <p className="text-[11px] text-muted-foreground mb-2">Budget Range (₹L)</p>
+                          <p className="text-[11px] text-muted-foreground mb-2">Budget Range (₹ Lakhs)</p>
                           <div className="input-premium flex items-center gap-3">
                             <Gauge className="w-4 h-4 text-primary" />
                             <input
                               type="range"
-                              min={5}
-                              max={50}
+                              min={MIN_BUDGET_LAKHS}
+                              max={MAX_BUDGET_LAKHS}
                               step={1}
                               value={budget}
-                              onChange={(e) => setBudget(parseInt(e.target.value))}
+                              onChange={(e) => setBudget(Math.min(MAX_BUDGET_LAKHS, Math.max(MIN_BUDGET_LAKHS, parseInt(e.target.value))))}
                               className="flex-1 accent-primary"
                             />
-                            <span className="text-sm font-semibold min-w-[48px] text-right">₹{budget}L</span>
+                            <span className="text-sm font-semibold min-w-[88px] text-right">₹{normalizedBudget} Lakhs</span>
                           </div>
-                          <p className="text-[11px] text-muted-foreground mt-1">Expected {valueInLakhs.min}L – {valueInLakhs.max}L</p>
+                          <p className="text-[11px] text-muted-foreground mt-1">Expected ₹{valueInLakhs.min} Lakhs – ₹{valueInLakhs.max} Lakhs</p>
                         </div>
                         <div>
                           <p className="text-[11px] text-muted-foreground mb-2">Urgency</p>

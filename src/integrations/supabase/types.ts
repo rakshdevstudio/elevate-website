@@ -142,6 +142,9 @@ export type Database = {
           name: string
           number_of_floors: string | null
           completion_date: string | null
+          material_dispatch_date: string | null
+          materials_notes: string | null
+          logistics_partner: string | null
           project_value: number | null
           payment_terms: Json | null
           warranty_status: string | null
@@ -170,6 +173,9 @@ export type Database = {
           name: string
           number_of_floors?: string | null
           completion_date?: string | null
+          material_dispatch_date?: string | null
+          materials_notes?: string | null
+          logistics_partner?: string | null
           project_value?: number | null
           payment_terms?: Json | null
           warranty_status?: string | null
@@ -198,6 +204,9 @@ export type Database = {
           name?: string
           number_of_floors?: string | null
           completion_date?: string | null
+          material_dispatch_date?: string | null
+          materials_notes?: string | null
+          logistics_partner?: string | null
           project_value?: number | null
           payment_terms?: Json | null
           warranty_status?: string | null
@@ -352,6 +361,10 @@ export type Database = {
       | "quotation_sent"
       | "negotiation"
       | "converted"
+      | "material_dispatched"
+      | "execution_wip"
+      | "installed"
+      | "handover"
       | "lost"
     }
     CompositeTypes: {
@@ -501,8 +514,10 @@ export const Constants = {
         "quotation_sent",
         "negotiation",
         "converted",
+        "material_dispatched",
         "execution_wip",
         "installed",
+        "handover",
         "lost",
       ],
     },
