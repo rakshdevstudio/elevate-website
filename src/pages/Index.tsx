@@ -318,7 +318,7 @@ const impactStats = [
   { value: "99%", label: "Automation", sub: "Digital processes" },
   { value: "Fast", label: "Quick Deliver", sub: "Timeline" },
   { value: "5", label: "Cities Covered", sub: "South India" },
-  { value: "25+", label: "Peoples", sub: "Dedicated professionals committed to excellence" },
+  { value: "25+", label: "People", sub: "Professionals Driving Our Mission Forward" },
 ];
 
 const impactFeatures = [
@@ -632,7 +632,7 @@ const IndustriesServed = () => {
   ];
 
   return (
-    <section className="py-10 md:py-16 relative section-mesh">
+    <section className="py-10 md:py-16 mt-16 relative section-mesh">
       <SectionDivider />
       <div className="container mx-auto px-6 pt-8 relative z-10">
         <SectionHeading badge="Industries" title="Industries We Serve" subtitle="Trusted across diverse sectors for premium vertical transportation" />
@@ -1732,8 +1732,8 @@ const Index = () => (
     <ProcessSection />
     <Finishes />
     <TechnologySelector />
-    <AMCPlans />
     <BrochureDownload />
+    <AMCPlans />
     <CTASection />
     <FAQ />
     <ContactSection />

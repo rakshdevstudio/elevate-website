@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useInView, useScroll, useTransform } from "framer-motion";
-import { PageHero, SectionHeading, GlassCard, StatCard, SectionDivider, ScrollReveal } from "@/components/ui/shared";
+import { PageHero, SectionHeading, GlassCard, SectionDivider, ScrollReveal } from "@/components/ui/shared";
 import { Shield, Award, Users, Target, Building2, Heart, Lightbulb, CheckCircle2, Pencil, Cog, Clock, Monitor, HeadphonesIcon, Home, Building, Hospital, Hotel, Factory } from "lucide-react";
 import { CTABanner, TrustBadges } from "@/components/CTABanner";
 import BrochureDownload from "@/components/BrochureDownload";
@@ -25,6 +25,33 @@ const certifications = [
 const registrations = [
   "MSME Registered",
   "24/7 Emergency Support"
+];
+
+const aboutStats = [
+  {
+    value: "75+",
+    label: "Projects Installed by Our Expert Team",
+    sub: "Across Karnataka & Tamil Nadu",
+    icon: <Building2 className="w-6 h-6" />,
+  },
+  {
+    value: "120+",
+    label: "Customers Served Across Residential & Commercial Projects",
+    sub: "Trusted by builders and homeowners",
+    icon: <Users className="w-6 h-6" />,
+  },
+  {
+    value: "99%",
+    label: "System Reliability & Uptime Achieved Across Installations",
+    sub: "Engineered for long-term performance",
+    icon: <Target className="w-6 h-6" />,
+  },
+  {
+    value: "25+",
+    label: "People",
+    sub: "Professionals Driving Our Mission Forward",
+    icon: <Award className="w-6 h-6" />,
+  },
 ];
 
 type StorySegment = {
@@ -258,13 +285,43 @@ const BrandStorySection = () => {
 
 const CoreValuesExperience = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [showAutoHint, setShowAutoHint] = useState(true);
   const mobileTrackRef = useRef<HTMLDivElement | null>(null);
+  const hoverPausedRef = useRef(false);
+  const resumeTimeoutRef = useRef<number | null>(null);
+  const autoHintTimeoutRef = useRef<number | null>(null);
   const activeValue = values[activeIndex];
   const totalItems = values.length;
   const ORBIT_RADIUS = 246;
   const TOP_ANGLE = -90;
   const nodeSize = 84;
   const orbitRotation = TOP_ANGLE - (activeIndex / totalItems) * 360;
+
+  useEffect(() => {
+    autoHintTimeoutRef.current = window.setTimeout(() => setShowAutoHint(false), 3000);
+    return () => {
+      if (autoHintTimeoutRef.current) window.clearTimeout(autoHintTimeoutRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      const paused = hoverPausedRef.current || (resumeTimeoutRef.current !== null && Date.now() < resumeTimeoutRef.current);
+      if (paused) return;
+      setActiveIndex((prev) => (prev + 1) % totalItems);
+    }, 3000);
+
+    return () => window.clearInterval(id);
+  }, [totalItems]);
+
+  const pauseAutoRotation = (durationMs = 5000) => {
+    if (resumeTimeoutRef.current) {
+      window.clearTimeout(resumeTimeoutRef.current);
+    }
+    resumeTimeoutRef.current = window.setTimeout(() => {
+      resumeTimeoutRef.current = null;
+    }, durationMs);
+  };
 
   const normalizeAngle = (angle: number) => {
     let normalized = angle % 360;
@@ -293,8 +350,10 @@ const CoreValuesExperience = () => {
 
   const handleSelect = (index: number) => {
     if (index === activeIndex) {
+      pauseAutoRotation();
       return;
     }
+    pauseAutoRotation();
     setActiveIndex(index);
   };
 
@@ -354,7 +413,15 @@ const CoreValuesExperience = () => {
           className="max-w-5xl mx-auto flex flex-col items-center"
         >
           <div className="hidden md:flex items-center justify-center w-full">
-            <div className="relative w-full h-[600px] flex items-center justify-center">
+            <div
+              className="relative w-full h-[600px] flex items-center justify-center"
+              onMouseEnter={() => {
+                hoverPausedRef.current = true;
+              }}
+              onMouseLeave={() => {
+                hoverPausedRef.current = false;
+              }}
+            >
               <motion.div
                 className="absolute w-[300px] h-[300px] rounded-full blur-[90px] bg-[radial-gradient(circle,hsl(43_66%_52%/0.26),transparent_70%)]"
                 animate={{ opacity: [0.18, 0.34, 0.18], scale: [1, 1.05, 1] }}
@@ -364,7 +431,7 @@ const CoreValuesExperience = () => {
               <motion.div
                 className="absolute inset-0 z-10"
                 animate={{ rotate: orbitRotation }}
-                transition={{ duration: 0.6, ease: "easeInOut" }}
+                transition={{ duration: 0.75, ease: "easeInOut" }}
                 style={{ willChange: "transform" }}
               >
                 {values.map((value, index) => {
@@ -389,7 +456,7 @@ const CoreValuesExperience = () => {
                           scale: metrics.scale,
                           opacity: metrics.opacity,
                         }}
-                        transition={{ duration: 0.6, ease: "easeInOut" }}
+                        transition={{ duration: 0.75, ease: "easeInOut" }}
                         className={`w-[84px] h-[84px] rounded-full border backdrop-blur-xl flex items-center justify-center text-primary ${metrics.isActive
                           ? "bg-primary/24 border-primary/70 shadow-[0_0_42px_hsl(43_66%_52%/0.52)]"
                           : "bg-white/10 border-white/20"
@@ -426,6 +493,35 @@ const CoreValuesExperience = () => {
                   </motion.div>
                 </AnimatePresence>
               </div>
+
+              <div className="absolute bottom-7 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 pointer-events-auto">
+                {values.map((value, index) => {
+                  const isActive = index === activeIndex;
+                  return (
+                    <button
+                      key={value.title}
+                      type="button"
+                      aria-label={`Show ${value.title}`}
+                      onClick={() => handleSelect(index)}
+                      className={`h-2.5 rounded-full transition-all duration-300 ${isActive ? "w-8 bg-primary shadow-[0_0_12px_hsl(43_66%_52%/0.45)]" : "w-2.5 bg-white/25 hover:bg-white/45"}`}
+                    />
+                  );
+                })}
+              </div>
+
+              <AnimatePresence>
+                {showAutoHint && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    className="absolute top-8 left-1/2 -translate-x-1/2 z-40 px-3 py-1.5 rounded-full bg-white/6 border border-white/10 text-[11px] tracking-[0.18em] uppercase text-primary/90 backdrop-blur-md"
+                  >
+                    Auto-playing highlights
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 
@@ -476,6 +572,21 @@ const CoreValuesExperience = () => {
                 );
               })}
             </div>
+
+            <div className="flex items-center justify-center gap-2 pt-1">
+              {values.map((value, index) => {
+                const isActive = index === activeIndex;
+                return (
+                  <button
+                    key={value.title}
+                    type="button"
+                    aria-label={`Show ${value.title}`}
+                    onClick={() => handleMobileSelect(index)}
+                    className={`h-2 rounded-full transition-all duration-300 ${isActive ? "w-7 bg-primary shadow-[0_0_10px_hsl(43_66%_52%/0.35)]" : "w-2 bg-white/25"}`}
+                  />
+                );
+              })}
+            </div>
           </div>
         </motion.div>
       </div>
@@ -497,11 +608,34 @@ const About = () => (
     <section className="py-10 md:py-16">
       <SectionDivider />
       <div className="container mx-auto px-6 pt-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-          <StatCard value="75+" label="Projects Installed" icon={<Building2 className="w-7 h-7" />} />
-          <StatCard value="120+" label="Happy Customers" icon={<Users className="w-7 h-7" />} />
-          <StatCard value="99%" label="Uptime Rate" icon={<Target className="w-7 h-7" />} />
-          <StatCard value="25+" label="Team Members" icon={<Award className="w-7 h-7" />} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 max-w-6xl mx-auto">
+          {aboutStats.map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.55, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -4, transition: { duration: 0.25, ease: "easeOut" } }}
+              className="group relative rounded-2xl p-5 md:p-6 h-full min-h-[220px] flex flex-col backdrop-blur-xl"
+              style={{
+                background: "linear-gradient(160deg, hsl(212 50% 15% / 0.58) 0%, hsl(212 48% 10% / 0.42) 100%)",
+                border: "1px solid hsl(43 66% 52% / 0.12)",
+                boxShadow: "inset 0 1px 0 hsl(0 0% 100% / 0.05), 0 10px 34px hsl(213 62% 3% / 0.28)",
+              }}
+            >
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-400" style={{ boxShadow: "0 0 0 1px hsl(43 66% 52% / 0.2), 0 0 36px hsl(43 66% 52% / 0.12)" }} />
+
+              <span className="w-11 h-11 rounded-xl bg-primary/12 border border-primary/30 text-primary flex items-center justify-center mb-4">
+                {stat.icon}
+              </span>
+
+              <h3 className="text-3xl md:text-4xl font-heading font-extrabold text-primary leading-none mb-3">{stat.value}</h3>
+              <p className="text-foreground text-sm md:text-[15px] font-semibold leading-relaxed mb-2">{stat.label}</p>
+              <p className="text-muted-foreground/70 text-xs md:text-sm leading-relaxed mt-auto">{stat.sub}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

@@ -61,7 +61,7 @@ const BrochureDownload = () => {
               Company Brochure
             </h3>
             <p className="text-muted-foreground/75 text-sm lg:text-base leading-relaxed mb-1">
-              Download our company brochure to explore our elevator solutions and technologies.
+              Explore our elevator solutions before choosing a plan.
             </p>
             <p className="text-muted-foreground/50 text-xs">PDF · Available instantly</p>
           </div>
