@@ -1676,30 +1676,12 @@ const TechnologySelector = () => {
 
           {/* Column 2 - Image Display ONLY */}
           <div
-            className="relative rounded-2xl overflow-hidden border border-white/5 w-full flex items-center justify-center"
+            className="relative rounded-2xl overflow-hidden border border-white/5 w-full flex items-center justify-center group"
             style={{
-              height: "520px",
-              maxWidth: "520px",
-              background: "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08), rgba(10,15,30,0.92))",
+              height: "280px",
+              background: "radial-gradient(circle at center, rgba(255,255,255,0.06), rgba(10,15,30,0.9))",
             }}
           >
-            {/* Soft blurred backdrop using the same image */}
-            <AnimatePresence>
-              <motion.div
-                key={`bg-${activeMotor}`}
-                className="absolute inset-0 scale-110 blur-2xl opacity-25"
-                style={{
-                  backgroundImage: `url(${motors[activeMotor].image})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.25 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
-              />
-            </AnimatePresence>
-
             <AnimatePresence>
               <motion.img
                 key={activeMotor}
@@ -1707,8 +1689,8 @@ const TechnologySelector = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="relative z-10 max-h-full max-w-full object-contain object-center"
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="relative z-10 max-h-full max-w-full object-contain transition-transform duration-400 ease-in-out group-hover:scale-105"
                 alt={motors[activeMotor].name}
               />
             </AnimatePresence>

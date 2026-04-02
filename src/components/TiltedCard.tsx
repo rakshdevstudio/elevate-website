@@ -89,7 +89,7 @@ const TiltedCard: React.FC<TiltedCardProps> = ({
             <img
                 src={src}
                 alt={alt}
-                className="relative z-10 w-full h-full object-contain object-center block"
+                className="relative z-10 w-full h-full object-cover object-center block"
                 loading="lazy"
                 draggable={false}
             />
