@@ -66,13 +66,30 @@ const TiltedCard: React.FC<TiltedCardProps> = ({
                         : 'transform 0.08s linear',
                 willChange: 'transform',
                 transformStyle: 'preserve-3d',
+                // Standardized, responsive container
+                aspectRatio: '4 / 5',
+                width: '100%',
+                maxWidth: '520px',
+                height: 'auto',
+                minHeight: '360px',
+                background: 'radial-gradient(circle at 50% 40%, rgba(255,255,255,0.08), rgba(10,15,30,0.92))',
             }}
         >
+            {/* Soft blurred backdrop to avoid empty space */}
+            <div
+                className="absolute inset-0 scale-110 blur-2xl opacity-20"
+                style={{
+                    backgroundImage: `url(${src})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                }}
+            />
+
             {/* Actual image */}
             <img
                 src={src}
                 alt={alt}
-                className="w-full aspect-[4/3] object-cover block"
+                className="relative z-10 w-full h-full object-contain object-center block"
                 loading="lazy"
                 draggable={false}
             />
