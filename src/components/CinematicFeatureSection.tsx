@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Layers, Monitor, Grip, PanelTop, Sparkles, ArrowRight } from "lucide-react";
+import { Award, Clock, UserCog, FileText, ShieldCheck, ArrowRight } from "lucide-react";
 
 export const WHY_CHOOSE_FEATURES = [
-  { id: 1, title: "ISO Certified", desc: "Quality assured with international standards", icon: Layers },
-  { id: 2, title: "<60 Min Response", desc: "Emergency response within 60 minutes", icon: Monitor },
-  { id: 3, title: "Certified Technicians", desc: "Factory-trained and certified professionals", icon: Grip },
-  { id: 4, title: "Digital Reports", desc: "Real-time service tracking via WhatsApp", icon: PanelTop },
-  { id: 5, title: "Preventive Care", desc: "Automated reminders and scheduled maintenance", icon: Sparkles }
+  { id: 1, title: "ISO Certified", desc: "Quality assured with international standards", icon: Award },
+  { id: 2, title: "<60 Min Response", desc: "Emergency response within 60 minutes", icon: Clock },
+  { id: 3, title: "Certified Technicians", desc: "Factory-trained and certified professionals", icon: UserCog },
+  { id: 4, title: "Digital Reports", desc: "Real-time service tracking via WhatsApp", icon: FileText },
+  { id: 5, title: "Preventive Care", desc: "Automated reminders and scheduled maintenance", icon: ShieldCheck }
 ];
 
 export const CinematicFeatureSection = () => {
