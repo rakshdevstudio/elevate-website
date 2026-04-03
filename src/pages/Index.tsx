@@ -1678,7 +1678,7 @@ const TechnologySelector = () => {
           <div
             className="relative rounded-2xl overflow-hidden border border-white/5 w-full flex items-center justify-center group"
             style={{
-              height: "280px",
+              height: "500px",
               background: "radial-gradient(circle at center, rgba(255,255,255,0.06), rgba(10,15,30,0.9))",
             }}
           >
@@ -1690,7 +1690,7 @@ const TechnologySelector = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
-                className="relative z-10 max-h-full max-w-full object-contain transition-transform duration-400 ease-in-out group-hover:scale-105"
+                className="relative z-10 h-full w-auto max-h-full object-contain transition-transform duration-400 ease-in-out group-hover:scale-105"
                 alt={motors[activeMotor].name}
               />
             </AnimatePresence>

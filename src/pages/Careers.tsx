@@ -58,8 +58,19 @@ const Careers = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!form.name || !form.email || !form.phone || !form.position || !file) {
-      toast({ title: "Missing Fields", description: "Please fill out all required fields and upload a resume.", variant: "destructive" });
+    const missing: string[] = [];
+    if (!form.name) missing.push("Full Name");
+    if (!form.email) missing.push("Email");
+    if (!form.phone) missing.push("Phone");
+    if (!form.position) missing.push("Position");
+    if (!file) missing.push("Resume");
+
+    if (missing.length) {
+      toast({
+        title: "Missing Fields",
+        description: `Please add: ${missing.join(", ")}.`,
+        variant: "destructive"
+      });
       return;
     }
 
@@ -103,6 +114,16 @@ const Careers = () => {
     }
   };
 
+  const handleJobClick = (jobTitle: string) => {
+    setForm((prev) => ({ ...prev, position: jobTitle }));
+
+    if (typeof document !== "undefined") {
+      requestAnimationFrame(() => {
+        document.getElementById("apply")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  };
+
   return (
     <>
       <PageHero
@@ -134,9 +155,13 @@ const Careers = () => {
                       <Clock className="w-4 h-4 text-primary shrink-0" /> {job.type}
                     </div>
                   </div>
-                  <a href="#apply" className="block w-full py-2.5 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-300 text-center hover:shadow-[0_0_20px_hsl(43_66%_52%/0.2)]">
+                  <button
+                    type="button"
+                    onClick={() => handleJobClick(job.title)}
+                    className="block w-full py-2.5 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-gradient-to-r hover:from-primary hover:to-gold-light hover:text-primary-foreground transition-all duration-300 text-center hover:shadow-[0_0_20px_hsl(43_66%_52%/0.2)]"
+                  >
                     Apply Now
-                  </a>
+                  </button>
                 </GlassCard>
               </ScrollReveal>
             ))}

@@ -39,7 +39,7 @@ export const CinematicFeatureSection = () => {
         }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       />
-      <div className="absolute inset-0 z-0 mix-blend-overlay opacity-[0.03] pointer-events-none" style={{ backgroundImage: "url('https://grainy-gradients.vercel.app/noise.svg')" }} />
+      <div className="absolute inset-0 z-0 mix-blend-overlay opacity-[0.03] pointer-events-none" style={{ backgroundImage: "url('/noise.svg')" }} />
 
       <div className="container mx-auto px-6 relative z-10 flex flex-col items-center">
         

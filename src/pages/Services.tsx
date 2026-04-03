@@ -24,7 +24,7 @@ const ServicePhilosophySection = () => {
       {/* Noise Texture Overlay */}
       <div 
         className="absolute inset-0 z-0 opacity-[0.03] mix-blend-overlay pointer-events-none" 
-        style={{ backgroundImage: "url('https://grainy-gradients.vercel.app/noise.svg')" }} 
+        style={{ backgroundImage: "url('/noise.svg')" }} 
       />
 
       {/* Background Magic */}
