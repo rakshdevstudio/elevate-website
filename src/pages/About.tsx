@@ -598,8 +598,8 @@ const About = () => (
   <>
     <PageHero
       badge="Engineering Trust. Elevating India."
-      title="Engineering the Vertical Future of India"
-      subtitle="X Elevators pairs meticulous mechanical design with data-led controls, safety protocols, and refined cabin experiences tailored for the nation's skyline. Every deployment is governed by measurable quality checkpoints and lifecycle discipline, aligning Indian projects with global engineering benchmarks so your vertical infrastructure earns trust for decades."
+      title={<>Engineering the <span className="gold-text">Vertical Future</span> of <span className="gold-text">India</span></>}
+      subtitle={<>X Elevators pairs meticulous mechanical design with <span className="gold-text">data-led controls</span>, <span className="gold-text">safety protocols</span>, and refined cabin experiences tailored for the nation's skyline. Every deployment is governed by measurable quality checkpoints and lifecycle discipline, aligning Indian projects with <span className="gold-text">global engineering benchmarks</span> so your vertical infrastructure earns trust for decades.</>}
       backgroundImage="/images/hero-about.webp"
     />
 
@@ -702,7 +702,7 @@ const About = () => (
             </div>
             <div className="p-8 text-center bg-black/40 backdrop-blur-sm relative z-30">
               <h3 className="text-2xl font-bold text-white mb-2 font-heading tracking-tight drop-shadow-md">Mohammed Asif</h3>
-              <p className="text-[#C9A961] font-medium mb-3 tracking-wide uppercase text-sm">COO (Chief Operation Officer)</p>
+              <p className="text-[#C9A961] font-medium mb-3 tracking-wide uppercase text-sm">Director of Board</p>
               <div className="w-10 h-px bg-gradient-to-r from-transparent via-[#C9A961]/50 to-transparent mx-auto mb-4" />
               <p className="text-gray-400 text-sm leading-relaxed max-w-sm mx-auto">Operational specialist ensuring quality delivery, safety compliance, and service reliability.</p>
             </div>

@@ -35,26 +35,26 @@ const Footer = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-[#080808] to-[#020202] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_30%_at_50%_0%,hsl(43_66%_52%/0.03),transparent)] pointer-events-none" />
 
-      <div className="container mx-auto px-4 lg:px-8 py-20 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+      <div className="container mx-auto px-4 lg:px-8 py-16 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-8">
 
           {/* Brand column */}
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-4 mb-6 group w-fit">
+            <Link to="/" className="footer-logo-wrapper group w-fit mb-4">
               <img
                 src={logoUrl}
                 alt="X Elevators"
-                className="h-24 w-auto object-contain group-hover:opacity-90 transition-all duration-300"
+                className="footer-logo group-hover:opacity-90 transition-all duration-300"
               />
               <span className="text-foreground font-heading font-bold text-lg uppercase tracking-wider group-hover:text-primary transition-colors duration-300 whitespace-nowrap">
                 X Elevators Pvt. Ltd.
               </span>
             </Link>
-            <p className="text-muted-foreground/70 text-sm leading-relaxed mb-6">
+            <p className="text-muted-foreground/70 text-sm leading-relaxed mb-4 max-w-md">
               Elevating Trust. Engineering the Future. Next-generation elevator
               solutions with uncompromising commitment to quality.
             </p>
-            <div className="flex gap-2 flex-nowrap overflow-x-auto pb-2 scrollbar-hide">
+            <div className="flex gap-2 flex-nowrap overflow-x-auto pb-1 scrollbar-hide">
               {["ISO Certified", "Licensed", "99% Automation"].map((badge) => (
                 <span
                   key={badge}
@@ -68,10 +68,10 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-foreground font-heading font-semibold mb-5 text-sm uppercase tracking-wider">
+            <h4 className="text-foreground font-heading font-semibold mb-4 text-sm uppercase tracking-wider">
               Quick Links
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5">
               {quickLinks.map((link) => (
                 <li key={link.path}>
                   <Link to={link.path} className={linkClass}>
@@ -84,10 +84,10 @@ const Footer = () => {
 
           {/* Services */}
           <div>
-            <h4 className="text-foreground font-heading font-semibold mb-5 text-sm uppercase tracking-wider">
+            <h4 className="text-foreground font-heading font-semibold mb-4 text-sm uppercase tracking-wider">
               Our Services
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5">
               {serviceLinks.map((s) => (
                 <li key={s.path}>
                   <Link to={s.path} className={linkClass}>
@@ -100,10 +100,10 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 className="text-foreground font-heading font-semibold mb-5 text-sm uppercase tracking-wider">
+            <h4 className="text-foreground font-heading font-semibold mb-4 text-sm uppercase tracking-wider">
               Contact Us
             </h4>
-            <ul className="space-y-4">
+            <ul className="space-y-3">
               {/* Phone numbers */}
               <li className="flex items-start gap-3 text-sm text-muted-foreground/60">
                 <Phone

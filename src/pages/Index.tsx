@@ -423,7 +423,8 @@ const ImpactMetrics = () => {
               centeredSlides={true}
               slidesPerView={1}
               spaceBetween={28}
-              autoplay={{ delay: 5000, disableOnInteraction: false }}
+              speed={420}
+              autoplay={{ delay: 1700, disableOnInteraction: false }}
               navigation={{
                 nextEl: '.swiper-button-next-custom',
                 prevEl: '.swiper-button-prev-custom',
@@ -514,10 +515,10 @@ const ImpactMetrics = () => {
           </div>
 
           {/* Custom Navigation Arrows — outside overflow-hidden so they're fully visible */}
-          <div className="absolute top-1/2 -translate-y-1/2 -left-5 lg:-left-7 z-30 swiper-button-prev-custom w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center text-white hover:text-primary hover:bg-black cursor-pointer transition-all shadow-xl hover:scale-110 border border-white/10">
+          <div className="carousel-arrow arrow-btn arrow-btn--prev carousel-arrow--prev absolute top-1/2 -translate-y-1/2 -left-5 lg:-left-7 z-30 swiper-button-prev-custom shadow-xl border border-white/10">
             <ArrowLeft className="w-4 h-4 lg:w-5 lg:h-5" />
           </div>
-          <div className="absolute top-1/2 -translate-y-1/2 -right-5 lg:-right-7 z-30 swiper-button-next-custom w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center text-white hover:text-primary hover:bg-black cursor-pointer transition-all shadow-xl hover:scale-110 border border-white/10">
+          <div className="carousel-arrow arrow-btn arrow-btn--next carousel-arrow--next absolute top-1/2 -translate-y-1/2 -right-5 lg:-right-7 z-30 swiper-button-next-custom shadow-xl border border-white/10">
             <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5" />
           </div>
         </div>

@@ -252,7 +252,7 @@ const Products = () => {
       {/* DESIGN CUSTOMIZATION GALLERY */}
       <section className="py-10 md:py-16 section-glow relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
-          <SectionHeading badge="Choose your Design" title="Design Customization" subtitle="Personalize every detail of your elevator" />
+          <SectionHeading badge="Choose your Design" title="Endless Customization" subtitle="Personalize every detail of your elevator" />
           
           <div className="flex flex-col lg:flex-row items-center justify-center max-w-[1400px] mx-auto mt-12 gap-6 lg:gap-8">
             

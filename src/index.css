@@ -228,6 +228,28 @@
     background-clip: text;
   }
 
+  .gold-text {
+    position: relative;
+    isolation: isolate;
+    display: inline-block;
+    background: linear-gradient(135deg, #f5d27a 0%, #d4af37 40%, #b8962e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
+  }
+
+  .gold-text::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    filter: blur(12px);
+    opacity: 0.4;
+    z-index: -1;
+    pointer-events: none;
+  }
+
   .bg-navy-gradient {
     background: linear-gradient(180deg, hsl(213 62% 6%) 0%, hsl(212 55% 10%) 50%, hsl(213 58% 7%) 100%);
   }
@@ -389,6 +411,96 @@
 
   .btn-glow:hover::after {
     opacity: 1;
+  }
+
+  .footer-logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .footer-logo {
+    width: 150px;
+    height: auto;
+    object-fit: contain;
+    filter: brightness(1.1) contrast(1.05);
+  }
+
+  @media (max-width: 768px) {
+    .footer-logo {
+      width: 78px;
+    }
+  }
+
+  @keyframes goldPulse {
+    0% {
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.36);
+    }
+    100% {
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    }
+  }
+
+  .carousel-arrow,
+  .arrow-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(212, 175, 55, 0.12);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: #d4af37;
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    will-change: transform, box-shadow;
+    animation: goldPulse 2.5s infinite;
+  }
+
+  .carousel-arrow svg,
+  .arrow-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: #d4af37;
+    opacity: 0.9;
+    transition: transform 0.3s ease, stroke 0.3s ease, opacity 0.3s ease;
+  }
+
+  .carousel-arrow:hover,
+  .arrow-btn:hover {
+    background: #d4af37;
+    color: #0b1a2b;
+    border-color: rgba(212, 175, 55, 0.75);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+    transform: scale(1.1);
+  }
+
+  .carousel-arrow:hover svg,
+  .arrow-btn:hover svg {
+    stroke: #0b1a2b;
+    opacity: 1;
+  }
+
+  .carousel-arrow:active,
+  .arrow-btn:active {
+    transform: scale(0.95);
+  }
+
+  .carousel-arrow--next:hover svg,
+  .arrow-btn--next:hover svg {
+    transform: translateX(2px);
+  }
+
+  .carousel-arrow--prev:hover svg,
+  .arrow-btn--prev:hover svg {
+    transform: translateX(-2px);
   }
 
   .text-shadow-glow {

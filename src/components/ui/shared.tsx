@@ -223,8 +223,8 @@ export const AnimatedCounter = StatCard;
 
 interface PageHeroProps {
   badge?: string;
-  title: string;
-  subtitle: string;
+  title: ReactNode;
+  subtitle: ReactNode;
   backgroundImage?: string;
 }
 
