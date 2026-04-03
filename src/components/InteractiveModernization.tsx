@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Cpu, DoorOpen, Box, ShieldCheck, BatteryCharging, Wifi } from "lucide-react";
 import { SectionHeading } from "@/components/ui/shared";
@@ -14,6 +14,18 @@ const MODERNIZATION_FEATURES = [
 
 export const InteractiveModernization = () => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // Auto-cycle through features every 2 seconds, pause on hover
+  useEffect(() => {
+    if (hoveredId !== null) return; // Pause auto-cycle on hover
+    
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % MODERNIZATION_FEATURES.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [hoveredId]);
 
   const containerVariants: Variants = {
     hidden: {},
@@ -94,9 +106,11 @@ export const InteractiveModernization = () => {
               viewport={{ once: true }}
               className="hidden md:block absolute top-1/2 left-1/2"
             >
-              {MODERNIZATION_FEATURES.map((feature) => {
-                const isHovered = hoveredId === feature.id;
-                const isAnotherHovered = hoveredId !== null && hoveredId !== feature.id;
+              {MODERNIZATION_FEATURES.map((feature, index) => {
+                // If hovering, use hoveredId; otherwise use activeIndex for auto-cycling
+                const isActive = hoveredId ? hoveredId === feature.id : index === activeIndex;
+                const hasHover = hoveredId !== null;
+                const isOtherItemHovered = hasHover && hoveredId !== feature.id;
 
                 return (
                   <motion.div
@@ -106,28 +120,37 @@ export const InteractiveModernization = () => {
                     onMouseEnter={() => setHoveredId(feature.id)}
                     onMouseLeave={() => setHoveredId(null)}
                     animate={
-                      isHovered 
-                        ? { scale: 1.15, zIndex: 30, filter: "brightness(1.2)" } 
-                        : isAnotherHovered 
-                          ? { scale: 0.9, opacity: 0.3, filter: "blur(4px)" } 
-                          : { scale: 1, opacity: 1, filter: "blur(0px) brightness(1)" }
+                      isActive
+                        ? { scale: 1.1, zIndex: 30, opacity: 1, filter: "blur(0px) brightness(1.2)" }
+                        : isOtherItemHovered
+                          ? { scale: 0.95, opacity: 0.4, filter: "blur(2px) brightness(0.8)" }
+                          : { scale: 0.95, opacity: 0.4, filter: "blur(2px) brightness(0.9)" }
                     }
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
                     className="absolute -ml-16 -mt-16 w-32 h-32 flex flex-col items-center justify-center gap-3 cursor-pointer group"
                     style={{ perspective: 1000 }}
                   >
-                    <div className="relative w-16 h-16 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-center justify-center text-white/70 group-hover:text-[#D4AF37] group-hover:bg-[#D4AF37]/10 group-hover:border-[#D4AF37]/50 transition-all duration-300 shadow-xl">
+                    <div className={`relative w-16 h-16 rounded-2xl backdrop-blur-md flex items-center justify-center transition-all duration-500 ease-in-out shadow-xl ${
+                      isActive
+                        ? "bg-[#D4AF37]/15 border border-[#D4AF37]/60 text-[#D4AF37] shadow-[0_0_30px_rgba(212,175,55,0.4)]"
+                        : "bg-white/5 border border-white/10 text-white/70 group-hover:text-[#D4AF37] group-hover:bg-[#D4AF37]/10 group-hover:border-[#D4AF37]/50"
+                    }`}>
                       <feature.icon className="w-7 h-7" strokeWidth={1.5} />
-                      {/* Glow on hover */}
-                      <div className="absolute inset-0 bg-[#D4AF37] blur-[20px] opacity-0 group-hover:opacity-30 rounded-2xl transition-opacity duration-300" />
+                      {/* Glow effect for active item */}
+                      <div className={`absolute inset-0 bg-[#D4AF37] blur-[20px] rounded-2xl transition-opacity duration-500 ${
+                        isActive ? "opacity-40" : "opacity-0 group-hover:opacity-30"
+                      }`} />
                     </div>
                     
                     <div className="flex flex-col items-center w-max">
-                      <span className="text-sm font-semibold tracking-wide text-white group-hover:text-[#D4AF37] transition-colors text-center whitespace-nowrap">
+                      <span className={`text-sm font-semibold tracking-wide transition-all duration-500 text-center whitespace-nowrap ${
+                        isActive ? "text-[#D4AF37]" : "text-white group-hover:text-[#D4AF37]"
+                      }`}>
                         {feature.label}
                       </span>
                       
                       {/* Tooltip description (Absolute positioned to avoid layout shifts) */}
-                      <div className={`absolute top-full mt-2 w-48 text-center text-xs text-white/60 font-light leading-relaxed transition-all duration-300 pointer-events-none ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}>
+                      <div className={`absolute top-full mt-2 w-48 text-center text-xs text-white/60 font-light leading-relaxed transition-all duration-500 pointer-events-none ${(isActive || hoveredId === feature.id) ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}>
                         {feature.desc}
                       </div>
                     </div>
@@ -138,24 +161,45 @@ export const InteractiveModernization = () => {
 
             {/* Mobile Vertical Stepper (Visible only on < md) */}
             <div className="md:hidden mt-32 w-full flex flex-col gap-4 relative z-30">
-              {MODERNIZATION_FEATURES.map((feature, idx) => (
-                <motion.div
-                  key={feature.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.15 + 0.5, duration: 0.5 }}
-                  className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-md"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-[#D4AF37]/10 border border-[#D4AF37]/30 flex items-center justify-center shrink-0">
-                    <feature.icon className="w-6 h-6 text-[#D4AF37]" strokeWidth={1.5} />
-                  </div>
-                  <div>
-                    <h4 className="text-white font-semibold text-sm">{feature.label}</h4>
-                    <p className="text-white/50 text-xs mt-0.5 font-light">{feature.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
+              {MODERNIZATION_FEATURES.map((feature, idx) => {
+                const isActive = idx === activeIndex;
+                
+                return (
+                  <motion.div
+                    key={feature.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.15 + 0.5, duration: 0.5 }}
+                    animate={
+                      isActive
+                        ? { scale: 1.02, opacity: 1 }
+                        : { scale: 0.95, opacity: 0.4 }
+                    }
+                    className={`flex items-center gap-4 rounded-2xl p-4 backdrop-blur-md transition-all duration-500 ease-in-out cursor-pointer ${
+                      isActive
+                        ? "bg-[#D4AF37]/15 border border-[#D4AF37]/60 shadow-[0_0_20px_rgba(212,175,55,0.3)]"
+                        : "bg-white/5 border border-white/10"
+                    }`}
+                    onMouseEnter={() => setHoveredId(feature.id)}
+                    onMouseLeave={() => setHoveredId(null)}
+                  >
+                    <div className={`w-12 h-12 rounded-xl border flex items-center justify-center shrink-0 transition-all duration-500 ${
+                      isActive
+                        ? "bg-[#D4AF37]/20 border-[#D4AF37]/60 text-[#D4AF37]"
+                        : "bg-[#D4AF37]/10 border-[#D4AF37]/30 text-[#D4AF37]"
+                    }`}>
+                      <feature.icon className="w-6 h-6" strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <h4 className={`font-semibold text-sm transition-colors duration-500 ${
+                        isActive ? "text-[#D4AF37]" : "text-white"
+                      }`}>{feature.label}</h4>
+                      <p className="text-white/50 text-xs mt-0.5 font-light">{feature.desc}</p>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
 
           </div>
