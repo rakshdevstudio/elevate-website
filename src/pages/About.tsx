@@ -5,7 +5,6 @@ import { PageHero, SectionHeading, GlassCard, SectionDivider, ScrollReveal } fro
 import { Shield, Award, Users, Target, Building2, Heart, Lightbulb, CheckCircle2, Pencil, Cog, Clock, Monitor, HeadphonesIcon, Home, Building, Hospital, Hotel, Factory } from "lucide-react";
 import { CTABanner, TrustBadges } from "@/components/CTABanner";
 import BrochureDownload from "@/components/BrochureDownload";
-import { COMPANY_ADDRESS } from "@/lib/company";
 
 
 const values = [
@@ -32,25 +31,25 @@ const aboutStats = [
   {
     value: "75+",
     label: "Projects Installed by Our Expert Team",
-    sub: COMPANY_ADDRESS,
+    sub: "Executed with precision and engineering excellence",
     icon: <Building2 className="w-6 h-6" />,
   },
   {
     value: "120+",
     label: "Customers Served Across Residential & Commercial Projects",
-    sub: "Trusted by builders and homeowners",
+    sub: "Trusted by homeowners and commercial clients",
     icon: <Users className="w-6 h-6" />,
   },
   {
     value: "99%",
     label: "System Reliability & Uptime Achieved Across Installations",
-    sub: "Engineered for long-term performance",
+    sub: "Engineered for consistent long-term performance",
     icon: <Target className="w-6 h-6" />,
   },
   {
     value: "25+",
     label: "People",
-    sub: "Professionals Driving Our Mission Forward",
+    sub: "Skilled professionals driving innovation forward",
     icon: <Award className="w-6 h-6" />,
   },
 ];
@@ -396,7 +395,7 @@ const CoreValuesExperience = () => {
   };
 
   return (
-    <section className="pt-24 pb-10 md:pt-28 md:pb-16 relative overflow-hidden">
+    <section className="py-16 md:py-20 relative overflow-hidden">
       <SectionDivider />
 
       <div className="absolute inset-0 pointer-events-none">
@@ -595,47 +594,253 @@ const CoreValuesExperience = () => {
   );
 };
 
+const CinematicFounderShowcase = () => {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [parallaxOffset, setParallaxOffset] = useState({ x: 0, y: 0 });
+  const [spotlight, setSpotlight] = useState({ x: 0, y: 0 });
+  const [hoverSide, setHoverSide] = useState<null | 'left' | 'right'>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return;
+
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      setMousePos({ x, y });
+      setSpotlight({ x, y });
+
+      // Parallax effect - inverted for depth illusion
+      const parallaxX = ((x - rect.width / 2) / rect.width) * -15;
+      const parallaxY = ((y - rect.height / 2) / rect.height) * -15;
+      setParallaxOffset({ x: parallaxX, y: parallaxY });
+    };
+
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('mousemove', handleMouseMove);
+      return () => container.removeEventListener('mousemove', handleMouseMove);
+    }
+  }, []);
+
+  const spotlightGradient = `radial-gradient(circle 300px at ${spotlight.x}px ${spotlight.y}px, rgba(212,175,55,0.12), transparent 70%)`;
+
+  return (
+    <section
+      ref={containerRef}
+      className="relative py-20 md:py-32 overflow-hidden bg-gradient-to-b from-black/80 via-black to-black/90"
+      onMouseLeave={() => setHoverSide(null)}
+    >
+      <SectionDivider />
+
+      {/* Ambient particles background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{
+              y: [0, -80, 0],
+              x: [0, Math.cos(i) * 30, 0],
+              opacity: [0, 0.03, 0],
+            }}
+            transition={{
+              duration: 12 + i * 0.5,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            className="absolute w-1 h-1 bg-white/30 rounded-full blur-sm"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Dynamic cursor spotlight */}
+      <div
+        className="absolute inset-0 pointer-events-none z-[5] transition-opacity duration-300"
+        style={{ background: spotlightGradient }}
+      />
+
+      {/* Gold light sweep animation */}
+      <motion.div
+        animate={{ x: ['-100%', '200%'] }}
+        transition={{ duration: 7, repeat: Infinity, repeatDelay: 4, ease: 'easeInOut' }}
+        className="absolute inset-0 pointer-events-none z-[4] bg-gradient-to-r from-transparent via-[#D4AF37]/5 to-transparent blur-[40px]"
+      />
+
+      {/* Static vignette overlay */}
+      <div className="absolute inset-0 pointer-events-none z-[3] bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(0,0,0,0.6))]" />
+
+      {/* Center title */}
+      <div className="text-center mb-10 md:mb-16 relative z-20">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-white tracking-wider uppercase">
+          THE MINDS BEHIND <span className="text-[#D4AF37]">X ELEVATORS</span>
+        </h2>
+      </div>
+
+      {/* Main hero container with depth layers */}
+      <div className="container mx-auto px-6 max-w-6xl relative z-10">
+        <div className="relative h-[500px] md:h-[600px] lg:h-[700px] group perspective">
+          {/* Glow aura behind founders */}
+          <div className="absolute inset-0 rounded-3xl overflow-hidden">
+            <motion.div
+              animate={{
+                scale: [1, 1.1, 1],
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+              className="absolute -inset-20 rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.15),transparent_70%)] blur-[60px] pointer-events-none"
+            />
+          </div>
+
+          {/* Image container with parallax and hover effects */}
+          <div className="relative w-full h-full rounded-3xl overflow-hidden group/container">
+            {/* Left hover zone */}
+            <div
+              className="absolute left-0 top-0 w-1/2 h-full z-[15] cursor-none"
+              onMouseEnter={() => setHoverSide('left')}
+              onMouseLeave={() => setHoverSide(null)}
+            />
+
+            {/* Right hover zone */}
+            <div
+              className="absolute right-0 top-0 w-1/2 h-full z-[15] cursor-none"
+              onMouseEnter={() => setHoverSide('right')}
+              onMouseLeave={() => setHoverSide(null)}
+            />
+
+            {/* Main image with parallax */}
+            <motion.img
+              src="/images/Mohammed.webp"
+              alt="Mohammed Anas & Mohammed Asif - Founders"
+              animate={{
+                x: parallaxOffset.x,
+                y: parallaxOffset.y,
+                scale: hoverSide ? 1.03 : 1,
+              }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              className="w-full h-full object-cover object-center"
+            />
+
+            {/* Vignette effect */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.5))] pointer-events-none z-[2]" />
+
+            {/* Hover brightness overlay - left side */}
+            {hoverSide === 'left' && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent z-[1] pointer-events-none"
+              />
+            )}
+
+            {/* Hover brightness overlay - right side */}
+            {hoverSide === 'right' && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-gradient-to-l from-white/20 to-transparent z-[1] pointer-events-none"
+              />
+            )}
+
+            {/* Glow on hover increase */}
+            <div
+              className="absolute inset-0 rounded-3xl bg-[radial-gradient(circle,rgba(212,175,55,0.0),transparent_70%)] pointer-events-none blur-[30px] z-0 transition-opacity duration-300"
+              style={{ opacity: hoverSide ? 0.15 : 0 }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Founder names with reveal animation */}
+      <div className="container mx-auto px-6 max-w-6xl mt-8 md:mt-12 relative z-20">
+        <div className="grid grid-cols-2 gap-4 md:gap-8">
+          {/* Left side name */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: hoverSide === 'left' ? 10 : 0 }}
+            viewport={{ once: false, margin: '-50px' }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="text-left"
+          >
+            <h3 className="text-2xl md:text-4xl font-heading font-bold text-white tracking-wide uppercase drop-shadow-lg">
+              MOHAMMED ANAS
+            </h3>
+            <p className="text-[#D4AF37] font-semibold text-sm md:text-base mt-1 tracking-widest uppercase drop-shadow">
+              Founder & CEO
+            </p>
+          </motion.div>
+
+          {/* Right side name */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: hoverSide === 'right' ? -10 : 0 }}
+            viewport={{ once: false, margin: '-50px' }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="text-right"
+          >
+            <h3 className="text-2xl md:text-4xl font-heading font-bold text-white tracking-wide uppercase drop-shadow-lg">
+              MOHAMMED ASIF
+            </h3>
+            <p className="text-[#D4AF37] font-semibold text-sm md:text-base mt-1 tracking-widest uppercase drop-shadow">
+              Director of Board
+            </p>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Team size badge */}
+      <div className="max-w-md mx-auto mt-12 md:mt-16 relative z-20">
+        <GlassCard className="flex flex-col items-center justify-center text-center p-6 rounded-xl border border-white/10" premium>
+          <p className="text-gradient-gold text-3xl font-heading font-bold text-shadow-glow">25+</p>
+          <p className="text-white font-medium text-sm mt-1">Skilled Professionals</p>
+        </GlassCard>
+      </div>
+    </section>
+  );
+};
+
 const About = () => (
   <>
     <PageHero
       badge="Engineering Trust. Elevating India."
-      title={<>Engineering the <span className="gold-text">Vertical Future</span> of <span className="gold-text">India</span></>}
-      subtitle={<>X Elevators pairs meticulous mechanical design with <span className="gold-text">data-led controls</span>, <span className="gold-text">safety protocols</span>, and refined cabin experiences tailored for the nation's skyline. Every deployment is governed by measurable quality checkpoints and lifecycle discipline, aligning Indian projects with <span className="gold-text">global engineering benchmarks</span> so your vertical infrastructure earns trust for decades.</>}
+      title={<>Engineering the <span className="text-[#D4AF37]">Vertical Future</span> of India</>}
+      subtitle={<>X Elevators pairs meticulous mechanical design with <span className="text-[#D4AF37]">data-led controls</span>, <span className="text-[#D4AF37]">safety protocols</span>, and refined cabin experiences tailored for the nation's skyline. Every deployment is governed by measurable quality checkpoints and lifecycle discipline, aligning Indian projects with <span className="text-[#D4AF37]">global engineering benchmarks</span> so your vertical infrastructure earns trust for decades.</>}
       backgroundImage="/images/hero-about.webp"
     />
 
     <TrustBadges />
 
-    <section className="py-10 md:py-16">
+    {/* Stats Section */}
+    <section className="py-10 md:py-16 relative overflow-hidden">
       <SectionDivider />
-      <div className="container mx-auto px-6 pt-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 max-w-6xl mx-auto">
-          {aboutStats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.55, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -4, transition: { duration: 0.25, ease: "easeOut" } }}
-              className="group relative rounded-2xl p-5 md:p-6 h-full min-h-[220px] flex flex-col backdrop-blur-xl"
-              style={{
-                background: "linear-gradient(160deg, hsl(212 50% 15% / 0.58) 0%, hsl(212 48% 10% / 0.42) 100%)",
-                border: "1px solid hsl(43 66% 52% / 0.12)",
-                boxShadow: "inset 0 1px 0 hsl(0 0% 100% / 0.05), 0 10px 34px hsl(213 62% 3% / 0.28)",
-              }}
-            >
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-400" style={{ boxShadow: "0 0 0 1px hsl(43 66% 52% / 0.2), 0 0 36px hsl(43 66% 52% / 0.12)" }} />
-
-              <span className="w-11 h-11 rounded-xl bg-primary/12 border border-primary/30 text-primary flex items-center justify-center mb-4">
-                {stat.icon}
-              </span>
-
-              <h3 className="text-3xl md:text-4xl font-heading font-extrabold text-primary leading-none mb-3">{stat.value}</h3>
-              <p className="text-foreground text-sm md:text-[15px] font-semibold leading-relaxed mb-2">{stat.label}</p>
-              <p className="text-muted-foreground/70 text-xs md:text-sm leading-relaxed mt-auto">{stat.sub}</p>
-            </motion.div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_60%,hsl(43_66%_52%/0.04),transparent_70%)] pointer-events-none" />
+      <div className="container mx-auto px-6 pt-8 relative z-10">
+        <SectionHeading
+          badge="By The Numbers"
+          title="Our Impact"
+          subtitle="Building trust through excellence and consistent delivery"
+        />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto">
+          {aboutStats.map((stat, i) => (
+            <ScrollReveal key={i} delay={i * 0.08}>
+              <div className="h-full min-h-[180px] md:min-h-[200px] p-4 md:p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-primary/20 hover:border-primary/50 transition-colors duration-300 text-center group hover:bg-white/8 flex flex-col">
+                <div className="mb-2 flex justify-center text-primary/70 group-hover:text-primary/90 transition-colors">{stat.icon}</div>
+                <div className="text-2xl md:text-3xl font-heading font-bold text-foreground mb-1">{stat.value}</div>
+                <div className="text-xs md:text-sm text-muted-foreground font-medium mb-2 flex-1">{stat.label}</div>
+                <div className="text-xs text-primary/70">{stat.sub}</div>
+              </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
@@ -643,84 +848,31 @@ const About = () => (
 
     <BrandStorySection />
 
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
+      <CinematicFounderShowcase />
+    </motion.div>
 
-    <CTABanner variant="inspection" />
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.55, ease: "easeOut" }}
+    >
+      <CoreValuesExperience />
+    </motion.div>
 
-    <CoreValuesExperience />
-
-    <section className="py-10 md:py-16 section-glow relative overflow-hidden">
-      <SectionDivider />
-      {/* Ambient section glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_60%,hsl(43_66%_52%/0.04),transparent_70%)] pointer-events-none" />
-      <div className="container mx-auto px-6 pt-8 relative z-10">
-        <SectionHeading badge="Leadership" title="Our Team" subtitle="Led by experienced professionals committed to elevating your experience" />
-        <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto mb-10">
-          <motion.div
-            initial={{ opacity: 0, y: 45 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.8, delay: 0, ease: [0.22, 1, 0.36, 1] }}
-            className="glass-card rounded-3xl overflow-hidden gold-border relative group"
-          >
-            <div className="relative aspect-square overflow-hidden rounded-t-3xl">
-              <div 
-                className="absolute inset-0 bg-cover bg-center opacity-10 transition-transform duration-700 group-hover:scale-105" 
-                style={{ backgroundImage: 'url("https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/694bacc0fac3a42b4b20469a/ade196248_image.png")' }}
-              />
-              <img 
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/694bacc0fac3a42b4b20469a/a779dd4a6_WhatsAppImage2025-12-30at105802AM.jpeg" 
-                alt="Mohammed Anas" 
-                className="relative z-10 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-20 pointer-events-none" />
-            </div>
-            <div className="p-8 text-center bg-black/40 backdrop-blur-sm relative z-30">
-              <h3 className="text-2xl font-bold text-white mb-2 font-heading tracking-tight drop-shadow-md">Mohammed Anas</h3>
-              <p className="text-[#C9A961] font-medium mb-3 tracking-wide uppercase text-sm">Founder &amp; CEO</p>
-              <div className="w-10 h-px bg-gradient-to-r from-transparent via-[#C9A961]/50 to-transparent mx-auto mb-4" />
-              <p className="text-gray-400 text-sm leading-relaxed max-w-sm mx-auto">Execution-focused leader driving engineering excellence and long-term growth.</p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 45 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="glass-card rounded-3xl overflow-hidden gold-border relative group"
-          >
-            <div className="relative aspect-square overflow-hidden rounded-t-3xl">
-              <div 
-                className="absolute inset-0 bg-cover bg-center opacity-10 transition-transform duration-700 group-hover:scale-105" 
-                style={{ backgroundImage: 'url("https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/694bacc0fac3a42b4b20469a/ade196248_image.png")' }}
-              />
-              <img 
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/694bacc0fac3a42b4b20469a/21f81a457_Gemini_Generated_Image_kdfiedkdfiedkdfi.png" 
-                alt="Mohammed Asif" 
-                className="relative z-10 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-20 pointer-events-none" />
-            </div>
-            <div className="p-8 text-center bg-black/40 backdrop-blur-sm relative z-30">
-              <h3 className="text-2xl font-bold text-white mb-2 font-heading tracking-tight drop-shadow-md">Mohammed Asif</h3>
-              <p className="text-[#C9A961] font-medium mb-3 tracking-wide uppercase text-sm">Director of Board</p>
-              <div className="w-10 h-px bg-gradient-to-r from-transparent via-[#C9A961]/50 to-transparent mx-auto mb-4" />
-              <p className="text-gray-400 text-sm leading-relaxed max-w-sm mx-auto">Operational specialist ensuring quality delivery, safety compliance, and service reliability.</p>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Team size badge */}
-        <div className="max-w-md mx-auto mt-6 md:mt-8">
-          <GlassCard className="flex flex-col items-center justify-center text-center p-6 rounded-xl border border-white/10" premium>
-            <p className="text-gradient-gold text-3xl font-heading font-bold text-shadow-glow">25+</p>
-            <p className="text-white font-medium text-sm mt-1">Peoples</p>
-          </GlassCard>
-        </div>
-      </div>
-    </section>
-
-    <section className="py-10 md:py-16 relative">
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.55, ease: "easeOut" }}
+      className="py-16 md:py-20 relative"
+    >
       <SectionDivider />
       <div className="container mx-auto px-6 max-w-5xl pt-8">
         <SectionHeading badge="Quality" title="Certifications & Compliance" />
@@ -749,57 +901,52 @@ const About = () => (
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
 
-    {/* COMBINED CTA PANEL */}
-    <section className="py-20 relative overflow-hidden">
+    {/* FINAL CONVERSION CTA */}
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.55, ease: "easeOut" }}
+      className="py-20 relative overflow-hidden"
+    >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(43_66%_52%/0.03),transparent_70%)] pointer-events-none" />
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-5xl mx-auto">
           <ScrollReveal>
-            <div className="w-full rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/10 backdrop-blur-lg overflow-hidden group hover:border-[#D4AF37]/40 transition-colors duration-500 hover:shadow-[0_0_40px_-10px_rgba(212,175,55,0.15)]">
-              
-              {/* Top Section - Brochure */}
-              <div className="p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex flex-col text-center md:text-left">
-                  <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-2">Company Brochure</h3>
-                  <p className="text-muted-foreground text-sm font-light max-w-md">
-                    Download our comprehensive company brochure to explore our premium elevator solutions, technical specifications, and architectural integrations.
-                  </p>
-                </div>
-                <button className="shrink-0 px-6 py-3 rounded-lg bg-white/10 text-white border border-white/20 font-medium text-sm transition-all duration-300 hover:bg-white/20 hover:border-white/40 flex items-center gap-2 group/btn">
-                  <svg className="w-4 h-4 transition-transform group-hover/btn:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                  Download Brochure
-                </button>
+            <div className="w-full rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/10 backdrop-blur-lg overflow-hidden group hover:border-[#D4AF37]/40 transition-colors duration-500 hover:shadow-[0_0_40px_-10px_rgba(212,175,55,0.15)] p-6 md:p-8 lg:p-10">
+              <div className="text-center md:text-left mb-8">
+                <h3 className="text-2xl md:text-3xl font-heading font-bold text-foreground mb-3">Let’s Build Your Elevator Solution</h3>
+                <p className="text-muted-foreground text-sm md:text-base font-light max-w-3xl">
+                  Get your elevator quote or book a free inspection with our engineering team. We will recommend the right system for your building, timeline, and budget.
+                </p>
               </div>
 
-              {/* Divider */}
-              <div className="w-full h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+              <div className="flex flex-col md:flex-row md:flex-wrap items-center gap-4">
+                <Link to="/contact" className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-gradient-to-r from-[#D4AF37] to-[#F5D061] text-zinc-900 font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:scale-[1.02] flex items-center justify-center gap-2">
+                  Request Free Quote
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                </Link>
 
-              {/* Bottom Section - Get Quote */}
-              <div className="p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 bg-black/20">
-                <div className="flex flex-col text-center md:text-left">
-                  <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-2">Get Your Elevator Quote Now</h3>
-                  <p className="text-muted-foreground text-sm font-light max-w-md">
-                    Tell us about your project and receive a customized quote within 24 hours. No commitment required.
-                  </p>
-                </div>
-                <div className="flex flex-col sm:flex-row items-center gap-4 shrink-0">
-                  <Link to="/contact" className="px-8 py-3.5 rounded-lg bg-gradient-to-r from-[#D4AF37] to-[#F5D061] text-zinc-900 font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:scale-[1.02] flex items-center gap-2">
-                    Request Free Quote
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                  </Link>
-                  <a href="https://wa.me/971501234567" target="_blank" rel="noopener noreferrer" className="px-8 py-3.5 rounded-lg bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20 font-medium text-sm transition-all duration-300 hover:bg-[#25D366]/20 hover:border-[#25D366]/40 flex items-center gap-2">
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.305-.885-.653-1.48-1.459-1.653-1.756-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.397-.272.322-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                    Chat on WhatsApp
-                  </a>
-                </div>
+                <Link to="/contact" className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-white/10 text-white border border-white/20 font-medium text-sm transition-all duration-300 hover:bg-white/20 hover:border-white/40 flex items-center justify-center gap-2">
+                  Book Free Inspection
+                </Link>
+
+                <a href="tel:+916384961909" className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-[#1f2f49]/60 text-white border border-white/20 font-medium text-sm transition-all duration-300 hover:bg-[#2a3e5f]/70 hover:border-white/40 flex items-center justify-center gap-2">
+                  Call Now
+                </a>
+
+                <a href="https://wa.me/971501234567" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20 font-medium text-sm transition-all duration-300 hover:bg-[#25D366]/20 hover:border-[#25D366]/40 flex items-center justify-center gap-2">
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.305-.885-.653-1.48-1.459-1.653-1.756-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.397-.272.322-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                  Chat on WhatsApp
+                </a>
               </div>
             </div>
           </ScrollReveal>
         </div>
       </div>
-    </section>
+    </motion.section>
   </>
 );
 

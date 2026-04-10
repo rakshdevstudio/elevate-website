@@ -155,8 +155,8 @@ const Services = () => (
   <>
     <PageHero
       badge="Support That Never Stops"
-      title="Service Intelligence That Preserves Performance"
-      subtitle="Field engineers orchestrate installation, commissioning, predictive maintenance, and rapid-response support with operational transparency. Our service playbook protects asset uptime, calibrates safety margins, and keeps occupants confident day after day."
+      title={<><span className="text-[#D4AF37]">Service Intelligence</span> That Preserves Performance</>}
+      subtitle={<>Field engineers orchestrate <span className="text-[#D4AF37]">installation, commissioning, predictive maintenance, and rapid-response support</span> with operational transparency. Our service playbook protects <span className="text-[#D4AF37]">asset uptime</span>, calibrates safety margins, and keeps occupants confident day after day.</>}
       backgroundImage="/images/hero-services.webp"
     />
 

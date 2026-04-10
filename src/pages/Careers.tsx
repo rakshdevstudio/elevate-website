@@ -128,8 +128,8 @@ const Careers = () => {
     <>
       <PageHero
         badge="Build the Future With Us"
-        title="Join India's Vertical Engineering Vanguard"
-        subtitle="Engineers, project leaders, and technicians execute programmes that keep millions moving with exacting precision. Bring your curiosity for controls, structural integration, or digital maintenance into a disciplined environment that prizes long-term reliability."
+        title={<>Join India's <span className="text-[#D4AF37]">Vertical Engineering Vanguard</span></>}
+        subtitle={<>Engineers, project leaders, and technicians execute programmes that <span className="text-[#D4AF37]">keep millions moving with exacting precision</span>. Bring your curiosity for <span className="text-[#D4AF37]">controls, structural integration, or digital maintenance</span> into a disciplined environment that prizes long-term reliability.</>}
         backgroundImage="/images/hero-careers.webp"
       />
 

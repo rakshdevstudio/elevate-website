@@ -75,10 +75,10 @@ const Contact = () => {
               Let’s Build Something Exceptional
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-foreground mb-5 tracking-tight leading-[1.1] text-shadow-hero">
-              Get In Touch With Our Experts
+              Get In Touch With Our <span className="text-[#D4AF37]">Experts</span>
             </h1>
             <p className="text-muted-foreground text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed mb-10 opacity-85">
-              Transform your vertical mobility vision into reality with expert guidance and precision engineering. Connect with our team for a quick consultation, site evaluation, and tailored elevator solutions designed for your project.
+              <span className="text-[#D4AF37]">Transform your vertical mobility vision into reality</span> with <span className="text-[#D4AF37]">expert guidance and precision engineering</span>. Connect with our team for a quick consultation, site evaluation, and tailored elevator solutions designed for your project.
             </p>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="flex flex-col sm:flex-row items-center justify-center gap-4">

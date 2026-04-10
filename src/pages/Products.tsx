@@ -127,10 +127,10 @@ const Products = () => {
               Built for Performance. Designed for Excellence.
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-foreground mb-6 tracking-tight leading-[1.05] text-shadow-hero">
-              Elevator Systems Engineered for Demanding Indian Infrastructure
+              Elevator Systems Engineered for <span className="text-[#D4AF37]">Demanding Indian Infrastructure</span>
             </h1>
             <p className="text-muted-foreground text-lg lg:text-xl max-w-2xl mx-auto mb-10 leading-relaxed opacity-80">
-              Modular drives, recovered energy, and precision safety networks merge with sculpted cabins, creating a premium presence that endures high throughput. Each model is calibrated for long-term uptime and field-ready maintainability, so builders and facility teams have consistent performance metrics aligned with global benchmarks.
+              <span className="text-[#D4AF37]">Modular drives</span>, recovered energy, and <span className="text-[#D4AF37]">precision safety networks</span> merge with sculpted cabins, creating a premium presence that endures high throughput. Each model is calibrated for long-term uptime and field-ready maintainability, so builders and facility teams have consistent performance metrics aligned with <span className="text-[#D4AF37]">global benchmarks</span>.
             </p>
 
           </motion.div>
