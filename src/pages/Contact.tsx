@@ -6,6 +6,7 @@ import { clampBudgetRange, MAX_BUDGET_LAKHS, MIN_BUDGET_LAKHS, submitLead, SUCCE
 import { toast } from "@/hooks/use-toast";
 import BrochureDownload from "@/components/BrochureDownload";
 import { TrustBadges } from "@/components/CTABanner";
+import { COMPANY_ADDRESS, COMPANY_MAPS_EMBED_URL, COMPANY_MAPS_PLACE_URL } from "@/lib/company";
 
 const Contact = () => {
   const [form, setForm] = useState({
@@ -264,7 +265,7 @@ const Contact = () => {
                   { icon: <Phone className="w-5 h-5" />, title: "Phone", info: "+91 9844002026\n+91 6384961909" },
                   { icon: <Mail className="w-5 h-5" />, title: "Email", info: "info@xelevators.in" },
                   { icon: <Globe className="w-5 h-5" />, title: "Website", info: "xelevators.in" },
-                  { icon: <MapPin className="w-5 h-5" />, title: "Locations", info: "Karnataka & Tamilnadu, India" },
+                  { icon: <MapPin className="w-5 h-5" />, title: "Locations", info: COMPANY_ADDRESS },
                 ].map((c, i) => (
                   <GlassCard key={i} className="p-6 flex items-start gap-5" premium delay={i * 0.06} tilt>
                     <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">{c.icon}</div>
@@ -274,6 +275,29 @@ const Contact = () => {
                     </div>
                   </GlassCard>
                 ))}
+
+                <GlassCard className="p-4" premium>
+                  <div className="mb-3 flex items-center justify-between gap-3">
+                    <h4 className="text-foreground font-semibold text-sm">Find Us on Map</h4>
+                    <a
+                      href={COMPANY_MAPS_PLACE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary text-xs hover:underline"
+                    >
+                      Open in Google Maps
+                    </a>
+                  </div>
+                  <div className="overflow-hidden rounded-xl border border-white/10">
+                    <iframe
+                      title="X Elevators Office Location"
+                      src={COMPANY_MAPS_EMBED_URL}
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      className="w-full h-64 md:h-72"
+                    />
+                  </div>
+                </GlassCard>
               </div>
             </ScrollReveal>
           </div>

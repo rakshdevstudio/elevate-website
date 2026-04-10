@@ -5,6 +5,7 @@ import { PageHero, SectionHeading, GlassCard, SectionDivider, ScrollReveal } fro
 import { Shield, Award, Users, Target, Building2, Heart, Lightbulb, CheckCircle2, Pencil, Cog, Clock, Monitor, HeadphonesIcon, Home, Building, Hospital, Hotel, Factory } from "lucide-react";
 import { CTABanner, TrustBadges } from "@/components/CTABanner";
 import BrochureDownload from "@/components/BrochureDownload";
+import { COMPANY_ADDRESS } from "@/lib/company";
 
 
 const values = [
@@ -31,7 +32,7 @@ const aboutStats = [
   {
     value: "75+",
     label: "Projects Installed by Our Expert Team",
-    sub: "Across Karnataka & Tamil Nadu",
+    sub: COMPANY_ADDRESS,
     icon: <Building2 className="w-6 h-6" />,
   },
   {

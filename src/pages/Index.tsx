@@ -13,6 +13,7 @@ import BrochureDownload from "@/components/BrochureDownload";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { clampBudgetRange, MAX_BUDGET_LAKHS, MIN_BUDGET_LAKHS, submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
 import { toast } from "@/hooks/use-toast";
+import { COMPANY_ADDRESS } from "@/lib/company";
 
 const rotatingWords = ["Trust", "Safety", "Innovation", "Reliability", "Excellence"];
 
@@ -1390,7 +1391,7 @@ const ContactSection = () => {
               {[
                 { icon: <Phone className="w-5 h-5" />, title: "Call Us", info: "+91 9844002026 / +91 6384961909" },
                 { icon: <Mail className="w-5 h-5" />, title: "Email Us", info: "info@xelevators.in" },
-                { icon: <MapPin className="w-5 h-5" />, title: "Visit Us", info: "Karnataka & Tamilnadu, India" },
+                { icon: <MapPin className="w-5 h-5" />, title: "Visit Us", info: COMPANY_ADDRESS },
               ].map((c, i) => (
                 <GlassCard key={i} className="p-6 flex items-start gap-5" delay={i * 0.1} premium>
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">{c.icon}</div>

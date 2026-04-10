@@ -166,7 +166,7 @@ const Footer = () => {
                   className="w-4 h-4 text-primary shrink-0"
                   aria-hidden="true"
                 />
-                <span>Karnataka &amp; Tamilnadu, India</span>
+                <span>Karnataka, Tamilnadu India</span>
               </li>
             </ul>
           </div>
