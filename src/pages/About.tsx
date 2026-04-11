@@ -182,12 +182,6 @@ const BrandStorySection = () => {
         </motion.div>
 
         <div className="space-y-6 text-muted-foreground/80 text-base leading-relaxed relative">
-          <div className="hidden xl:flex absolute -right-12 top-2 bottom-2 items-start">
-            <div className="w-[2px] h-full rounded-full bg-white/10 overflow-hidden">
-              <motion.div style={{ height: progressHeight }} className="w-full bg-gradient-to-b from-primary via-gold-light to-primary" />
-            </div>
-          </div>
-
           <StoryWordParagraph
             className="text-muted-foreground/85 leading-relaxed"
             segments={[
@@ -204,7 +198,7 @@ const BrandStorySection = () => {
             segments={[
               { text: "Strengthening this vision," },
               { text: "Mohammed Asif", className: "text-primary font-semibold" },
-              { text: ", as Chief Operating Officer (COO), joined hands to build and scale the foundation of their shared dream. Together, their leadership adds balance, operational strength, and strategic direction in shaping their own growing empire." },
+              { text: ", as Managing Partner, joined hands to build and scale the foundation of their shared dream. Together, their leadership adds balance, operational strength, and strategic direction in shaping their own growing empire." },
             ]}
           />
 
@@ -395,7 +389,7 @@ const CoreValuesExperience = () => {
   };
 
   return (
-    <section className="py-16 md:py-20 relative overflow-hidden">
+    <section className="pt-24 pb-10 md:pt-28 md:pb-16 relative overflow-hidden">
       <SectionDivider />
 
       <div className="absolute inset-0 pointer-events-none">
@@ -733,6 +727,12 @@ const CinematicFounderShowcase = () => {
             {/* Vignette effect */}
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.5))] pointer-events-none z-[2]" />
 
+            {/* Left-edge artifact mask */}
+            <div className="absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-black/95 via-black/70 to-transparent pointer-events-none z-[3]" />
+
+            {/* Right-edge artifact mask */}
+            <div className="absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-black/95 via-black/70 to-transparent pointer-events-none z-[3]" />
+
             {/* Hover brightness overlay - left side */}
             {hoverSide === 'left' && (
               <motion.div
@@ -762,50 +762,6 @@ const CinematicFounderShowcase = () => {
         </div>
       </div>
 
-      {/* Founder names with reveal animation */}
-      <div className="container mx-auto px-6 max-w-6xl mt-8 md:mt-12 relative z-20">
-        <div className="grid grid-cols-2 gap-4 md:gap-8">
-          {/* Left side name */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: hoverSide === 'left' ? 10 : 0 }}
-            viewport={{ once: false, margin: '-50px' }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="text-left"
-          >
-            <h3 className="text-2xl md:text-4xl font-heading font-bold text-white tracking-wide uppercase drop-shadow-lg">
-              MOHAMMED ANAS
-            </h3>
-            <p className="text-[#D4AF37] font-semibold text-sm md:text-base mt-1 tracking-widest uppercase drop-shadow">
-              Founder & CEO
-            </p>
-          </motion.div>
-
-          {/* Right side name */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: hoverSide === 'right' ? -10 : 0 }}
-            viewport={{ once: false, margin: '-50px' }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="text-right"
-          >
-            <h3 className="text-2xl md:text-4xl font-heading font-bold text-white tracking-wide uppercase drop-shadow-lg">
-              MOHAMMED ASIF
-            </h3>
-            <p className="text-[#D4AF37] font-semibold text-sm md:text-base mt-1 tracking-widest uppercase drop-shadow">
-              Director of Board
-            </p>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Team size badge */}
-      <div className="max-w-md mx-auto mt-12 md:mt-16 relative z-20">
-        <GlassCard className="flex flex-col items-center justify-center text-center p-6 rounded-xl border border-white/10" premium>
-          <p className="text-gradient-gold text-3xl font-heading font-bold text-shadow-glow">25+</p>
-          <p className="text-white font-medium text-sm mt-1">Skilled Professionals</p>
-        </GlassCard>
-      </div>
     </section>
   );
 };
@@ -848,31 +804,11 @@ const About = () => (
 
     <BrandStorySection />
 
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-    >
-      <CinematicFounderShowcase />
-    </motion.div>
+    <CoreValuesExperience />
 
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.55, ease: "easeOut" }}
-    >
-      <CoreValuesExperience />
-    </motion.div>
+    <CinematicFounderShowcase />
 
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.55, ease: "easeOut" }}
-      className="py-16 md:py-20 relative"
-    >
+    <section className="py-10 md:py-16 relative">
       <SectionDivider />
       <div className="container mx-auto px-6 max-w-5xl pt-8">
         <SectionHeading badge="Quality" title="Certifications & Compliance" />
@@ -901,52 +837,57 @@ const About = () => (
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
 
-    {/* FINAL CONVERSION CTA */}
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.55, ease: "easeOut" }}
-      className="py-20 relative overflow-hidden"
-    >
+    {/* COMBINED CTA PANEL */}
+    <section className="py-20 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(43_66%_52%/0.03),transparent_70%)] pointer-events-none" />
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-5xl mx-auto">
           <ScrollReveal>
-            <div className="w-full rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/10 backdrop-blur-lg overflow-hidden group hover:border-[#D4AF37]/40 transition-colors duration-500 hover:shadow-[0_0_40px_-10px_rgba(212,175,55,0.15)] p-6 md:p-8 lg:p-10">
-              <div className="text-center md:text-left mb-8">
-                <h3 className="text-2xl md:text-3xl font-heading font-bold text-foreground mb-3">Let’s Build Your Elevator Solution</h3>
-                <p className="text-muted-foreground text-sm md:text-base font-light max-w-3xl">
-                  Get your elevator quote or book a free inspection with our engineering team. We will recommend the right system for your building, timeline, and budget.
-                </p>
+            <div className="w-full rounded-2xl bg-gradient-to-b from-white/10 to-white/5 border border-white/10 backdrop-blur-lg overflow-hidden group hover:border-[#D4AF37]/40 transition-colors duration-500 hover:shadow-[0_0_40px_-10px_rgba(212,175,55,0.15)]">
+              
+              {/* Top Section - Brochure */}
+              <div className="p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex flex-col text-center md:text-left">
+                  <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-2">Company Brochure</h3>
+                  <p className="text-muted-foreground text-sm font-light max-w-md">
+                    Download our comprehensive company brochure to explore our premium elevator solutions, technical specifications, and architectural integrations.
+                  </p>
+                </div>
+                <button className="shrink-0 px-6 py-3 rounded-lg bg-white/10 text-white border border-white/20 font-medium text-sm transition-all duration-300 hover:bg-white/20 hover:border-white/40 flex items-center gap-2 group/btn">
+                  <svg className="w-4 h-4 transition-transform group-hover/btn:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                  Download Brochure
+                </button>
               </div>
 
-              <div className="flex flex-col md:flex-row md:flex-wrap items-center gap-4">
-                <Link to="/contact" className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-gradient-to-r from-[#D4AF37] to-[#F5D061] text-zinc-900 font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:scale-[1.02] flex items-center justify-center gap-2">
-                  Request Free Quote
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                </Link>
+              {/* Divider */}
+              <div className="w-full h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
 
-                <Link to="/contact" className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-white/10 text-white border border-white/20 font-medium text-sm transition-all duration-300 hover:bg-white/20 hover:border-white/40 flex items-center justify-center gap-2">
-                  Book Free Inspection
-                </Link>
-
-                <a href="tel:+916384961909" className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-[#1f2f49]/60 text-white border border-white/20 font-medium text-sm transition-all duration-300 hover:bg-[#2a3e5f]/70 hover:border-white/40 flex items-center justify-center gap-2">
-                  Call Now
-                </a>
-
-                <a href="https://wa.me/971501234567" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20 font-medium text-sm transition-all duration-300 hover:bg-[#25D366]/20 hover:border-[#25D366]/40 flex items-center justify-center gap-2">
-                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.305-.885-.653-1.48-1.459-1.653-1.756-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.397-.272.322-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                  Chat on WhatsApp
-                </a>
+              {/* Bottom Section - Get Quote */}
+              <div className="p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 bg-black/20">
+                <div className="flex flex-col text-center md:text-left">
+                  <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-2">Get Your Elevator Quote Now</h3>
+                  <p className="text-muted-foreground text-sm font-light max-w-md">
+                    Tell us about your project and receive a customized quote within 24 hours. No commitment required.
+                  </p>
+                </div>
+                <div className="flex flex-col sm:flex-row items-center gap-4 shrink-0">
+                  <Link to="/contact" className="px-8 py-3.5 rounded-lg bg-gradient-to-r from-[#D4AF37] to-[#F5D061] text-zinc-900 font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:scale-[1.02] flex items-center gap-2">
+                    Request Free Quote
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                  </Link>
+                  <a href="https://wa.me/971501234567" target="_blank" rel="noopener noreferrer" className="px-8 py-3.5 rounded-lg bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20 font-medium text-sm transition-all duration-300 hover:bg-[#25D366]/20 hover:border-[#25D366]/40 flex items-center gap-2">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.305-.885-.653-1.48-1.459-1.653-1.756-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.397-.272.322-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                    Chat on WhatsApp
+                  </a>
+                </div>
               </div>
             </div>
           </ScrollReveal>
         </div>
       </div>
-    </motion.section>
+    </section>
   </>
 );
 

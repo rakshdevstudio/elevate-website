@@ -1523,7 +1523,7 @@ const TechnologySelector = () => {
       id: "hydraulic",
       name: "Italian Hydraulic Unit",
       tagline: "Smooth operation for low-rise buildings",
-      image: "/images/ITALIAN HYDRAULIC UNIT.webp",
+      image: "/images/ITALIAN HYDRAULIC UNIT-transparent.png",
       points: [
         "Ideal for low-rise buildings, villas, bungalows, and private homes",
         "Smooth start and stop due to hydraulic operation",
@@ -1542,7 +1542,7 @@ const TechnologySelector = () => {
       id: "gearless",
       name: "Italian Gearless Motor",
       tagline: "Space-saving design without machine room",
-      image: "/images/ITALIAN GEARLESS MOTOR.webp",
+      image: "/images/ITALIAN GEARLESS MOTOR-transparent.png",
       points: [
         "Highly energy-efficient, saving up to 50% on power consumption",
         "Ideal for mid-to-high-rise buildings and heavy usage",
@@ -1560,7 +1560,7 @@ const TechnologySelector = () => {
       id: "geared",
       name: "Italian Geared Motor",
       tagline: "Traditional setup with dedicated machine room",
-      image: "/images/ITALIAN GEARED MOTOR.webp",
+      image: "/images/ITALIAN GEARED MOTOR-transparent.png",
       points: [
         "Reliable and proven technology for traditional elevator setups",
         "Cost-effective option for mid-rise buildings",
