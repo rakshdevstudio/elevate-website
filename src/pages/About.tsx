@@ -389,14 +389,14 @@ const CoreValuesExperience = () => {
   };
 
   return (
-    <section className="pt-24 pb-10 md:pt-28 md:pb-16 relative overflow-hidden">
+    <section className="pt-16 pb-8 md:pt-20 md:pb-12 relative overflow-hidden">
       <SectionDivider />
 
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_52%_at_50%_48%,hsl(43_66%_52%/0.08),transparent_72%)]" />
       </div>
 
-      <div className="container mx-auto px-6 pt-8 relative z-10">
+      <div className="container mx-auto px-6 pt-6 relative z-10">
         <SectionHeading badge="Core Values" title="What Defines Us" />
 
         <motion.div
@@ -624,7 +624,7 @@ const CinematicFounderShowcase = () => {
   return (
     <section
       ref={containerRef}
-      className="relative py-20 md:py-32 overflow-hidden bg-gradient-to-b from-black/80 via-black to-black/90"
+      className="relative py-16 md:py-20 overflow-hidden bg-gradient-to-b from-black/80 via-black to-black/90"
       onMouseLeave={() => setHoverSide(null)}
     >
       <SectionDivider />
@@ -778,10 +778,10 @@ const About = () => (
     <TrustBadges />
 
     {/* Stats Section */}
-    <section className="py-10 md:py-16 relative overflow-hidden">
+    <section className="py-8 md:py-12 relative overflow-hidden">
       <SectionDivider />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_60%,hsl(43_66%_52%/0.04),transparent_70%)] pointer-events-none" />
-      <div className="container mx-auto px-6 pt-8 relative z-10">
+      <div className="container mx-auto px-6 pt-6 relative z-10">
         <SectionHeading
           badge="By The Numbers"
           title="Our Impact"
@@ -804,14 +804,14 @@ const About = () => (
 
     <BrandStorySection />
 
-    <CoreValuesExperience />
-
     <CinematicFounderShowcase />
 
-    <section className="py-10 md:py-16 relative">
+    <CoreValuesExperience />
+
+    <section className="py-8 md:py-12 relative">
       <SectionDivider />
-      <div className="container mx-auto px-6 max-w-5xl pt-8">
-        <SectionHeading badge="Quality" title="Certifications & Compliance" />
+      <div className="container mx-auto px-6 max-w-5xl pt-6">
+        <SectionHeading badge="Certificates" title="Certificates / Certifications" />
         <div className="grid md:grid-cols-2 gap-6 md:gap-8">
           <div>
             <h3 className="text-foreground font-heading font-semibold mb-4 text-lg">Certifications & Standards</h3>
@@ -840,7 +840,7 @@ const About = () => (
     </section>
 
     {/* COMBINED CTA PANEL */}
-    <section className="py-20 relative overflow-hidden">
+    <section className="py-16 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(43_66%_52%/0.03),transparent_70%)] pointer-events-none" />
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-5xl mx-auto">
@@ -867,14 +867,14 @@ const About = () => (
               {/* Bottom Section - Get Quote */}
               <div className="p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 bg-black/20">
                 <div className="flex flex-col text-center md:text-left">
-                  <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-2">Get Your Elevator Quote Now</h3>
+                  <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-2">Book Free Inspection</h3>
                   <p className="text-muted-foreground text-sm font-light max-w-md">
-                    Tell us about your project and receive a customized quote within 24 hours. No commitment required.
+                    Tell us about your project and receive a tailored inspection plan within 24 hours. No commitment required.
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row items-center gap-4 shrink-0">
                   <Link to="/contact" className="px-8 py-3.5 rounded-lg bg-gradient-to-r from-[#D4AF37] to-[#F5D061] text-zinc-900 font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:scale-[1.02] flex items-center gap-2">
-                    Request Free Quote
+                    Book Free Inspection
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                   </Link>
                   <a href="https://wa.me/971501234567" target="_blank" rel="noopener noreferrer" className="px-8 py-3.5 rounded-lg bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20 font-medium text-sm transition-all duration-300 hover:bg-[#25D366]/20 hover:border-[#25D366]/40 flex items-center gap-2">

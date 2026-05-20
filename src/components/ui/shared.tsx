@@ -20,7 +20,7 @@ export const SectionHeading = ({ badge, badgeClassName, title, titleClassName, s
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-80px" }}
     transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-    className={`mb-8 ${center ? "text-center" : ""}`}
+    className={`mb-6 ${center ? "text-center" : ""}`}
   >
     {badge && (
       <motion.span
@@ -28,16 +28,16 @@ export const SectionHeading = ({ badge, badgeClassName, title, titleClassName, s
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className={`inline-block px-5 py-2 rounded-full bg-primary/8 text-primary font-semibold tracking-[0.2em] uppercase mb-5 border border-primary/12 backdrop-blur-sm ${badgeClassName || "text-xs"}`}
+        className={`inline-block px-5 py-2 rounded-full bg-primary/8 text-primary font-semibold tracking-[0.2em] uppercase mb-3 border border-primary/12 backdrop-blur-sm ${badgeClassName || "text-xs"}`}
       >
         {badge}
       </motion.span>
     )}
-    <h2 className={`font-heading font-bold text-foreground mb-4 tracking-tight leading-[1.1] ${titleClassName || "text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem]"}`}>
+    <h2 className={`font-heading font-bold text-foreground mb-3 tracking-tight leading-[1.1] ${titleClassName || "text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem]"}`}>
       {title}
     </h2>
     {subtitle && (
-      <p className="text-muted-foreground max-w-2xl mx-auto text-base lg:text-lg leading-relaxed opacity-80">
+      <p className="text-muted-foreground max-w-2xl mx-auto text-sm md:text-base lg:text-lg leading-relaxed opacity-80">
         {subtitle}
       </p>
     )}
@@ -229,7 +229,7 @@ interface PageHeroProps {
 }
 
 export const PageHero = ({ badge, title, subtitle, backgroundImage }: PageHeroProps) => (
-  <section className="relative overflow-hidden min-h-[80vh] lg:min-h-[85vh] flex items-center">
+  <section className="relative overflow-hidden min-h-[72vh] lg:min-h-[78vh] flex items-center">
     <div className="absolute inset-0 bg-navy-gradient" />
     {backgroundImage && (
       <div className="absolute inset-0">
@@ -243,21 +243,21 @@ export const PageHero = ({ badge, title, subtitle, backgroundImage }: PageHeroPr
       <div className="absolute bottom-1/3 left-1/3 w-[500px] h-[500px] bg-[hsl(210_60%_40%/0.03)] rounded-full blur-[150px]" />
     </div>
     <FloatingParticles count={15} />
-    <div className="container mx-auto px-4 lg:px-8 text-center relative z-10 pt-24 pb-16">
+    <div className="container mx-auto px-4 lg:px-8 text-center relative z-10 pt-16 pb-10">
       <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
         {badge && (
-          <span className="inline-block px-5 py-2 rounded-full bg-primary/8 text-primary text-xs font-semibold tracking-[0.2em] uppercase mb-6 border border-primary/12 backdrop-blur-sm">
+          <span className="inline-block px-5 py-2 rounded-full bg-primary/8 text-primary text-xs font-semibold tracking-[0.2em] uppercase mb-4 border border-primary/12 backdrop-blur-sm">
             {badge}
           </span>
         )}
-        <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-foreground mb-6 tracking-tight leading-[1.05] text-shadow-hero">{title}</h1>
-        <p className="text-muted-foreground text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed opacity-80 mb-10">{subtitle}</p>
-        <Link to="/contact" className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-10 py-4 rounded-full font-semibold text-base transition-all duration-300 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.4)] hover:scale-105 btn-glow">
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-foreground mb-4 tracking-tight leading-[1.05] text-shadow-hero">{title}</h1>
+        <p className="text-muted-foreground text-base md:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed opacity-80 mb-8">{subtitle}</p>
+        <Link to="/contact" className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-gold-light text-primary-foreground px-9 py-3.5 rounded-full font-semibold text-base transition-all duration-300 hover:shadow-[0_0_40px_hsl(43_66%_52%/0.4)] hover:scale-105 btn-glow">
           Reach us <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
       </motion.div>
     </div>
-    <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background via-background/80 to-transparent" />
+    <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background via-background/80 to-transparent" />
   </section>
 );
 

@@ -16,7 +16,7 @@ const amcPlans = [
 const ServicePhilosophySection = () => {
   return (
     <section 
-      className="py-24 md:py-40 relative overflow-hidden flex flex-col items-center justify-center border-y border-white/[0.03]"
+      className="py-16 md:py-20 relative overflow-hidden flex flex-col items-center justify-center border-y border-white/[0.03]"
       style={{
         background: "radial-gradient(circle at center, #0b1220 0%, #05080f 60%, #000000 100%)"
       }}
@@ -73,7 +73,7 @@ const ServicePhilosophySection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="flex justify-center mb-10"
+          className="flex justify-center mb-6"
         >
           <span className="px-5 py-2 rounded-full border border-[#D4AF37]/30 text-[#D4AF37] text-[11px] font-bold tracking-[0.2em] uppercase bg-black/40 backdrop-blur-md shadow-[0_0_20px_rgba(212,175,55,0.1)]">
             Philosophy
@@ -87,7 +87,7 @@ const ServicePhilosophySection = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-14"
+            className="mb-10"
           >
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-6">
               We don’t just fix elevators
@@ -106,7 +106,7 @@ const ServicePhilosophySection = () => {
 
           {/* SECONDARY LINES */}
           <motion.div 
-            className="flex flex-col gap-6 md:gap-8 items-center text-center max-w-2xl"
+            className="flex flex-col gap-4 md:gap-6 items-center text-center max-w-2xl"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
@@ -166,7 +166,7 @@ const Services = () => (
 
     <CinematicFeatureSection />
 
-    <section className="py-10 md:py-16 section-glow relative">
+    <section className="py-8 md:py-12 section-glow relative">
       <SectionDivider />
       <div className="container mx-auto px-6 pt-8 relative z-10">
         <SectionHeading badge="AMC Plans" title="Annual Maintenance Contract Plans" subtitle="Choose a plan that fits your needs and budget" />

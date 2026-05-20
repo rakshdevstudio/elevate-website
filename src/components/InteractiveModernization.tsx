@@ -47,7 +47,7 @@ export const InteractiveModernization = () => {
   };
 
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden flex flex-col items-center justify-center min-h-[80vh] bg-transparent">
+    <section className="py-16 md:py-20 relative overflow-hidden flex flex-col items-center justify-center min-h-[68vh] bg-transparent">
       {/* Background Energy Effects */}
       <motion.div 
         className="absolute w-[800px] h-[800px] rounded-full blur-[150px] pointer-events-none opacity-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mix-blend-screen"
@@ -62,12 +62,12 @@ export const InteractiveModernization = () => {
       <div className="container mx-auto px-6 relative z-10">
         
         {/* Section Heading */}
-        <div className="mb-16">
+        <div className="mb-10">
           <SectionHeading badge="More Services" title="Additional Services" />
         </div>
         
         {/* Layout: Text on Left, Orbit on Right (Desktop) / Stacked (Mobile) */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-20 lg:gap-10">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
           
           {/* Left: Text Content */}
           <div className="lg:w-1/3 text-center lg:text-left z-20">
@@ -96,7 +96,7 @@ export const InteractiveModernization = () => {
           </div>
 
           {/* Right: Interactive Orbit System (Desktop) + Vertical Stepper (Mobile) */}
-          <div className="lg:w-2/3 flex items-center justify-center relative w-full aspect-square max-w-[500px] lg:max-w-none lg:h-[600px] mt-10 lg:mt-0">
+          <div className="lg:w-2/3 flex items-center justify-center relative w-full aspect-square max-w-[500px] lg:max-w-none lg:h-[600px] mt-8 lg:mt-0">
 
             {/* Orbiting Features (Hidden on mobile, visible on md+) */}
             <motion.div 
@@ -160,7 +160,7 @@ export const InteractiveModernization = () => {
             </motion.div>
 
             {/* Mobile Vertical Stepper (Visible only on < md) */}
-            <div className="md:hidden mt-32 w-full flex flex-col gap-4 relative z-30">
+            <div className="md:hidden mt-16 w-full flex flex-col gap-4 relative z-30">
               {MODERNIZATION_FEATURES.map((feature, idx) => {
                 const isActive = idx === activeIndex;
                 

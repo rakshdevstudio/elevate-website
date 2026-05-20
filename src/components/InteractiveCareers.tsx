@@ -40,7 +40,7 @@ export const InteractiveCareers = () => {
   };
 
   return (
-    <section className="py-24 sm:py-32 relative overflow-hidden min-h-[100vh] flex flex-col justify-center">
+    <section className="py-16 sm:py-20 relative overflow-hidden min-h-[82vh] flex flex-col justify-center">
       {/* Background Ambient Effects */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 flex items-center justify-center">
          <motion.div 
@@ -51,7 +51,7 @@ export const InteractiveCareers = () => {
         <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.03] mix-blend-overlay"></div>
       </div>
 
-      <div className="relative z-30 mb-8 md:mb-16 text-center max-w-3xl mx-auto">
+      <div className="relative z-30 mb-6 md:mb-10 text-center max-w-3xl mx-auto">
          <SectionHeading badge="System Core" title="Why To Build With Us" subtitle="A world-class environment engineered for growth, precision, and impact." />
       </div>
 
@@ -59,7 +59,7 @@ export const InteractiveCareers = () => {
         {/* Desktop Canvas */}
         <div 
           ref={containerRef}
-          className="hidden xl:block relative w-full h-[850px]"
+          className="hidden xl:block relative w-full h-[760px]"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >

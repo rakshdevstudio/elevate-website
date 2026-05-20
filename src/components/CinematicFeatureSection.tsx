@@ -28,7 +28,7 @@ export const CinematicFeatureSection = () => {
   const Icon = activeFeature.icon;
 
   return (
-    <section className="py-32 relative bg-transparent overflow-hidden flex flex-col items-center min-h-[90vh] justify-center">
+    <section className="py-16 md:py-20 relative bg-transparent overflow-hidden flex flex-col items-center min-h-[72vh] justify-center">
       {/* Background Gradient Shift based on active feature */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.02)_0%,transparent_70%)] pointer-events-none" />
       <motion.div 
@@ -44,7 +44,7 @@ export const CinematicFeatureSection = () => {
       <div className="container mx-auto px-6 relative z-10 flex flex-col items-center">
         
         {/* Title */}
-        <div className="text-center mb-20 md:mb-28">
+        <div className="text-center mb-12 md:mb-16">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -64,7 +64,7 @@ export const CinematicFeatureSection = () => {
 
         {/* Focus System - Main Display */}
         <div 
-          className="relative w-full max-w-3xl h-[280px] md:h-[320px] flex items-center justify-center mb-20"
+          className="relative w-full max-w-3xl h-[280px] md:h-[320px] flex items-center justify-center mb-12"
           onMouseEnter={() => { setIsHovered(true); setHasInteracted(true); }}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -108,7 +108,7 @@ export const CinematicFeatureSection = () => {
         </div>
 
         {/* Feature Strip (Inactive ones) */}
-        <div className="flex flex-wrap justify-center items-end gap-6 md:gap-12 max-w-5xl w-full px-4 h-28">
+        <div className="flex flex-wrap justify-center items-end gap-4 md:gap-8 max-w-5xl w-full px-4 h-24">
           {WHY_CHOOSE_FEATURES.map((feature, idx) => {
             const isActive = idx === activeIndex;
             const FeatIcon = feature.icon;
@@ -156,7 +156,7 @@ export const CinematicFeatureSection = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: hasInteracted ? 1 : 0, y: hasInteracted ? 0 : 40 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className={`mt-24 ${hasInteracted ? 'pointer-events-auto' : 'pointer-events-none'}`}
+          className={`mt-16 ${hasInteracted ? 'pointer-events-auto' : 'pointer-events-none'}`}
         >
           <Link to="/contact" className="group relative px-10 py-5 bg-transparent rounded-full font-medium text-white flex items-center gap-3 overflow-hidden backdrop-blur-xl transition-all duration-500 hover:scale-105 border border-white/10 hover:border-[#D4AF37]/50 shadow-[0_0_40px_rgba(212,175,55,0)] hover:shadow-[0_0_40px_rgba(212,175,55,0.2)]">
             {/* Hover Glow Background */}

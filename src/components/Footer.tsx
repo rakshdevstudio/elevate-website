@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, ArrowUp, Globe } from "lucide-react";
 import { motion } from "framer-motion";
 import logo from "@/assets/logo-footer.png";
+import { COMPANY_OFFICES } from "@/lib/company";
 const quickLinks = [
   { label: "Home", path: "/" },
   { label: "About Us", path: "/about" },
@@ -160,14 +161,18 @@ const Footer = () => {
                 </a>
               </li>
 
-              {/* Location (display only — no action possible) */}
-              <li className="flex items-center gap-3 text-sm text-muted-foreground/60">
-                <MapPin
-                  className="w-4 h-4 text-primary shrink-0"
-                  aria-hidden="true"
-                />
-                <span>Karnataka, Tamilnadu India</span>
-              </li>
+              {COMPANY_OFFICES.map((office) => (
+                <li key={office.label} className="flex items-start gap-3 text-sm text-muted-foreground/60">
+                  <MapPin
+                    className="w-4 h-4 text-primary shrink-0 mt-0.5"
+                    aria-hidden="true"
+                  />
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-foreground/80 font-medium">{office.label}</span>
+                    <span>{office.address}</span>
+                  </div>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

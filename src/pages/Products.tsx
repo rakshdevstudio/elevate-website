@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { SectionHeading, GlassCard, SectionDivider, ScrollReveal, FloatingParticles } from "@/components/ui/shared";
-import { CheckCircle2, Heart, ArrowRight, Layers, PanelTop, Lamp, Monitor, Grip, Square, Sparkles } from "lucide-react";
+import { CheckCircle2, Heart, ArrowRight, Layers, PanelTop, Lamp, Monitor, Grip, Square, Sparkles, Shield, Award, Clock, Truck } from "lucide-react";
 import { CTABanner, TrustBadges } from "@/components/CTABanner";
 import { motion, AnimatePresence } from "framer-motion";
 import TiltedCard from "@/components/TiltedCard";
@@ -66,6 +66,13 @@ const designCategories = [
   { name: "Hand Rails", image: "/images/HAND RAILS.webp", icon: <Grip className="w-5 h-5" /> },
 ];
 
+const whyChooseUs = [
+  { icon: Shield, title: "Safety-First Engineering", desc: "Premium lift systems built around reliability, compliance, and passenger confidence." },
+  { icon: Award, title: "Premium Build Quality", desc: "A meticulous production standard that supports long-term performance and finish quality." },
+  { icon: Clock, title: "Responsive Delivery", desc: "Structured execution designed to keep timelines clear and projects moving smoothly." },
+  { icon: Truck, title: "Pan-India Execution", desc: "Coordinated installation and service support tailored for residential and commercial projects." },
+];
+
 const ProductShowcase = ({ product, index }: { product: typeof elevatorProducts[0]; index: number }) => {
   const isReversed = index % 2 !== 0;
 
@@ -110,7 +117,7 @@ const Products = () => {
   return (
     <>
       {/* HERO */}
-      <section className="relative overflow-hidden min-h-[80vh] lg:min-h-[85vh] flex items-center">
+      <section className="relative overflow-hidden min-h-[72vh] lg:min-h-[78vh] flex items-center">
         <div className="absolute inset-0 bg-navy-gradient" />
         <div className="absolute inset-0">
           <img src="/images/hero-products.webp" alt="" className="w-full h-full object-cover opacity-40" loading="eager" />
@@ -120,7 +127,7 @@ const Products = () => {
         <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[180px]" />
         <div className="absolute bottom-1/3 left-1/4 w-[400px] h-[400px] bg-[hsl(210_60%_40%/0.04)] rounded-full blur-[140px]" />
         <FloatingParticles count={15} />
-        <div className="container mx-auto px-6 text-center relative z-10 pt-20 pb-16">
+        <div className="container mx-auto px-6 text-center relative z-10 pt-16 pb-10">
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
 
             <span className="inline-block px-6 py-2 rounded-full bg-primary/10 text-primary text-xs font-semibold tracking-[0.2em] uppercase mb-6 border border-primary/20 backdrop-blur-sm">
@@ -135,14 +142,42 @@ const Products = () => {
 
           </motion.div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background via-background/80 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background via-background/80 to-transparent" />
       </section>
 
       <TrustBadges />
 
+      <section className="py-8 md:py-12 section-glow relative">
+        <SectionDivider />
+        <div className="container mx-auto px-6 relative z-10">
+          <SectionHeading
+            badge="Why Choose Us"
+            title="Why Choose X Elevators"
+            subtitle="A compact premium overview of the strengths that keep projects moving with clarity and confidence."
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 md:gap-8 max-w-6xl mx-auto">
+            {whyChooseUs.map((item, index) => (
+              <ScrollReveal key={item.title} delay={index * 0.08} className="h-full">
+                <GlassCard className="p-6 lg:p-7 h-full" premium tilt>
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mb-5 icon-glow">
+                    <item.icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-lg font-heading font-semibold text-foreground mb-3">
+                    {item.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed opacity-80">
+                    {item.desc}
+                  </p>
+                </GlassCard>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ELEVATOR SHOWCASE */}
       <div>
-        <div className="container mx-auto px-6 pt-8 md:pt-10">
+        <div className="container mx-auto px-6 pt-6 md:pt-8">
           <SectionHeading badge="Categories" title="Our Elevator Solutions" subtitle="Choose the right elevator for your building type" />
         </div>
         {elevatorProducts.map((product, i) => (
@@ -153,7 +188,7 @@ const Products = () => {
       <SectionDivider />
 
       {/* FINISHES & PRICING */}
-      <section className="py-10 md:py-16 section-glow relative">
+      <section className="py-8 md:py-12 section-glow relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_40%,hsl(43_66%_52%/0.04),transparent)]" />
         <div className="container mx-auto px-6 relative z-10">
           <SectionHeading badge="Pricing" title="Finishes & Pricing" subtitle="Choose from our range of elevator finishes to match your budget and style" />
@@ -250,11 +285,11 @@ const Products = () => {
       <SectionDivider />
 
       {/* DESIGN CUSTOMIZATION GALLERY */}
-      <section className="py-10 md:py-16 section-glow relative overflow-hidden">
+      <section className="py-8 md:py-12 section-glow relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <SectionHeading badge="Choose your Design" title="Endless Customization" subtitle="Personalize every detail of your elevator" />
           
-          <div className="flex flex-col lg:flex-row items-center justify-center max-w-[1400px] mx-auto mt-12 gap-6 lg:gap-8">
+          <div className="flex flex-col lg:flex-row items-center justify-center max-w-[1400px] mx-auto mt-8 gap-6 lg:gap-8">
             
             {/* Left Stack (Door & COP) */}
             <div className="flex flex-col gap-6 w-full lg:w-[300px]">

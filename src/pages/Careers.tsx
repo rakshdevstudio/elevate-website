@@ -135,9 +135,9 @@ const Careers = () => {
 
       <InteractiveCareers />
 
-     <section className="py-10 md:py-16 section-glow relative">
+    <section className="py-8 md:py-12 section-glow relative">
         <SectionDivider />
-        <div className="container mx-auto px-6 pt-8 relative z-10">
+        <div className="container mx-auto px-6 pt-6 relative z-10">
           <SectionHeading badge="Openings" title="Current Openings" subtitle="Explore available positions and find your perfect role" />
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {openings.map((job, i) => (
@@ -169,9 +169,9 @@ const Careers = () => {
         </div>
       </section>
 
-      <section id="apply" className="py-10 md:py-16 relative">
+      <section id="apply" className="py-8 md:py-12 relative">
         <SectionDivider />
-        <div className="container mx-auto px-6 max-w-2xl pt-8">
+        <div className="container mx-auto px-6 max-w-2xl pt-6">
           <SectionHeading badge="Apply" title="Apply Now" subtitle="Fill in your details and we'll get back to you" />
           <GlassCard className="p-8 relative overflow-hidden" hover={false} premium>
             <div className="absolute inset-0 bg-gradient-to-br from-primary/3 to-transparent pointer-events-none" />

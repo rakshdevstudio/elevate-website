@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FloatingParticles, SectionHeading, GlassCard, SectionDivider, ScrollReveal } from "@/components/ui/shared";
-import { Phone, Mail, MapPin, Globe, Clock, Headphones, MessageSquare, Send, PhoneCall } from "lucide-react";
+import { Phone, Mail, MapPin, Globe, Clock, Headphones, Send, PhoneCall } from "lucide-react";
 import { clampBudgetRange, MAX_BUDGET_LAKHS, MIN_BUDGET_LAKHS, submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
 import { toast } from "@/hooks/use-toast";
 import BrochureDownload from "@/components/BrochureDownload";
 import { TrustBadges } from "@/components/CTABanner";
-import { COMPANY_ADDRESS, COMPANY_MAPS_EMBED_URL, COMPANY_MAPS_PLACE_URL } from "@/lib/company";
+import { COMPANY_MAPS_EMBED_URL, COMPANY_MAPS_PLACE_URL, COMPANY_OFFICES } from "@/lib/company";
 
 const Contact = () => {
   const [form, setForm] = useState({
@@ -57,7 +57,7 @@ const Contact = () => {
 
   return (
     <>
-      <section className="relative overflow-hidden min-h-[80vh] lg:min-h-[85vh] flex items-center">
+      <section className="relative overflow-hidden min-h-[72vh] lg:min-h-[78vh] flex items-center">
         <div className="absolute inset-0 bg-navy-gradient" />
         <div className="absolute inset-0">
           <img src="/images/hero-contact.webp" alt="" className="w-full h-full object-cover opacity-45" loading="eager" />
@@ -69,7 +69,7 @@ const Contact = () => {
           <div className="absolute bottom-10 right-10 w-[320px] h-[320px] bg-[hsl(210_60%_40%/0.08)] rounded-full blur-[140px]" />
         </div>
         <FloatingParticles count={18} />
-        <div className="container mx-auto px-6 lg:px-8 text-center relative z-10 max-w-4xl">
+        <div className="container mx-auto px-6 lg:px-8 text-center relative z-10 max-w-4xl pt-16 pb-10">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
             <span className="inline-block px-5 py-2 rounded-full bg-primary/10 text-primary text-xs font-semibold tracking-[0.2em] uppercase mb-6 border border-primary/15 backdrop-blur-md">
               Let’s Build Something Exceptional
@@ -100,14 +100,14 @@ const Contact = () => {
             Response within 60 minutes • Trusted by builders across India
           </motion.p>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background via-background/80 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background via-background/80 to-transparent" />
       </section>
 
       <TrustBadges />
 
-      <section className="py-10 md:py-16 relative">
+      <section className="py-8 md:py-12 relative">
         <SectionDivider />
-        <div className="container mx-auto px-6 pt-8 max-w-5xl">
+        <div className="container mx-auto px-6 pt-6 max-w-5xl">
           <ScrollReveal>
             <div className="mb-8">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-extrabold text-foreground mb-6 tracking-tight">Let's Discuss About Your Project</h2>
@@ -117,11 +117,12 @@ const Contact = () => {
             </div>
           </ScrollReveal>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mb-10 md:mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 mb-10 md:mb-12">
               {[
                 { icon: <Clock className="w-8 h-8 md:w-10 md:h-10 transition-transform duration-500 group-hover/card:scale-110" />, title: "<60 Min Response", desc: "Emergency support" },
                 { icon: <Headphones className="w-8 h-8 md:w-10 md:h-10 transition-transform duration-500 group-hover/card:scale-110" />, title: "Available 24/7 Support", desc: "Always available" },
-                { icon: <MessageSquare className="w-8 h-8 md:w-10 md:h-10 transition-transform duration-500 group-hover/card:scale-110" />, title: "WhatsApp Support", desc: "Quick responses" },
+                { icon: <MapPin className="w-8 h-8 md:w-10 md:h-10 transition-transform duration-500 group-hover/card:scale-110" />, title: COMPANY_OFFICES[0].label, desc: COMPANY_OFFICES[0].address },
+                { icon: <Globe className="w-8 h-8 md:w-10 md:h-10 transition-transform duration-500 group-hover/card:scale-110" />, title: COMPANY_OFFICES[1].label, desc: COMPANY_OFFICES[1].address },
               ].map((item, i) => (
               <ScrollReveal key={i} delay={i * 0.1} className="h-full">
                 <motion.div
@@ -152,9 +153,9 @@ const Contact = () => {
         </div>
       </section>
 
-      <section className="py-10 md:py-16 section-glow relative">
+      <section className="py-8 md:py-12 section-glow relative">
         <SectionDivider />
-        <div className="container mx-auto px-6 pt-8 relative z-10">
+        <div className="container mx-auto px-6 pt-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-6 md:gap-8 max-w-6xl mx-auto">
             <ScrollReveal direction="left">
               <div>
@@ -264,8 +265,8 @@ const Contact = () => {
                 {[
                   { icon: <Phone className="w-5 h-5" />, title: "Phone", info: "+91 9844002026\n+91 6384961909" },
                   { icon: <Mail className="w-5 h-5" />, title: "Email", info: "info@xelevators.in" },
-                  { icon: <Globe className="w-5 h-5" />, title: "Website", info: "xelevators.in" },
-                  { icon: <MapPin className="w-5 h-5" />, title: "Locations", info: COMPANY_ADDRESS },
+                  { icon: <MapPin className="w-5 h-5" />, title: COMPANY_OFFICES[0].label, info: COMPANY_OFFICES[0].address },
+                  { icon: <Globe className="w-5 h-5" />, title: COMPANY_OFFICES[1].label, info: COMPANY_OFFICES[1].address },
                 ].map((c, i) => (
                   <GlassCard key={i} className="p-6 flex items-start gap-5" premium delay={i * 0.06} tilt>
                     <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">{c.icon}</div>
@@ -306,9 +307,9 @@ const Contact = () => {
 
       <BrochureDownload />
 
-      <section className="py-10 md:py-16 relative">
+      <section className="py-8 md:py-12 relative">
         <SectionDivider />
-        <div className="container mx-auto px-6 max-w-3xl pt-8">
+        <div className="container mx-auto px-6 max-w-3xl pt-6">
           <ScrollReveal>
             <div className="relative rounded-2xl overflow-hidden p-6 lg:p-8" style={{ background: 'linear-gradient(160deg, hsl(212 50% 14% / 0.7) 0%, hsl(212 48% 10% / 0.5) 100%)' }}>
               <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/5 rounded-full blur-[80px] pointer-events-none" />

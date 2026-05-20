@@ -83,7 +83,7 @@ export const CTABanner = ({ variant = "quote" }: CTABannerProps) => {
   const bgInner = useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(212, 175, 55, 0.08), transparent 70%)`;
 
   return (
-    <section className="py-24 lg:py-32 relative overflow-hidden flex justify-center items-center">
+    <section className="py-16 lg:py-20 relative overflow-hidden flex justify-center items-center">
       {/* Slow Moving Background Light Effect */}
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
          <motion.div 
@@ -113,7 +113,7 @@ export const CTABanner = ({ variant = "quote" }: CTABannerProps) => {
                style={{ background: bgBorder }}
             />
 
-            <div className="relative bg-card/60 backdrop-blur-[24px] rounded-[31px] px-6 py-16 lg:p-24 overflow-hidden flex flex-col items-center text-center shadow-[inset_0_2px_20px_rgba(255,255,255,0.02)] z-10">
+            <div className="relative bg-card/60 backdrop-blur-[24px] rounded-[31px] px-6 py-12 lg:p-16 overflow-hidden flex flex-col items-center text-center shadow-[inset_0_2px_20px_rgba(255,255,255,0.02)] z-10">
               
               {/* Inner Glow Spotlight (Mouse Tracking) */}
               <motion.div
@@ -160,7 +160,7 @@ export const CTABanner = ({ variant = "quote" }: CTABannerProps) => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.7, ease: "easeOut" }}
                 >
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-white mb-6 tracking-tight group-hover:tracking-normal transition-all duration-700 [text-shadow:0_0_40px_rgba(255,255,255,0.1)]">
+                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold text-white mb-5 tracking-tight group-hover:tracking-normal transition-all duration-700 [text-shadow:0_0_40px_rgba(255,255,255,0.1)]">
                     {config.title}
                   </h2>
                 </motion.div>
@@ -170,7 +170,7 @@ export const CTABanner = ({ variant = "quote" }: CTABannerProps) => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-                  className="text-gray-400 text-lg lg:text-xl mx-auto mb-10 leading-relaxed font-light"
+                  className="text-gray-400 text-base md:text-lg lg:text-xl mx-auto mb-8 leading-relaxed font-light"
                 >
                   {config.subtitle}
                 </motion.p>
@@ -180,7 +180,7 @@ export const CTABanner = ({ variant = "quote" }: CTABannerProps) => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-                  className="flex flex-col sm:flex-row gap-5 justify-center mt-8 items-center"
+                  className="flex flex-col sm:flex-row gap-4 justify-center mt-6 items-center"
                 >
                   {/* Primary Button */}
                   {isExternal ? (

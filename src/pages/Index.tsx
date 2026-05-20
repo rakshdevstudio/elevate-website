@@ -5,6 +5,7 @@ import { SectionHeading, GlassCard, StatCard, ScrollReveal, FloatingParticles, S
 import { Shield, Zap, Award, Users, Building2, Wrench, ChevronRight, CheckCircle2, Phone, Mail, MapPin, ChevronDown, PhoneCall, ArrowRight, ArrowLeft, Home, Building, Hospital, Hotel, Factory, Search, PenTool, Settings, HardHat, BadgeCheck, Send, Activity, Star, Leaf, Volume2, Brain, Smartphone, BarChart3, Truck, Clock, Headphones } from "lucide-react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
+import type { Swiper as SwiperClass } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -14,6 +15,7 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { clampBudgetRange, MAX_BUDGET_LAKHS, MIN_BUDGET_LAKHS, submitLead, SUCCESS_MESSAGE } from "@/lib/submitLead";
 import { toast } from "@/hooks/use-toast";
 import { COMPANY_ADDRESS } from "@/lib/company";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const rotatingWords = ["Trust", "Safety", "Innovation", "Reliability", "Excellence"];
 
@@ -28,7 +30,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center pt-32 lg:pt-40 pb-16 overflow-hidden">
+    <section className="relative min-h-screen flex items-center pt-16 lg:pt-24 pb-12 overflow-hidden">
       <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
         <source src="/videos/Cinematic_Elevator_Business_Video_Generated.mp4" type="video/mp4" />
       </video>
@@ -39,7 +41,7 @@ const Hero = () => {
       
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7 }} className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-12 mt-8 lg:mt-12">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7 }} className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-12 mt-4 lg:mt-8">
             {[
               { icon: <Shield className="w-4 h-4" />, label: "ISO Certified" },
               { icon: <Award className="w-4 h-4" />, label: "Licensed Company" },
@@ -294,7 +296,7 @@ const MissionVisionCard = ({ card }: { card: typeof missionVisionCards[0] }) => 
 };
 
 const MissionVision = () => (
-  <section className="py-10 md:py-16 section-glow relative overflow-hidden">
+  <section className="py-8 md:py-12 section-glow relative overflow-hidden">
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_60%,hsl(43_66%_52%/0.04),transparent_70%)] pointer-events-none" />
     <div className="container mx-auto px-6 relative z-10">
       <SectionHeading
@@ -317,7 +319,7 @@ const impactStats = [
   { value: "120+", label: "Customers Served", sub: "Trusted partnerships" },
   { value: "ISO", label: "Certified Standard", sub: "Quality assured" },
   { value: "99%", label: "Automation", sub: "Digital processes" },
-  { value: "Fast", label: "Quick Deliver", sub: "Timeline" },
+  { value: "Fast", label: "Quick Delivery", sub: "Timeline" },
   { value: "5", label: "Cities Covered", sub: "South India" },
   { value: "25+", label: "People", sub: "Professionals Driving Our Mission Forward" },
 ];
@@ -357,6 +359,7 @@ const impactFeatures = [
 
 const ImpactMetrics = () => {
   const [activeBg, setActiveBg] = useState(0);
+  const isMobile = useIsMobile();
 
   const bgImages = [
     "/images/CUSTOMIZATION EXPERTS.webp",
@@ -423,9 +426,14 @@ const ImpactMetrics = () => {
               loop={true}
               centeredSlides={true}
               slidesPerView={1}
-              spaceBetween={28}
-              speed={420}
-              autoplay={{ delay: 1700, disableOnInteraction: false }}
+              spaceBetween={isMobile ? 18 : 28}
+              speed={isMobile ? 800 : 1000}
+              autoplay={{
+                delay: isMobile ? 4800 : 3600,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+                waitForTransition: true,
+              }}
               navigation={{
                 nextEl: '.swiper-button-next-custom',
                 prevEl: '.swiper-button-prev-custom',
@@ -634,9 +642,9 @@ const IndustriesServed = () => {
   ];
 
   return (
-    <section className="py-10 md:py-16 mt-16 relative section-mesh">
+    <section className="py-10 md:py-16 mt-10 relative section-mesh">
       <SectionDivider />
-      <div className="container mx-auto px-6 pt-8 relative z-10">
+      <div className="container mx-auto px-6 pt-6 relative z-10">
         <SectionHeading badge="Industries" title="Industries We Serve" subtitle="Trusted across diverse sectors for premium vertical transportation" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 max-w-5xl mx-auto">
           {industries.map((ind, i) => (
@@ -1242,7 +1250,7 @@ const FAQ = () => {
 };
 
 const CTASection = () => (
-  <section className="py-20 md:py-32 relative overflow-hidden">
+  <section className="py-16 md:py-20 relative overflow-hidden">
     <SectionDivider />
     
     {/* Background Layers */}
@@ -1263,7 +1271,7 @@ const CTASection = () => (
       }}
     />
 
-    <div className="container mx-auto px-6 pt-12 relative z-10 flex justify-center">
+    <div className="container mx-auto px-6 pt-8 relative z-10 flex justify-center">
       <ScrollReveal className="w-full max-w-[900px] relative z-10">
         <motion.div 
           className="group relative rounded-[2rem] overflow-hidden"
@@ -1391,7 +1399,7 @@ const ContactSection = () => {
               {[
                 { icon: <Phone className="w-5 h-5" />, title: "Call Us", info: "+91 9844002026 / +91 6384961909" },
                 { icon: <Mail className="w-5 h-5" />, title: "Email Us", info: "info@xelevators.in" },
-                { icon: <MapPin className="w-5 h-5" />, title: "Visit Us", info: COMPANY_ADDRESS },
+                { icon: <MapPin className="w-5 h-5" />, title: "Corporate Office", info: COMPANY_ADDRESS },
               ].map((c, i) => (
                 <GlassCard key={i} className="p-6 flex items-start gap-5" delay={i * 0.1} premium>
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shrink-0 icon-glow">{c.icon}</div>
