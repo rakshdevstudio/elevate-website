@@ -11,6 +11,7 @@ import CaptureVisitModal, { VisitCapturePayload } from "@/components/admin/Captu
 import ExecutionModal, { ExecutionPayload } from "@/components/admin/ExecutionModal";
 import InstallationModal, { InstallationPayload } from "@/components/admin/InstallationModal";
 import { toast } from "@/hooks/use-toast";
+import { adminRoute } from "@/lib/adminRoute";
 
 type PipelineStatus = Tables<"leads">["status"];
 type PipelineLead = Omit<Tables<"leads">, "status"> & { status: PipelineStatus };
@@ -412,7 +413,7 @@ const AdminPipeline = () => {
                               <Phone className="w-3 h-3" />
                             </a>
                             <Link
-                              to={`/admin/lead/${lead.id}`}
+                              to={adminRoute(`lead/${lead.id}`)}
                               onClick={(e) => e.stopPropagation()}
                               className="p-1 rounded-md bg-secondary/20 text-muted-foreground hover:text-foreground ml-auto transition-colors"
                             >

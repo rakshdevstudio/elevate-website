@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { statusColors, statusLabels, pipelineStatuses, calculateLeadScore, getScoreColor } from "@/lib/lead-utils";
 import { toast } from "@/hooks/use-toast";
+import { adminRoute } from "@/lib/adminRoute";
 
 const AdminDashboard = () => {
   const [leads, setLeads] = useState<Tables<"leads">[]>([]);
@@ -116,7 +117,7 @@ const AdminDashboard = () => {
             <button onClick={() => setNotifications([])} className="ml-auto text-muted-foreground text-xs hover:text-foreground">Clear</button>
           </div>
           {notifications.slice(0, 3).map((n) => (
-            <Link key={n.id} to={`/admin/lead/${n.id}`} className="block text-xs text-muted-foreground hover:text-foreground py-1">
+            <Link key={n.id} to={adminRoute(`lead/${n.id}`)} className="block text-xs text-muted-foreground hover:text-foreground py-1">
               🔔 <span className="text-foreground font-medium">{n.name}</span> submitted a new lead
             </Link>
           ))}
@@ -140,7 +141,7 @@ const AdminDashboard = () => {
       <div className="glass-card rounded-2xl p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-foreground font-heading font-semibold text-sm">Lead Pipeline</h3>
-          <Link to="/admin/pipeline" className="text-primary text-xs font-medium flex items-center gap-1 hover:gap-2 transition-all">
+          <Link to={adminRoute("pipeline")} className="text-primary text-xs font-medium flex items-center gap-1 hover:gap-2 transition-all">
             Open Board <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
@@ -164,13 +165,13 @@ const AdminDashboard = () => {
         <div className="glass-card rounded-2xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-foreground font-heading font-semibold text-sm">Recent Leads</h3>
-            <Link to="/admin/leads" className="text-primary text-xs font-medium flex items-center gap-1 hover:gap-2 transition-all">
+            <Link to={adminRoute("leads")} className="text-primary text-xs font-medium flex items-center gap-1 hover:gap-2 transition-all">
               View All <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
           <div className="space-y-2">
             {recentLeads.map((lead) => (
-              <Link key={lead.id} to={`/admin/lead/${lead.id}`} className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-secondary/20 transition-all group">
+              <Link key={lead.id} to={adminRoute(`lead/${lead.id}`)} className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-secondary/20 transition-all group">
                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center text-primary text-xs font-bold shrink-0">
                   {lead.name.charAt(0).toUpperCase()}
                 </div>
@@ -194,7 +195,7 @@ const AdminDashboard = () => {
           <h3 className="text-foreground font-heading font-semibold text-sm mb-4">🔥 Top Scored Leads</h3>
           <div className="space-y-2">
             {highScoreLeads.map((lead) => (
-              <Link key={lead.id} to={`/admin/lead/${lead.id}`} className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-secondary/20 transition-all">
+              <Link key={lead.id} to={adminRoute(`lead/${lead.id}`)} className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-secondary/20 transition-all">
                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center text-primary text-xs font-bold shrink-0">
                   {lead.name.charAt(0).toUpperCase()}
                 </div>
@@ -219,13 +220,13 @@ const AdminDashboard = () => {
         <div className="glass-card rounded-2xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-foreground font-heading font-semibold text-sm">📅 Upcoming Site Visits</h3>
-            <Link to="/admin/visits" className="text-primary text-xs font-medium flex items-center gap-1 hover:gap-2 transition-all">
+            <Link to={adminRoute("site-visits")} className="text-primary text-xs font-medium flex items-center gap-1 hover:gap-2 transition-all">
               View Calendar <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
             {upcomingVisits.map((visit) => (
-              <Link key={visit.id} to={`/admin/lead/${visit.lead_id}`} className="p-3 rounded-xl bg-secondary/15 hover:bg-secondary/25 transition-colors">
+              <Link key={visit.id} to={adminRoute(`lead/${visit.lead_id}`)} className="p-3 rounded-xl bg-secondary/15 hover:bg-secondary/25 transition-colors">
                 <p className="text-foreground text-xs font-medium truncate">{visit.lead_name}</p>
                 <div className="flex items-center gap-1 text-muted-foreground text-[10px] mt-1">
                   <CalendarDays className="w-3 h-3" />

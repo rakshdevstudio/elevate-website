@@ -8,6 +8,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { toast } from "@/hooks/use-toast";
+import { adminRoute } from "@/lib/adminRoute";
 
 type VisitWithLead = Tables<"site_visits"> & { lead_name?: string; lead_phone?: string };
 
@@ -217,7 +218,7 @@ const AdminSiteVisits = () => {
                   {selectedDayVisits.map((visit) => (
                     <div key={visit.id} className="p-4 rounded-xl bg-secondary/15 space-y-2">
                       <div className="flex items-center justify-between">
-                        <Link to={`/admin/lead/${visit.lead_id}`} className="text-foreground text-sm font-medium hover:text-primary transition-colors">
+                        <Link to={adminRoute(`lead/${visit.lead_id}`)} className="text-foreground text-sm font-medium hover:text-primary transition-colors">
                           {visit.lead_name}
                         </Link>
                         <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${statusBadge(visit.status)}`}>
@@ -253,7 +254,7 @@ const AdminSiteVisits = () => {
           <h3 className="text-foreground font-heading font-semibold text-sm mb-4">Upcoming Visits</h3>
           <div className="space-y-3 max-h-[600px] overflow-y-auto">
             {upcomingVisits.map((visit) => (
-              <Link key={visit.id} to={`/admin/lead/${visit.lead_id}`} className="block p-3 rounded-xl bg-secondary/15 hover:bg-secondary/25 transition-colors">
+              <Link key={visit.id} to={adminRoute(`lead/${visit.lead_id}`)} className="block p-3 rounded-xl bg-secondary/15 hover:bg-secondary/25 transition-colors">
                 <div className="flex items-center justify-between">
                   <p className="text-foreground text-xs font-medium">{visit.lead_name}</p>
                   {visit.lead_phone && (
@@ -354,7 +355,7 @@ const AdminSiteVisits = () => {
               {filteredVisits.map((visit) => (
                 <tr key={visit.id} className="border-b border-border/10 hover:bg-secondary/10 transition-colors">
                   <td className="py-2.5 px-3">
-                    <Link to={`/admin/lead/${visit.lead_id}`} className="text-foreground font-medium hover:text-primary transition-colors">
+                    <Link to={adminRoute(`lead/${visit.lead_id}`)} className="text-foreground font-medium hover:text-primary transition-colors">
                       {visit.lead_name}
                     </Link>
                   </td>

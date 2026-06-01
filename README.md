@@ -1,10 +1,10 @@
-# X Elevators CRM
+# X Elevators Website
 
 Enterprise CRM and lead management platform built for **X Elevators Pvt Ltd**.
 
 ## Overview
 
-X Elevators CRM is a custom-built internal operations platform for managing leads, tracking the sales pipeline, scheduling site visits, and monitoring business analytics.
+X Elevators website is the customer-facing frontend platform for X Elevators Pvt. Ltd., designed for generating leads, showcasing premium lifts, and giving customers a premium experience.
 
 ## Features
 

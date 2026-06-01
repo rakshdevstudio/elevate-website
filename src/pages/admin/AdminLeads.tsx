@@ -7,6 +7,7 @@ import type { Tables, Enums } from "@/integrations/supabase/types";
 import { statusColors, statusLabels, allStatuses, calculateLeadScore, getScoreColor, sourceLabels } from "@/lib/lead-utils";
 import ScheduleVisitModal from "@/components/admin/ScheduleVisitModal";
 import CaptureLeadModal from "@/components/admin/CaptureLeadModal";
+import { adminRoute } from "@/lib/adminRoute";
 
 const AdminLeads = () => {
   const [leads, setLeads] = useState<Tables<"leads">[]>([]);
@@ -182,7 +183,7 @@ const AdminLeads = () => {
                   <span className="text-muted-foreground text-xs whitespace-nowrap">
                     {new Date(lead.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
                   </span>
-                  <Link to={`/admin/lead/${lead.id}`} className="p-2 rounded-lg hover:bg-secondary/30 text-muted-foreground hover:text-primary transition-all">
+                  <Link to={adminRoute(`lead/${lead.id}`)} className="p-2 rounded-lg hover:bg-secondary/30 text-muted-foreground hover:text-primary transition-all">
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>

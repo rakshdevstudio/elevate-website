@@ -11,6 +11,7 @@ import type { Tables, Enums } from "@/integrations/supabase/types";
 import { statusColors, statusLabels, allStatuses, calculateLeadScore, getScoreColor, getScoreBg } from "@/lib/lead-utils";
 import PaymentModal from "@/components/admin/PaymentModal";
 import { toast } from "@/hooks/use-toast";
+import { adminRoute } from "@/lib/adminRoute";
 
 const AdminLeadDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -169,7 +170,7 @@ const AdminLeadDetail = () => {
     return (
       <div className="text-center py-16">
         <p className="text-muted-foreground">Lead not found.</p>
-        <Link to="/admin/leads" className="text-primary text-sm mt-2 inline-block">← Back to leads</Link>
+        <Link to={adminRoute("leads")} className="text-primary text-sm mt-2 inline-block">← Back to leads</Link>
       </div>
     );
   }
@@ -198,7 +199,7 @@ const AdminLeadDetail = () => {
 
   return (
     <div className="space-y-6 max-w-5xl">
-      <Link to="/admin/leads" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm transition-colors">
+      <Link to={adminRoute("leads")} className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to Leads
       </Link>
 

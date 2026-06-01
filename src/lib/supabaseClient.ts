@@ -1,5 +1,5 @@
 /**
- * X Elevators CRM — Supabase Client
+ * X Elevators website — Supabase Client
  *
  * This is the canonical Supabase client entry point.
  * Re-exports the typed client from the integrations layer.

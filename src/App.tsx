@@ -2,12 +2,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import FloatingButtons from "./components/FloatingButtons";
 import ClickSpark from "./components/ClickSpark";
+import SeoManager from "./components/SeoManager";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -24,6 +25,7 @@ import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import AdminPipeline from "./pages/admin/AdminPipeline";
 import AdminSiteVisits from "./pages/admin/AdminSiteVisits";
 import AdminCareers from "./pages/admin/AdminCareers";
+import { ADMIN_BASE_PATH } from "./lib/adminRoute";
 
 const queryClient = new QueryClient();
 
@@ -33,11 +35,14 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <SeoManager />
         <ScrollToTop />
         <Routes>
-          {/* Admin routes */}
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminLayout />}>
+          {/* Hidden admin routes */}
+          <Route path="/admin" element={<Navigate to="/" replace />} />
+          <Route path="/admin/*" element={<Navigate to="/" replace />} />
+          <Route path={ADMIN_BASE_PATH} element={<AdminLogin />} />
+          <Route path={ADMIN_BASE_PATH} element={<AdminLayout />}>
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="pipeline" element={<AdminPipeline />} />
             <Route path="leads" element={<AdminLeads />} />

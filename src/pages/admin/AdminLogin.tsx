@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Lock, Mail, Eye, EyeOff, AlertCircle } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import logo from "@/assets/logo.png";
+import { adminRoute } from "@/lib/adminRoute";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -11,8 +12,20 @@ const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
+  const { signIn, user, isAdmin, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!authLoading && user && isAdmin) {
+      navigate(adminRoute("dashboard"), { replace: true });
+    }
+  }, [authLoading, user, isAdmin, navigate]);
+
+  useEffect(() => {
+    if (!authLoading && user && !isAdmin) {
+      setError("Access denied. This portal is restricted to authorized administrators.");
+    }
+  }, [authLoading, user, isAdmin]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +36,7 @@ const AdminLogin = () => {
       setError(error.message);
       setLoading(false);
     } else {
-      navigate("/admin/dashboard");
+      navigate(adminRoute("dashboard"), { replace: true });
     }
   };
 
@@ -38,8 +51,8 @@ const AdminLogin = () => {
         <div className="glass-card-premium rounded-2xl p-8 lg:p-10">
           <div className="text-center mb-8">
             <img src={logo} alt="X Elevators" className="h-16 w-16 object-contain mx-auto mb-4" />
-            <h1 className="text-2xl font-heading font-bold text-foreground">X Elevators CRM</h1>
-            <p className="text-muted-foreground text-sm mt-1">Operations Console — Sign in to continue</p>
+            <h1 className="text-2xl font-heading font-bold text-foreground">X Elevators Pvt. Ltd.</h1>
+            <p className="text-muted-foreground text-sm mt-1">Secure sign in to continue</p>
           </div>
 
           {error && (

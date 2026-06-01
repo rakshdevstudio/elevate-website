@@ -6,14 +6,15 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import logo from "@/assets/logo.png";
 import { useState } from "react";
+import { adminRoute } from "@/lib/adminRoute";
 
 const navItems = [
-  { label: "Dashboard", path: "/admin/dashboard", icon: LayoutDashboard },
-  { label: "Pipeline", path: "/admin/pipeline", icon: Kanban },
-  { label: "Leads", path: "/admin/leads", icon: Users },
-  { label: "Site Visits", path: "/admin/site-visits", icon: CalendarDays },
-  { label: "Careers", path: "/admin/careers", icon: Briefcase },
-  { label: "Analytics", path: "/admin/analytics", icon: BarChart3 },
+  { label: "Dashboard", path: adminRoute("dashboard"), icon: LayoutDashboard },
+  { label: "Pipeline", path: adminRoute("pipeline"), icon: Kanban },
+  { label: "Leads", path: adminRoute("leads"), icon: Users },
+  { label: "Site Visits", path: adminRoute("site-visits"), icon: CalendarDays },
+  { label: "Careers", path: adminRoute("careers"), icon: Briefcase },
+  { label: "Analytics", path: adminRoute("analytics"), icon: BarChart3 },
 ];
 
 const AdminLayout = () => {
@@ -24,7 +25,7 @@ const AdminLayout = () => {
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
-      navigate("/admin/login");
+      navigate(adminRoute(), { replace: true });
     }
   }, [user, isAdmin, loading, navigate]);
 
@@ -49,7 +50,7 @@ const AdminLayout = () => {
           <img src={logo} alt="X Elevators" className="h-10 w-10 object-contain" />
           <div>
             <p className="text-foreground font-heading font-bold text-sm">X Elevators</p>
-            <p className="text-muted-foreground text-xs">Operations Console</p>
+            <p className="text-muted-foreground text-xs">Secure staff access</p>
           </div>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden ml-auto text-muted-foreground hover:text-foreground">
             <X className="w-5 h-5" />
@@ -58,7 +59,7 @@ const AdminLayout = () => {
 
         <nav className="flex-1 p-4 space-y-1">
           {navItems.map((item) => {
-            const isActive = location.pathname === item.path || (item.path === "/admin/leads" && location.pathname.startsWith("/admin/lead/"));
+            const isActive = location.pathname === item.path || (item.path === adminRoute("leads") && location.pathname.startsWith(adminRoute("lead/")));
             return (
               <Link
                 key={item.path}

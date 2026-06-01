@@ -1,4 +1,4 @@
-// Supabase client for X Elevators CRM
+// Supabase client for the X Elevators website
 // Import this client across the app:
 //   import { supabase } from "@/integrations/supabase/client";
 import { createClient } from '@supabase/supabase-js';
