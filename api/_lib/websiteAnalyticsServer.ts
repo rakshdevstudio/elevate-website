@@ -35,22 +35,66 @@ type RpcSnapshotRow = {
   updated_at: string | null;
 };
 
-const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const DRAIN_SIGNATURE_SECRET = process.env.VERCEL_ANALYTICS_DRAIN_SECRET;
-const EXPECTED_PROJECT_ID = process.env.VERCEL_ANALYTICS_PROJECT_ID;
-const EXPECTED_OWNER_ID = process.env.VERCEL_ANALYTICS_OWNER_ID;
-const WEBSITE_ANALYTICS_TIMEZONE = process.env.WEBSITE_ANALYTICS_TIMEZONE || "Asia/Kolkata";
-
 let adminClient: ReturnType<typeof createClient> | null = null;
+let adminClientConfig: { url: string; serviceRoleKey: string } | null = null;
+
+const emptySnapshot = (available = false): WebsiteAnalyticsSnapshot => ({
+  available,
+  totalVisitors: 0,
+  visitorsToday: 0,
+  visitorsThisWeek: 0,
+  pageViews: 0,
+  topViewedPage: null,
+  updatedAt: null,
+});
+
+const readEnv = (name: string) => {
+  const rawValue = process.env[name];
+  if (!rawValue) return "";
+
+  const trimmed = rawValue.trim();
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1).trim();
+  }
+
+  return trimmed;
+};
+
+const isValidTimeZone = (timeZone: string) => {
+  try {
+    new Intl.DateTimeFormat("en-US", { timeZone }).format(new Date());
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const getAnalyticsTimeZone = () => {
+  const configuredTimeZone = readEnv("WEBSITE_ANALYTICS_TIMEZONE") || "Asia/Kolkata";
+  if (isValidTimeZone(configuredTimeZone)) return configuredTimeZone;
+
+  console.error("[website-analytics] Invalid WEBSITE_ANALYTICS_TIMEZONE value, falling back to Asia/Kolkata", {
+    configuredTimeZone,
+  });
+  return "Asia/Kolkata";
+};
 
 const getAdminClient = () => {
-  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) return null;
-  if (!adminClient) {
-    adminClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+  const supabaseUrl = readEnv("VITE_SUPABASE_URL");
+  const serviceRoleKey = readEnv("SUPABASE_SERVICE_ROLE_KEY");
+
+  if (!supabaseUrl || !serviceRoleKey) return null;
+
+  if (!adminClient || adminClientConfig?.url !== supabaseUrl || adminClientConfig?.serviceRoleKey !== serviceRoleKey) {
+    adminClientConfig = { url: supabaseUrl, serviceRoleKey };
+    adminClient = createClient(supabaseUrl, serviceRoleKey, {
       auth: { autoRefreshToken: false, persistSession: false },
     });
   }
+
   return adminClient;
 };
 
@@ -131,10 +175,11 @@ const safeParseJson = (value?: string) => {
 };
 
 export const verifyDrainSignature = (rawBody: string, signatureHeader?: string | string[] | null) => {
-  if (!DRAIN_SIGNATURE_SECRET) return true;
+  const drainSignatureSecret = readEnv("VERCEL_ANALYTICS_DRAIN_SECRET");
+  if (!drainSignatureSecret) return true;
   if (!signatureHeader || Array.isArray(signatureHeader)) return false;
 
-  const expectedSignature = crypto.createHmac("sha1", DRAIN_SIGNATURE_SECRET).update(Buffer.from(rawBody, "utf-8")).digest("hex");
+  const expectedSignature = crypto.createHmac("sha1", drainSignatureSecret).update(Buffer.from(rawBody, "utf-8")).digest("hex");
   const providedSignature = Buffer.from(signatureHeader, "utf-8");
   const expectedSignatureBuffer = Buffer.from(expectedSignature, "utf-8");
 
@@ -165,12 +210,14 @@ export const parseDrainPayload = (rawBody: string): VercelAnalyticsEvent[] => {
 export const persistAnalyticsEvents = async (events: VercelAnalyticsEvent[]) => {
   const supabase = getAdminClient();
   if (!supabase) throw new Error("Supabase service role credentials are missing.");
+  const expectedProjectId = readEnv("VERCEL_ANALYTICS_PROJECT_ID");
+  const expectedOwnerId = readEnv("VERCEL_ANALYTICS_OWNER_ID");
 
   const rows = events
     .filter((event) => event.eventType === "pageview")
     .filter((event) => event.vercelEnvironment === "production")
-    .filter((event) => !EXPECTED_PROJECT_ID || event.projectId === EXPECTED_PROJECT_ID)
-    .filter((event) => !EXPECTED_OWNER_ID || event.ownerId === EXPECTED_OWNER_ID)
+    .filter((event) => !expectedProjectId || event.projectId === expectedProjectId)
+    .filter((event) => !expectedOwnerId || event.ownerId === expectedOwnerId)
     .filter((event) => isTrackableWebsitePath(event.path || ""))
     .map((event) => ({
       event_hash: createEventHash(event),
@@ -212,38 +259,25 @@ export const persistAnalyticsEvents = async (events: VercelAnalyticsEvent[]) => 
 export const getWebsiteAnalyticsSnapshot = async (): Promise<WebsiteAnalyticsSnapshot> => {
   const supabase = getAdminClient();
   if (!supabase) {
-    return {
-      available: false,
-      totalVisitors: 0,
-      visitorsToday: 0,
-      visitorsThisWeek: 0,
-      pageViews: 0,
-      topViewedPage: null,
-      updatedAt: null,
-    };
+    return emptySnapshot(false);
   }
 
-  const { todayStart, weekStart } = getDateRangeBounds(WEBSITE_ANALYTICS_TIMEZONE);
-  const { data, error } = await (supabase as any).rpc("get_website_analytics_snapshot", {
-    p_public_paths: [...PUBLIC_WEBSITE_PATHS],
-    p_today_start: todayStart.toISOString(),
-    p_week_start: weekStart.toISOString(),
-    p_admin_prefix: ADMIN_BASE_PATH,
-  });
+  const { todayStart, weekStart } = getDateRangeBounds(getAnalyticsTimeZone());
+  const { data, error } = await (supabase as any)
+    .rpc("get_website_analytics_snapshot", {
+      p_public_paths: [...PUBLIC_WEBSITE_PATHS],
+      p_today_start: todayStart.toISOString(),
+      p_week_start: weekStart.toISOString(),
+      p_admin_prefix: ADMIN_BASE_PATH,
+    })
+    .single();
 
   if (error) {
-    return {
-      available: false,
-      totalVisitors: 0,
-      visitorsToday: 0,
-      visitorsThisWeek: 0,
-      pageViews: 0,
-      topViewedPage: null,
-      updatedAt: null,
-    };
+    console.error("[website-analytics] Failed to load analytics snapshot from Supabase", error);
+    return emptySnapshot(false);
   }
 
-  const row = (data?.[0] || {}) as RpcSnapshotRow;
+  const row = (data || {}) as RpcSnapshotRow;
 
   return {
     available: true,
