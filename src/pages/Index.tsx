@@ -1443,7 +1443,7 @@ const ContactSection = () => {
                 <div className="grid grid-cols-3 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-foreground/80 mb-1.5">Elevator Type</label>
-                    <select name="elevator_type" value={form.elevator_type} onChange={handleChange} className="w-full input-premium text-muted-foreground/60">
+                    <select name="elevator_type" value={form.elevator_type} onChange={handleChange} className="w-full input-premium">
                       <option value="">Select type</option>
                       <option value="Residential">Residential</option>
                       <option value="Commercial">Commercial</option>
@@ -1454,7 +1454,7 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground/80 mb-1.5">Number of Floors</label>
-                    <select name="number_of_floors" value={form.number_of_floors} onChange={handleChange} className="w-full input-premium text-muted-foreground/60">
+                    <select name="number_of_floors" value={form.number_of_floors} onChange={handleChange} className="w-full input-premium">
                       <option value="">Floors</option>
                       <option value="2-3 Floors">2-3 Floors</option>
                       <option value="4-6 Floors">4-6 Floors</option>
@@ -1464,7 +1464,7 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground/80 mb-1.5">Building Type</label>
-                    <select name="building_type" value={form.building_type} onChange={handleChange} className="w-full input-premium text-muted-foreground/60">
+                    <select name="building_type" value={form.building_type} onChange={handleChange} className="w-full input-premium">
                       <option value="">Type</option>
                       <option value="Residential">Residential</option>
                       <option value="Commercial">Commercial</option>

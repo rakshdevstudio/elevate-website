@@ -182,7 +182,7 @@ const Careers = () => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input name="phone" value={form.phone} onChange={handleChange} placeholder="Phone Number *" required className="input-premium" />
-                <select name="position" value={form.position} onChange={handleChange} required className="input-premium text-muted-foreground">
+                <select name="position" value={form.position} onChange={handleChange} required className="input-premium">
                   <option value="">Select Position *</option>
                   <option>Installation Engineer</option>
                   <option>Service Technician</option>

@@ -304,7 +304,7 @@ export const InlineQuoteForm = () => {
                   <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your Name *" className="input-premium" required />
                   <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Phone Number *" className="input-premium" required />
                 </div>
-                <select value={elevatorType} onChange={(e) => setElevatorType(e.target.value)} className="w-full input-premium text-muted-foreground/60">
+                <select value={elevatorType} onChange={(e) => setElevatorType(e.target.value)} className="w-full input-premium">
                   <option value="">Select Elevator Type</option>
                   <option value="Residential">Residential</option>
                   <option value="Commercial">Commercial</option>

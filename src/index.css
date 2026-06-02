@@ -524,6 +524,39 @@
     background: linear-gradient(160deg, hsl(212 50% 16% / 0.5) 0%, hsl(212 48% 12% / 0.4) 100%);
   }
 
+  select.input-premium {
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--card));
+    -webkit-text-fill-color: hsl(var(--foreground));
+    color-scheme: dark;
+  }
+
+  select.input-premium:hover,
+  select.input-premium:focus,
+  select.input-premium:active {
+    color: hsl(var(--foreground));
+    -webkit-text-fill-color: hsl(var(--foreground));
+  }
+
+  select.input-premium option,
+  select.input-premium optgroup {
+    background: hsl(var(--card));
+    color: hsl(var(--foreground));
+  }
+
+  select.input-premium option:hover,
+  select.input-premium option:focus,
+  select.input-premium option:checked {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    select.input-premium {
+      background-image: linear-gradient(160deg, hsl(212 50% 14%) 0%, hsl(212 48% 10%) 100%);
+    }
+  }
+
   /* Section background patterns */
   .section-mesh {
     position: relative;
