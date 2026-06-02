@@ -99,20 +99,28 @@ const getAdminClient = () => {
 };
 
 const parseOffsetMinutes = (date: Date, timeZone: string) => {
-  const parts = new Intl.DateTimeFormat("en-US", {
+  const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone,
-    timeZoneName: "shortOffset",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
     hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23",
   }).formatToParts(date);
-  const offsetLabel = parts.find((part) => part.type === "timeZoneName")?.value || "GMT+0";
-  const match = offsetLabel.match(/GMT([+-])(\d{1,2})(?::(\d{2}))?/);
 
-  if (!match) return 0;
+  const getPart = (type: string) => Number(parts.find((part) => part.type === type)?.value || 0);
+  const zonedTimestamp = Date.UTC(
+    getPart("year"),
+    getPart("month") - 1,
+    getPart("day"),
+    getPart("hour"),
+    getPart("minute"),
+    getPart("second")
+  );
 
-  const sign = match[1] === "-" ? -1 : 1;
-  const hours = Number(match[2] || 0);
-  const minutes = Number(match[3] || 0);
-  return sign * (hours * 60 + minutes);
+  return Math.round((zonedTimestamp - date.getTime()) / 60_000);
 };
 
 const getZonedDateParts = (date: Date, timeZone: string) => {
