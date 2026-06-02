@@ -1,4 +1,4 @@
-import { parseDrainPayload, persistAnalyticsEvents, verifyDrainSignature } from "../_lib/websiteAnalyticsServer";
+import { parseDrainPayload, persistAnalyticsEvents, verifyDrainSignature } from "../_lib/websiteAnalyticsServer.js";
 
 export const config = {
   api: {

@@ -1,4 +1,4 @@
-import { getWebsiteAnalyticsSnapshot } from "../_lib/websiteAnalyticsServer";
+import { getWebsiteAnalyticsSnapshot } from "../_lib/websiteAnalyticsServer.js";
 
 export default async function handler(request: any, response: any) {
   try {

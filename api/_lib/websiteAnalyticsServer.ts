@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import { createClient } from "@supabase/supabase-js";
-import { ADMIN_BASE_PATH } from "../../src/lib/adminRoute";
-import { PUBLIC_WEBSITE_PATHS, isTrackableWebsitePath, type WebsiteAnalyticsSnapshot } from "../../src/lib/websiteAnalytics";
+import { ADMIN_BASE_PATH } from "../../src/lib/adminRoute.js";
+import { PUBLIC_WEBSITE_PATHS, isTrackableWebsitePath, type WebsiteAnalyticsSnapshot } from "../../src/lib/websiteAnalytics.js";
 
 type VercelAnalyticsEvent = {
   schema?: string;

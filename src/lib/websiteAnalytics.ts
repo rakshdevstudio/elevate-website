@@ -1,4 +1,4 @@
-import { ADMIN_BASE_PATH } from "./adminRoute";
+import { ADMIN_BASE_PATH } from "./adminRoute.js";
 
 export const PUBLIC_WEBSITE_PATHS = ["/", "/about", "/products", "/services", "/careers", "/contact"] as const;
 
