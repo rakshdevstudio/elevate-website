@@ -4,18 +4,30 @@ import { motion } from "framer-motion";
 import {
   Users, UserPlus, CalendarDays, TrendingUp, ArrowRight, Phone, Building2,
   Bell, Star, MessageSquare, DollarSign, MapPin, Hammer, CheckCircle2,
+  Globe2, Eye,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { statusColors, statusLabels, pipelineStatuses, calculateLeadScore, getScoreColor } from "@/lib/lead-utils";
 import { toast } from "@/hooks/use-toast";
 import { adminRoute } from "@/lib/adminRoute";
+import { getWebsiteTopPageLabel, type WebsiteAnalyticsSnapshot } from "@/lib/websiteAnalytics";
 
 const AdminDashboard = () => {
   const [leads, setLeads] = useState<Tables<"leads">[]>([]);
   const [siteVisits, setSiteVisits] = useState<(Tables<"site_visits"> & { lead_name?: string })[]>([]);
   const [loading, setLoading] = useState(true);
   const [notifications, setNotifications] = useState<Tables<"leads">[]>([]);
+  const [websiteAnalytics, setWebsiteAnalytics] = useState<WebsiteAnalyticsSnapshot>({
+    available: false,
+    totalVisitors: 0,
+    visitorsToday: 0,
+    visitorsThisWeek: 0,
+    pageViews: 0,
+    topViewedPage: null,
+    updatedAt: null,
+  });
+  const [analyticsLoading, setAnalyticsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,6 +63,45 @@ const AdminDashboard = () => {
     return () => { supabase.removeChannel(channel); };
   }, []);
 
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const fetchWebsiteAnalytics = async () => {
+      setAnalyticsLoading(true);
+
+      try {
+        const response = await fetch("/api/admin/website-analytics", {
+          signal: controller.signal,
+          headers: { Accept: "application/json" },
+        });
+
+        const payload = await response.json();
+        if (!controller.signal.aborted) {
+          setWebsiteAnalytics(payload);
+        }
+      } catch {
+        if (!controller.signal.aborted) {
+          setWebsiteAnalytics({
+            available: false,
+            totalVisitors: 0,
+            visitorsToday: 0,
+            visitorsThisWeek: 0,
+            pageViews: 0,
+            topViewedPage: null,
+            updatedAt: null,
+          });
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setAnalyticsLoading(false);
+        }
+      }
+    };
+
+    fetchWebsiteAnalytics();
+    return () => controller.abort();
+  }, []);
+
   const now = new Date();
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const weekStart = new Date(todayStart);
@@ -80,11 +131,49 @@ const AdminDashboard = () => {
     .filter((v) => new Date(v.scheduled_date) >= new Date(todayStart.toISOString().split("T")[0]))
     .slice(0, 5);
 
-  const stats = [
+  const websiteStats = [
+    {
+      label: "Total Website Visitors",
+      value: analyticsLoading ? "..." : websiteAnalytics.available ? websiteAnalytics.totalVisitors : "—",
+      helper: analyticsLoading ? "Fetching analytics..." : websiteAnalytics.available ? "All tracked public pages" : "Analytics unavailable",
+      icon: Globe2,
+      color: "from-cyan-500/20 to-cyan-500/5",
+    },
+    {
+      label: "Visitors Today",
+      value: analyticsLoading ? "..." : websiteAnalytics.available ? websiteAnalytics.visitorsToday : "—",
+      helper: analyticsLoading ? "Fetching analytics..." : websiteAnalytics.available ? "Live production traffic" : "Analytics unavailable",
+      icon: UserPlus,
+      color: "from-emerald-500/20 to-emerald-500/5",
+    },
+    {
+      label: "Visitors This Week",
+      value: analyticsLoading ? "..." : websiteAnalytics.available ? websiteAnalytics.visitorsThisWeek : "—",
+      helper: analyticsLoading ? "Fetching analytics..." : websiteAnalytics.available ? "Current week visitors" : "Analytics unavailable",
+      icon: CalendarDays,
+      color: "from-blue-500/20 to-blue-500/5",
+    },
+    {
+      label: "Page Views",
+      value: analyticsLoading ? "..." : websiteAnalytics.available ? websiteAnalytics.pageViews : "—",
+      helper: analyticsLoading ? "Fetching analytics..." : websiteAnalytics.available ? "Tracked public page views" : "Analytics unavailable",
+      icon: Eye,
+      color: "from-amber-500/20 to-amber-500/5",
+    },
+    {
+      label: "Top Viewed Page",
+      value: analyticsLoading ? "..." : websiteAnalytics.available ? getWebsiteTopPageLabel(websiteAnalytics.topViewedPage) : "—",
+      helper: analyticsLoading ? "Fetching analytics..." : websiteAnalytics.available ? "Highest page-view volume" : "Analytics unavailable",
+      icon: TrendingUp,
+      color: "from-purple-500/20 to-purple-500/5",
+    },
+  ];
+
+  const crmStats = [
     { label: "Total Leads", value: totalLeads, icon: Users, color: "from-primary/20 to-primary/5" },
     { label: "Today", value: leadsToday, icon: UserPlus, color: "from-emerald-500/20 to-emerald-500/5" },
     { label: "This Week", value: leadsWeek, icon: CalendarDays, color: "from-blue-500/20 to-blue-500/5" },
-    { label: "Visits This Week", value: visitsThisWeek, icon: MapPin, color: "from-orange-500/20 to-orange-500/5" },
+    { label: "Scheduled Site Visits", value: visitsThisWeek, icon: MapPin, color: "from-orange-500/20 to-orange-500/5" },
     { label: "Conversion Rate", value: `${conversionRate}%`, icon: Star, color: "from-amber-500/20 to-amber-500/5" },
     { label: "Install Rate", value: `${installRate}%`, icon: TrendingUp, color: "from-emerald-500/25 to-emerald-500/5" },
     { label: "Execution (WIP)", value: execution, icon: Hammer, color: "from-amber-500/25 to-amber-500/5" },
@@ -125,8 +214,33 @@ const AdminDashboard = () => {
       )}
 
       {/* Stats */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-foreground font-heading font-semibold text-sm">Website Traffic</h3>
+          <p className="text-[10px] text-muted-foreground">
+            {analyticsLoading
+              ? "Fetching analytics..."
+              : websiteAnalytics.available
+                ? `Updated ${websiteAnalytics.updatedAt ? new Date(websiteAnalytics.updatedAt).toLocaleString("en-IN") : "just now"}`
+                : "Analytics unavailable"}
+          </p>
+        </div>
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+          {websiteStats.map((stat, i) => (
+            <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} className="glass-card-premium rounded-2xl p-5">
+              <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-2`}>
+                <stat.icon className="w-4 h-4 text-primary" />
+              </div>
+              <p className="text-2xl font-heading font-bold text-foreground break-words">{stat.value}</p>
+              <p className="text-muted-foreground text-[10px] mt-0.5">{stat.label}</p>
+              <p className="text-muted-foreground/80 text-[9px] mt-1">{stat.helper}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-        {stats.map((stat, i) => (
+        {crmStats.map((stat, i) => (
           <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} className="glass-card-premium rounded-2xl p-5">
             <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-2`}>
               <stat.icon className="w-4 h-4 text-primary" />
